@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "603858642440",
+    "project_id": "ermanbooking",
+    "storage_bucket": "ermanbooking.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:603858642440:android:dee936c7df810edd6113bd",
+        "android_client_info": {
+          "package_name": "com.ermanbookingapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoO3bXzB5HurYVesYbP9eRT0CqZprt7Bk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
