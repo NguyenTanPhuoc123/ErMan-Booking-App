@@ -6,14 +6,14 @@ import {useNavigation} from '@react-navigation/native';
 import { LOGIN_SCREEN } from '../../../constants/screen_key';
 import globalStyle from '../../../constants/styles';
 import { APP_NAME } from '../../../constants/app_info';
-import {Config} from 'react-native-config'
+import { selectState } from '../../../redux/reducers';
 
 
 const LandingPage = () => {
   const navigation = useNavigation();
+  const {isConnected} = selectState(state=>state.network);
   setTimeout(() => {
     navigation.navigate(LOGIN_SCREEN as never);
-    console.log(Config.APP_NAME);
     
   }, 3000);
   return (

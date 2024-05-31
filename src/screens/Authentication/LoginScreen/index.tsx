@@ -1,10 +1,11 @@
-import {Text, View, TouchableOpacity, TextInput} from 'react-native';
-import React, {useState} from 'react';
+import {Text, View, TouchableOpacity, TextInput, Alert} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import styles from './styles';
 import {Controller} from 'react-hook-form';
 import useSignIn from './useSignIn';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import globalStyle from '../../../constants/styles';
+import { selectState } from '../../../redux/reducers';
 
 const LoginScreen = () => {
   const {
@@ -14,9 +15,16 @@ const LoginScreen = () => {
     passwordRef,
     onFocusPhone,
     onFocusPassword,
-    handleSubmit
+    handleSubmit,
   } = useSignIn();
   const [isSecureEntry, setIsSecureEntry] = useState<boolean>(true);
+  const {isConnected} = selectState(state=>state.network);
+  useEffect (()=>{
+    if(!isConnected){
+        Alert.alert('Network','No connection')
+      
+    }
+  },[isConnected])
 
   return (
     <View style={[globalStyle.container, styles.container]}>
@@ -24,7 +32,6 @@ const LoginScreen = () => {
       <Text style={[globalStyle.fontText, styles.label]}>Số điện thoại</Text>
       <Controller
         control={control}
-
         name="phone"
         render={({field: {onBlur, onChange, value}}) => (
           <TextInput
@@ -74,7 +81,9 @@ const LoginScreen = () => {
           Quên mật khẩu?
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.buttonContainer} onPress={handleSubmit(onLogin)}>
+      <TouchableOpacity
+        style={styles.buttonContainer}
+        onPress={handleSubmit(onLogin)}>
         <Text style={[globalStyle.fontText, styles.buttonLabel]}>Sign in</Text>
       </TouchableOpacity>
       <View style={styles.containerSignUp}>
