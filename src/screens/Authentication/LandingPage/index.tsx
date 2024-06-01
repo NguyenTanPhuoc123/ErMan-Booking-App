@@ -14,6 +14,7 @@ const LandingPage = () => {
   const {isConnected} = selectState(state=>state.network);
   setTimeout(() => {
     navigation.navigate(LOGIN_SCREEN as never);
+    console.log("Connected: ",isConnected);
     
   }, 3000);
   return (
