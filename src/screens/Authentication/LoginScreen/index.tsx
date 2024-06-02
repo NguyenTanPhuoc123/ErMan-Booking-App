@@ -6,6 +6,7 @@ import useSignIn from './useSignIn';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import globalStyle from '../../../constants/styles';
 import { selectState } from '../../../redux/reducers';
+import { APP_TYPE } from '../../../constants/app_info';
 
 const LoginScreen = () => {
   const {
@@ -19,6 +20,21 @@ const LoginScreen = () => {
   } = useSignIn();
   const [isSecureEntry, setIsSecureEntry] = useState<boolean>(true);
   const {isConnected} = selectState(state=>state.network);
+
+  const renderRegister = ()=>{
+    if(APP_TYPE==='Customer'){
+      return(
+        <View style={styles.containerSignUp}>
+        <Text style={globalStyle.fontText}>Chưa có tài khoản?</Text>
+        <TouchableOpacity>
+          <Text style={[globalStyle.fontText, styles.signUp]}>Đăng ký</Text>
+        </TouchableOpacity>
+      </View>
+      );
+    }
+    return <></>;
+  }
+
   useEffect (()=>{
     if(!isConnected){
         Alert.alert('Network','No connection')
@@ -86,12 +102,7 @@ const LoginScreen = () => {
         onPress={handleSubmit(onLogin)}>
         <Text style={[globalStyle.fontText, styles.buttonLabel]}>Sign in</Text>
       </TouchableOpacity>
-      <View style={styles.containerSignUp}>
-        <Text style={globalStyle.fontText}>Chưa có tài khoản?</Text>
-        <TouchableOpacity>
-          <Text style={[globalStyle.fontText, styles.signUp]}>Đăng ký</Text>
-        </TouchableOpacity>
-      </View>
+      {renderRegister()}
     </View>
   );
 };
