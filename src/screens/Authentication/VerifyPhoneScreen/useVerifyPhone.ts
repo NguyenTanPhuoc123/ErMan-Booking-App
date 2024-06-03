@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from 'react';
+import {useEffect, useState} from 'react';
 import NavigationActionService from '../../../navigation/navigation';
 
 const useVerifyPhone = () => {
@@ -21,7 +21,7 @@ const useVerifyPhone = () => {
 
   const goBack = () => {
     setOtpCode([]);
-    NavigationActionService.canGoBack();
+    NavigationActionService.pop();
   };
 
   const resendOTP = () => {

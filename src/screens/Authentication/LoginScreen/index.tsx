@@ -1,12 +1,14 @@
 import {Text, View, TouchableOpacity, TextInput, Alert} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import styles from './styles';
 import {Controller} from 'react-hook-form';
 import useSignIn from './useSignIn';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import globalStyle from '../../../constants/styles';
-import { selectState } from '../../../redux/reducers';
-import { APP_TYPE } from '../../../constants/app_info';
+import {selectState} from '../../../redux/reducers';
+import {APP_TYPE} from '../../../constants/app_info';
+import NavigationActionService from '../../../navigation/navigation';
+import {VERIFY_PHONE_SCREEN} from '../../../constants/screen_key';
 
 const LoginScreen = () => {
   const {
@@ -19,31 +21,27 @@ const LoginScreen = () => {
     handleSubmit,
   } = useSignIn();
   const [isSecureEntry, setIsSecureEntry] = useState<boolean>(true);
-  const {isConnected} = selectState(state=>state.network);
+  const {isConnected} = selectState(state => state.network);
 
-  const renderRegister = ()=>{
-    if(APP_TYPE==='Customer'){
-      return(
+  const renderRegister = () => {
+    if (APP_TYPE === 'Customer') {
+      return (
         <View style={styles.containerSignUp}>
-        <Text style={globalStyle.fontText}>Chưa có tài khoản?</Text>
-        <TouchableOpacity onPress={()=>{}}>
-          <Text style={[globalStyle.fontText, styles.signUp]}>Đăng ký</Text>
-        </TouchableOpacity>
-      </View>
+          <Text style={globalStyle.fontText}>Chưa có tài khoản?</Text>
+          <TouchableOpacity
+            onPress={() => {
+              NavigationActionService.navigate(VERIFY_PHONE_SCREEN);
+            }}>
+            <Text style={[globalStyle.fontText, styles.signUp]}>Đăng ký</Text>
+          </TouchableOpacity>
+        </View>
       );
     }
     return <></>;
-  }
-
-  useEffect (()=>{
-    if(!isConnected){
-        Alert.alert('Network','No connection')
-      
-    }
-  },[isConnected])
+  };
 
   return (
-    <View style={[globalStyle.containerForm,{justifyContent:'space-evenly'}]}>
+    <View style={globalStyle.containerForm}>
       <Text style={[globalStyle.fontText, styles.title]}>Đăng nhập</Text>
       <Text style={[globalStyle.fontText, styles.label]}>Số điện thoại</Text>
       <Controller

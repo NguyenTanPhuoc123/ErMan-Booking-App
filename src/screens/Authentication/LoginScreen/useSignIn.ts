@@ -2,17 +2,16 @@ import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { SignInFormValues } from "./model";
 import { validationSchema } from "./validation";
-import { useNavigation } from "@react-navigation/native";
-import { LANDING_PAGE, VERIFY_PHONE_SCREEN } from "../../../constants/screen_key";
+import { VERIFY_PHONE_SCREEN } from "../../../constants/screen_key";
 import { TextInput } from "react-native";
 import { yupResolver } from "@hookform/resolvers/yup";
+import NavigationActionService from "../../../navigation/navigation";
 
 
 const useSignIn = ()=>{
     const phoneRef = useRef<TextInput>(null);
     const passwordRef = useRef<TextInput>(null);
     const initValue = {phone:'',password:''};
-    const navigation = useNavigation();
     const {control, handleSubmit, formState:{errors}} = useForm<SignInFormValues>({
         defaultValues: initValue,
         resolver: yupResolver(validationSchema)
@@ -34,7 +33,7 @@ const useSignIn = ()=>{
 
     }
     const onLogin = (values:SignInFormValues)=>{
-        navigation.navigate(VERIFY_PHONE_SCREEN as never);
+        NavigationActionService.navigate(VERIFY_PHONE_SCREEN);
     }
     return{
         phoneRef,

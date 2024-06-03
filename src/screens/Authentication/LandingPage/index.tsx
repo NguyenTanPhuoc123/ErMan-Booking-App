@@ -2,7 +2,7 @@ import {ActivityIndicator, Image, Text, View} from 'react-native';
 import styles from './styles';
 import React from 'react';
 import {LANDiNG_PAGE} from '../../../constants/icons';
-import { LOGIN_SCREEN, VERIFY_PHONE_SCREEN } from '../../../constants/screen_key';
+import { LOGIN_SCREEN } from '../../../constants/screen_key';
 import globalStyle from '../../../constants/styles';
 import { APP_NAME } from '../../../constants/app_info';
 import { selectState } from '../../../redux/reducers';
@@ -13,7 +13,7 @@ const LandingPage = () => {
   const {isConnected} = selectState(state=>state.network);
   setTimeout(() => {
     console.log("Connected: ",isConnected);
-    NavigationActionService.navigate(VERIFY_PHONE_SCREEN);
+    NavigationActionService.navigate(LOGIN_SCREEN);
     
   }, 3000);
   return (
