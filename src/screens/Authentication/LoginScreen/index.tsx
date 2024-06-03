@@ -26,7 +26,7 @@ const LoginScreen = () => {
       return(
         <View style={styles.containerSignUp}>
         <Text style={globalStyle.fontText}>Chưa có tài khoản?</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>{}}>
           <Text style={[globalStyle.fontText, styles.signUp]}>Đăng ký</Text>
         </TouchableOpacity>
       </View>
@@ -43,7 +43,7 @@ const LoginScreen = () => {
   },[isConnected])
 
   return (
-    <View style={[globalStyle.container, styles.container]}>
+    <View style={[globalStyle.containerForm,{justifyContent:'space-evenly'}]}>
       <Text style={[globalStyle.fontText, styles.title]}>Đăng nhập</Text>
       <Text style={[globalStyle.fontText, styles.label]}>Số điện thoại</Text>
       <Controller

@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { SignInFormValues } from "./model";
 import { validationSchema } from "./validation";
 import { useNavigation } from "@react-navigation/native";
-import { LANDING_PAGE } from "../../../constants/screen_key";
+import { LANDING_PAGE, VERIFY_PHONE_SCREEN } from "../../../constants/screen_key";
 import { TextInput } from "react-native";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -34,7 +34,7 @@ const useSignIn = ()=>{
 
     }
     const onLogin = (values:SignInFormValues)=>{
-        
+        navigation.navigate(VERIFY_PHONE_SCREEN as never);
     }
     return{
         phoneRef,

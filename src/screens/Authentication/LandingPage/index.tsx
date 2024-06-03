@@ -1,20 +1,19 @@
 import {ActivityIndicator, Image, Text, View} from 'react-native';
-import styles from './style';
+import styles from './styles';
 import React from 'react';
 import {LANDiNG_PAGE} from '../../../constants/icons';
-import {useNavigation} from '@react-navigation/native';
-import { LOGIN_SCREEN } from '../../../constants/screen_key';
+import { LOGIN_SCREEN, VERIFY_PHONE_SCREEN } from '../../../constants/screen_key';
 import globalStyle from '../../../constants/styles';
 import { APP_NAME } from '../../../constants/app_info';
 import { selectState } from '../../../redux/reducers';
+import NavigationActionService from '../../../navigation/navigation';
 
 
 const LandingPage = () => {
-  const navigation = useNavigation();
   const {isConnected} = selectState(state=>state.network);
   setTimeout(() => {
-    navigation.navigate(LOGIN_SCREEN as never);
     console.log("Connected: ",isConnected);
+    NavigationActionService.navigate(VERIFY_PHONE_SCREEN);
     
   }, 3000);
   return (
