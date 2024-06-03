@@ -12,7 +12,7 @@ import {
   SLIDE_WELCOME_2,
   SLIDE_WELCOME_3,
 } from '../../../constants/icons';
-import styles from './style';
+import styles from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {useNavigation} from '@react-navigation/native';
 import {LOGIN_SCREEN} from '../../../constants/screen_key';

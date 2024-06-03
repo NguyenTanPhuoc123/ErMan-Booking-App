@@ -25,7 +25,13 @@ const globalStyle = StyleSheet.create({
   container:{
     backgroundColor:'#282828',
     flex:1
-  }
+  },
+  containerForm:{
+    backgroundColor:'#282828',
+    flex:1,
+    alignItems:'center',
+    justifyContent:'center'
+},
 });
 
 export default globalStyle;
