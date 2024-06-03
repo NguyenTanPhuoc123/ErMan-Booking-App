@@ -7,13 +7,14 @@ import { PersistGate } from 'redux-persist/integration/react'
 import AppComponent from './AppComponent'
 import { createStackNavigator } from '@react-navigation/stack'
 import { MAIN_SCREEN } from '../constants/screen_key'
+import { navigationRef } from '../navigation/navigation'
 export const BaseService = BaseServiceClass.instance(store);
 const Stack = createStackNavigator();
 const App = () => {
   return (
     <Provider store={store}>
       {/* <PersistGate persistor={persistor}> */}
-      <NavigationContainer>
+      <NavigationContainer ref={navigationRef}>
         <Stack.Navigator screenOptions={{headerShown:false}}>
           <Stack.Screen name={MAIN_SCREEN} component={AppComponent}/>
         </Stack.Navigator>
