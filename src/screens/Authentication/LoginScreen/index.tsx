@@ -1,11 +1,10 @@
-import {Text, View, TouchableOpacity, TextInput, Alert} from 'react-native';
-import React, {useCallback, useState} from 'react';
+import {Text, View, TouchableOpacity, TextInput} from 'react-native';
+import React from 'react';
 import styles from './styles';
 import {Controller} from 'react-hook-form';
 import useSignIn from './useSignIn';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import globalStyle from '../../../constants/styles';
-import {selectState} from '../../../redux/reducers';
 import {APP_TYPE} from '../../../constants/app_info';
 import NavigationActionService from '../../../navigation/navigation';
 import {VERIFY_PHONE_SCREEN} from '../../../constants/screen_key';
@@ -16,12 +15,12 @@ const LoginScreen = () => {
     control,
     onLogin,
     passwordRef,
+    errors,
+    isSecureEntry,
+    setIsSecureEntry,
     onFocusPhone,
     onFocusPassword,
-    handleSubmit,
   } = useSignIn();
-  const [isSecureEntry, setIsSecureEntry] = useState<boolean>(true);
-  const {isConnected} = selectState(state => state.network);
 
   const renderRegister = () => {
     if (APP_TYPE === 'Customer') {
@@ -58,11 +57,14 @@ const LoginScreen = () => {
             onChangeText={onChange}
             returnKeyType="next"
             value={value}
-            onSubmitEditing={onFocusPhone}
             placeholder="Nhập số điện thoại..."
+            onSubmitEditing={onFocusPhone}
           />
         )}
       />
+      <Text style={[globalStyle.fontText, styles.txtError]}>
+        {errors.phone?.message}
+      </Text>
       <Text style={[globalStyle.fontText, styles.label]}>Mật khẩu</Text>
       <Controller
         control={control}
@@ -79,9 +81,12 @@ const LoginScreen = () => {
               returnKeyType="done"
               value={value}
               secureTextEntry={isSecureEntry}
-              onSubmitEditing={onFocusPassword}
               placeholder="Nhập mật khẩu..."
+              onSubmitEditing={onFocusPassword}
             />
+            <Text style={[globalStyle.fontText, styles.txtError]}>
+              {errors.password?.message}
+            </Text>
             <TouchableOpacity
               style={styles.iconEye}
               onPress={() => setIsSecureEntry(!isSecureEntry)}>
@@ -95,9 +100,7 @@ const LoginScreen = () => {
           Quên mật khẩu?
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.buttonContainer}
-        onPress={handleSubmit(onLogin)}>
+      <TouchableOpacity style={styles.buttonContainer} onPress={onLogin}>
         <Text style={[globalStyle.fontText, styles.buttonLabel]}>Sign in</Text>
       </TouchableOpacity>
       {renderRegister()}
