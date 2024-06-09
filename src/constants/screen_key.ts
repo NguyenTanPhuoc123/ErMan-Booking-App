@@ -1,6 +1,10 @@
-export const LANDING_PAGE = "LandingPage";
-export const WELCOME_SCREEN = "WelcomeScreen";
-export const LOGIN_SCREEN = "LoginScreen";
-export const MAIN_SCREEN = "MainScreen";
-export const VERIFY_PHONE_SCREEN = "VerifyPhoneScreen";
-export const CUSTOM_POPUP = `CustomPopup`;
+export const LANDING_PAGE = 'LandingPage';
+export const WELCOME_SCREEN = 'WelcomeScreen';
+export const LOGIN_SCREEN = 'LoginScreen';
+export const REGISTER_SCREEN = 'RegisterScreen';
+export const INFORMATION_SCREEN = 'InformationScreen'
+export const MAIN_SCREEN = 'MainScreen';
+export const VERIFY_PHONE_SCREEN = 'VerifyPhoneScreen';
+export const CUSTOM_POPUP = 'CustomPopup';
+export const CHANGE_PASSWORD_SCREEN = 'ChangePasswordScreen';
+export const HOME_SCREEN = 'HomeScreen';
