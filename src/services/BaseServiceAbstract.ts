@@ -13,10 +13,10 @@ export abstract class BaseServiceAbstract {
     }
   }
 
-  abstract onAppStateChange(
-    currentState: AppStateStatus,
-    nextState: AppStateStatus,
-  ): Promise<void>;
+  // abstract onAppStateChange(
+  //   currentState: AppStateStatus,
+  //   nextState: AppStateStatus,
+  // ): Promise<void>;
   abstract onConnectionChange(isConnected: boolean): Promise<void>;
   abstract destroyService(): void;
 

@@ -17,21 +17,33 @@ const globalStyle = StyleSheet.create({
   flex1: {
     flex: 1,
   },
-  fontText:{
+  fontText: {
     fontFamily: 'InriaSerif-Regular',
     color: '#D4D3D6',
-    ...StyleSheet
+    ...StyleSheet,
   },
-  container:{
-    backgroundColor:'#282828',
-    flex:1
+  container: {
+    backgroundColor: '#282828',
+    flex: 1,
   },
-  containerForm:{
-    backgroundColor:'#282828',
-    flex:1,
-    alignItems:'center',
-    justifyContent:'center'
-},
+  containerForm: {
+    backgroundColor: '#282828',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  bgPopupCommon: {
+    backgroundColor: '#873CAD',
+  },
+  bgPopupError: {
+    backgroundColor: '#EA5950',
+  },
+  bgBtnPopupCommon: {
+    backgroundColor: '#7A338D',
+  },
+  bgBtnPopupError: {
+    backgroundColor: '#CA524A',
+  },
 });
 
 export default globalStyle;

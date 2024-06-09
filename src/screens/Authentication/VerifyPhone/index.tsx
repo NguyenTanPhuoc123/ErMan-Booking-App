@@ -8,8 +8,16 @@ import useVerifyPhone from './useVerifyPhone';
 import InputCodeOTP from '../../../component/InputCodeOTP';
 
 const VerifyPhoneScreen = () => {
-  const {goBack, otpCode, setOtpCode, expiredTime, resendOTP, disableResend} =
-    useVerifyPhone();
+  const {
+    goBack,
+    otpCode,
+    setOtpCode,
+    expiredTime,
+    resendOTP,
+    disableResend,
+    cofirmOTPCode,
+    errors,
+  } = useVerifyPhone();
 
   const CustomLeftHeader = () => {
     return (
@@ -38,6 +46,7 @@ const VerifyPhoneScreen = () => {
           qua số điện thoại đã đăng ký
         </Text>
         <InputCodeOTP valueCode={otpCode} onChange={setOtpCode} />
+        <Text style={styles.txtError}>{errors}</Text>
         <View style={styles.lineResendOtp}>
           <Text style={[globalStyle.fontText]}>Chưa nhận được OTP?</Text>
           <TouchableOpacity disabled={disableResend} onPress={resendOTP}>
@@ -55,7 +64,7 @@ const VerifyPhoneScreen = () => {
             <></>
           )}
         </View>
-        <TouchableOpacity style={styles.btnConfirm}>
+        <TouchableOpacity style={styles.btnConfirm} onPress={cofirmOTPCode}>
           <Text style={[globalStyle.fontText, styles.contentBtnConfirm]}>
             Xác nhận
           </Text>
