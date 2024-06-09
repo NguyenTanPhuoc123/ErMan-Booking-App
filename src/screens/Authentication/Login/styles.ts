@@ -1,19 +1,16 @@
-import {Dimensions, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
+import {WITDH} from '../../../constants/styles';
 
 const styles = StyleSheet.create({
-  image: {
-    width: 250,
-    height: 250,
-  },
   title: {
     color: '#B689FF',
-    fontSize: 50,
+    fontSize: 40,
     fontWeight: '500',
     padding: 30,
   },
   textInput: {
     margin: 10,
-    width: Dimensions.get('screen').width - 45,
+    width: WITDH - 45,
     height: 65,
     padding: 20,
     fontSize: 20,
@@ -23,8 +20,6 @@ const styles = StyleSheet.create({
   },
   txtError: {
     color: '#F67067',
-    alignSelf: 'flex-start',
-    left: 33,
     marginVertical: 5,
   },
   label: {
@@ -32,7 +27,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '400',
     textAlign: 'left',
-    width: Dimensions.get('screen').width - 45,
+    width: WITDH - 45,
   },
   iconEye: {
     position: 'absolute',
@@ -43,7 +38,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#6740A5',
     alignItems: 'center',
     justifyContent: 'center',
-    width: Dimensions.get('screen').width / 2,
+    width: WITDH / 2,
     height: 60,
     borderRadius: 25,
   },

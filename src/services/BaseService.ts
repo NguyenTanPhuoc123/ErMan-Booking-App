@@ -1,14 +1,18 @@
 import {NetInfoState} from '@react-native-community/netinfo';
 import { Store } from 'redux';
 import { AppServiceAbstract } from './BaseServiceAbstract';
+import { AuthService } from './AuthService';
 export class BaseService {
     private static _instance? : BaseService;
     private appConnection: boolean;
     private baseServiceObserve: AppServiceAbstract[];
     private reduxStore?:Store;
+    private auth:AuthService;
     constructor(store:Store){
         this.appConnection = true;
-        this.baseServiceObserve = [];
+        this.baseServiceObserve = [
+            (this.auth=AuthService.instance())
+        ];
         this.setReduxStore(store)
     }
 

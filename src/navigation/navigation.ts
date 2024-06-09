@@ -4,6 +4,7 @@ import {
 } from '@react-navigation/native';
 import {CUSTOM_POPUP} from '../constants/screen_key';
 import {PopupProps} from '../component/CustomPopup/type';
+import {loadingRef} from '../AppContainer';
 
 const popAction = StackActions.pop(1);
 export const navigationRef = createNavigationContainerRef<any>();
@@ -51,6 +52,13 @@ function hidePopup() {
   }
 }
 
+function showLoading() {
+  loadingRef.current && loadingRef.current.showLoading();
+}
+
+function hideLoading() {
+  loadingRef.current && loadingRef.current.hideLoading();
+}
 const NavigationActionService = {
   navigate,
   pop,
@@ -58,6 +66,8 @@ const NavigationActionService = {
   reset,
   showPopup,
   hidePopup,
+  showLoading,
+  hideLoading,
 };
 
 export default NavigationActionService;

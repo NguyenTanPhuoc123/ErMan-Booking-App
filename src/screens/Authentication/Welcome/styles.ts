@@ -1,71 +1,59 @@
 import {StyleSheet} from 'react-native';
-import { WITDH } from '../../../constants/styles';
+import {WITDH} from '../../../constants/styles';
 
 const styles = StyleSheet.create({
-  container:{
-   flex:1,
-   alignItems:'center',
-   
+  container: {
+    flex: 1,
+    alignItems: 'center',
   },
-  logoPage1:{
-    height:150,
-    width:150,
-    borderRadius:25,
-    marginVertical:20
-  },
-  logoPageAfter:{
-    height:100,
-    width:100,
-    borderRadius:20,
-    alignSelf:'flex-start',
-    margin:20
-  },
-  titlePage1: {
+  titlePage: {
     fontSize: 32,
     color: '#fff',
     fontWeight: '500',
-    width: WITDH/2,
-    alignSelf:'center'
+    width: WITDH - 100,
+    textAlign: 'center',
+    marginVertical: 20,
+    fontFamily: 'InriaSerif-Bold',
   },
   subtitlePage1: {
-    marginTop: 40,
-    fontSize: 20,
-    color: '#FBFAFA',
-    fontWeight: '300',
-    alignSelf:'center',
-  },
-  titlePageAfter: {
-    marginHorizontal: 20,
-    fontSize: 36,
-    color: '#fff',
-    fontWeight: '500',
-    width: WITDH/1.75,
-    alignSelf:'flex-start'
-  },
-  subtitlePageAfter: {
-    marginTop: 40,
-    marginHorizontal:20,
+    margin: 60,
+    right: 30,
     fontSize: 24,
-    color: '#FBFAFA',
-    fontWeight: '300',
-    alignSelf:'flex-start',
+    color: '#fff',
+    textAlign: 'left',
+  },
+  subtitlePage2: {
+    position: 'absolute',
+    bottom: 170,
+    marginHorizontal: 60,
+    fontSize: 24,
+    color: '#FFF',
+    textAlign: 'center',
+  },
+  subtitlePage3: {
+    marginHorizontal: 60,
+    fontSize: 24,
+    color: '#fff',
+    textAlign: 'center',
+    position: 'absolute',
+    top: 180,
   },
   btnContainer: {
-    alignSelf:'center',
-    backgroundColor:'transparent',
-    position:'absolute',
-    bottom:100,
+    alignSelf: 'center',
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    bottom: 100,
   },
   titleBtn: {
     color: '#FBFAFA',
     fontSize: 24,
     fontWeight: '500',
-    padding:5
+    padding: 5,
   },
-  next:{
-    flexDirection:'row',
-    alignItems:'center'
-  }
+  next: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
 });
 
 export default styles;

@@ -4,10 +4,19 @@ import autoMergeLevel1 from 'redux-persist/es/stateReconciler/autoMergeLevel1';
 import { combineReducers } from 'redux';
 import {TypedUseSelectorHook,useSelector} from 'react-redux'
 import {reducer as network} from '../modules/network/reducer'
+import {reducer as auth} from '../modules/auth/reducer'
+import { IAuthState } from '../modules/auth/model';
 
+const authPersist: PersistConfig<IAuthState>={
+    key:'auth',
+    whitelist:['isLogged','userData'],
+    storage: AsyncStorage,
+    stateReconciler: autoMergeLevel1
+};
 
 const reducers = combineReducers({
-    network
+    network,
+    auth: persistReducer(authPersist,auth)
 });
 
 export type RootState = ReturnType<typeof reducers>;
