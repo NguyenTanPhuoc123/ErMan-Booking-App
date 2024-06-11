@@ -9,51 +9,75 @@ const styles = StyleSheet.create({
   titlePage: {
     fontSize: 32,
     color: '#fff',
-    fontWeight: '500',
+    fontWeight:  'bold',
     width: WITDH - 100,
     textAlign: 'center',
-    marginVertical: 20,
+    marginTop:30,
     fontFamily: 'InriaSerif-Bold',
+    alignSelf:'center',
+
+    
   },
-  subtitlePage1: {
-    margin: 60,
-    right: 30,
-    fontSize: 24,
-    color: '#fff',
-    textAlign: 'left',
+  textBooking:{
+    fontSize: 32,
+    color:'#fff',
+    fontWeight:'500',
+    width:WITDH - 100,
+    textAlign:"center",
+    fontFamily:'InriaSerif-Bold',
+    alignSelf:'center',
   },
-  subtitlePage2: {
-    position: 'absolute',
-    bottom: 170,
-    marginHorizontal: 60,
-    fontSize: 24,
-    color: '#FFF',
-    textAlign: 'center',
+  textShow:{
+    color:'#fff',
+    fontSize:32,
+    marginVertical:180,
+    marginHorizontal:80,
+    textAlign:'center',
+    //alignSelf:'center',
+    justifyContent:'center',
+    fontFamily:'InriaSerif-Bold',
   },
-  subtitlePage3: {
-    marginHorizontal: 60,
-    fontSize: 24,
-    color: '#fff',
-    textAlign: 'center',
-    position: 'absolute',
-    top: 180,
+  buttonContainer:{
+    paddingVertical:80,
+    alignItems:'center',
+    justifyContent:'center'
   },
-  btnContainer: {
-    alignSelf: 'center',
-    backgroundColor: 'transparent',
-    position: 'absolute',
-    bottom: 100,
-  },
-  titleBtn: {
-    color: '#FBFAFA',
-    fontSize: 24,
-    fontWeight: '500',
-    padding: 5,
-  },
-  next: {
-    flexDirection: 'row',
+  buttonLogin: {
+    marginVertical:10,
+    backgroundColor: '#6740A5',
     alignItems: 'center',
+    justifyContent: 'center',
+    width: WITDH / 2,
+    height: 60,
+    borderRadius: 25,
   },
+  buttonSignIn:{
+    marginVertical:10,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: WITDH / 2,
+    height: 60,
+    borderRadius: 25,
+  },
+  textLogin: {
+    color: '#fff',
+    fontSize: 32,
+    fontWeight: '400',
+  },
+  textSignIn: {
+    color: 'black',
+    fontSize: 32,
+    fontWeight: '400',
+  },
+  buttonSignUp:{
+    alignItems:'center',
+    justifyContent:'center'
+  }
+ 
+ 
+ 
+ 
 });
 
 export default styles;
