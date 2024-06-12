@@ -1,31 +1,46 @@
-import {ActivityIndicator, Image, Text, View} from 'react-native';
-import styles from './styles';
+import {View, Text, ImageBackground, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {LANDiNG_PAGE} from '../../../constants/icons';
-import {WELCOME_SCREEN} from '../../../constants/screen_key';
+import {LANDING_PAGE} from '../../../constants/icons';
+import styles from './styles';
 import globalStyle from '../../../constants/styles';
-import {APP_NAME} from '../../../constants/app_info';
-import {selectState} from '../../../redux/reducers';
 import NavigationActionService from '../../../navigation/navigation';
+import {LOGIN_SCREEN, REGISTER_SCREEN} from '../../../constants/screen_key';
 
 const LandingPage = () => {
-  const {isConnected} = selectState(state => state.network);
-  setTimeout(() => {
-    NavigationActionService.navigate(WELCOME_SCREEN);
-  }, 3000);
   return (
-    <View style={globalStyle.container}>
-      <View>
-        <Image
-          style={styles.landingImage}
-          source={LANDiNG_PAGE}
-          resizeMode="cover"
-        />
-        <Text style={styles.title}>{APP_NAME}</Text>
+    <ImageBackground
+      style={[globalStyle.flex1,styles.container]}
+      source={LANDING_PAGE}
+      resizeMode="cover">
+      <Text style={styles.titlePage}>ERMAN SALON</Text>
+      <Text style={[globalStyle.fontText,styles.textBooking]}>Booking App</Text>
+      <Text style={styles.textShow}>
+        Đặt lịch cắt tóc chuyên nghiệp, nhanh chóng, tiến lợi, hãy bắt đầu ngay
+      </Text>
+
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={styles.buttonLogin}
+          onPress={() => {
+            NavigationActionService.navigate(LOGIN_SCREEN);
+          }}>
+          <Text style={styles.textLogin}>
+            Đăng nhập
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.buttonRegister}
+          onPress={() => {
+            NavigationActionService.navigate(REGISTER_SCREEN, {
+              id: 'Register',
+              title: 'Đăng ký',
+            });
+          }}>
+          <Text style={styles.textRegister}>Đăng ký</Text>
+        </TouchableOpacity>
       </View>
-      <ActivityIndicator color="#D4D3D6" size="large" />
-      <Text style={styles.subtitle}>Nâng tầm phong cách phái mạnh</Text>
-    </View>
+     
+    </ImageBackground>
   );
 };
 

@@ -7,15 +7,20 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import NavigationActionService from '../../../navigation/navigation';
 import {MessageType, PopupType} from '../../../component/CustomPopup/type';
 import {REGISTER_SCREEN} from '../../../constants/screen_key';
+import { useDispatch } from 'react-redux';
+import { login, userReadyLoadData } from '../../../modules/auth';
+import { ApiError } from '../../../constants/api';
 
 const useSignIn = () => {
   const phoneRef = useRef<TextInput>(null);
+  const dispatch = useDispatch();
   const passwordRef = useRef<TextInput>(null);
   const initValue = {phone: '', password: ''};
   const [isSecureEntry, setIsSecureEntry] = useState<boolean>(true);
   const {
     control,
     handleSubmit,
+    getValues,
     formState: {errors},
   } = useForm<SignInFormValues>({
     defaultValues: initValue,
@@ -30,20 +35,31 @@ const useSignIn = () => {
     passwordRef.current?.focus();
   };
 
-  const onLoginSuccess = (phone: string, password: string) => {};
+  const onLoginSuccess = () => {
+    NavigationActionService.hideLoading();
+    dispatch(userReadyLoadData());
+    
+  };
 
-  const onLoginFailure = () => {
+  const onLoginFailure = (error?:ApiError) => {
+    NavigationActionService.hideLoading();
     NavigationActionService.showPopup({
       type: PopupType.ONE_BUTTON,
       typeMessage: MessageType.ERROR,
       title: 'Đăng nhập thất bại',
-      message: 'Tài khoản hoặc mật khẩu không chính xác',
+      message: error?.message || "Tài khoản hoặc mật khẩu không chính xác",
       primaryBtnText: 'OK',
     });
   };
   const onLogin = handleSubmit((values: SignInFormValues) => {
     Keyboard.dismiss();
-    onLoginFailure();
+    NavigationActionService.showLoading();
+    dispatch(login({
+      phone: values.phone,
+      password: values.password,
+      onSuccess:onLoginSuccess,
+      onFail:onLoginFailure
+    }))
   });
 
   const goToRegister = () => {

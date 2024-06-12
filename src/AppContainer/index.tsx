@@ -14,6 +14,7 @@ import {navigationRef} from '../navigation/navigation';
 import CustomPopup from '../component/CustomPopup';
 import {LoadingPageRef} from '../component/LoadingPage/type';
 import LoadingPage from '../component/LoadingPage';
+import BootSplashScreen from 'react-native-bootsplash';
 export const BaseService = BaseServiceClass.instance(store);
 const Stack = createStackNavigator();
 export const loadingRef = createRef<LoadingPageRef>();
@@ -28,7 +29,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <NavigationContainer ref={navigationRef}>
+        <NavigationContainer ref={navigationRef} onReady={()=>BootSplashScreen.hide({fade:true})}>
           <Stack.Navigator screenOptions={{headerShown: false}}>
             <Stack.Screen name={MAIN_SCREEN} component={AppComponent} />
             <Stack.Screen

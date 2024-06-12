@@ -9,10 +9,13 @@ import {
   VERIFY_PHONE_SCREEN,
 } from '../../../constants/screen_key';
 import {useRoute} from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { verifyPhone } from '../../../modules/auth';
 
 const useRegister = () => {
   const phoneRef = useRef<TextInput>(null);
   const route = useRoute();
+  const dispatch = useDispatch();
   const {id, title} = route.params as any;
   const {
     control,
@@ -29,6 +32,9 @@ const useRegister = () => {
   };
 
   const onRegister = handleSubmit(() => {
+    const phoneFormat = getValues('phone').replace(getValues('phone')[0],'+84 ');
+    console.log(phoneFormat);
+    dispatch(verifyPhone({phone:getValues('phone')}));
     NavigationActionService.navigate(VERIFY_PHONE_SCREEN, {id: id,phone:getValues("phone")});
   });
 
