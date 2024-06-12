@@ -7,8 +7,9 @@ export const FORGOT_PASSWORD = `${ROOT_MODULE}/FORGOT_PASSWORD`;
 export const LOG_OUT = `${ROOT_MODULE}/LOG_OUT`;
 export const GET_AUTH_TOKEN = `${ROOT_MODULE}/GET_AUTH_TOKEN`;
 export const REFRESH_TOKEN = `${ROOT_MODULE}/REFRESH_TOKEN`;
-export const VERIFY_OTP = `${ROOT_MODULE}/VERIFY_OTP`;
-
+export const VERIFY_PHONE = `${ROOT_MODULE}/VERIFY_PHONE`;
+export const GET_CURRENT_USER = `${ROOT_MODULE}/GET_CURRENT_USER`;
+export const USER_READY_LOAD_DATA = `${ROOT_MODULE}/USER_READY_LOAD_DATA`;
 export interface IAuthState {
   isLogged: boolean;
   userData: User;
@@ -16,7 +17,9 @@ export interface IAuthState {
 
 export type IActionGetCurrentUserPayload = IActionCallback;
 export type IActionLogoutPayload = IActionCallback;
-
+export interface IActionVerifyPhonePayload extends IActionCallback {
+  phone: string;
+}
 export interface IActionSaveUserPayload {
   user: User;
 }

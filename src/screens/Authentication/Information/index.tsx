@@ -48,6 +48,7 @@ const InformationScreen = () => {
       <Header
         leftComponent={<CustomLeftHeader />}
         containerStyle={styles.containerHeader}
+        backgroundColor='#282828'
       />
     );
   };

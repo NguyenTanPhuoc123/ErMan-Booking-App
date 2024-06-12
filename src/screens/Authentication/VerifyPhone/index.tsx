@@ -32,6 +32,7 @@ const VerifyPhoneScreen = () => {
       <Header
         leftComponent={<CustomLeftHeader />}
         containerStyle={styles.containerHeader}
+        backgroundColor='#282828'
       />
     );
   };

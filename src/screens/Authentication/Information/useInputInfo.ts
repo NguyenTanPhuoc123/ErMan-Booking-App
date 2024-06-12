@@ -73,16 +73,16 @@ const useInputInfo = () => {
     });
   };
 
-  const onRegister = handleSubmit(() => {
+  const onRegister = handleSubmit((values:InfoFormValues) => {
     NavigationActionService.showLoading();
     dispatch(
       register({
         body: {
           phone: phone as string,
-          firstname: getValues('firstname'),
-          lastname: getValues('lastname'),
-          password: getValues('password'),
-          confirmPassword: getValues('confirmPassword'),
+          firstname: values.firstname,
+          lastname: values.lastname,
+          password: values.password,
+          confirmPassword: values.confirmPassword,
         },
         onSuccess: onRegisterSuccess,
         onFail: onRegisterFail,
