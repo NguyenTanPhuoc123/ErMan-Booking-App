@@ -1,26 +1,68 @@
 import {StyleSheet} from 'react-native';
+import {HEIGHT, WITDH} from '../../../constants/styles';
 
 const styles = StyleSheet.create({
-  title: {
-    fontSize: 50,
-    color: '#fff',
-    alignSelf: 'center',
-    fontFamily: 'ClickerScript-Regular',
-    position: 'absolute',
-    bottom: 30,
+  container: {
+    flex: 1,
+    alignItems: 'center',
   },
-  landingImage: {
+  titlePage: {
+    fontSize: 32,
+    color: '#D4D3D6',
+    marginTop: 20,
+    fontFamily: 'InriaSerif-Bold',
     alignSelf: 'center',
-    width: 400,
-    height: 400,
   },
-  subtitle: {
-    color: '#fff',
-    fontFamily: 'Charmonman-Regular',
-    fontSize: 25,
+  textBooking: {
+    fontSize: 28,
+    fontWeight: '500',
+    width: WITDH - 100,
+    textAlign: 'center',
+    fontFamily: 'InriaSerif-Bold',
     alignSelf: 'center',
+  },
+  textShow: {
+    color: '#D4D3D6',
+    fontSize: 24,
+    width: WITDH - 150,
+    marginTop: HEIGHT / 4,
+    textAlign: 'center',
+    justifyContent: 'center',
+    fontFamily: 'InriaSerif-Bold',
+  },
+  buttonContainer: {
     position: 'absolute',
-    bottom: 70,
+    bottom: HEIGHT / 16,
+    alignItems: 'center',
+  },
+  buttonLogin: {
+    marginVertical: 10,
+    backgroundColor: '#6740A5',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: WITDH - 100,
+    height: 60,
+    borderRadius: 25,
+  },
+  buttonRegister: {
+    marginVertical: 10,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: WITDH - 100,
+    height: 60,
+    borderRadius: 25,
+  },
+  textLogin: {
+    color: '#fff',
+    fontSize: 32,
+    fontFamily: 'InriaSerif-Bold',
+  },
+  textRegister: {
+    color: '#433F3F',
+    fontSize: 32,
+    fontWeight: '400',
+    fontFamily: 'InriaSerif-Bold',
   },
 });
 

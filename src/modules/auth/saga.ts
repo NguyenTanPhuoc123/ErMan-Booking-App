@@ -1,8 +1,10 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { IActionLoginPayload, IActionRegisterPayload } from './model';
+import { IActionGetCurrentUserPayload, IActionLoginPayload, IActionRegisterPayload, IActionVerifyPhonePayload } from './model';
 import * as AuthService from './service';
 import { isNetworkAvailable } from '../network/saga';
-import { call } from 'redux-saga/effects';
+import { call, put } from 'redux-saga/effects';
+import { saveUser, userReady } from './reducer';
+import { getCurrentUser } from '.';
 
 export function * loginFn(action:PayloadAction<IActionLoginPayload>){
     const {phone,password,onSuccess,onFail} = action.payload;
@@ -12,13 +14,46 @@ export function * loginFn(action:PayloadAction<IActionLoginPayload>){
         return;
     }
     const {error} = yield call(AuthService.login,phone,password);
+    
     if(!error){
-        onSuccess && onSuccess();
-        console.log("Login success");
-        
+        yield put(getCurrentUser({onSuccess,onFail}));    
     }
     else if(onFail){
         onFail(error);
+    }
+}
+
+export function* getCurrentUserFn(action:PayloadAction<IActionGetCurrentUserPayload>){
+    const {onSuccess,onFail} = action.payload;
+    const {isConnected} = yield isNetworkAvailable();
+    
+    if(!isConnected){
+        onFail && onFail();
+        return;
+    }
+    const {result,error} = yield call(AuthService.getCurrentUser);
+    if(!error){
+        yield put(saveUser({user:result}));
+        onSuccess && onSuccess(result);
+    }
+    else if(onFail){
+        onFail && onFail(error);     
+    }
+}
+
+export function* verifyPhoneFn(action:PayloadAction<IActionVerifyPhonePayload>){
+    const {phone,onSuccess,onFail} = action.payload;
+    const {isConnected} = yield isNetworkAvailable();
+    if(!isConnected){
+        onFail && onFail();
+        return;
+    }
+    const {error} = yield call(AuthService.verifyPhone,phone);
+    if(!error){
+        onSuccess && onSuccess();
+    }
+    else if(onFail){
+        onFail && onFail(error);
     }
 }
 
@@ -37,4 +72,8 @@ export function* registerFn(action:PayloadAction<IActionRegisterPayload>){
     else if(onFail){
         onFail(error);
     }
+}
+
+export function* userReadyLoadDataFn(){
+    yield put(userReady());
 }

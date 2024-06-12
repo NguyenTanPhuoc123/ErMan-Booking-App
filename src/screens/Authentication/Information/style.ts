@@ -3,7 +3,6 @@ import {WITDH} from '../../../constants/styles';
 
 const styles = StyleSheet.create({
   containerHeader: {
-    backgroundColor: '#282828',
     height: 100,
     justifyContent: 'center',
     alignItems: 'center',
