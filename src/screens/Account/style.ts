@@ -2,17 +2,15 @@ import {StyleSheet} from 'react-native';
 import {WITDH} from '../../constants/styles';
 
 const styles = StyleSheet.create({
-  showHeader:{
-    backgroundColor:'#282828'
+  showHeader: {
+    backgroundColor: '#282828',
   },
   containerHeader: {
     borderColor: '#433F3F',
-    //backgroundColor:'#282828'
   },
-  showavatar:{
-   marginVertical:20,
-    alignItems:'center',
-
+  showavatar: {
+    marginVertical: 20,
+    alignItems: 'center',
   },
   avatar: {
     width: 100,
@@ -21,7 +19,7 @@ const styles = StyleSheet.create({
   },
   textHeader: {
     fontSize: 30,
-    marginTop:15,
+    marginTop: 15,
     alignSelf: 'flex-start',
     fontFamily: 'InriaSerif-Bold',
     color: '#D4D3D6',
@@ -39,28 +37,25 @@ const styles = StyleSheet.create({
     right: 0,
     zIndex: 9999,
   },
-  textAccount:{
+  textAccount: {
     fontSize: 30,
     marginHorizontal: 5,
     fontFamily: 'InriaSerif-Bold',
     color: '#D4D3D6',
   },
-  containerBody:{
-    backgroundColor:'#433F3F',
-    marginVertical:50,
+  containerBody: {
+    backgroundColor: '#433F3F',
+    marginVertical: 50,
   },
-  showuser:{
-   flexDirection:'row',
-   marginHorizontal:15,
-   marginVertical:15,
+  show: {
+    flexDirection: 'row',
+    padding: 15,
   },
-  textUser:{
-    fontSize:30,
-    alignSelf:'center',
-    marginLeft:30,
-  }
-  
- 
+  content: {
+    fontSize: 24,
+    alignSelf: 'center',
+    marginLeft: 30,
+  },
 });
 
 export default styles;

@@ -1,0 +1,9 @@
+export const CharmonmanBold = 'Charmonman-Bold';
+export const CharmonmanRegular = 'Charmonman-Regular';
+export const ClickerScriptRegular = 'ClickerScriptRegular';
+export const InriaSerifBold = 'InriaSerif-Bold';
+export const InriaSerifBoldItalic = 'InriaSerif-BoldItalic';
+export const InriaSerifItalic = 'InriaSerif-Italic';
+export const InriaSerifLight = 'InriaSerif-Light';
+export const InriaSerifLightItalic = 'InriaSerif-LightItalic';
+export const InriaSerifRegular = 'InriaSerif-Regular';

@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {HEIGHT, WITDH} from '../../constants/styles';
-
+import * as Font from '../../constants/font';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     color: '#fff',
-    fontFamily: 'InriaSerif-Bold',
+    fontFamily: Font.InriaSerifBold,
   },
   //Primary Btn
   primaryBtn: {
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 20,
     lineHeight: 32,
-    fontFamily: 'InriaSerif-Bold',
+    fontFamily: Font.InriaSerifBold,
   },
   horizontalButton: {
     flex: 1,

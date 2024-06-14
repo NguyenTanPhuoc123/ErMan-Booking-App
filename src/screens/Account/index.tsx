@@ -20,7 +20,7 @@ const AccountScreen = () => {
   ).userData;
   useEffect(() => {}, []);
 
-  const showHeader = () => {
+  const renderHeader = () => {
     return (
       <View style={styles.showHeader}>
         <Header
@@ -42,98 +42,59 @@ const AccountScreen = () => {
             </TouchableOpacity>
           }
         />
-        <View style={styles.showavatar}>
-          <FastImage
-            style={styles.avatar}
-            resizeMode="cover"
-            source={
-              currentUser.avatar
-                ? {uri: currentUser.avatar}
-                : APP_TYPE === 'Customer'
-                ? AVARTAR_DEFAULT_CUSTOMER
-                : AVARTAR_DEFAULT_STAFF
-            }
-          />
-          <View>
-            <Text style={styles.textHeader}>
-              {currentUser.firstname + ' ' + currentUser.lastname}
-            </Text>
-          </View>
-        </View>
       </View>
     );
   };
+  const renderAvatar = () => (
+    <View style={styles.showavatar}>
+      <FastImage
+        style={styles.avatar}
+        resizeMode="cover"
+        source={
+          currentUser.avatar
+            ? {uri: currentUser.avatar}
+            : APP_TYPE === 'Customer'
+            ? AVARTAR_DEFAULT_CUSTOMER
+            : AVARTAR_DEFAULT_STAFF
+        }
+      />
+      <View>
+        <Text style={styles.textHeader}>
+          {currentUser.firstname + ' ' + currentUser.lastname}
+        </Text>
+      </View>
+    </View>
+  );
 
-  const viewBody = () => {
+  const renderButtonFeature = (icon:string,title:string,onPress:()=>void) => (
+    <TouchableOpacity onPress={onPress}>
+      <View style={styles.show}>
+        <Icon name={icon} size={26} style={globalStyle.fontText} solid />
+        <Text style={[globalStyle.fontText, styles.content]}>
+          {title}
+        </Text>
+      </View>
+    </TouchableOpacity>
+  );
+
+  const renderBody = () => {
     return (
       <View style={styles.containerBody}>
-        <TouchableOpacity>
-          <View style={styles.showuser}>
-            <Icon name="user" size={40} style={globalStyle.fontText} solid />
-            <Text style={[globalStyle.fontText, styles.textUser]}>
-              Xem thông tin cá nhân
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <View style={styles.showuser}>
-            <Icon
-              name="calendar-alt"
-              size={40}
-              style={globalStyle.fontText}
-              solid
-            />
-            <Text style={[globalStyle.fontText, styles.textUser]}>
-              Đổi mật khẩu
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <View style={styles.showuser}>
-            <Icon
-              name="newspaper"
-              size={40}
-              style={globalStyle.fontText}
-              solid
-            />
-            <Text style={[globalStyle.fontText, styles.textUser]}>Tin tức</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <View style={styles.showuser}>
-            <Icon name="wallet" size={40} style={globalStyle.fontText} solid />
-            <Text style={[globalStyle.fontText, styles.textUser]}>
-              Ví thanh toán
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <View style={styles.showuser}>
-            <Icon name="cog" size={40} style={globalStyle.fontText} solid />
-            <Text style={[globalStyle.fontText, styles.textUser]}>Cài đặt</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <View style={styles.showuser}>
-            <Icon
-              name="sign-out-alt"
-              size={40}
-              style={globalStyle.fontText}
-              solid
-            />
-            <Text style={[globalStyle.fontText, styles.textUser]}>
-              Đăng xuất
-            </Text>
-          </View>
-        </TouchableOpacity>
+        {renderButtonFeature("user","Xem thông tin cá nhân",()=>{})}
+        {renderButtonFeature("lock","Đổi mật khẩu",()=>{})}
+        {renderButtonFeature("newspaper","Tin tức",()=>{})}
+        {renderButtonFeature("wallet","Ví thanh toán",()=>{})}
+        {renderButtonFeature("cog","Cài đặt",()=>{})}
+        {renderButtonFeature("sign-out-alt","Đăng xuất",()=>{})}
       </View>
     );
   };
   return (
     <>
       <View style={globalStyle.container}>
-        {showHeader()}
-        {viewBody()}
+        {renderHeader()}
+        {renderAvatar()}
+        {renderBody()}
       </View>
     </>
   );
