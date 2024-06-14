@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {WITDH} from '../../../constants/styles';
+import { InriaSerifBold } from '../../../constants/font';
 
 const styles = StyleSheet.create({
   containerHeader: {
@@ -11,7 +12,7 @@ const styles = StyleSheet.create({
   title: {
     color: '#B689FF',
     fontSize: 36,
-    fontFamily: 'InriaSerif-Bold',
+    fontFamily: InriaSerifBold,
     marginTop: 40,
   },
   subtitle: {

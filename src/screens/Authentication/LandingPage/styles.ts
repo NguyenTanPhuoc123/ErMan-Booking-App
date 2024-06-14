@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {HEIGHT, WITDH} from '../../../constants/styles';
+import { InriaSerifBold } from '../../../constants/font';
 
 const styles = StyleSheet.create({
   container: {
@@ -10,7 +11,7 @@ const styles = StyleSheet.create({
     fontSize: 32,
     color: '#D4D3D6',
     marginTop: 20,
-    fontFamily: 'InriaSerif-Bold',
+    fontFamily: InriaSerifBold,
     alignSelf: 'center',
   },
   textBooking: {
@@ -18,7 +19,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     width: WITDH - 100,
     textAlign: 'center',
-    fontFamily: 'InriaSerif-Bold',
+    fontFamily: InriaSerifBold,
     alignSelf: 'center',
   },
   textShow: {
@@ -28,7 +29,7 @@ const styles = StyleSheet.create({
     marginTop: HEIGHT / 4,
     textAlign: 'center',
     justifyContent: 'center',
-    fontFamily: 'InriaSerif-Bold',
+    fontFamily: InriaSerifBold,
   },
   buttonContainer: {
     position: 'absolute',
@@ -56,13 +57,13 @@ const styles = StyleSheet.create({
   textLogin: {
     color: '#fff',
     fontSize: 32,
-    fontFamily: 'InriaSerif-Bold',
+    fontFamily: InriaSerifBold,
   },
   textRegister: {
     color: '#433F3F',
     fontSize: 32,
     fontWeight: '400',
-    fontFamily: 'InriaSerif-Bold',
+    fontFamily: InriaSerifBold,
   },
 });
 
