@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {WITDH} from '../../constants/styles';
+import {InriaSerifBold} from '../../constants/font';
 
 const styles = StyleSheet.create({
   containerHeader: {
@@ -18,7 +19,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginHorizontal: 5,
     alignSelf: 'flex-start',
-    fontFamily: 'InriaSerif-Bold',
+    fontFamily: InriaSerifBold,
     color: '#D4D3D6',
   },
   rightComponentHeader: {
@@ -34,22 +35,53 @@ const styles = StyleSheet.create({
     right: 0,
     zIndex: 9999,
   },
-  inputSearch: {
+  buttonComponent:{
+    flexDirection:'row',
+    justifyContent:'space-around',
+    marginTop:5
+  },
+  slideDiscount: {
     alignSelf: 'center',
-    width: WITDH - 30,
-    backgroundColor: '#675B5B',
-    padding: 10,
-    height: 55,
-    fontSize: 20,
-    marginVertical: 20,
-    borderRadius: 25,
   },
-  btnSearch: {
+  dotContainer: {
     position: 'absolute',
-    right: 30,
-    top: 37,
-    zIndex: 9999,
+    bottom: 10,
+    alignSelf: 'center',
   },
+  containerList: {
+    marginVertical: 20,
+  },
+  lineTitle: {
+    marginHorizontal: 14,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  titleList: {
+    fontFamily: InriaSerifBold,
+    fontSize: 24,
+  },
+  txtViewMore: {
+    color: '#B689FF',
+    fontSize: 16,
+    marginTop:10
+  },
+  containerBooking:{
+    width:WITDH-30,
+    height:200,
+    backgroundColor:'#5A5656',
+    alignSelf:'center',
+    marginVertical:10,
+    borderRadius:20,
+    flexDirection:'row',
+    alignItems:'center'
+  },
+  avatarCustomer:{
+    width:'35%',
+    height:'85%',
+    borderRadius:15,
+    marginHorizontal:10
+  }
 });
 
 export default styles;
