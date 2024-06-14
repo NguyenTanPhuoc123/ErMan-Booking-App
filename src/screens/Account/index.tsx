@@ -19,7 +19,8 @@ const AccountScreen = () => {
     state => state.auth,
   ).userData;
   useEffect(() => {}, []);
-  const ShowBody = () => {
+
+  const showHeader = () => {
     return (
       <View style={styles.showHeader}>
         <Header
@@ -130,10 +131,11 @@ const AccountScreen = () => {
   };
   return (
     <>
-      {ShowBody()}
-      <View style={globalStyle.container}>{viewBody()}</View>
+      <View style={globalStyle.container}>
+        {showHeader()}
+        {viewBody()}
+      </View>
     </>
   );
 };
-
 export default AccountScreen;
