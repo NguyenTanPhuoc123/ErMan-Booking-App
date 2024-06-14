@@ -2,8 +2,12 @@ import {StyleSheet} from 'react-native';
 import {WITDH} from '../../constants/styles';
 
 const styles = StyleSheet.create({
+  showHeader:{
+    backgroundColor:'#282828'
+  },
   containerHeader: {
     borderColor: '#433F3F',
+    //backgroundColor:'#282828'
   },
   showavatar:{
    marginVertical:20,
@@ -17,7 +21,6 @@ const styles = StyleSheet.create({
   },
   textHeader: {
     fontSize: 30,
-    //marginVertical:15,
     marginTop:15,
     alignSelf: 'flex-start',
     fontFamily: 'InriaSerif-Bold',
@@ -36,14 +39,13 @@ const styles = StyleSheet.create({
     right: 0,
     zIndex: 9999,
   },
-  textTaiKhoan:{
+  textAccount:{
     fontSize: 30,
     marginHorizontal: 5,
     fontFamily: 'InriaSerif-Bold',
     color: '#D4D3D6',
   },
   containerBody:{
-    flex:2,
     backgroundColor:'#433F3F',
     marginVertical:50,
   },

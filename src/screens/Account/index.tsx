@@ -19,42 +19,52 @@ const AccountScreen = () => {
     state => state.auth,
   ).userData;
   useEffect(() => {}, []);
-
-  return (
-    <View style={globalStyle.container}>
-      <Header
-        containerStyle={styles.containerHeader}
-        backgroundColor="#433F3F"
-        centerComponent={<Text style={styles.textTaiKhoan}>Tài khoản</Text>}
-        rightContainerStyle={styles.rightComponentHeader}
-        rightComponent={
-          <TouchableOpacity>
-            <View>
-              <View style={styles.pointNotification}></View>
-              <Icon name="bell" size={25} style={globalStyle.fontText} solid />
-            </View>
-          </TouchableOpacity>
-        }
-      />
-      <View style={styles.showavatar}>
-        <FastImage
-          style={styles.avatar}
-          resizeMode="cover"
-          source={
-            currentUser.avatar
-              ? {uri: currentUser.avatar}
-              : APP_TYPE === 'Customer'
-              ? AVARTAR_DEFAULT_CUSTOMER
-              : AVARTAR_DEFAULT_STAFF
+  const ShowBody = () => {
+    return (
+      <View style={styles.showHeader}>
+        <Header
+          containerStyle={styles.containerHeader}
+          backgroundColor="#433F3F"
+          centerComponent={<Text style={styles.textAccount}>Tài khoản</Text>}
+          rightContainerStyle={styles.rightComponentHeader}
+          rightComponent={
+            <TouchableOpacity>
+              <View>
+                <View style={styles.pointNotification}></View>
+                <Icon
+                  name="bell"
+                  size={25}
+                  style={globalStyle.fontText}
+                  solid
+                />
+              </View>
+            </TouchableOpacity>
           }
         />
-        <View>
-          <Text style={styles.textHeader}>
-            {currentUser.firstname} {''}
-            {currentUser.lastname}
-          </Text>
+        <View style={styles.showavatar}>
+          <FastImage
+            style={styles.avatar}
+            resizeMode="cover"
+            source={
+              currentUser.avatar
+                ? {uri: currentUser.avatar}
+                : APP_TYPE === 'Customer'
+                ? AVARTAR_DEFAULT_CUSTOMER
+                : AVARTAR_DEFAULT_STAFF
+            }
+          />
+          <View>
+            <Text style={styles.textHeader}>
+              {currentUser.firstname + ' ' + currentUser.lastname}
+            </Text>
+          </View>
         </View>
       </View>
+    );
+  };
+
+  const viewBody = () => {
+    return (
       <View style={styles.containerBody}>
         <TouchableOpacity>
           <View style={styles.showuser}>
@@ -116,7 +126,13 @@ const AccountScreen = () => {
           </View>
         </TouchableOpacity>
       </View>
-    </View>
+    );
+  };
+  return (
+    <>
+      {ShowBody()}
+      <View style={globalStyle.container}>{viewBody()}</View>
+    </>
   );
 };
 
