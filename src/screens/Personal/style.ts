@@ -23,12 +23,12 @@ const styles = StyleSheet.create({
   },
   showName:{
     flexDirection:'row',
-  },
+  }, 
   textName: {
     fontSize: 24,
     marginVertical:13,
     marginLeft:20,
-    fontFamily: 'InriaSerif-Bold',
+    fontFamily: InriaSerifBold,
     color: '#fff',
   },
   textInfo:{
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     marginVertical:15,
     marginLeft:"auto",
     width:'50%',
-    fontFamily: 'InriaSerif-Bold',
+    fontFamily: InriaSerifBold,
     color: '#fff',
     flexWrap:'wrap',
   },
@@ -55,17 +55,15 @@ const styles = StyleSheet.create({
   textPersonal: {
     fontSize: 28,
     marginHorizontal: 5,
-    fontFamily: 'InriaSerif-Bold',
+    fontFamily: InriaSerifBold,
     color: '#D4D3D6',
   },
-  buttonContainer: {
-    paddingVertical:100,
-    alignItems: 'center',
-  },
   buttonEdit: {
-    marginVertical: 50,
+    
+    marginVertical: 150,
     backgroundColor: '#6740A5',
     alignItems: 'center',
+    alignSelf:'center',
     justifyContent: 'center',
     width: WITDH - 150,
     height: 60,
@@ -74,7 +72,7 @@ const styles = StyleSheet.create({
   textEdit:{
     color: '#fff',
     fontSize: 30,
-    fontFamily: 'InriaSerif-Bold',
+    fontFamily: InriaSerifBold,
   }
 });
 

@@ -33,16 +33,13 @@ const PersonalScreen = () => {
           }
           leftContainerStyle={styles.leftComponentHeader}
           leftComponent={
-            <TouchableOpacity onPress={() => {}}>
-              <View>
-                <View style={styles.pointNotification}></View>
-                <Icon
-                  name="arrow-left"
-                  size={25}
-                  style={globalStyle.fontText}
-                  solid
-                />
-              </View>
+            <TouchableOpacity onPress={() => NavigationActionService.pop()}>
+              <Icon
+                name="arrow-left"
+                size={25}
+                style={globalStyle.fontText}
+                solid
+              />
             </TouchableOpacity>
           }
         />
@@ -65,38 +62,32 @@ const PersonalScreen = () => {
       />
     </View>
   );
+
+  const renderButtonFeature = (name: string, info: string) => (
+    <View style={styles.showName}>
+      <Text style={styles.textName}>{name}</Text>
+      <Text style={styles.textInfo}>{info}</Text>
+    </View>
+  );
   const renderInformation = () => (
     <View style={styles.containerBody}>
-      <View style={styles.showName}>
-        <Text style={styles.textName}>Họ và tên:</Text>
-        <Text style={styles.textInfo}>
-          {currentUser.firstname + ' ' + currentUser.lastname}
-        </Text>
-      </View>
-      <View style={styles.showName}>
-        <Text style={styles.textName}>Giới tính: </Text>
-        <Text style={styles.textInfo}> Nam</Text>
-      </View>
-      <View style={styles.showName}>
-        <Text style={styles.textName}>Ngày sinh: </Text>
-        <Text style={styles.textInfo}> 21/11/2003</Text>
-      </View>
-      <View style={styles.showName}>
-        <Text style={styles.textName}>Địa chỉ: </Text>
-        <Text style={styles.textInfo}> Đoàn Văn Bơ, quận 4, TP.HCM</Text>
-      </View>
-      <View style={styles.showName}>
-        <Text style={styles.textName}>Số điện thoại: </Text>
-        <Text style={styles.textInfo}>{currentUser.phone}</Text>
-      </View>
+      {renderButtonFeature(
+        'Họ và tên:',
+        currentUser.firstname + ' ' + currentUser.lastname,
+      )}
+      {renderButtonFeature('Giới tính:', 'Nam')}
+      {renderButtonFeature('Ngày sinh:', '21/11/2003')}
+      {renderButtonFeature(
+        'Địa chỉ:',
+        '762 Đoàn Văn Bơ, Phường 16, Quận 4, TP.HCM',
+      )}
+      {renderButtonFeature('Số điện thoại:', currentUser.phone)}
     </View>
   );
   const renderButton = () => (
-    <View style={styles.buttonContainer}>
-      <TouchableOpacity style={styles.buttonEdit}>
-        <Text style={styles.textEdit}>Chỉnh sửa</Text>
-      </TouchableOpacity>
-    </View>
+    <TouchableOpacity style={styles.buttonEdit}>
+      <Text style={styles.textEdit}>Chỉnh sửa</Text>
+    </TouchableOpacity>
   );
 
   return (

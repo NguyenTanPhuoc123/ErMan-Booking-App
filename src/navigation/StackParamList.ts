@@ -20,7 +20,6 @@ export type AuthStackParamList = {
   [REGISTER_SCREEN]: undefined;
   [INFORMATION_SCREEN]: undefined;
   [CHANGE_PASSWORD_SCREEN]: undefined;
- 
 };
 
 export type MainStackParamList = {
