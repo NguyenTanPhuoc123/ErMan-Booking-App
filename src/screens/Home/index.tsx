@@ -413,7 +413,7 @@ const HomeScreen = () => {
         {renderButtonComponent()}
         <SearchComponent />
         {renderSlideDiscount()}
-        {APP_TYPE==="Staff" ? renderBookingNear():<></>}
+        {APP_TYPE === 'Staff' ? renderBookingNear() : <></>}
         {renderService()}
         {renderNews()}
         {renderBranch()}

@@ -13,6 +13,7 @@ import TabNavigator from './BottomTabNavigator';
 import ServiceScreen from '../screens/Service';
 import MessageScreen from '../screens/Message';
 import AccountScreen from '../screens/Account';
+import PersonalScreen from '../screens/Personal';
 
 export type AuthStackObject = {
   [key in keyof Partial<AuthStackParamList>]:
@@ -57,6 +58,7 @@ export const dashboardStackScreens: MainStackObject = {
 };
 export const mainStackScreens: MainStackObject = {
   ...dashboardStackScreens,
+  [SCREEN_KEYS.PERSONAL_SCREEN]: PersonalScreen,
 };
 
 const Stack = createStackNavigator();
