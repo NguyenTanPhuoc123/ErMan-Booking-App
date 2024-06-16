@@ -7,6 +7,7 @@ import {
   LOGIN_SCREEN,
   MESSAGE_SCREEN,
   MY_BOOKING_SCREEN,
+  PERSONAL_SCREEN,
   REGISTER_SCREEN,
   SERVICE_SCREEN,
   VERIFY_PHONE_SCREEN,
@@ -19,6 +20,7 @@ export type AuthStackParamList = {
   [REGISTER_SCREEN]: undefined;
   [INFORMATION_SCREEN]: undefined;
   [CHANGE_PASSWORD_SCREEN]: undefined;
+ 
 };
 
 export type MainStackParamList = {
@@ -27,4 +29,5 @@ export type MainStackParamList = {
   [MY_BOOKING_SCREEN]:undefined;
   [MESSAGE_SCREEN]:undefined;
   [ACCOUNT_SCREEN]:undefined;
+  [PERSONAL_SCREEN]:undefined;
 };

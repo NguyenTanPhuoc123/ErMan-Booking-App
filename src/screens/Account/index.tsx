@@ -13,6 +13,8 @@ import {
 } from '../../constants/icons';
 import {APP_TYPE} from '../../constants/app_info';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import NavigationActionService from '../../navigation/navigation';
+import { PERSONAL_SCREEN } from '../../constants/screen_key';
 
 const AccountScreen = () => {
   const currentUser = useSelector<RootState, IAuthState>(
@@ -66,13 +68,15 @@ const AccountScreen = () => {
     </View>
   );
 
-  const renderButtonFeature = (icon:string,title:string,onPress:()=>void) => (
+  const renderButtonFeature = (
+    icon: string,
+    title: string,
+    onPress: () => void,
+  ) => (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.show}>
         <Icon name={icon} size={26} style={globalStyle.fontText} solid />
-        <Text style={[globalStyle.fontText, styles.content]}>
-          {title}
-        </Text>
+        <Text style={[globalStyle.fontText, styles.content]}>{title}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -80,12 +84,14 @@ const AccountScreen = () => {
   const renderBody = () => {
     return (
       <View style={styles.containerBody}>
-        {renderButtonFeature("user","Xem thông tin cá nhân",()=>{})}
-        {renderButtonFeature("lock","Đổi mật khẩu",()=>{})}
-        {renderButtonFeature("newspaper","Tin tức",()=>{})}
-        {renderButtonFeature("wallet","Ví thanh toán",()=>{})}
-        {renderButtonFeature("cog","Cài đặt",()=>{})}
-        {renderButtonFeature("sign-out-alt","Đăng xuất",()=>{})}
+        {renderButtonFeature('user', 'Xem thông tin cá nhân', () => {
+          NavigationActionService.navigate(PERSONAL_SCREEN);
+        })}
+        {renderButtonFeature('lock', 'Đổi mật khẩu', () => {})}
+        {renderButtonFeature('newspaper', 'Tin tức', () => {})}
+        {renderButtonFeature('wallet', 'Ví thanh toán', () => {})}
+        {renderButtonFeature('cog', 'Cài đặt', () => {})}
+        {renderButtonFeature('sign-out-alt', 'Đăng xuất', () => {})}
       </View>
     );
   };
