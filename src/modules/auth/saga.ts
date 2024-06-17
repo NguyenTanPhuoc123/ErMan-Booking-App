@@ -1,9 +1,9 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { IActionGetCurrentUserPayload, IActionLoginPayload, IActionRegisterPayload, IActionVerifyPhonePayload } from './model';
+import { IActionGetCurrentUserPayload, IActionLoginPayload, IActionLogoutPayload, IActionRegisterPayload, IActionVerifyPhonePayload } from './model';
 import * as AuthService from './service';
 import { isNetworkAvailable } from '../network/saga';
 import { call, put } from 'redux-saga/effects';
-import { saveUser, userReady } from './reducer';
+import { clearUser, saveUser, userReady } from './reducer';
 import { getCurrentUser } from '.';
 
 export function * loginFn(action:PayloadAction<IActionLoginPayload>){
@@ -76,4 +76,21 @@ export function* registerFn(action:PayloadAction<IActionRegisterPayload>){
 
 export function* userReadyLoadDataFn(){
     yield put(userReady());
+}
+
+export function* logoutFn(action:PayloadAction<IActionLogoutPayload>){
+    const {onSuccess,onFail} = action.payload;
+    const {isConnected} = yield isNetworkAvailable();
+    if(!isConnected){
+        onFail && onFail();
+        return;
+    }
+    const {result,error} = yield call(AuthService.logout);
+    if(!error){
+        yield put(clearUser());
+        onSuccess && onSuccess(result);     
+    }
+    else if(onFail){
+        onFail && onFail(error);
+    }
 }

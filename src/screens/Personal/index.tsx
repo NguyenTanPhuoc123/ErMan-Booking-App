@@ -1,7 +1,7 @@
 import {View, Text, TouchableOpacity, TextInput} from 'react-native';
-import React, {useEffect} from 'react';
+import React from 'react';
 import globalStyle from '../../constants/styles';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../redux/reducers';
 import {IAuthState} from '../../modules/auth/model';
 import {Header} from 'react-native-elements';
@@ -13,13 +13,34 @@ import {
 } from '../../constants/icons';
 import {APP_TYPE} from '../../constants/app_info';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import NavigationActionService from '../../navigation/navigation';
+import { MessageType, PopupType } from '../../component/CustomPopup/type';
+import { LANDING_PAGE, PROFILE_SCREEN } from '../../constants/screen_key';
+import { logout } from '../../modules/auth';
 
-const AccountScreen = () => {
+const PersonalScreen = () => {
   const currentUser = useSelector<RootState, IAuthState>(
     state => state.auth,
   ).userData;
-  useEffect(() => {}, []);
+  const dispatch = useDispatch();
 
+  const showPopupLogout = ()=>{
+    NavigationActionService.showPopup({
+      type:PopupType.TWO_BUTTONS,
+      typeMessage:MessageType.COMMON,
+      title:'Đăng xuất',
+      message:'Bạn chắc chắc muốn đăng xuất?',
+      onPressPrimaryBtn:()=>{
+        dispatch(logout({
+          onSuccess:()=>NavigationActionService.navigate(LANDING_PAGE),
+          onFail:()=>NavigationActionService.showPopup({
+            type:PopupType.ONE_BUTTON,
+            typeMessage:MessageType.ERROR,
+            title:'Đăng xuất thất bại',
+            message:'Có lỗi xảy ra trong lúc đăng xuất',
+          })}))}
+    })
+  }
   const renderHeader = () => {
     return (
       <View style={styles.showHeader}>
@@ -66,13 +87,15 @@ const AccountScreen = () => {
     </View>
   );
 
-  const renderButtonFeature = (icon:string,title:string,onPress:()=>void) => (
+  const renderButtonFeature = (
+    icon: string,
+    title: string,
+    onPress: () => void,
+  ) => (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.show}>
         <Icon name={icon} size={26} style={globalStyle.fontText} solid />
-        <Text style={[globalStyle.fontText, styles.content]}>
-          {title}
-        </Text>
+        <Text style={[globalStyle.fontText, styles.content]}>{title}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -80,12 +103,14 @@ const AccountScreen = () => {
   const renderBody = () => {
     return (
       <View style={styles.containerBody}>
-        {renderButtonFeature("user","Xem thông tin cá nhân",()=>{})}
-        {renderButtonFeature("lock","Đổi mật khẩu",()=>{})}
-        {renderButtonFeature("newspaper","Tin tức",()=>{})}
-        {renderButtonFeature("wallet","Ví thanh toán",()=>{})}
-        {renderButtonFeature("cog","Cài đặt",()=>{})}
-        {renderButtonFeature("sign-out-alt","Đăng xuất",()=>{})}
+        {renderButtonFeature('user', 'Xem thông tin cá nhân', () => {
+          NavigationActionService.navigate(PROFILE_SCREEN);
+        })}
+        {renderButtonFeature('lock', 'Đổi mật khẩu', () => {})}
+        {renderButtonFeature('newspaper', 'Tin tức', () => {})}
+        {renderButtonFeature('wallet', 'Ví thanh toán', () => {})}
+        {renderButtonFeature('cog', 'Cài đặt', () => {})}
+        {renderButtonFeature('sign-out-alt', 'Đăng xuất', () => showPopupLogout())}
       </View>
     );
   };
@@ -99,4 +124,4 @@ const AccountScreen = () => {
     </>
   );
 };
-export default AccountScreen;
+export default PersonalScreen;

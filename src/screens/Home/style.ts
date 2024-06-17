@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   leftComponentHeader: {
-    flexDirection: 'row',
+    flexDirection: 'row', 
     width: WITDH / 2,
   },
   textHeader: {

@@ -9,12 +9,14 @@ export const getCurrentUser = createAction<Models.IActionGetCurrentUserPayload>(
 export const register = createAction<Models.IActionRegisterPayload>(Models.REGISTER);
 export const verifyPhone = createAction<Models.IActionVerifyPhonePayload>(Models.VERIFY_PHONE);
 export const userReadyLoadData = createAction(Models.USER_READY_LOAD_DATA);
+export const logout = createAction<Models.IActionLogoutPayload>(Models.LOG_OUT);
 function * authSaga() {
     yield takeLatest(login,FuncSaga.loginFn);
     yield takeLatest(getCurrentUser,FuncSaga.getCurrentUserFn);
     yield takeLatest(register,FuncSaga.registerFn);
     yield takeLatest(verifyPhone,FuncSaga.verifyPhoneFn);
     yield takeLatest(userReadyLoadData,FuncSaga.userReadyLoadDataFn);
+    yield takeLatest(logout,FuncSaga.logoutFn);
     
 }
 
