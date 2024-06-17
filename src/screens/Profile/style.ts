@@ -1,61 +1,58 @@
 import {StyleSheet} from 'react-native';
 import {WITDH} from '../../constants/styles';
+import { InriaSerifBold } from '../../constants/font';
 
 const styles = StyleSheet.create({
-  showHeader: {
-    backgroundColor: '#282828',
-  },
   containerHeader: {
     borderColor: '#433F3F',
-  },
-  showavatar: {
-    marginVertical: 20,
-    alignItems: 'center',
+    height:100
   },
   avatar: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-  },
-  textHeader: {
-    fontSize: 30,
-    marginTop: 15,
-    alignSelf: 'flex-start',
-    fontFamily: 'InriaSerif-Bold',
-    color: '#D4D3D6',
-  },
-  rightComponentHeader: {
-    width: WITDH / 2,
-    justifyContent: 'center',
-  },
-  pointNotification: {
-    backgroundColor: '#E24747',
-    width: 8,
-    height: 8,
-    borderRadius: 8,
-    position: 'absolute',
-    right: 0,
-    zIndex: 9999,
-  },
-  textAccount: {
-    fontSize: 30,
-    marginHorizontal: 5,
-    fontFamily: 'InriaSerif-Bold',
-    color: '#D4D3D6',
-  },
-  containerBody: {
-    backgroundColor: '#433F3F',
-    marginVertical: 50,
-  },
-  show: {
-    flexDirection: 'row',
-    padding: 15,
-  },
-  content: {
-    fontSize: 24,
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    marginVertical: 30,
     alignSelf: 'center',
-    marginLeft: 30,
   },
+  body: {
+     
+  },
+  showInfo:{
+    flexDirection:'row',
+    marginTop:15,
+    justifyContent:'space-between'
+  }, 
+  label: {
+    marginLeft:15,
+    fontSize: 20,
+    fontFamily: InriaSerifBold,
+  },
+  info:{
+    fontSize: 20,
+    width:'50%',
+  },
+  textPersonal: {
+    fontSize: 24,
+    marginHorizontal: 5,
+    fontFamily: InriaSerifBold,
+    color: '#D4D3D6',
+  },
+  buttonEdit: {
+    backgroundColor: '#6740A5',
+    alignItems: 'center',
+    alignSelf:'center',
+    justifyContent: 'center',
+    width: WITDH/1.5,
+    height: 60,
+    borderRadius: 25,
+    position:'absolute',
+    bottom:100
+  },
+  textEdit:{
+    color: '#fff',
+    fontSize: 26,
+    fontFamily: InriaSerifBold,
+  }
 });
 
 export default styles;

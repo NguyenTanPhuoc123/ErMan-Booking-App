@@ -44,6 +44,9 @@ export const register = async (body: BodyParams) => {
           firstname: body.firstname,
           lastname: body.lastname,
           phone: body.phone,
+          gender:true,
+          address:'',
+          birthday:'01/01/2000',
           isVerified: true,
           typeAccount: 'Customer',
         });
