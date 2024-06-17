@@ -4,8 +4,8 @@ import styles from './style';
 import FastImage from 'react-native-fast-image';
 import globalStyle from '../../../../constants/styles';
 import { FormatCurrency } from '../../../../utils/currentcy';
-import NavigationActionService from '../../../../navigation/navigation';
 import { SERVICE_DETAIL_SCREEN } from '../../../../constants/screen_key';
+import NavigationActionService from '../../../../navigation/navigation';
 type ItemServiceRowProps = {
   image: number;
   serviceName: string;

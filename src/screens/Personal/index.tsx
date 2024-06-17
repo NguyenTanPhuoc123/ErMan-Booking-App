@@ -43,7 +43,6 @@ const PersonalScreen = () => {
   }
   const renderHeader = () => {
     return (
-      <View style={styles.showHeader}>
         <Header
           containerStyle={styles.containerHeader}
           backgroundColor="#433F3F"
@@ -63,7 +62,6 @@ const PersonalScreen = () => {
             </TouchableOpacity>
           }
         />
-      </View>
     );
   };
   const renderAvatar = () => (
