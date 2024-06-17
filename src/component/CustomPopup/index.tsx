@@ -55,7 +55,6 @@ const CustomPopup = () => {
             styles.horizontalButton,
           ]}
           onPress={() => {
-            otherProps.onPressSecondaryBtn && otherProps.onPressSecondaryBtn();
             closePopup();
           }}>
           <Text style={[globalStyle.fontText, styles.primaryText]}>Thoát</Text>

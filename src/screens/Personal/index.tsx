@@ -1,52 +1,71 @@
-import {View, Text, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import NavigationActionService from '../../navigation/navigation';
-import React, {useEffect} from 'react';
-import {Header} from 'react-native-elements';
-import styles from '../Personal/style';
+import {View, Text, TouchableOpacity, TextInput} from 'react-native';
+import React from 'react';
 import globalStyle from '../../constants/styles';
-import {ACCOUNT_SCREEN} from '../../constants/screen_key';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../redux/reducers';
+import {IAuthState} from '../../modules/auth/model';
+import {Header} from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
-import {useSelector} from 'react-redux';
-import {APP_TYPE} from '../../constants/app_info';
+import styles from './style';
 import {
   AVARTAR_DEFAULT_CUSTOMER,
   AVARTAR_DEFAULT_STAFF,
 } from '../../constants/icons';
-import {IAuthState} from '../../modules/auth/model';
-import {RootState} from '../../redux/reducers';
+import {APP_TYPE} from '../../constants/app_info';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import NavigationActionService from '../../navigation/navigation';
+import { MessageType, PopupType } from '../../component/CustomPopup/type';
+import { LANDING_PAGE, PROFILE_SCREEN } from '../../constants/screen_key';
+import { logout } from '../../modules/auth';
 
 const PersonalScreen = () => {
   const currentUser = useSelector<RootState, IAuthState>(
     state => state.auth,
   ).userData;
-  useEffect(() => {}, []);
+  const dispatch = useDispatch();
 
+  const showPopupLogout = ()=>{
+    NavigationActionService.showPopup({
+      type:PopupType.TWO_BUTTONS,
+      typeMessage:MessageType.COMMON,
+      title:'Đăng xuất',
+      message:'Bạn chắc chắc muốn đăng xuất?',
+      onPressPrimaryBtn:()=>{
+        dispatch(logout({
+          onSuccess:()=>NavigationActionService.navigate(LANDING_PAGE),
+          onFail:()=>NavigationActionService.showPopup({
+            type:PopupType.ONE_BUTTON,
+            typeMessage:MessageType.ERROR,
+            title:'Đăng xuất thất bại',
+            message:'Có lỗi xảy ra trong lúc đăng xuất',
+          })}))}
+    })
+  }
   const renderHeader = () => {
     return (
       <View style={styles.showHeader}>
         <Header
           containerStyle={styles.containerHeader}
           backgroundColor="#433F3F"
-          centerComponent={
-            <Text style={styles.textPersonal}>Thông tin cá nhân</Text>
-          }
-          leftContainerStyle={styles.leftComponentHeader}
-          leftComponent={
-            <TouchableOpacity onPress={() => NavigationActionService.pop()}>
-              <Icon
-                name="arrow-left"
-                size={25}
-                style={globalStyle.fontText}
-                solid
-              />
+          centerComponent={<Text style={styles.textAccount}>Tài khoản</Text>}
+          rightContainerStyle={styles.rightComponentHeader}
+          rightComponent={
+            <TouchableOpacity>
+              <View>
+                <View style={styles.pointNotification}></View>
+                <Icon
+                  name="bell"
+                  size={25}
+                  style={globalStyle.fontText}
+                  solid
+                />
+              </View>
             </TouchableOpacity>
           }
         />
       </View>
     );
   };
-
   const renderAvatar = () => (
     <View style={styles.showavatar}>
       <FastImage
@@ -60,46 +79,49 @@ const PersonalScreen = () => {
             : AVARTAR_DEFAULT_STAFF
         }
       />
+      <View>
+        <Text style={styles.textHeader}>
+          {currentUser.firstname + ' ' + currentUser.lastname}
+        </Text>
+      </View>
     </View>
   );
 
-  const renderButtonFeature = (name: string, info: string) => (
-    <View style={styles.showName}>
-      <Text style={styles.textName}>{name}</Text>
-      <Text style={styles.textInfo}>{info}</Text>
-    </View>
-  );
-  const renderInformation = () => (
-    <View style={styles.containerBody}>
-      {renderButtonFeature(
-        'Họ và tên:',
-        currentUser.firstname + ' ' + currentUser.lastname,
-      )}
-      {renderButtonFeature('Giới tính:', 'Nam')}
-      {renderButtonFeature('Ngày sinh:', '21/11/2003')}
-      {renderButtonFeature(
-        'Địa chỉ:',
-        '762 Đoàn Văn Bơ, Phường 16, Quận 4, TP.HCM',
-      )}
-      {renderButtonFeature('Số điện thoại:', currentUser.phone)}
-    </View>
-  );
-  const renderButton = () => (
-    <TouchableOpacity style={styles.buttonEdit}>
-      <Text style={styles.textEdit}>Chỉnh sửa</Text>
+  const renderButtonFeature = (
+    icon: string,
+    title: string,
+    onPress: () => void,
+  ) => (
+    <TouchableOpacity onPress={onPress}>
+      <View style={styles.show}>
+        <Icon name={icon} size={26} style={globalStyle.fontText} solid />
+        <Text style={[globalStyle.fontText, styles.content]}>{title}</Text>
+      </View>
     </TouchableOpacity>
   );
 
+  const renderBody = () => {
+    return (
+      <View style={styles.containerBody}>
+        {renderButtonFeature('user', 'Xem thông tin cá nhân', () => {
+          NavigationActionService.navigate(PROFILE_SCREEN);
+        })}
+        {renderButtonFeature('lock', 'Đổi mật khẩu', () => {})}
+        {renderButtonFeature('newspaper', 'Tin tức', () => {})}
+        {renderButtonFeature('wallet', 'Ví thanh toán', () => {})}
+        {renderButtonFeature('cog', 'Cài đặt', () => {})}
+        {renderButtonFeature('sign-out-alt', 'Đăng xuất', () => showPopupLogout())}
+      </View>
+    );
+  };
   return (
     <>
       <View style={globalStyle.container}>
         {renderHeader()}
         {renderAvatar()}
-        {renderInformation()}
-        {renderButton()}
+        {renderBody()}
       </View>
     </>
   );
 };
-
 export default PersonalScreen;

@@ -1,5 +1,4 @@
 import {
-  ACCOUNT_SCREEN,
   CHANGE_PASSWORD_SCREEN,
   HOME_SCREEN,
   INFORMATION_SCREEN,
@@ -8,6 +7,7 @@ import {
   MESSAGE_SCREEN,
   MY_BOOKING_SCREEN,
   PERSONAL_SCREEN,
+  PROFILE_SCREEN,
   REGISTER_SCREEN,
   SERVICE_SCREEN,
   VERIFY_PHONE_SCREEN,
@@ -27,6 +27,6 @@ export type MainStackParamList = {
   [SERVICE_SCREEN]:undefined;
   [MY_BOOKING_SCREEN]:undefined;
   [MESSAGE_SCREEN]:undefined;
-  [ACCOUNT_SCREEN]:undefined;
   [PERSONAL_SCREEN]:undefined;
+  [PROFILE_SCREEN]:undefined
 };

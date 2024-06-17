@@ -44,6 +44,9 @@ export const register = async (body: BodyParams) => {
           firstname: body.firstname,
           lastname: body.lastname,
           phone: body.phone,
+          gender:true,
+          address:'',
+          birthday:'01/01/2000',
           isVerified: true,
           typeAccount: 'Customer',
         });
@@ -77,3 +80,13 @@ export const confirmOTPCode = async (code: string) => {
     return {error};
   }
 };
+
+export const logout = async()=>{
+  try{
+  const res = await auth().signOut();
+  return {result: res};
+  }catch(error){
+    console.log("Error log out: ",error);
+    return {error};
+  }
+}

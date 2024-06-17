@@ -30,7 +30,6 @@ export interface TwoButtonProps {
   primaryBtnText?: string;
   onPressPrimaryBtn?: () => void;
   secondaryBtnText?: string;
-  onPressSecondaryBtn?: () => void;
 }
 
 export type PopupProps = PopupDataProps & (OneButtonProps | TwoButtonProps);

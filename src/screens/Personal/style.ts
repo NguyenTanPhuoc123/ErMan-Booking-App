@@ -1,6 +1,5 @@
 import {StyleSheet} from 'react-native';
 import {WITDH} from '../../constants/styles';
-import { InriaSerifBold } from '../../constants/font';
 
 const styles = StyleSheet.create({
   showHeader: {
@@ -10,7 +9,7 @@ const styles = StyleSheet.create({
     borderColor: '#433F3F',
   },
   showavatar: {
-    marginVertical: 30,
+    marginVertical: 20,
     alignItems: 'center',
   },
   avatar: {
@@ -18,33 +17,19 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
   },
-  containerBody: {
-    flex:1, 
+  textHeader: {
+    fontSize: 30,
+    marginTop: 15,
+    alignSelf: 'flex-start',
+    fontFamily: 'InriaSerif-Bold',
+    color: '#D4D3D6',
   },
-  showName:{
-    flexDirection:'row',
-  }, 
-  textName: {
-    fontSize: 24,
-    marginVertical:13,
-    marginLeft:20,
-    fontFamily: InriaSerifBold,
-    color: '#fff',
-  },
-  textInfo:{
-    fontSize: 24,
-    marginVertical:15,
-    marginLeft:"auto",
-    width:'50%',
-    fontFamily: InriaSerifBold,
-    color: '#fff',
-    flexWrap:'wrap',
-  },
-  leftComponentHeader: {
+  rightComponentHeader: {
     width: WITDH / 2,
     justifyContent: 'center',
   },
   pointNotification: {
+    backgroundColor: '#E24747',
     width: 8,
     height: 8,
     borderRadius: 8,
@@ -52,28 +37,25 @@ const styles = StyleSheet.create({
     right: 0,
     zIndex: 9999,
   },
-  textPersonal: {
-    fontSize: 28,
+  textAccount: {
+    fontSize: 30,
     marginHorizontal: 5,
-    fontFamily: InriaSerifBold,
+    fontFamily: 'InriaSerif-Bold',
     color: '#D4D3D6',
   },
-  buttonEdit: {
-    
-    marginVertical: 150,
-    backgroundColor: '#6740A5',
-    alignItems: 'center',
-    alignSelf:'center',
-    justifyContent: 'center',
-    width: WITDH - 150,
-    height: 60,
-    borderRadius: 25,
+  containerBody: {
+    backgroundColor: '#433F3F',
+    marginVertical: 50,
   },
-  textEdit:{
-    color: '#fff',
-    fontSize: 30,
-    fontFamily: InriaSerifBold,
-  }
+  show: {
+    flexDirection: 'row',
+    padding: 15,
+  },
+  content: {
+    fontSize: 24,
+    alignSelf: 'center',
+    marginLeft: 30,
+  },
 });
 
 export default styles;

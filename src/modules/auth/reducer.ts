@@ -23,7 +23,7 @@ const authSlice = createSlice({
       action: PayloadAction<IActionSaveUserPayload>,
     ) => {
       const {user} = action.payload;
-      
+
       return {
         ...state,
         userData: user,
@@ -35,8 +35,15 @@ const authSlice = createSlice({
         isLogged: true,
       };
     },
+    CLEAR_USER: () => {
+      return initialState;
+    },
   },
 });
 
-export const {SAVE_USER: saveUser, USER_READY: userReady} = authSlice.actions;
+export const {
+  SAVE_USER: saveUser,
+  USER_READY: userReady,
+  CLEAR_USER: clearUser,
+} = authSlice.actions;
 export const {reducer} = authSlice;
