@@ -13,6 +13,7 @@ import ServiceScreen from '../screens/Service';
 import MessageScreen from '../screens/Message';
 import PersonalScreen from '../screens/Personal';
 import ProfileScreen from '../screens/Profile';
+import ServiceDetailScreen from '../screens/ServiceDetail';
 
 export type AuthStackObject = {
   [key in keyof Partial<AuthStackParamList>]:
@@ -58,6 +59,7 @@ export const dashboardStackScreens: MainStackObject = {
 export const mainStackScreens: MainStackObject = {
   ...dashboardStackScreens,
   [SCREEN_KEYS.PROFILE_SCREEN]: ProfileScreen,
+  [SCREEN_KEYS.SERVICE_DETAIL_SCREEN]:ServiceDetailScreen,
 };
 
 const Stack = createStackNavigator();
