@@ -2,11 +2,9 @@ import {StyleSheet} from 'react-native';
 import {WITDH} from '../../constants/styles';
 
 const styles = StyleSheet.create({
-  showHeader: {
-    backgroundColor: '#282828',
-  },
   containerHeader: {
     borderColor: '#433F3F',
+    height:100
   },
   showavatar: {
     marginVertical: 20,
@@ -18,7 +16,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   textHeader: {
-    fontSize: 30,
+    fontSize: 24,
     marginTop: 15,
     alignSelf: 'flex-start',
     fontFamily: 'InriaSerif-Bold',
@@ -38,7 +36,7 @@ const styles = StyleSheet.create({
     zIndex: 9999,
   },
   textAccount: {
-    fontSize: 30,
+    fontSize: 24,
     marginHorizontal: 5,
     fontFamily: 'InriaSerif-Bold',
     color: '#D4D3D6',

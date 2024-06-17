@@ -9,6 +9,7 @@ import {
   PERSONAL_SCREEN,
   PROFILE_SCREEN,
   REGISTER_SCREEN,
+  SERVICE_DETAIL_SCREEN,
   SERVICE_SCREEN,
   VERIFY_PHONE_SCREEN,
 } from '../constants/screen_key';
@@ -28,5 +29,6 @@ export type MainStackParamList = {
   [MY_BOOKING_SCREEN]:undefined;
   [MESSAGE_SCREEN]:undefined;
   [PERSONAL_SCREEN]:undefined;
-  [PROFILE_SCREEN]:undefined
+  [PROFILE_SCREEN]:undefined;
+  [SERVICE_DETAIL_SCREEN]:undefined;
 };
