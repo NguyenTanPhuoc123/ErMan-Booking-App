@@ -77,3 +77,13 @@ export const confirmOTPCode = async (code: string) => {
     return {error};
   }
 };
+
+export const logout = async()=>{
+  try{
+  const res = await auth().signOut();
+  return {result: res};
+  }catch(error){
+    console.log("Error log out: ",error);
+    return {error};
+  }
+}

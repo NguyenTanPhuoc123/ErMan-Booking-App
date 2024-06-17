@@ -12,7 +12,8 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import TabNavigator from './BottomTabNavigator';
 import ServiceScreen from '../screens/Service';
 import MessageScreen from '../screens/Message';
-import AccountScreen from '../screens/Account';
+import AccountScreen from '../screens/Profile';
+import ProfileScreen from '../screens/Profile';
 
 export type AuthStackObject = {
   [key in keyof Partial<AuthStackParamList>]:
@@ -53,7 +54,7 @@ export const dashboardStackScreens: MainStackObject = {
   [SCREEN_KEYS.SERVICE_SCREEN]: ServiceScreen,
   [SCREEN_KEYS.MY_BOOKING_SCREEN]: ServiceScreen,
   [SCREEN_KEYS.MESSAGE_SCREEN]: MessageScreen,
-  [SCREEN_KEYS.ACCOUNT_SCREEN]: AccountScreen,
+  [SCREEN_KEYS.PROFILE_SCREEN]: ProfileScreen,
 };
 export const mainStackScreens: MainStackObject = {
   ...dashboardStackScreens,
@@ -115,7 +116,7 @@ export const BookingBottomTabNavigator = () =>
 export const MessageBottomTabNavigator = () =>
   BottomTabStackNavigator(SCREEN_KEYS.MESSAGE_SCREEN);
 export const AccountBottomTabNavigator = () =>
-  BottomTabStackNavigator(SCREEN_KEYS.ACCOUNT_SCREEN);
+  BottomTabStackNavigator(SCREEN_KEYS.PROFILE_SCREEN);
 export const BottomTabNavigator: BottomTabItem[] = [
   {
     name: SCREEN_KEYS.HOME_STACK,

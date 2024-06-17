@@ -1,7 +1,7 @@
 import {View, Text, TouchableOpacity, TextInput} from 'react-native';
 import React, {useEffect} from 'react';
 import globalStyle from '../../constants/styles';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../redux/reducers';
 import {IAuthState} from '../../modules/auth/model';
 import {Header} from 'react-native-elements';
@@ -13,13 +13,35 @@ import {
 } from '../../constants/icons';
 import {APP_TYPE} from '../../constants/app_info';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import NavigationActionService from '../../navigation/navigation';
+import { MessageType, PopupType } from '../../component/CustomPopup/type';
+import { logout } from '../../modules/auth';
+import { ApiError } from '../../constants/api';
+import { LANDING_PAGE } from '../../constants/screen_key';
 
-const AccountScreen = () => {
+const ProfileScreen = () => {
   const currentUser = useSelector<RootState, IAuthState>(
     state => state.auth,
   ).userData;
-  useEffect(() => {}, []);
+  const dispatch = useDispatch();
 
+  const showPopupLogout = ()=>{
+    NavigationActionService.showPopup({
+      type:PopupType.TWO_BUTTONS,
+      typeMessage:MessageType.COMMON,
+      title:'Đăng xuất',
+      message:'Bạn chắc chắc muốn đăng xuất?',
+      onPressPrimaryBtn:()=>{
+        dispatch(logout({
+          onSuccess:()=>NavigationActionService.navigate(LANDING_PAGE),
+          onFail:()=>NavigationActionService.showPopup({
+            type:PopupType.ONE_BUTTON,
+            typeMessage:MessageType.ERROR,
+            title:'Đăng xuất thất bại',
+            message:'Có lỗi xảy ra trong lúc đăng xuất',
+          })}))}
+    })
+  }
   const renderHeader = () => {
     return (
       <View style={styles.showHeader}>
@@ -85,7 +107,7 @@ const AccountScreen = () => {
         {renderButtonFeature("newspaper","Tin tức",()=>{})}
         {renderButtonFeature("wallet","Ví thanh toán",()=>{})}
         {renderButtonFeature("cog","Cài đặt",()=>{})}
-        {renderButtonFeature("sign-out-alt","Đăng xuất",()=>{})}
+        {renderButtonFeature("sign-out-alt","Đăng xuất",()=>showPopupLogout())}
       </View>
     );
   };
@@ -99,4 +121,4 @@ const AccountScreen = () => {
     </>
   );
 };
-export default AccountScreen;
+export default ProfileScreen;
