@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     right: 12,
   },
   txtViewDetail: {
-    color: '#B689FF',
+    color: '#FFC107',
     fontSize: 12,
   },
   titleEmpty: {

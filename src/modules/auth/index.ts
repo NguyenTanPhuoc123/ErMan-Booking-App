@@ -1,6 +1,6 @@
 import { createAction } from "@reduxjs/toolkit";
 import * as Models from './model'
-import { take, takeLatest } from "redux-saga/effects";
+import { takeLatest } from "redux-saga/effects";
 import * as FuncSaga from './saga';
 import {reducer as authReducer} from './reducer';  
 

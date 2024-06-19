@@ -12,7 +12,7 @@ const ButtonComponent = (props:ButtonComponentProps) => {
     const {title,icon,onPress} = props;
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
-        <Icon name={icon} size={24} solid style={globalStyle.fontText} />
+        <Icon name={icon} color='#494946' size={24} solid />
         <Text style={[globalStyle.fontText,styles.title]}>{title}</Text>
     </TouchableOpacity>
   )

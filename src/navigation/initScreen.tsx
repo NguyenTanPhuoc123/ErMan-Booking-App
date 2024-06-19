@@ -14,6 +14,7 @@ import MessageScreen from '../screens/Message';
 import PersonalScreen from '../screens/Personal';
 import ProfileScreen from '../screens/Profile';
 import ServiceDetailScreen from '../screens/ServiceDetail';
+import MyBookingScreen from '../screens/Booking';
 
 export type AuthStackObject = {
   [key in keyof Partial<AuthStackParamList>]:
@@ -52,7 +53,7 @@ export const landingStackScreens: AuthStackObject = {
 export const dashboardStackScreens: MainStackObject = {
   [SCREEN_KEYS.HOME_SCREEN]: HomeScreen,
   [SCREEN_KEYS.SERVICE_SCREEN]: ServiceScreen,
-  [SCREEN_KEYS.MY_BOOKING_SCREEN]: ServiceScreen,
+  [SCREEN_KEYS.MY_BOOKING_SCREEN]: MyBookingScreen,
   [SCREEN_KEYS.MESSAGE_SCREEN]: MessageScreen,
   [SCREEN_KEYS.PERSONAL_SCREEN]: PersonalScreen,
 };

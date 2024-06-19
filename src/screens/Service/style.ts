@@ -5,7 +5,7 @@ import {InriaSerifBold} from '../../constants/font';
 const styles = StyleSheet.create({
   containerHeader: {
     borderColor: '#433F3F',
-    height:100
+    height: 100,
   },
   textHeader: {
     fontSize: 24,
@@ -25,16 +25,29 @@ const styles = StyleSheet.create({
     right: 0,
     zIndex: 9999,
   },
-  buttonCategory:{
-    width:120,
-    height:40,
-    justifyContent:'center',
-    alignItems:'center',
-    backgroundColor:'#6740A5',
-    marginHorizontal:10,
-    borderRadius:15,
-    marginBottom:10
-  }
+  buttonCategory: {
+    width: 120,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'grey',
+    marginHorizontal: 10,
+    borderRadius: 15,
+    marginBottom: 10,
+  },
+  buttonCategoryActive: {
+    width: 120,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#EEB156',
+    marginHorizontal: 10,
+    borderRadius: 15,
+    marginBottom: 10,
+  },
+  txtBtnActive: {
+    color: '#433F3F',
+  },
 });
 
 export default styles;

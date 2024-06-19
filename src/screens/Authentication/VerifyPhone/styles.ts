@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {WITDH} from '../../../constants/styles';
-import { InriaSerifBold } from '../../../constants/font';
+import {InriaSerifBold} from '../../../constants/font';
 
 const styles = StyleSheet.create({
   containerHeader: {
@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     borderColor: '#282828',
   },
   title: {
-    color: '#B689FF',
+    color: '#FFC107',
     fontSize: 36,
     fontFamily: InriaSerifBold,
     marginTop: 40,
@@ -27,13 +27,13 @@ const styles = StyleSheet.create({
     width: WITDH / 1.2,
   },
   resendOtp: {
-    color: '#B689FF',
+    color: '#FFC107',
   },
   resendOtpDisable: {
     color: '#9D9696',
   },
   btnConfirm: {
-    backgroundColor: '#6740A5',
+    backgroundColor: '#EEB156',
     width: 200,
     height: 66,
     borderRadius: 25,
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   },
   contentBtnConfirm: {
     fontSize: 24,
-    color: '#FFF',
+    color: '#433F3F',
   },
   txtError: {
     color: '#F67067',

@@ -36,6 +36,10 @@ import ItemNewsRow from './components/ItemNewsRow';
 import ItemBranchRow from './components/ItemBranchRow';
 import ItemStylistRow from './components/ItemStylistRow';
 import BookingNear from './components/BookingNear';
+import NavigationActionService from '../../navigation/navigation';
+import { HOME_SCREEN, SERVICE_SCREEN } from '../../constants/screen_key';
+import useDasboard from './useDashboard';
+import { Service } from '../../modules/service/model';
 const Sale = [
   {
     code: 'ERMAN16',
@@ -51,34 +55,6 @@ const Sale = [
     code: 'ERMAN18',
     content: 'Tất cả các dịch vụ tại Erman Salon từ 5/7 - 6/7',
     discountPercent: 70,
-  },
-];
-
-const dataService = [
-  {
-    image: SERVICE_CUT_HAIR,
-    serviceName: 'Cắt tóc & cạo lông mặt',
-    price: 50000,
-  },
-  {
-    image: SERVICE_CUT_HAIR,
-    serviceName: 'Cắt tóc & cạo lông mặt',
-    price: 50000,
-  },
-  {
-    image: SERVICE_CUT_HAIR,
-    serviceName: 'Cắt tóc & cạo lông mặt',
-    price: 50000,
-  },
-  {
-    image: SERVICE_CUT_HAIR,
-    serviceName: 'Cắt tóc & cạo lông mặt',
-    price: 50000,
-  },
-  {
-    image: SERVICE_CUT_HAIR,
-    serviceName: 'Cắt tóc & cạo lông mặt',
-    price: 50000,
   },
 ];
 
@@ -167,9 +143,7 @@ const dataStylist = [
   },
 ];
 const HomeScreen = () => {
-  const currentUser = useSelector<RootState, IAuthState>(
-    state => state.auth,
-  ).userData;
+  const {services,currentUser} = useDasboard();
   const discountRef = createRef<ICarouselInstance>();
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const serviceListRef = createRef<FlatList>();
@@ -183,7 +157,6 @@ const HomeScreen = () => {
       setRefresh(false);
     }, 2000);
   }, []);
-  useEffect(() => {}, []);
   const renderHeader = () => {
     return (
       <Header
@@ -281,24 +254,22 @@ const HomeScreen = () => {
     <View style={styles.containerList}>
       <View style={styles.lineTitle}>
         <Text style={[globalStyle.fontText, styles.titleList]}>Dịch vụ</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>NavigationActionService.navigate(SERVICE_SCREEN,{screen:HOME_SCREEN})}>
           <Text style={[globalStyle.fontText, styles.txtViewMore]}>
             Xem thêm
           </Text>
         </TouchableOpacity>
       </View>
-      <FlatList
+      <FlatList<Service>
         ref={serviceListRef}
-        data={dataService}
+        data={services}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         pagingEnabled
         renderItem={({item, index}) => (
           <ItemServiceRow
-            key={index}
-            image={item.image}
-            serviceName={item.serviceName}
-            price={item.price}
+            key={item.id}
+            {...item}
           />
         )}
       />
