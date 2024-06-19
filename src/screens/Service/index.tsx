@@ -1,4 +1,10 @@
-import {FlatList, Text, TouchableOpacity, View} from 'react-native';
+import {
+  FlatList,
+  RefreshControl,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import styles from './style';
 import globalStyle from '../../constants/styles';
@@ -6,54 +12,37 @@ import {Header} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import SearchComponent from './components/Search';
 import useService from './useService';
-import {SERVICE_CUT_HAIR} from '../../constants/icons';
 import ItemServiceRow from './components/ItemServiceRow';
+import NavigationActionService from '../../navigation/navigation';
+import {Service} from '../../modules/service/model';
 
 const category = [
-  {id: 1, name: 'Tất cả'},
-  {id: 2, name: 'Giảm giá'},
-];
-
-const dataService = [
-  {
-    id:1,
-    image: SERVICE_CUT_HAIR,
-    serviceName: 'Cắt tóc & cạo lông mặt',
-    price: 50000,
-  },
-  {
-    id:2,
-    image: SERVICE_CUT_HAIR,
-    serviceName: 'Cắt tóc & cạo lông mặt',
-    price: 50000,
-  },
-  {
-    id:3,
-    image: SERVICE_CUT_HAIR,
-    serviceName: 'Cắt tóc & cạo lông mặt',
-    price: 50000,
-  },
-  {
-    id:4,
-    image: SERVICE_CUT_HAIR,
-    serviceName: 'Cắt tóc & cạo lông mặt',
-    price: 50000,
-  },
-  {
-    id:5,
-    image: SERVICE_CUT_HAIR,
-    serviceName: 'Cắt tóc & cạo lông mặt',
-    price: 50000,
-  },
+  {id: 1, name: 'Tất cả', onPress: (active:boolean) => {}, active: true},
+  {id: 2, name: 'Giảm giá', onPress: () => {}, active: false},
 ];
 
 const ServiceScreen = () => {
-  const {categoryRef, serviceListRef} = useService();
+  const {categoryRef, serviceListRef, route, pullRefresh, refresh, services} =
+    useService();
   const renderHeader = () => {
     return (
       <Header
         containerStyle={styles.containerHeader}
         backgroundColor="#433F3F"
+        leftComponent={
+          route.params ? (
+            <TouchableOpacity onPress={() => NavigationActionService.pop()}>
+              <Icon
+                name="arrow-left"
+                size={25}
+                style={globalStyle.fontText}
+                solid
+              />
+            </TouchableOpacity>
+          ) : (
+            <></>
+          )
+        }
         centerComponent={<Text style={styles.textHeader}>Dịch vụ</Text>}
         rightContainerStyle={styles.rightComponentHeader}
         rightComponent={
@@ -76,8 +65,16 @@ const ServiceScreen = () => {
         keyExtractor={(item, _) => item.id}
         data={category}
         renderItem={({item}) => (
-          <TouchableOpacity style={styles.buttonCategory}>
-            <Text key={item.id} style={globalStyle.fontText}>
+          <TouchableOpacity onPress={item.onPress}
+            style={
+              item.active ? styles.buttonCategoryActive : styles.buttonCategory
+            }>
+            <Text
+              key={item.id}
+              style={[
+                globalStyle.fontText,
+                item.active ? styles.txtBtnActive : null,
+              ]}>
               {item.name}
             </Text>
           </TouchableOpacity>
@@ -87,22 +84,26 @@ const ServiceScreen = () => {
   );
 
   const renderService = () => (
-      <FlatList
-        ref={serviceListRef}
-        numColumns={2}
-        data={dataService}
-        keyExtractor={(item)=>item.id}
-        pagingEnabled
-        renderItem={({item}) => (
-          <ItemServiceRow
-            key={item.id}
-            image={item.image}
-            serviceName={item.serviceName}
-            price={item.price}
-          />
-        )}
-      />
-    
+    <FlatList<Service>
+      ref={serviceListRef}
+      refreshControl={
+        <RefreshControl refreshing={refresh} onRefresh={pullRefresh} />
+      }
+      numColumns={2}
+      data={services as ArrayLike<Service>}
+      keyExtractor={item => item.id}
+      pagingEnabled
+      renderItem={({item}) => (
+        <ItemServiceRow
+          key={item.id}
+          id={item.id}
+          image={item.image}
+          serviceName={item.serviceName}
+          price={item.price}
+          description={item.description}
+        />
+      )}
+    />
   );
   return (
     <View style={globalStyle.container}>

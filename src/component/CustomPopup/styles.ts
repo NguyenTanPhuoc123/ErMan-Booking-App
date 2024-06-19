@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 15,
     borderBottomWidth: 1,
-    borderColor: '#D4D3D6',
+    borderColor: '#000',
   },
   body: {
     justifyContent: 'center',
@@ -37,13 +37,13 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   message: {
-    fontSize: 16,
-    color: '#fff',
+    fontSize: 18,
+    color: '#433F3F',
     textAlign: 'center',
   },
   title: {
     fontSize: 28,
-    color: '#fff',
+    color: '#433F3F',
     fontFamily: Font.InriaSerifBold,
   },
   //Primary Btn
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   primaryText: {
-    color: '#fff',
+    color: '#433F3F',
     fontSize: 20,
     lineHeight: 32,
     fontFamily: Font.InriaSerifBold,
@@ -62,20 +62,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 4,
   },
-  //Secondary Btn
-  //   secondaryBtn: {
-  //     borderColor: colors.PRIMARY_COLOR,
-  //     paddingVertical: responsiveDistance.hp_8,
-  //   },
-  //   secondaryBtnBorder: {
-  //     borderWidth: BORDER_WIDTH,
-  //     borderRadius: BORDER_RADIUS,
-  //   },
-  //   secondaryText: {
-  //     color: colors.PRIMARY_COLOR,
-  //     fontSize: responsiveDistance.wp_16,
-  //     fontFamily: fonts.InterMedium,
-  //   },
 });
 
 export default styles;

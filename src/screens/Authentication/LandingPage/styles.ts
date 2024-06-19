@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {HEIGHT, WITDH} from '../../../constants/styles';
-import { InriaSerifBold } from '../../../constants/font';
+import {InriaSerifBold} from '../../../constants/font';
 
 const styles = StyleSheet.create({
   container: {
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   },
   buttonLogin: {
     marginVertical: 10,
-    backgroundColor: '#6740A5',
+    backgroundColor: '#EEB156',
     alignItems: 'center',
     justifyContent: 'center',
     width: WITDH - 100,
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   },
   buttonRegister: {
     marginVertical: 10,
-    backgroundColor: '#fff',
+    backgroundColor: '#433F3F',
     alignItems: 'center',
     justifyContent: 'center',
     width: WITDH - 100,
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   textLogin: {
-    color: '#fff',
+    color: '#433F3F',
     fontSize: 32,
     fontFamily: InriaSerifBold,
   },

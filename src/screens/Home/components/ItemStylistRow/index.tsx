@@ -16,16 +16,23 @@ const ItemStylistRow = (props: ItemStylistRowProps) => {
   const {image, fullname, rate, address} = props;
 
   return (
-    <TouchableOpacity style={styles.container}>
+    <View style={styles.container}>
       <FastImage source={image} style={styles.img} resizeMode="cover" />
       <Text style={[globalStyle.fontText, styles.title]}>{fullname}</Text>
       <Text style={[globalStyle.fontText, styles.address]}>{address}</Text>
-      <View style={styles.rate}>
-        {new Array(rate).fill(0).map((_, index) => (
-          <Icon key={index} name="star" color="#F3CC67" solid size={9} />
-        ))}
+      <View style={styles.bottomContainer}>
+        <View style={styles.rate}>
+          {new Array(rate).fill(0).map((_, index) => (
+            <Icon key={index} name="star" color="#F3CC67" solid size={9} />
+          ))}
+        </View>
+        <TouchableOpacity style={styles.info}>
+          <Text style={[globalStyle.fontText, styles.contentBtn]}>
+            Xem thông tin
+          </Text>
+        </TouchableOpacity>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 
