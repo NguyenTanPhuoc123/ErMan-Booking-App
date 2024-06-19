@@ -3,7 +3,7 @@ import {WITDH} from '../../../constants/styles';
 
 const styles = StyleSheet.create({
   title: {
-    color: '#B689FF',
+    color: '#FFC107',
     fontSize: 40,
     fontWeight: '500',
     padding: 30,
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     backgroundColor: '#E8E4EA',
     borderRadius: 30,
-    color: '#000',
+    color: '#433F3F',
   },
   txtError: {
     color: '#F67067',
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     top: 33,
   },
   buttonContainer: {
-    backgroundColor: '#6740A5',
+    backgroundColor: '#EEB156',
     alignItems: 'center',
     justifyContent: 'center',
     width: WITDH / 2,
@@ -43,13 +43,13 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   buttonLabel: {
-    color: '#fff',
+    color: '#433F3F',
     fontSize: 32,
     fontWeight: '400',
   },
   forgotPassword: {
     fontSize: 14,
-    color: '#B689FF',
+    color: '#FFC107',
     padding: 5,
   },
   btnForgotPassword: {
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
   },
   signUp: {
-    color: '#B689FF',
+    color: '#FFC107',
     paddingHorizontal: 5,
   },
   containerSignUp: {

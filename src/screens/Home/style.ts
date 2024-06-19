@@ -5,7 +5,7 @@ import {InriaSerifBold} from '../../constants/font';
 const styles = StyleSheet.create({
   containerHeader: {
     borderColor: '#433F3F',
-    height:100
+    height: 100,
   },
   avatar: {
     width: 50,
@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   leftComponentHeader: {
-    flexDirection: 'row', 
+    flexDirection: 'row',
     width: WITDH / 2,
   },
   textHeader: {
@@ -36,10 +36,10 @@ const styles = StyleSheet.create({
     right: 0,
     zIndex: 9999,
   },
-  buttonComponent:{
-    flexDirection:'row',
-    justifyContent:'space-around',
-    marginTop:5
+  buttonComponent: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 5,
   },
   slideDiscount: {
     alignSelf: 'center',
@@ -63,26 +63,26 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
   txtViewMore: {
-    color: '#B689FF',
+    color: '#EEB156',
     fontSize: 16,
-    marginTop:10
+    marginTop: 10,
   },
-  containerBooking:{
-    width:WITDH-30,
-    height:200,
-    backgroundColor:'#5A5656',
-    alignSelf:'center',
-    marginVertical:10,
-    borderRadius:20,
-    flexDirection:'row',
-    alignItems:'center'
+  containerBooking: {
+    width: WITDH - 30,
+    height: 200,
+    backgroundColor: '#5A5656',
+    alignSelf: 'center',
+    marginVertical: 10,
+    borderRadius: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
-  avatarCustomer:{
-    width:'35%',
-    height:'85%',
-    borderRadius:15,
-    marginHorizontal:10
-  }
+  avatarCustomer: {
+    width: '35%',
+    height: '85%',
+    borderRadius: 15,
+    marginHorizontal: 10,
+  },
 });
 
 export default styles;

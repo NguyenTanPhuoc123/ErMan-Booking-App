@@ -33,13 +33,13 @@ const globalStyle = StyleSheet.create({
     justifyContent: 'center',
   },
   bgPopupCommon: {
-    backgroundColor: '#873CAD',
+    backgroundColor: '#FCB704',
   },
   bgPopupError: {
     backgroundColor: '#EA5950',
   },
   bgBtnPopupCommon: {
-    backgroundColor: '#7A338D',
+    backgroundColor: '#EEB156',
   },
   bgBtnPopupError: {
     backgroundColor: '#CA524A',

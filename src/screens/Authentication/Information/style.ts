@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    color: '#B689FF',
+    color: '#FFC107',
     fontSize: 36,
     padding: 10,
   },
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     backgroundColor: '#E8E4EA',
     borderRadius: 30,
-    color: '#000',
+    color: '#433F3F',
   },
   txtError: {
     color: '#F67067',
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     width: WITDH - 45,
   },
   buttonContainer: {
-    backgroundColor: '#6740A5',
+    backgroundColor: '#EEB156',
     alignItems: 'center',
     justifyContent: 'center',
     width: WITDH / 2,
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   buttonLabel: {
-    color: '#fff',
+    color: '#433F3F',
     fontSize: 32,
     fontWeight: '400',
   },
