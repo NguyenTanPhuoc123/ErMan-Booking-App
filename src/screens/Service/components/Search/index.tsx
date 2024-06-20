@@ -8,7 +8,7 @@ const SearchComponent = () => {
     <View style={styles.containerSearch}>
       <TextInput
         style={[globalStyle.fontText, styles.inputSearch]}
-        placeholder="Dịch vụ, salon, stylist,..."
+        placeholder="Dịch vụ,..."
         placeholderTextColor="#D4D3D6"
       />
       <TouchableOpacity style={styles.btnSearch}>

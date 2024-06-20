@@ -18,3 +18,4 @@ export const MESSAGE_STACK = 'MessageStack';
 export const ACCOUNT_STACK = 'AccountStack';
 export const PERSONAL_SCREEN = 'PersonalScreen';
 export const SERVICE_DETAIL_SCREEN = 'ServiceDetailScreen';
+export const EDIT_PROFILE_SCREEN = 'EditProfileScreen';

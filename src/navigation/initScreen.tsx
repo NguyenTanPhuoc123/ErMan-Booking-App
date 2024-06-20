@@ -12,9 +12,10 @@ import TabNavigator from './BottomTabNavigator';
 import ServiceScreen from '../screens/Service';
 import MessageScreen from '../screens/Message';
 import PersonalScreen from '../screens/Personal';
-import ProfileScreen from '../screens/Profile';
+import ProfileScreen from '../screens/Account/Profile';
 import ServiceDetailScreen from '../screens/ServiceDetail';
 import MyBookingScreen from '../screens/Booking';
+import EditProfileScreen from '../screens/Account/EditProfile';
 
 export type AuthStackObject = {
   [key in keyof Partial<AuthStackParamList>]:
@@ -60,7 +61,8 @@ export const dashboardStackScreens: MainStackObject = {
 export const mainStackScreens: MainStackObject = {
   ...dashboardStackScreens,
   [SCREEN_KEYS.PROFILE_SCREEN]: ProfileScreen,
-  [SCREEN_KEYS.SERVICE_DETAIL_SCREEN]:ServiceDetailScreen,
+  [SCREEN_KEYS.EDIT_PROFILE_SCREEN]:EditProfileScreen,
+  [SCREEN_KEYS.SERVICE_DETAIL_SCREEN]: ServiceDetailScreen,
 };
 
 const Stack = createStackNavigator();

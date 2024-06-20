@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   },
   titleList: {
     fontFamily: InriaSerifBold,
-    fontSize: 24,
+    fontSize: 22,
   },
   txtViewMore: {
     color: '#EEB156',

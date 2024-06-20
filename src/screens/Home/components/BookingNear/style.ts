@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   },
   name: {
     fontFamily: InriaSerifBold,
-    fontSize: 24,
+    fontSize: 22,
     marginBottom: 10,
   },
   otherInfo: {

@@ -119,6 +119,7 @@ dependencies {
     implementation("com.facebook.react:react-android")
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-otp-verify')
+    implementation project(':react-native-document-picker')
     implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
     
     if (hermesEnabled.toBoolean()) {
