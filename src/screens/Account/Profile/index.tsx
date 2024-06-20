@@ -1,19 +1,20 @@
 import {View, Text, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import NavigationActionService from '../../navigation/navigation';
+import NavigationActionService from '../../../navigation/navigation';
 import React, {useEffect} from 'react';
 import {Header} from 'react-native-elements';
 import styles from './style';
-import globalStyle from '../../constants/styles';
+import globalStyle from '../../../constants/styles';
 import FastImage from 'react-native-fast-image';
 import {useSelector} from 'react-redux';
-import {APP_TYPE} from '../../constants/app_info';
+import {APP_TYPE} from '../../../constants/app_info';
 import {
   AVARTAR_DEFAULT_CUSTOMER,
   AVARTAR_DEFAULT_STAFF,
-} from '../../constants/icons';
-import {IAuthState} from '../../modules/auth/model';
-import {RootState} from '../../redux/reducers';
+} from '../../../constants/icons';
+import {IAuthState} from '../../../modules/auth/model';
+import {RootState} from '../../../redux/reducers';
+import { EDIT_PROFILE_SCREEN } from '../../../constants/screen_key';
 
 const ProfileScreen = () => {
   const currentUser = useSelector<RootState, IAuthState>(
@@ -63,7 +64,7 @@ const ProfileScreen = () => {
     </View>
   );
   const renderInformation = () => (
-    <View style={styles.body}>
+    <View>
       {renderButtonFeature(
         'Họ và tên:',
         currentUser.firstname + ' ' + currentUser.lastname,
@@ -75,7 +76,7 @@ const ProfileScreen = () => {
     </View>
   );
   const renderButton = () => (
-    <TouchableOpacity style={styles.buttonEdit}>
+    <TouchableOpacity style={styles.buttonEdit} onPress={()=>NavigationActionService.navigate(EDIT_PROFILE_SCREEN)}>
       <Text style={styles.textEdit}>Chỉnh sửa</Text>
     </TouchableOpacity>
   );

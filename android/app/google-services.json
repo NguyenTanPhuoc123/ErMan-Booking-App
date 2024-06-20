@@ -26,6 +26,25 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:603858642440:android:1dac0e610cc3181b6113bd",
+        "android_client_info": {
+          "package_name": "com.ermanbookingapp.admin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoO3bXzB5HurYVesYbP9eRT0CqZprt7Bk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:603858642440:android:d62fbfa78cdb2b5c6113bd",
         "android_client_info": {
           "package_name": "com.ermanbookingapp.staff"

@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     height: 100,
   },
   titleHeader: {
-    fontSize: 24,
+    fontSize: 22,
     fontFamily: InriaSerifBold,
   },
   img: {
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   },
   titleDescription: {
     margin: 10,
-    fontSize: 24,
+    fontSize: 22,
     fontFamily: InriaSerifBold,
     color: '#D4D3D6',
   },

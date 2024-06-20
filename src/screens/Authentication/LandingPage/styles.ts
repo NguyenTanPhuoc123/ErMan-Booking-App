@@ -47,12 +47,14 @@ const styles = StyleSheet.create({
   },
   buttonRegister: {
     marginVertical: 10,
-    backgroundColor: '#433F3F',
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
     width: WITDH - 100,
     height: 60,
     borderRadius: 25,
+    borderColor: '#fff',
+    borderWidth:2
   },
   textLogin: {
     color: '#433F3F',
@@ -60,7 +62,7 @@ const styles = StyleSheet.create({
     fontFamily: InriaSerifBold,
   },
   textRegister: {
-    color: '#433F3F',
+    color: '#D4D3D6',
     fontSize: 32,
     fontWeight: '400',
     fontFamily: InriaSerifBold,
