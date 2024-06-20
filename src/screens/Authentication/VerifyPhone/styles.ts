@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   contentBtnConfirm: {
-    fontSize: 24,
+    fontSize: 22,
     color: '#433F3F',
   },
   txtError: {

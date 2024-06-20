@@ -4,7 +4,7 @@ import {WITDH} from '../../constants/styles';
 const styles = StyleSheet.create({
   containerHeader: {
     borderColor: '#433F3F',
-    height:100
+    height: 100,
   },
   showavatar: {
     marginVertical: 20,
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   textHeader: {
-    fontSize: 24,
+    fontSize: 22,
     marginTop: 15,
     alignSelf: 'flex-start',
     fontFamily: 'InriaSerif-Bold',
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     zIndex: 9999,
   },
   textAccount: {
-    fontSize: 24,
+    fontSize: 22,
     marginHorizontal: 5,
     fontFamily: 'InriaSerif-Bold',
     color: '#D4D3D6',
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   content: {
-    fontSize: 24,
+    fontSize: 22,
     alignSelf: 'center',
     marginLeft: 30,
   },

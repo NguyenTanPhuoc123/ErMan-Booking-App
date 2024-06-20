@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
-import {WITDH} from '../../constants/styles';
-import {InriaSerifBold} from '../../constants/font';
+import {WITDH} from '../../../constants/styles';
+import {InriaSerifBold} from '../../../constants/font';
 
 const styles = StyleSheet.create({
   containerHeader: {
@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     alignSelf: 'center',
   },
-  body: {},
   showInfo: {
     flexDirection: 'row',
     marginTop: 15,
@@ -30,7 +29,7 @@ const styles = StyleSheet.create({
     width: '50%',
   },
   textPersonal: {
-    fontSize: 24,
+    fontSize: 22,
     marginHorizontal: 5,
     fontFamily: InriaSerifBold,
     color: '#D4D3D6',

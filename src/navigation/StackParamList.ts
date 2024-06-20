@@ -1,5 +1,6 @@
 import {
   CHANGE_PASSWORD_SCREEN,
+  EDIT_PROFILE_SCREEN,
   HOME_SCREEN,
   INFORMATION_SCREEN,
   LANDING_PAGE,
@@ -30,5 +31,6 @@ export type MainStackParamList = {
   [MESSAGE_SCREEN]:undefined;
   [PERSONAL_SCREEN]:undefined;
   [PROFILE_SCREEN]:undefined;
+  [EDIT_PROFILE_SCREEN]:undefined;
   [SERVICE_DETAIL_SCREEN]:undefined;
 };

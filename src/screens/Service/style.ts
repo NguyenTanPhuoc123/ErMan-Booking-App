@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     height: 100,
   },
   textHeader: {
-    fontSize: 24,
+    fontSize: 22,
     fontFamily: InriaSerifBold,
     color: '#D4D3D6',
   },
