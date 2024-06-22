@@ -10,6 +10,7 @@ export const REFRESH_TOKEN = `${ROOT_MODULE}/REFRESH_TOKEN`;
 export const VERIFY_PHONE = `${ROOT_MODULE}/VERIFY_PHONE`;
 export const GET_CURRENT_USER = `${ROOT_MODULE}/GET_CURRENT_USER`;
 export const USER_READY_LOAD_DATA = `${ROOT_MODULE}/USER_READY_LOAD_DATA`;
+export const EDIT_PROFILE = `${ROOT_MODULE}/EDIT_PROFILE`;
 export interface IAuthState {
   isLogged: boolean;
   userData: User;
@@ -38,8 +39,13 @@ export interface BodyParams {
   firstname: string;
   lastname: string;
   password: string;
-  confirmPassword: string;
+  gender:boolean;
+  
 }
 export interface IActionForgotPasswordPayload extends IActionCallback {
   newPassword: string;
+}
+
+export interface IActionEditProfilePayload extends IActionCallback {
+  user: User;
 }

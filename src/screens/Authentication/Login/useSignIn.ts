@@ -20,7 +20,6 @@ const useSignIn = () => {
   const {
     control,
     handleSubmit,
-    getValues,
     formState: {errors},
   } = useForm<SignInFormValues>({
     defaultValues: initValue,

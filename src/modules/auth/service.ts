@@ -1,9 +1,8 @@
-import app from '@react-native-firebase/app';
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 import {BodyParams} from './model';
 import {User} from '../user/model';
-import {AVARTAR_DEFAULT_CUSTOMER} from '../../constants/icons';
 
 export const login = async (phone: string, password: string) => {
   try {
@@ -21,11 +20,11 @@ export const login = async (phone: string, password: string) => {
 export const getCurrentUser = async () => {
   try {
     const indexEnd = auth().currentUser?.email?.indexOf('@gmail.com');
-    const phone = auth().currentUser?.email?.substring(0, indexEnd); 
+    const phone = auth().currentUser?.email?.substring(0, indexEnd);
     const res = await firestore().collection('users').get();
     const userData = res.docs.find(user => user.data().phone === phone);
     const user = userData?.data();
-    
+
     return {result: {id: userData?.id, ...user}};
   } catch (error) {
     console.log('Error get current user: ', error);
@@ -44,9 +43,9 @@ export const register = async (body: BodyParams) => {
           firstname: body.firstname,
           lastname: body.lastname,
           phone: body.phone,
-          gender:true,
-          address:'',
-          birthday:'01/01/2000',
+          gender: true,
+          address: '',
+          birthday: '01/01/2000',
           isVerified: true,
           typeAccount: 'Customer',
         });
@@ -81,12 +80,56 @@ export const confirmOTPCode = async (code: string) => {
   }
 };
 
-export const logout = async()=>{
-  try{
-  const res = await auth().signOut();
-  return {result: res};
-  }catch(error){
-    console.log("Error log out: ",error);
+export const editProfile = async (user: User) => {
+  try {
+    if (user.avatar) {
+      saveAvatarInStorage(user.id, user.avatar);
+    }
+    await firestore().collection('users').doc(user.id).update({
+      firstname: user.firstname,
+      lastname: user.lastname,
+      gender: user.gender,
+      birthday: user.birthday,
+      address: user.address,
+    });
+    const userData = await firestore().collection('users').doc(user.id).get();
+    return {result: { id:user.id,...userData.data()}};
+  } catch (error) {
+    console.log('Error edit user: ', error);
     return {error};
   }
-}
+};
+
+const saveAvatarInStorage = async (id: string, path: string) => {
+  try {
+    storage()
+      .ref(`users/${id}/${id}_avatar`)
+      .putFile(path)
+      .then(async () => {
+        await storage()
+          .ref(`users/${id}/${id}_avatar`)
+          .getDownloadURL()
+          .then(async value => {
+            firestore()
+              .collection('users')
+              .doc(id)
+              .update({avatar: value.toString()})
+              .then(() => {
+                console.log('Updated avatar after edit profile');
+              });
+          });
+      });
+  } catch (error) {
+    console.log('Error save avatar on storage, because ', error);
+  }
+};
+
+export const logout = async () => {
+  try {
+    const res = await auth().signOut();
+    return {result: res};
+  } catch (error) {
+    console.log('Error log out: ', error);
+    return {error};
+  }
+};

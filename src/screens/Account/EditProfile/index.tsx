@@ -26,7 +26,6 @@ import moment from 'moment';
 
 const EditProfileScreen = () => {
   const {
-    currentUser,
     goBack,
     control,
     errors,
@@ -40,7 +39,9 @@ const EditProfileScreen = () => {
     formatStringDate,
     addressRef,
     onFocusAddress,
-    onUploadAvatar
+    onUploadAvatar,
+    avatar,
+    onEditSubmit,
   } = useEditProfile();
   const renderHeader = () => {
     return (
@@ -69,8 +70,8 @@ const EditProfileScreen = () => {
         style={styles.avatar}
         resizeMode="cover"
         source={
-          currentUser.avatar
-            ? {uri: currentUser.avatar}
+          avatar
+            ? {uri: avatar}
             : APP_TYPE === 'Customer'
             ? AVARTAR_DEFAULT_CUSTOMER
             : AVARTAR_DEFAULT_STAFF
@@ -82,10 +83,9 @@ const EditProfileScreen = () => {
     </View>
   );
 
-
   const renderButtonEdit = () => {
     return (
-      <TouchableOpacity style={styles.btnEdit}>
+      <TouchableOpacity style={styles.btnEdit} onPress={onEditSubmit}>
         <Text style={styles.contentBtn}>Xác nhận</Text>
       </TouchableOpacity>
     );
@@ -125,6 +125,9 @@ const EditProfileScreen = () => {
                 )}
               />,
             )}
+            <Text style={[globalStyle.fontText, styles.txtError]}>
+              {errors.firstname?.message}
+            </Text>
             {renderEditInfo(
               'Tên',
               <Controller
@@ -145,6 +148,9 @@ const EditProfileScreen = () => {
                 )}
               />,
             )}
+            <Text style={[globalStyle.fontText, styles.txtError]}>
+              {errors.lastname?.message}
+            </Text>
             {renderEditInfo(
               'Giới tính',
               <Controller
@@ -238,6 +244,9 @@ const EditProfileScreen = () => {
                 )}
               />,
             )}
+            <Text style={[globalStyle.fontText, styles.txtError]}>
+            {errors.address?.message}
+          </Text>
             {renderButtonEdit()}
           </>
         </TouchableWithoutFeedback>

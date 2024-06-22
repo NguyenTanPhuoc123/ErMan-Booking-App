@@ -9,6 +9,9 @@ const initialState: IAuthState = {
     firstname: '',
     lastname: '',
     phone: '',
+    birthday: '01-01-2000',
+    gender: true,
+    address: '',
     isVerified: false,
     typeAccount: 'Customer',
   },
@@ -23,7 +26,6 @@ const authSlice = createSlice({
       action: PayloadAction<IActionSaveUserPayload>,
     ) => {
       const {user} = action.payload;
-
       return {
         ...state,
         userData: user,
