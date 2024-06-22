@@ -29,8 +29,11 @@ const App = () => {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <NavigationContainer ref={navigationRef} onReady={()=>BootSplashScreen.hide({fade:true})}>
-          <Stack.Navigator screenOptions={{headerShown: false}}>
+        <NavigationContainer
+          ref={navigationRef}
+          onReady={() => BootSplashScreen.hide({fade: true})}>
+          <Stack.Navigator
+            screenOptions={{headerShown: false, gestureEnabled: false}}>
             <Stack.Screen name={MAIN_SCREEN} component={AppComponent} />
             <Stack.Screen
               options={getStackScreenOptions as StackNavigationOptions}
@@ -39,7 +42,7 @@ const App = () => {
             />
           </Stack.Navigator>
         </NavigationContainer>
-        <LoadingPage ref={loadingRef}/>
+        <LoadingPage ref={loadingRef} />
       </PersistGate>
     </Provider>
   );

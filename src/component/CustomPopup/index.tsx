@@ -7,17 +7,15 @@ import globalStyle from '../../constants/styles';
 import styles from './styles';
 
 const CustomPopup = () => {
-  const route = useRoute();
+  const {params} = useRoute();
   const {
     title,
     message,
     children,
     horizontalBtn = false,
     onClosePopup,
-    tapOutsideToClose = true,
-    showCloseIcon = true,
     ...otherProps
-  } = route.params as PopupProps;
+  } = params as PopupProps;
 
   const closePopup = () => {
     onClosePopup && onClosePopup();

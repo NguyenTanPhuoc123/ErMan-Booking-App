@@ -10,14 +10,16 @@ export const register = createAction<Models.IActionRegisterPayload>(Models.REGIS
 export const verifyPhone = createAction<Models.IActionVerifyPhonePayload>(Models.VERIFY_PHONE);
 export const userReadyLoadData = createAction(Models.USER_READY_LOAD_DATA);
 export const logout = createAction<Models.IActionLogoutPayload>(Models.LOG_OUT);
+export const editProfile = createAction<Models.IActionEditProfilePayload>(Models.EDIT_PROFILE);
+
 function * authSaga() {
     yield takeLatest(login,FuncSaga.loginFn);
     yield takeLatest(getCurrentUser,FuncSaga.getCurrentUserFn);
     yield takeLatest(register,FuncSaga.registerFn);
     yield takeLatest(verifyPhone,FuncSaga.verifyPhoneFn);
     yield takeLatest(userReadyLoadData,FuncSaga.userReadyLoadDataFn);
+    yield takeLatest(editProfile,FuncSaga.editProfileFn);
     yield takeLatest(logout,FuncSaga.logoutFn);
-    
 }
 
 export {authReducer,authSaga};

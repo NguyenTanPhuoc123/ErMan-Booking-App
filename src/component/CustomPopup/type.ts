@@ -14,8 +14,6 @@ export interface PopupDataProps {
   message?: string;
   children?: JSX.Element;
   horizontalBtn?: boolean;
-  tapOutsideToClose?: boolean;
-  showCloseIcon?: boolean;
   onClosePopup?: () => void;
 }
 

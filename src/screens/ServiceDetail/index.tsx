@@ -8,6 +8,7 @@ import styles from './style';
 import NavigationActionService from '../../navigation/navigation';
 import FastImage from 'react-native-fast-image';
 import {FormatCurrency} from '../../utils/currentcy';
+import { APP_TYPE } from '../../constants/app_info';
 const ServiceDetailScreen = () => {
   const {value} = useServiceDetail();
 
@@ -45,9 +46,12 @@ const ServiceDetailScreen = () => {
           </Text>
         </ScrollView>
       </View>
+      {APP_TYPE==='Customer'?
       <TouchableOpacity style={styles.btnBookingNow}>
         <Text style={styles.contentBtn}>Đặt lịch ngay</Text>
       </TouchableOpacity>
+      :<></> 
+      }
     </View>
   );
   return (

@@ -12,6 +12,7 @@ import {
   REGISTER_SCREEN,
   SERVICE_DETAIL_SCREEN,
   SERVICE_SCREEN,
+  USER_MANAGER_SCREEN,
   VERIFY_PHONE_SCREEN,
 } from '../constants/screen_key';
 
@@ -34,3 +35,7 @@ export type MainStackParamList = {
   [EDIT_PROFILE_SCREEN]:undefined;
   [SERVICE_DETAIL_SCREEN]:undefined;
 };
+
+export type AdminStackParamList = {
+  [USER_MANAGER_SCREEN]:undefined;
+}

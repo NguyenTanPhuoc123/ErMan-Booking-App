@@ -60,12 +60,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
     borderRadius: 20,
+    marginVertical:20
   },
   contentBtn:{
     fontFamily:InriaSerifBold,
     fontSize:26,
     color:'#433F3F'
-  }
+  },
+  txtError: {
+    color: '#F67067',
+    marginVertical: 5,
+    marginHorizontal: 9,
+    textAlign:'center'
+  },
 });
 
 export default styles;

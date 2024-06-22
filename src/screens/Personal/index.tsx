@@ -32,7 +32,7 @@ const PersonalScreen = () => {
       message:'Bạn chắc chắc muốn đăng xuất?',
       onPressPrimaryBtn:()=>{
         dispatch(logout({
-          onSuccess:()=>NavigationActionService.navigate(LANDING_PAGE),
+          onSuccess:()=>{},
           onFail:()=>NavigationActionService.showPopup({
             type:PopupType.ONE_BUTTON,
             typeMessage:MessageType.ERROR,

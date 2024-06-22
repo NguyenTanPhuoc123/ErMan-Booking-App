@@ -1,5 +1,5 @@
 import * as SCREEN_KEYS from '../constants/screen_key';
-import {AuthStackParamList, MainStackParamList} from './StackParamList';
+import {AdminStackParamList, AuthStackParamList, MainStackParamList} from './StackParamList';
 import LandingPage from '../screens/Authentication/LandingPage';
 import LoginScreen from '../screens/Authentication/Login';
 import VerifyPhoneScreen from '../screens/Authentication/VerifyPhone';
@@ -16,6 +16,7 @@ import ProfileScreen from '../screens/Account/Profile';
 import ServiceDetailScreen from '../screens/ServiceDetail';
 import MyBookingScreen from '../screens/Booking';
 import EditProfileScreen from '../screens/Account/EditProfile';
+import UserManagerScreen from '../screens/Admin/UserManager';
 
 export type AuthStackObject = {
   [key in keyof Partial<AuthStackParamList>]:
@@ -25,6 +26,12 @@ export type AuthStackObject = {
 
 export type MainStackObject = {
   [key in keyof Partial<MainStackParamList>]:
+    | React.MemoExoticComponent<() => JSX.Element>
+    | (() => JSX.Element);
+};
+
+export type AdminStackObject = {
+  [key in keyof Partial<AdminStackParamList>]:
     | React.MemoExoticComponent<() => JSX.Element>
     | (() => JSX.Element);
 };
@@ -65,9 +72,12 @@ export const mainStackScreens: MainStackObject = {
   [SCREEN_KEYS.SERVICE_DETAIL_SCREEN]: ServiceDetailScreen,
 };
 
+export const adminStackScreens: AdminStackObject = {
+  [SCREEN_KEYS.USER_MANAGER_SCREEN]: UserManagerScreen
+}
+
 const Stack = createStackNavigator();
 export const AuthNavigator = ({initialRouteName}: StackProps) => {
-  // const auth = useSelector<RootState, IAuthState>(state => state.auth);
   return (
     <Stack.Navigator
       screenOptions={{headerShown: false}}
@@ -93,7 +103,6 @@ export const BottomTabStackNavigator = (initialRouteName: string) => {
 };
 
 export const MainNavigator = ({initialRouteName}: StackProps) => {
-  // const auth = useSelector<RootState, IAuthState>(state => state.auth);
   return (
     <Stack.Navigator initialRouteName={initialRouteName}>
       <Stack.Screen
@@ -112,6 +121,19 @@ export const MainNavigator = ({initialRouteName}: StackProps) => {
     </Stack.Navigator>
   );
 };
+
+export const AdminNavigator = ({initialRouteName}: StackProps) => {
+  return (
+    <Stack.Navigator
+      screenOptions={{headerShown: false}}
+      initialRouteName={initialRouteName}>
+      {Object.entries(adminStackScreens).map(([name, component]) => (
+        <Stack.Screen key={name} name={name} component={component} />
+      ))}
+    </Stack.Navigator>
+  );
+};
+
 export const HomeBottomTabNavigator = () =>
   BottomTabStackNavigator(SCREEN_KEYS.HOME_SCREEN);
 export const ServiceBottomTabNavigator = () =>
