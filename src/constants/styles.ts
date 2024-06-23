@@ -59,6 +59,9 @@ const globalStyle = StyleSheet.create({
     color:'#F45B5B',
 
   },
+  bgTransparent :{
+    backgroundColor:'transparent'
+  },
 });
 
 export default globalStyle;
