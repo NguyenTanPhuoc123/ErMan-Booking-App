@@ -9,6 +9,8 @@ import NavigationActionService from '../../navigation/navigation';
 import FastImage from 'react-native-fast-image';
 import {FormatCurrency} from '../../utils/currentcy';
 import { APP_TYPE } from '../../constants/app_info';
+import { formatBlogDuration } from '../../utils/date';
+
 const ServiceDetailScreen = () => {
   const {value} = useServiceDetail();
 
@@ -35,6 +37,11 @@ const ServiceDetailScreen = () => {
       />
     );
   };
+  const renderDiscount = ()=>(
+    <View style={styles.discount}>
+      <Text style={styles.textDiscount}>Giảm {value.discount}%</Text>
+    </View>
+  )
 
   const renderDescription = () => (
     <View style={styles.containerDescription}>
@@ -65,8 +72,11 @@ const ServiceDetailScreen = () => {
       <Text style={[globalStyle.fontText, styles.serviceName]}>
         {value.serviceName}
       </Text>
+      <Text style={[globalStyle.fontText,styles.time]}>
+        Thời gian thực hiện: {formatBlogDuration(value.time)}
+      </Text>
       <Text style={[globalStyle.fontText, styles.price]}>
-        Giá: {FormatCurrency(value.price)}
+        Giá: {FormatCurrency(value.price)} {value.discount>0 ? renderDiscount():null}
       </Text>
       {renderDescription()}
     </View>

@@ -26,9 +26,9 @@ const ItemStylistRow = (props: ItemStylistRowProps) => {
             <Icon key={index} name="star" color="#F3CC67" solid size={9} />
           ))}
         </View>
-        <TouchableOpacity style={styles.info}>
+        <TouchableOpacity style={styles.chat}>
           <Text style={[globalStyle.fontText, styles.contentBtn]}>
-            Xem thông tin
+            Gửi tin nhắn
           </Text>
         </TouchableOpacity>
       </View>

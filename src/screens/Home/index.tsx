@@ -37,9 +37,9 @@ import ItemBranchRow from './components/ItemBranchRow';
 import ItemStylistRow from './components/ItemStylistRow';
 import BookingNear from './components/BookingNear';
 import NavigationActionService from '../../navigation/navigation';
-import { HOME_SCREEN, SERVICE_SCREEN } from '../../constants/screen_key';
+import {HOME_SCREEN, SERVICE_SCREEN} from '../../constants/screen_key';
 import useDasboard from './useDashboard';
-import { Service } from '../../modules/service/model';
+import {Service} from '../../modules/service/model';
 const Sale = [
   {
     code: 'ERMAN16',
@@ -143,7 +143,8 @@ const dataStylist = [
   },
 ];
 const HomeScreen = () => {
-  const {services,currentUser} = useDasboard();
+  const {services, currentUser, goToBranch, goToNotifcation, goToNews} =
+    useDasboard();
   const discountRef = createRef<ICarouselInstance>();
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const serviceListRef = createRef<FlatList>();
@@ -183,7 +184,7 @@ const HomeScreen = () => {
         }
         rightContainerStyle={styles.rightComponentHeader}
         rightComponent={
-          <TouchableOpacity>
+          <TouchableOpacity onPress={goToNotifcation}>
             <View>
               <View style={styles.pointNotification}></View>
               <Icon name="bell" style={globalStyle.fontText} size={25} solid />
@@ -207,10 +208,10 @@ const HomeScreen = () => {
           <ButtonComponent
             icon="newspaper"
             title="Tin tức"
-            onPress={() => {}}
+            onPress={goToNews}
           />
         )}
-        <ButtonComponent icon="store" title="Chi nhánh" onPress={() => {}} />
+        <ButtonComponent icon="store" title="Chi nhánh" onPress={goToBranch} />
       </View>
     );
   };
@@ -254,7 +255,12 @@ const HomeScreen = () => {
     <View style={styles.containerList}>
       <View style={styles.lineTitle}>
         <Text style={[globalStyle.fontText, styles.titleList]}>Dịch vụ</Text>
-        <TouchableOpacity onPress={()=>NavigationActionService.navigate(SERVICE_SCREEN,{screen:HOME_SCREEN})}>
+        <TouchableOpacity
+          onPress={() =>
+            NavigationActionService.navigate(SERVICE_SCREEN, {
+              screen: HOME_SCREEN,
+            })
+          }>
           <Text style={[globalStyle.fontText, styles.txtViewMore]}>
             Xem thêm
           </Text>
@@ -263,15 +269,12 @@ const HomeScreen = () => {
       <FlatList<Service>
         ref={serviceListRef}
         data={services}
+        keyExtractor={item=>item.id}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         pagingEnabled
-        renderItem={({item, index}) => (
-          <ItemServiceRow
-            key={item.id}
-            {...item}
-          />
-        )}
+        ListEmptyComponent={<Text style={globalStyle.fontText}>Không có dịch vụ</Text>}
+        renderItem={({item}) => <ItemServiceRow key={item.id} {...item} />}
       />
     </View>
   );

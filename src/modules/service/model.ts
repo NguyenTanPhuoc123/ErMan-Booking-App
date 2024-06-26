@@ -3,9 +3,10 @@ import { IActionCallback } from "../base";
 
 export const ROOT_MODULE = 'service';
 export const GET_LIST_SERVICES = `${ROOT_MODULE}/GET_LIST_SERVICE`;
-
+export const GET_LIST_SERVICES_DISCOUNT = `${ROOT_MODULE}/GET_LIST_SERVICES_DISCOUNT`;
 export interface IServiceState{
     services: Service[];
+    servicesDiscount:Service[];
 }
 
 export interface Service{
@@ -14,11 +15,18 @@ export interface Service{
     serviceName: string;
     price:number;
     description?:string;
-    discount?: number;
+    time:number;
+    discount: number;
 }
 
 export interface IActionSaveListServicesPayLoad{
     services: Service[];
+    
+}
+
+export interface IActionSaveListServicesDiscountPayLoad{
+    servicesDiscount: Service[];
+    
 }
 
 export interface IActionGetListServicesPayLoad extends IActionCallback{
@@ -26,3 +34,6 @@ export interface IActionGetListServicesPayLoad extends IActionCallback{
     page?:number;
     limit:number;
 }
+
+
+

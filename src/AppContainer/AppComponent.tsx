@@ -12,7 +12,7 @@ const AppComponent = () => {
   const is_verified = get(auth, 'userData.isVerified', false);
   const type_Account = get(auth, 'userData.typeAccount','Customer');
   return useMemo(() => {
-    if (!auth.isLogged || !is_verified) {
+    if (!auth.isLogged || !is_verified || APP_TYPE!=type_Account) {
       return <AuthNavigator />;
     }
     else if(APP_TYPE==='Admin' && type_Account==='Admin'){

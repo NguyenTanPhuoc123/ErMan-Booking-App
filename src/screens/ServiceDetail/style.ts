@@ -23,6 +23,11 @@ const styles = StyleSheet.create({
     fontFamily: InriaSerifBold,
     textAlign: 'center',
   },
+  time: {
+    fontSize: 18,
+    marginHorizontal: 20,
+    marginBottom: 5,
+  },
   price: {
     fontSize: 28,
     color: '#F3CC67',
@@ -59,12 +64,27 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
-    marginTop: 20,
+    marginTop: 5,
   },
   contentBtn: {
     fontSize: 20,
     fontFamily: InriaSerifBold,
     color: '#433F3F',
+  },
+  discount: {
+    backgroundColor: '#F3B20A',
+    width: 80,
+    height: 30,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 10,
+  },
+  textDiscount: {
+    color: 'red',
+    fontSize: 14,
+    fontFamily: InriaSerifBold,
+    textAlign: 'center',
   },
 });
 

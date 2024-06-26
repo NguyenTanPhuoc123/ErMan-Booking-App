@@ -7,6 +7,7 @@ import SERVICE_CUT_HAIR from '../assets/images/service_cut_hair.jpg'
 import BRANCH from '../assets/images/salon1.jpg'
 import STYLELIST from '../assets/images/stylist.jpg'
 import CUSTOMER from '../assets/images/customer.jpg'
+import LIST_SERVICE_EMPTY from '../assets/icons/listservice_empty.png'
 export {
   LANDING_PAGE,
   LOGO_APP,
@@ -16,5 +17,6 @@ export {
   SERVICE_CUT_HAIR,
   BRANCH,
   STYLELIST,
-  CUSTOMER
+  CUSTOMER,
+  LIST_SERVICE_EMPTY
 };

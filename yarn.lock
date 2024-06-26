@@ -1802,40 +1802,40 @@
   resolved "https://registry.npmjs.org/@react-native-community/netinfo/-/netinfo-11.3.2.tgz"
   integrity sha512-YsaS3Dutnzqd1BEoeC+DEcuNJedYRkN6Ef3kftT5Sm8ExnCF94C/nl4laNxuvFli3+Jz8Df3jO25Jn8A9S0h4w==
 
-"@react-native-firebase/app@^19.2.2":
-  version "19.3.0"
-  resolved "https://registry.npmjs.org/@react-native-firebase/app/-/app-19.3.0.tgz"
-  integrity sha512-Y4Jlu7s7JasCcOktAN9LC+7SvMeAG04008OxtbhDK9rpatVznJqRSkMefIIwN2yBs94MWo9b61e+7v5IRMbQdw==
+"@react-native-firebase/app@^20.1.0":
+  version "20.1.0"
+  resolved "https://registry.npmjs.org/@react-native-firebase/app/-/app-20.1.0.tgz"
+  integrity sha512-FCcTtmfz/Bk2laOEKOiUrQUkAnzerkRml7d3kZzJSxaBWLFxpWJQnnXqGZmD8hNWio2QEauB8llUD71KiDk+sw==
   dependencies:
     opencollective-postinstall "^2.0.3"
     superstruct "^0.6.2"
 
-"@react-native-firebase/auth@^19.2.2":
-  version "19.3.0"
-  resolved "https://registry.npmjs.org/@react-native-firebase/auth/-/auth-19.3.0.tgz"
-  integrity sha512-sccxpBAWNBg8Wmqye+SPYrvHb31mAuNYbgcuyOw19P9yxPBy/WRXwZDuJ/ctM8Nn3Caw3nCBiLTQHgMf6Zc6mw==
+"@react-native-firebase/auth@^20.1.0":
+  version "20.1.0"
+  resolved "https://registry.npmjs.org/@react-native-firebase/auth/-/auth-20.1.0.tgz"
+  integrity sha512-HTv7x5dDhLwHZkwJOsuhMUPIxXcda/40w03OQzhpuTghAzI30iMa5f4UW0aDTiEnaa4IuXpGIRCytdUEuuo1QA==
   dependencies:
     plist "^3.1.0"
 
-"@react-native-firebase/database@^19.2.2":
-  version "19.3.0"
-  resolved "https://registry.npmjs.org/@react-native-firebase/database/-/database-19.3.0.tgz"
-  integrity sha512-8otOF9si1Dg+Rc9YLrPoSZogqJY6i8b2HyuBSADgTsx6ikpyP9Kgthm+zT+N+riNi5yE+87q1c10DINos+0XRg==
+"@react-native-firebase/database@^20.1.0":
+  version "20.1.0"
+  resolved "https://registry.npmjs.org/@react-native-firebase/database/-/database-20.1.0.tgz"
+  integrity sha512-YCeoKD2xv87Q9Yl8I6//xlgZIj7pnmG+5xp3b1FMFVPC+A3XMtAMo1TRpHneXubs6LtKwle8w4BHz8U+ltaBVA==
 
-"@react-native-firebase/firestore@^19.2.2":
-  version "19.3.0"
-  resolved "https://registry.npmjs.org/@react-native-firebase/firestore/-/firestore-19.3.0.tgz"
-  integrity sha512-fWRtMTPfAQAtrN0I4YuGZqVW1CSnqt0+vF0NYQl4e5qGhZ6AyUUmsEd3sFlSQX7M4JHJL7iozgUSpEffOA8opw==
+"@react-native-firebase/firestore@^20.1.0":
+  version "20.1.0"
+  resolved "https://registry.npmjs.org/@react-native-firebase/firestore/-/firestore-20.1.0.tgz"
+  integrity sha512-g8na4jm7V+nBctzjeSyraK9hygOTPDv3nfkl4E+Nh7nB9DEgS74FrXXezRPVJKdkE0Nw9cWSJ1gU1tTA50ZEpg==
 
 "@react-native-firebase/messaging@^20.1.0":
   version "20.1.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-20.1.0.tgz#02026259c74d1725dfc5216158b05bc6655e7951"
+  resolved "https://registry.npmjs.org/@react-native-firebase/messaging/-/messaging-20.1.0.tgz"
   integrity sha512-y9FtQ9dIQSyueuLeJghvfLYnay5BqPVgl9T94p+HtUlkxinOgNDjquQFtV/QlzVOyVpLrVPmknMohvBj/fvBzg==
 
-"@react-native-firebase/storage@19.2.2":
-  version "19.2.2"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/storage/-/storage-19.2.2.tgz#3edaffc453ccfbc3d37d755f94c65eaca7cb4718"
-  integrity sha512-wROOJSoCdE8UpVzBtN/F/kDIVKK9xJnCs+8vzD3AWirSJEy4bIj4nGQhTag2IZtabQPHXTo8w3TIYNjlYesjtQ==
+"@react-native-firebase/storage@20.1.0":
+  version "20.1.0"
+  resolved "https://registry.npmjs.org/@react-native-firebase/storage/-/storage-20.1.0.tgz"
+  integrity sha512-VntPX054ukkGhmsfCYFY7Bqras2UxvQUODKx56Ak3sZzzn7HUODnm2pUV7VxZ4SajGxtJtVu30cBdp8Tz7j1Sw==
 
 "@react-native/assets-registry@0.74.83":
   version "0.74.83"
@@ -6538,6 +6538,11 @@ react-native-keyboard-spacer@^0.4.1:
   resolved "https://registry.npmjs.org/react-native-keyboard-spacer/-/react-native-keyboard-spacer-0.4.1.tgz"
   integrity sha512-QPX2El4U2VfhRQm1YOTrTsOJIDjJBydpdz87jmiFOxBmKJfVn7CwiTzzipKTiLwfAFoUYQ+sB/xcnIhRZPF+SQ==
 
+react-native-linear-gradient@^2.8.3:
+  version "2.8.3"
+  resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.8.3.tgz#9a116649f86d74747304ee13db325e20b21e564f"
+  integrity sha512-KflAXZcEg54PXkLyflaSZQ3PJp4uC4whM7nT/Uot9m0e/qxFV3p6uor1983D1YOBJbJN7rrWdqIjq0T42jOJyA==
+
 react-native-otp-verify@^1.1.8:
   version "1.1.8"
   resolved "https://registry.npmjs.org/react-native-otp-verify/-/react-native-otp-verify-1.1.8.tgz"
@@ -6568,6 +6573,11 @@ react-native-reanimated-carousel@^3.5.1:
   version "3.5.1"
   resolved "https://registry.npmjs.org/react-native-reanimated-carousel/-/react-native-reanimated-carousel-3.5.1.tgz"
   integrity sha512-9BBQV6JAYSQm2lV7MFtT4mzapXmW4IZO6s38gfiJL84Jg23ivGB1UykcNQauKgtHyhtW2NuZJzItb1s42lM+hA==
+
+react-native-reanimated-skeleton@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.npmjs.org/react-native-reanimated-skeleton/-/react-native-reanimated-skeleton-1.5.1.tgz"
+  integrity sha512-PO7/hWBDlV8w3l6EJmzzwWwdlXVTrBFuF8QcUu4ZUOMQQGD5YKfBsYnUNkPAfjvYx3ZJfvPORe72QbArI3OGSw==
 
 react-native-reanimated@^3.10.0:
   version "3.12.0"

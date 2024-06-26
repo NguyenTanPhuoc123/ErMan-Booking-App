@@ -15,6 +15,8 @@ import CustomPopup from '../component/CustomPopup';
 import {LoadingPageRef} from '../component/LoadingPage/type';
 import LoadingPage from '../component/LoadingPage';
 import BootSplashScreen from 'react-native-bootsplash';
+
+
 export const BaseService = BaseServiceClass.instance(store);
 const Stack = createStackNavigator();
 export const loadingRef = createRef<LoadingPageRef>();

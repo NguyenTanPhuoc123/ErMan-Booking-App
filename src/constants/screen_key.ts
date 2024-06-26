@@ -19,6 +19,8 @@ export const ACCOUNT_STACK = 'AccountStack';
 export const PERSONAL_SCREEN = 'PersonalScreen';
 export const SERVICE_DETAIL_SCREEN = 'ServiceDetailScreen';
 export const EDIT_PROFILE_SCREEN = 'EditProfileScreen';
-
+export const BRANCH_SCREEN = 'BranchScreen';
+export const NOTIFICATION_SCREEN = 'NotificationScreen';
+export const NEWS_SCREEN = 'NewsScreen';
 //admin
 export const USER_MANAGER_SCREEN = 'UserManagerScreen';

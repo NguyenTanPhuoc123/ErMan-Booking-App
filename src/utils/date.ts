@@ -5,7 +5,7 @@ export function formatBlogDuration(minutes: number) {
   const mm = Math.floor(minutes % 60);
   const ss = Math.floor(minutes * 60);
   if (hh > 0) {
-    return hh + ' giờ';
+    return hh + ' giờ' + ' ' + (mm != 0 ? mm + ' phút' : '');
   }
   if (mm > 0) {
     return mm + ' phút';

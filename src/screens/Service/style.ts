@@ -25,29 +25,32 @@ const styles = StyleSheet.create({
     right: 0,
     zIndex: 9999,
   },
+  containerCategory:{
+    flexDirection:'row'
+  },
   buttonCategory: {
-    width: 120,
-    height: 40,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'grey',
     marginHorizontal: 10,
-    borderRadius: 15,
-    marginBottom: 10,
+    borderRadius: 25,
+    marginBottom: 10
   },
   buttonCategoryActive: {
-    width: 120,
-    height: 40,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#EEB156',
     marginHorizontal: 10,
-    borderRadius: 15,
+    borderRadius: 25,
     marginBottom: 10,
   },
   txtBtnActive: {
     color: '#433F3F',
+    textTransform:'none'
   },
+  txtBtnCategory:{
+    textTransform:'none'
+  }
 });
 
 export default styles;

@@ -17,6 +17,9 @@ import ServiceDetailScreen from '../screens/ServiceDetail';
 import MyBookingScreen from '../screens/Booking';
 import EditProfileScreen from '../screens/Account/EditProfile';
 import UserManagerScreen from '../screens/Admin/UserManager';
+import BranchScreen from '../screens/Branch';
+import NotificationScreen from '../screens/Notifications';
+import NewsScreen from '../screens/News';
 
 export type AuthStackObject = {
   [key in keyof Partial<AuthStackParamList>]:
@@ -70,6 +73,9 @@ export const mainStackScreens: MainStackObject = {
   [SCREEN_KEYS.PROFILE_SCREEN]: ProfileScreen,
   [SCREEN_KEYS.EDIT_PROFILE_SCREEN]:EditProfileScreen,
   [SCREEN_KEYS.SERVICE_DETAIL_SCREEN]: ServiceDetailScreen,
+  [SCREEN_KEYS.BRANCH_SCREEN]:BranchScreen,
+  [SCREEN_KEYS.NOTIFICATION_SCREEN]:NotificationScreen,
+  [SCREEN_KEYS.NEWS_SCREEN]:NewsScreen
 };
 
 export const adminStackScreens: AdminStackObject = {
@@ -155,7 +161,7 @@ export const BottomTabNavigator: BottomTabItem[] = [
     name: SCREEN_KEYS.SERVICE_STACK,
     label: 'Dịch vụ',
     component: ServiceBottomTabNavigator,
-    icon: 'servicestack',
+    icon: 'cut',
   },
   {
     name: SCREEN_KEYS.MY_BOOKING_STACK,
