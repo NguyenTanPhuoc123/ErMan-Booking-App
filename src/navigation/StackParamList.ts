@@ -1,4 +1,5 @@
 import {
+  BRANCH_SCREEN,
   CHANGE_PASSWORD_SCREEN,
   EDIT_PROFILE_SCREEN,
   HOME_SCREEN,
@@ -7,6 +8,8 @@ import {
   LOGIN_SCREEN,
   MESSAGE_SCREEN,
   MY_BOOKING_SCREEN,
+  NEWS_SCREEN,
+  NOTIFICATION_SCREEN,
   PERSONAL_SCREEN,
   PROFILE_SCREEN,
   REGISTER_SCREEN,
@@ -34,6 +37,9 @@ export type MainStackParamList = {
   [PROFILE_SCREEN]:undefined;
   [EDIT_PROFILE_SCREEN]:undefined;
   [SERVICE_DETAIL_SCREEN]:undefined;
+  [BRANCH_SCREEN]:undefined;
+  [NOTIFICATION_SCREEN]:undefined;
+  [NEWS_SCREEN]:undefined
 };
 
 export type AdminStackParamList = {

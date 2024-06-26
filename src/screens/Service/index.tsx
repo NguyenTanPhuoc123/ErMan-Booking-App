@@ -15,15 +15,25 @@ import useService from './useService';
 import ItemServiceRow from './components/ItemServiceRow';
 import NavigationActionService from '../../navigation/navigation';
 import {Service} from '../../modules/service/model';
-
-const category = [
-  {id: 1, name: 'Tất cả', onPress: (active:boolean) => {}, active: true},
-  {id: 2, name: 'Giảm giá', onPress: () => {}, active: false},
-];
+import ListItemEmpty from '../../component/ListItemEmpty';
+import {LIST_SERVICE_EMPTY} from '../../constants/icons';
+import {Tab, TabView} from 'react-native-elements';
+import CustomSketelonService from '../../component/CustomSketelonService';
 
 const ServiceScreen = () => {
-  const {categoryRef, serviceListRef, route, pullRefresh, refresh, services} =
-    useService();
+  const {
+    serviceListRef,
+    route,
+    pullRefresh,
+    refresh,
+    services,
+    category,
+    servicesDiscount,
+    goToNotifcation,
+    categoryService,
+    setCategoryService,
+    skeleton,
+  } = useService();
   const renderHeader = () => {
     return (
       <Header
@@ -46,7 +56,7 @@ const ServiceScreen = () => {
         centerComponent={<Text style={styles.textHeader}>Dịch vụ</Text>}
         rightContainerStyle={styles.rightComponentHeader}
         rightComponent={
-          <TouchableOpacity>
+          <TouchableOpacity onPress={goToNotifcation}>
             <View>
               <View style={styles.pointNotification}></View>
               <Icon name="bell" size={25} style={globalStyle.fontText} solid />
@@ -58,59 +68,77 @@ const ServiceScreen = () => {
   };
 
   const renderButtonCategory = () => (
-    <View>
-      <FlatList
-        horizontal
-        ref={categoryRef}
-        keyExtractor={(item, _) => item.id}
-        data={category}
-        renderItem={({item}) => (
-          <TouchableOpacity onPress={item.onPress}
-            style={
-              item.active ? styles.buttonCategoryActive : styles.buttonCategory
-            }>
-            <Text
-              key={item.id}
-              style={[
-                globalStyle.fontText,
-                item.active ? styles.txtBtnActive : null,
-              ]}>
-              {item.name}
-            </Text>
-          </TouchableOpacity>
-        )}
-      />
-    </View>
+    <Tab
+      style={styles.containerCategory}
+      value={categoryService}
+      onChange={setCategoryService}
+      indicatorStyle={globalStyle.bgTransparent}>
+      {category.map(item => {
+        return (
+          <Tab.Item
+            containerStyle={
+              categoryService === item.id
+                ? styles.buttonCategoryActive
+                : styles.buttonCategory
+            }
+            titleStyle={[
+              globalStyle.fontText,
+              categoryService === item.id
+                ? styles.txtBtnActive
+                : styles.txtBtnCategory,
+            ]}
+            key={item.id}
+            title={item.name}
+          />
+        );
+      })}
+    </Tab>
   );
 
   const renderService = () => (
-    <FlatList<Service>
-      ref={serviceListRef}
-      refreshControl={
-        <RefreshControl refreshing={refresh} onRefresh={pullRefresh} />
-      }
-      numColumns={2}
-      data={services as ArrayLike<Service>}
-      keyExtractor={item => item.id}
-      pagingEnabled
-      renderItem={({item}) => (
-        <ItemServiceRow
-          key={item.id}
-          id={item.id}
-          image={item.image}
-          serviceName={item.serviceName}
-          price={item.price}
-          description={item.description}
-        />
-      )}
-    />
+    <TabView value={categoryService}>
+      <FlatList<Service>
+        ref={serviceListRef}
+        refreshControl={
+          <RefreshControl refreshing={refresh} onRefresh={pullRefresh} />
+        }
+        numColumns={2}
+        data={services as ArrayLike<Service>}
+        keyExtractor={item => item.id}
+        pagingEnabled
+        ListEmptyComponent={
+          <ListItemEmpty
+            image={LIST_SERVICE_EMPTY}
+            content="Không có dịch vụ"
+          />
+        }
+        renderItem={({item}) => <ItemServiceRow key={item.id} {...item} />}
+      />
+      <FlatList<Service>
+        ref={serviceListRef}
+        refreshControl={
+          <RefreshControl refreshing={refresh} onRefresh={pullRefresh} />
+        }
+        numColumns={2}
+        data={servicesDiscount as ArrayLike<Service>}
+        keyExtractor={item => item.id}
+        pagingEnabled
+        ListEmptyComponent={
+          <ListItemEmpty
+            image={LIST_SERVICE_EMPTY}
+            content="Không có dịch vụ"
+          />
+        }
+        renderItem={({item}) => <ItemServiceRow key={item.id} {...item} />}
+      />
+    </TabView>
   );
   return (
     <View style={globalStyle.container}>
       {renderHeader()}
       <SearchComponent />
       {renderButtonCategory()}
-      {renderService()}
+      {skeleton ? <CustomSketelonService status={skeleton} /> : renderService()}
     </View>
   );
 };

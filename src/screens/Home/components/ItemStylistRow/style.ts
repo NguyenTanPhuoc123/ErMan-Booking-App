@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   rate: {
     flexDirection: 'row',
   },
-  info: {
+  chat: {
     backgroundColor: '#EEB156',
     padding: 4,
     borderRadius: 7,

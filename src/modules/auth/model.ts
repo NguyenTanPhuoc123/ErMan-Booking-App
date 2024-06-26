@@ -46,6 +46,10 @@ export interface IActionForgotPasswordPayload extends IActionCallback {
   newPassword: string;
 }
 
+export interface IActionChangePasswordPayload extends IActionCallback {
+  oldPassword: string;
+  newPassword: string;
+}
 export interface IActionEditProfilePayload extends IActionCallback {
   user: User;
 }

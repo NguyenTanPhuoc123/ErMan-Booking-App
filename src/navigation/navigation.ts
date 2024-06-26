@@ -59,6 +59,8 @@ function showLoading() {
 function hideLoading() {
   loadingRef.current && loadingRef.current.hideLoading();
 }
+
+
 const NavigationActionService = {
   navigate,
   pop,

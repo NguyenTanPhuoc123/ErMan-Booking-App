@@ -133,3 +133,13 @@ export const logout = async () => {
     return {error};
   }
 };
+
+export const forgotPassword = async() =>{
+  try{
+
+  }
+  catch(error){
+    console.log("Error change password: ",error);
+    return {error}
+  }
+}

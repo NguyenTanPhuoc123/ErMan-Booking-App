@@ -7,18 +7,28 @@ import {FormatCurrency} from '../../../../utils/currentcy';
 import {SERVICE_DETAIL_SCREEN} from '../../../../constants/screen_key';
 import NavigationActionService from '../../../../navigation/navigation';
 import {Service} from '../../../../modules/service/model';
+import {formatBlogDuration} from '../../../../utils/date';
 
 const ItemServiceRow = (props: Service) => {
-  const {image, serviceName, price} = props;
+  const {image, serviceName, price, time, discount} = props;
   const goToDetail = () => {
     NavigationActionService.navigate(SERVICE_DETAIL_SCREEN, {value: props});
   };
+  const renderDiscount = () => (
+    <View style={styles.discount}>
+      <Text style={styles.textDiscount}>Giảm {discount}%</Text>
+    </View>
+  );
   return (
     <TouchableOpacity style={styles.container} onPress={goToDetail}>
       <FastImage source={{uri: image}} style={styles.img} resizeMode="cover" />
+      {discount > 0 ? renderDiscount() : null}
       <Text style={[globalStyle.fontText, styles.title]}>{serviceName}</Text>
       <Text style={[globalStyle.colorYellowBold, styles.price]}>
         {FormatCurrency(price)}
+      </Text>
+      <Text style={[globalStyle.fontText, styles.time]}>
+        Thời gian: {formatBlogDuration(time)}
       </Text>
       <TouchableOpacity style={styles.bookNow} onPress={goToDetail}>
         <Text style={[globalStyle.fontText, styles.contentBtn]}>

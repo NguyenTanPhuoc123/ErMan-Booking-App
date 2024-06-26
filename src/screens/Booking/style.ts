@@ -10,16 +10,13 @@ const styles = StyleSheet.create({
   statusBar:{
     backgroundColor:'#F3B20A',
     borderRadius:3,
-  },
-  textactiveTab :{
-    color:'#F3B20A',
-    fontFamily:InriaSerifBold,
-    fontSize:16,
+    height:3
   },
   textTab :{
     color:'#fff',
     fontFamily:InriaSerifRegular,
-    fontSize:16,
+    fontSize:14,
+    textTransform:'none'
   },
   textHeader: {
     fontSize: 22,
@@ -44,33 +41,9 @@ const styles = StyleSheet.create({
   textBooking: {
     fontSize: 22,
     marginHorizontal: 5,
-    fontFamily: 'InriaSerif-Bold',
+    fontFamily: InriaSerifBold,
     color: '#D4D3D6',
-  },
-  containerSearch: {
-    width: WITDH - 30,
-    backgroundColor: '#675B5B',
-    height: 55,
-    alignSelf: 'center',
-    marginVertical: 20,
-    borderRadius: 25,
-    justifyContent: 'center',
-  },
-  inputSearch: {
-    backgroundColor: 'transparent',
-    padding: 14,
-    height: 55,
-    fontSize: 20,
-    borderRadius: 25,
-    width: '87%',
-    alignSelf: 'flex-start',
-  },
-  btnSearch: {
-    position: 'absolute',
-    right: 25,
-    top: 18,
-    zIndex: 9999,
-  },
+  }
 });
 
 export default styles;
