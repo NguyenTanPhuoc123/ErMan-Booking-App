@@ -6,14 +6,21 @@ import {TypedUseSelectorHook,useSelector} from 'react-redux'
 import {reducer as network} from '../modules/network/reducer'
 import {reducer as auth} from '../modules/auth/reducer'
 import {reducer as service} from '../modules/service/reducer'
+import {reducer as user} from '../modules/user/reducer'
 import {reducer as branch} from '../modules/branch/reducer'
 import { IAuthState } from '../modules/auth/model';
 import { IServiceState } from '../modules/service/model';
-import { IBranchState } from '../modules/branch/model';
 
 const authPersist: PersistConfig<IAuthState>={
     key:'auth',
     whitelist:['isLogged','userData'],
+    storage: AsyncStorage,
+    stateReconciler: autoMergeLevel1
+};
+
+const userPersist: PersistConfig<IUserState>={
+    key:'user',
+    whitelist:['users'],
     storage: AsyncStorage,
     stateReconciler: autoMergeLevel1
 };
@@ -35,6 +42,7 @@ const branchPersist: PersistConfig<IBranchState>= {
 const reducers = combineReducers({
     network,
     auth: persistReducer(authPersist,auth),
+    user: persistReducer(userPersist,user),
     service: persistReducer(servicePersist,service),
     branch: persistReducer(branchPersist,branch)
 });

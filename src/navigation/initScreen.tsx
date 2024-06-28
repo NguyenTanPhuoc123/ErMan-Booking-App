@@ -1,5 +1,9 @@
 import * as SCREEN_KEYS from '../constants/screen_key';
-import {AdminStackParamList, AuthStackParamList, MainStackParamList} from './StackParamList';
+import {
+  AdminStackParamList,
+  AuthStackParamList,
+  MainStackParamList,
+} from './StackParamList';
 import LandingPage from '../screens/Authentication/LandingPage';
 import LoginScreen from '../screens/Authentication/Login';
 import VerifyPhoneScreen from '../screens/Authentication/VerifyPhone';
@@ -20,6 +24,12 @@ import UserManagerScreen from '../screens/Admin/UserManager';
 import BranchScreen from '../screens/Branch';
 import NotificationScreen from '../screens/Notifications';
 import NewsScreen from '../screens/News';
+import ServiceManagerScreen from '../screens/Admin/ServiceManager';
+import DrawerNavigator from './Drawer';
+import DashboardScreen from '../screens/Admin/Dashboard';
+import AddUsersScreen from '../screens/Admin/AddUsers';
+
+
 import BranchDetailScreen from '../screens/BranchDetail';
 
 export type AuthStackObject = {
@@ -49,6 +59,13 @@ export type BottomTabItem = {
   component: React.MemoExoticComponent<() => JSX.Element> | (() => JSX.Element);
   icon: string;
 };
+
+export type DrawerItem = {
+  name: string;
+  label: string;
+  component: React.MemoExoticComponent<() => JSX.Element> | (() => JSX.Element);
+};
+
 export const authStackScreens: AuthStackObject = {
   [SCREEN_KEYS.LOGIN_SCREEN]: LoginScreen,
   [SCREEN_KEYS.REGISTER_SCREEN]: RegisterScreen,
@@ -72,17 +89,24 @@ export const dashboardStackScreens: MainStackObject = {
 export const mainStackScreens: MainStackObject = {
   ...dashboardStackScreens,
   [SCREEN_KEYS.PROFILE_SCREEN]: ProfileScreen,
-  [SCREEN_KEYS.EDIT_PROFILE_SCREEN]:EditProfileScreen,
+  [SCREEN_KEYS.EDIT_PROFILE_SCREEN]: EditProfileScreen,
   [SCREEN_KEYS.SERVICE_DETAIL_SCREEN]: ServiceDetailScreen,
   [SCREEN_KEYS.BRANCH_SCREEN]:BranchScreen,
   [SCREEN_KEYS.NOTIFICATION_SCREEN]:NotificationScreen,
-  [SCREEN_KEYS.NEWS_SCREEN]:NewsScreen,
-  [SCREEN_KEYS.BRANCH_DETAIL_SCREEN]:BranchDetailScreen
+  [SCREEN_KEYS.NEWS_SCREEN]:NewsScreen
 };
 
+export const drawerStackScreens: AdminStackObject = {
+  [SCREEN_KEYS.DASHBOARD_SCREEN]: DashboardScreen,
+  [SCREEN_KEYS.USER_MANAGER_SCREEN]: UserManagerScreen,
+  [SCREEN_KEYS.SERVICE_MANAGER_SCREEN]: ServiceManagerScreen,
+  [SCREEN_KEYS.PROFILE_SCREEN]:ProfileScreen
+};
 export const adminStackScreens: AdminStackObject = {
-  [SCREEN_KEYS.USER_MANAGER_SCREEN]: UserManagerScreen
-}
+  ...drawerStackScreens,
+  [SCREEN_KEYS.EDIT_PROFILE_SCREEN]:EditProfileScreen,
+  [SCREEN_KEYS.ADD_USER_SCREEN]:AddUsersScreen
+};
 
 const Stack = createStackNavigator();
 export const AuthNavigator = ({initialRouteName}: StackProps) => {
@@ -110,6 +134,17 @@ export const BottomTabStackNavigator = (initialRouteName: string) => {
   );
 };
 
+export const DrawerStackNavigator = (initialRouteName: string) => {
+  return (
+    <Stack.Navigator
+      screenOptions={{headerShown: false}}
+      initialRouteName={initialRouteName}
+      children={Object.entries(drawerStackScreens).map(([name, component]) => (
+        <Stack.Screen key={name} name={name} component={component} />
+      ))}></Stack.Navigator>
+  );
+};
+
 export const MainNavigator = ({initialRouteName}: StackProps) => {
   return (
     <Stack.Navigator initialRouteName={initialRouteName}>
@@ -132,11 +167,19 @@ export const MainNavigator = ({initialRouteName}: StackProps) => {
 
 export const AdminNavigator = ({initialRouteName}: StackProps) => {
   return (
-    <Stack.Navigator
-      screenOptions={{headerShown: false}}
-      initialRouteName={initialRouteName}>
+    <Stack.Navigator initialRouteName={initialRouteName}>
+      <Stack.Screen
+        name="Drawers"
+        component={DrawerNavigator}
+        options={{headerShown: false}}
+      />
       {Object.entries(adminStackScreens).map(([name, component]) => (
-        <Stack.Screen key={name} name={name} component={component} />
+        <Stack.Screen
+          key={name}
+          name={name}
+          component={component}
+          options={{headerShown: false}}
+        />
       ))}
     </Stack.Navigator>
   );
@@ -182,5 +225,37 @@ export const BottomTabNavigator: BottomTabItem[] = [
     label: 'Cá nhân',
     component: PersonalBottomTabNavigator,
     icon: 'user',
+  },
+];
+
+export const UserDrawerNavigator = () =>
+  DrawerStackNavigator(SCREEN_KEYS.USER_MANAGER_SCREEN);
+export const ServiceDrawerNavigator = () =>
+  DrawerStackNavigator(SCREEN_KEYS.SERVICE_MANAGER_SCREEN);
+export const DashboardDrawerNavigator = () =>
+  DrawerStackNavigator(SCREEN_KEYS.DASHBOARD_SCREEN);
+export const ProfileDrawerNavigator = () =>
+  DrawerStackNavigator(SCREEN_KEYS.PROFILE_SCREEN);
+
+export const drawerStackNavigator: DrawerItem[] = [
+  {
+    name: SCREEN_KEYS.DASHBOARD_STACK,
+    label: 'Bảng điều khiển',
+    component: DashboardDrawerNavigator,
+  },
+  {
+    name: SCREEN_KEYS.USER_MANAGER_STACK,
+    label: 'Quản lý người dùng',
+    component: UserDrawerNavigator,
+  },
+  {
+    name: SCREEN_KEYS.SERVICE_MANAGER_STACK,
+    label: 'Quản lý dịch vụ',
+    component: ServiceDrawerNavigator,
+  },
+  {
+    name: SCREEN_KEYS.PROFILE_STACK,
+    label: 'Thông tin cá nhân',
+    component: ProfileDrawerNavigator,
   },
 ];

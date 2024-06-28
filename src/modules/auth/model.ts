@@ -39,7 +39,6 @@ export interface BodyParams {
   firstname: string;
   lastname: string;
   password: string;
-  gender:boolean;
   
 }
 export interface IActionForgotPasswordPayload extends IActionCallback {

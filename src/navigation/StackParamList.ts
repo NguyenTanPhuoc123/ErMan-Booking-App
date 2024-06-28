@@ -1,7 +1,9 @@
 import {
+  ADD_USER_SCREEN,
   BRANCH_DETAIL_SCREEN,
   BRANCH_SCREEN,
   CHANGE_PASSWORD_SCREEN,
+  DASHBOARD_SCREEN,
   EDIT_PROFILE_SCREEN,
   HOME_SCREEN,
   INFORMATION_SCREEN,
@@ -15,10 +17,12 @@ import {
   PROFILE_SCREEN,
   REGISTER_SCREEN,
   SERVICE_DETAIL_SCREEN,
+  SERVICE_MANAGER_SCREEN,
   SERVICE_SCREEN,
   USER_MANAGER_SCREEN,
   VERIFY_PHONE_SCREEN,
 } from '../constants/screen_key';
+import { ADD_NEW_USER } from '../modules/user/model';
 
 export type AuthStackParamList = {
   [LANDING_PAGE]: undefined;
@@ -45,5 +49,10 @@ export type MainStackParamList = {
 };
 
 export type AdminStackParamList = {
+  [DASHBOARD_SCREEN]:undefined;
   [USER_MANAGER_SCREEN]:undefined;
+  [SERVICE_MANAGER_SCREEN]:undefined;
+  [PROFILE_SCREEN]:undefined;
+  [EDIT_PROFILE_SCREEN]:undefined;
+  [ADD_USER_SCREEN]: undefined;
 }

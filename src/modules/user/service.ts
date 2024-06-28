@@ -1,44 +1,29 @@
-import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import {User} from './model';
+import {BodyParams} from '../auth/model';
+import auth from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
-import {BodyParams} from './model';
-import {User} from '../user/model';
-
-export const login = async (phone: string, password: string) => {
+export const getListCustomer = async (q?: string, page = 1, limit = 4) => {
   try {
-    const phoneMail = `${phone}@gmail.com`;
-    const res = await auth().signInWithEmailAndPassword(phoneMail, password);
-    return {result: res};
+    const res = await firestore()
+      .collection('users').get();
+    const listUsers: User[] = res.docs.map(doc => {
+      return {id: doc.id, ...doc?.data()};
+    }) as User[];
+    return {result: listUsers};
   } catch (error) {
-    console.log('Error login: ', error);
-    return {
-      error,
-    };
-  }
-};
-
-export const getCurrentUser = async () => {
-  try {
-    const indexEnd = auth().currentUser?.email?.indexOf('@gmail.com');
-    const phone = auth().currentUser?.email?.substring(0, indexEnd);
-    const res = await firestore().collection('users').get();
-    const userData = res.docs.find(user => user.data().phone === phone);
-    const user = userData?.data();
-
-    return {result: {id: userData?.id, ...user}};
-  } catch (error) {
-    console.log('Error get current user: ', error);
+    console.log('Error get list users: ', error);
     return {error};
   }
 };
 
-export const register = async (body: BodyParams) => {
+export const addNewUser = async (body: BodyParams, typeAccount: string) => {
   try {
     const phoneMail = `${body.phone}@gmail.com`;
     const res = auth()
       .createUserWithEmailAndPassword(phoneMail, body.password)
       .then(async () => {
-        firestore().collection('users').add({
+        await firestore().collection('users').add({
           avatar: '',
           firstname: body.firstname,
           lastname: body.lastname,
@@ -47,35 +32,13 @@ export const register = async (body: BodyParams) => {
           address: '',
           birthday: '01-01-2000',
           isVerified: true,
-          typeAccount: 'Customer',
+          typeAccount: typeAccount,
         });
       });
-
+      
     return {result: res};
   } catch (error) {
     console.log('Error register: ', error);
-    return {error};
-  }
-};
-
-export const verifyPhone = async (phone: string) => {
-  try {
-    const confirmation = await auth().verifyPhoneNumber(phone);
-    console.log(confirmation);
-
-    return {result: confirmation};
-  } catch (error) {
-    console.log('Error verify phone: ', error);
-    return {error};
-  }
-};
-
-export const confirmOTPCode = async (code: string) => {
-  try {
-    const credential = auth.PhoneAuthProvider.credential(code);
-    return {result: credential};
-  } catch (error) {
-    console.log('Error: ', error);
     return {error};
   }
 };
@@ -123,23 +86,16 @@ const saveAvatarInStorage = async (id: string, path: string) => {
     console.log('Error save avatar on storage, because ', error);
   }
 };
-
-export const logout = async () => {
+export const verifyPhone = async (phone: string) => {
   try {
-    const res = await auth().signOut();
-    return {result: res};
+    const confirmation = await auth().verifyPhoneNumber(phone);
+    console.log(confirmation);
+
+    return {result: confirmation};
   } catch (error) {
-    console.log('Error log out: ', error);
+    console.log('Error verify phone: ', error);
     return {error};
   }
 };
 
-export const forgotPassword = async() =>{
-  try{
 
-  }
-  catch(error){
-    console.log("Error change password: ",error);
-    return {error}
-  }
-}
