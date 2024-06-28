@@ -84,7 +84,7 @@ const ProfileScreen = () => {
   return (
     <>
       <View style={globalStyle.container}>
-        {renderHeader()}
+        {APP_TYPE!="Admin" ?renderHeader():null}
         {renderAvatar()}
         {renderInformation()}
         {renderButton()}

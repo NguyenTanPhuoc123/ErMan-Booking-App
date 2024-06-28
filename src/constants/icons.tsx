@@ -8,6 +8,8 @@ import BRANCH from '../assets/images/salon1.jpg'
 import STYLELIST from '../assets/images/stylist.jpg'
 import CUSTOMER from '../assets/images/customer.jpg'
 import LIST_SERVICE_EMPTY from '../assets/icons/listservice_empty.png'
+import LIST_USER_EMPTY from'../assets/icons/user_empty.png'
+
 export {
   LANDING_PAGE,
   LOGO_APP,
@@ -18,5 +20,6 @@ export {
   BRANCH,
   STYLELIST,
   CUSTOMER,
-  LIST_SERVICE_EMPTY
+  LIST_SERVICE_EMPTY,
+  LIST_USER_EMPTY
 };

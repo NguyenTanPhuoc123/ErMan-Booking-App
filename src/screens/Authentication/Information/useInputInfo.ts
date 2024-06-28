@@ -82,7 +82,6 @@ const useInputInfo = () => {
           firstname: values.firstname,
           lastname: values.lastname,
           password: values.password,
-          confirmPassword: values.confirmPassword,
         },
         onSuccess: onRegisterSuccess,
         onFail: onRegisterFail,

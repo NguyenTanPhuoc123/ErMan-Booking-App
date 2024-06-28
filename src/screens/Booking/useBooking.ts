@@ -3,7 +3,7 @@ import {NOTIFICATION_SCREEN} from '../../constants/screen_key';
 import NavigationActionService from '../../navigation/navigation';
 
 const useBooking = () => {
-    const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(0);
   const [routes] = useState([
     {
       key: 'upcoming',

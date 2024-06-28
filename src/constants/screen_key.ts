@@ -24,3 +24,11 @@ export const NOTIFICATION_SCREEN = 'NotificationScreen';
 export const NEWS_SCREEN = 'NewsScreen';
 //admin
 export const USER_MANAGER_SCREEN = 'UserManagerScreen';
+export const SERVICE_MANAGER_SCREEN = 'ServiceManagerScreen';
+export const DASHBOARD_STACK = 'DashboardStack';
+export const USER_MANAGER_STACK = 'UserManagerStack';
+export const SERVICE_MANAGER_STACK = 'ServiceManagerStack';
+export const PROFILE_STACK= 'ProfileStack';
+export const EDIT_PROFILE_ADMIN = 'EditProfileStack';
+export const DASHBOARD_SCREEN = 'DashboardScreen';
+export const ADD_USER_SCREEN = 'AddUsersScreen';
