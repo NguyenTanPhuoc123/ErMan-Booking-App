@@ -6,8 +6,8 @@ import globalStyle, {WITDH} from '../../constants/styles';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import styles from './style';
 import Tabs from './components/Tabs';
-import SearchComponent from './components/Search';
 import useBooking from './useBooking';
+import SearchComponent from '../../component/Search';
 
 const renderUpcoming = () => <Tabs name="upcoming" id="1" />;
 const renderOngoing = () => <Tabs name="ongoing" id="2" />;
@@ -69,7 +69,7 @@ const MyBookingScreen = () => {
     <>
       <View style={globalStyle.container}>
         {renderHeader()}
-        <SearchComponent/>
+        <SearchComponent placeholder='Thông tin lịch đặt,...' searchValue='' onSearch={()=>{}}/>
         {renderBody()}
       </View>
     </>

@@ -7,7 +7,8 @@ const styles = StyleSheet.create({
     width: WITDH - 30,
     height: 200,
     borderRadius:30,
-    padding:10
+    padding:10,
+    marginTop:10
   },
   imgStyle:{
     borderRadius:25,

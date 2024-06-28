@@ -12,3 +12,13 @@ export function formatBlogDuration(minutes: number) {
   }
   return ss + 'giây';
 }
+
+export function checkStatus(openTime: string, closeTime: string) {
+  const now = moment(new Date(), 'HH:mm');
+  const open = moment(openTime, 'HH:mm');
+  const close = moment(closeTime, 'HH:mm');
+  if (now >= open && now <= close) {
+    return true;
+  }
+  return false;
+}

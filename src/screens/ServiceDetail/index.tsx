@@ -10,6 +10,7 @@ import FastImage from 'react-native-fast-image';
 import {FormatCurrency} from '../../utils/currentcy';
 import { APP_TYPE } from '../../constants/app_info';
 import { formatBlogDuration } from '../../utils/date';
+import { SERVICE_CUT_HAIR } from '../../constants/icons';
 
 const ServiceDetailScreen = () => {
   const {value} = useServiceDetail();
@@ -21,7 +22,7 @@ const ServiceDetailScreen = () => {
         backgroundColor="#433F3F"
         centerComponent={
           <Text style={[globalStyle.fontText, styles.titleHeader]}>
-            Chi tiết dịch vụ
+            Thông tin dịch vụ
           </Text>
         }
         leftComponent={
@@ -65,7 +66,7 @@ const ServiceDetailScreen = () => {
     <View style={globalStyle.container}>
       {renderHeader()}
       <FastImage
-        source={{uri: value.image}}
+        source={!value.image?SERVICE_CUT_HAIR:{uri: value.image}}
         style={styles.img}
         resizeMode="cover"
       />

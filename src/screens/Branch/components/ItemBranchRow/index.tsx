@@ -11,9 +11,8 @@ import { checkStatus } from '../../../../utils/date';
 import NavigationActionService from '../../../../navigation/navigation';
 import { BRANCH_DETAIL_SCREEN } from '../../../../constants/screen_key';
 
-
 const ItemBranchRow = (props: Branch) => {
-  const {image,branchName,comments,address,openTime,closeTime} = props;
+  const {image,branchName,address,openTime,closeTime} = props;
   const status = checkStatus(openTime,closeTime);
   const goToDetail = ()=>{
     NavigationActionService.navigate(BRANCH_DETAIL_SCREEN,{status:status,branch:props});

@@ -1,4 +1,5 @@
 import {
+  BRANCH_DETAIL_SCREEN,
   BRANCH_SCREEN,
   CHANGE_PASSWORD_SCREEN,
   EDIT_PROFILE_SCREEN,
@@ -39,7 +40,8 @@ export type MainStackParamList = {
   [SERVICE_DETAIL_SCREEN]:undefined;
   [BRANCH_SCREEN]:undefined;
   [NOTIFICATION_SCREEN]:undefined;
-  [NEWS_SCREEN]:undefined
+  [NEWS_SCREEN]:undefined;
+  [BRANCH_DETAIL_SCREEN]:undefined;
 };
 
 export type AdminStackParamList = {

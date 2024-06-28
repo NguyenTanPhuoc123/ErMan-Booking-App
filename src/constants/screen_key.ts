@@ -22,5 +22,6 @@ export const EDIT_PROFILE_SCREEN = 'EditProfileScreen';
 export const BRANCH_SCREEN = 'BranchScreen';
 export const NOTIFICATION_SCREEN = 'NotificationScreen';
 export const NEWS_SCREEN = 'NewsScreen';
+export const BRANCH_DETAIL_SCREEN = 'BranchDetailScreen';
 //admin
 export const USER_MANAGER_SCREEN = 'UserManagerScreen';

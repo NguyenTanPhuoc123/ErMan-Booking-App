@@ -20,6 +20,7 @@ import UserManagerScreen from '../screens/Admin/UserManager';
 import BranchScreen from '../screens/Branch';
 import NotificationScreen from '../screens/Notifications';
 import NewsScreen from '../screens/News';
+import BranchDetailScreen from '../screens/BranchDetail';
 
 export type AuthStackObject = {
   [key in keyof Partial<AuthStackParamList>]:
@@ -75,7 +76,8 @@ export const mainStackScreens: MainStackObject = {
   [SCREEN_KEYS.SERVICE_DETAIL_SCREEN]: ServiceDetailScreen,
   [SCREEN_KEYS.BRANCH_SCREEN]:BranchScreen,
   [SCREEN_KEYS.NOTIFICATION_SCREEN]:NotificationScreen,
-  [SCREEN_KEYS.NEWS_SCREEN]:NewsScreen
+  [SCREEN_KEYS.NEWS_SCREEN]:NewsScreen,
+  [SCREEN_KEYS.BRANCH_DETAIL_SCREEN]:BranchDetailScreen
 };
 
 export const adminStackScreens: AdminStackObject = {

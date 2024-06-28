@@ -15,6 +15,8 @@ import CustomPopup from '../component/CustomPopup';
 import {LoadingPageRef} from '../component/LoadingPage/type';
 import LoadingPage from '../component/LoadingPage';
 import BootSplashScreen from 'react-native-bootsplash';
+import { SkeletonLoadingRef } from '../component/CustomSketelonService/type';
+import CustomSketelonService from '../component/CustomSketelonService';
 
 
 export const BaseService = BaseServiceClass.instance(store);

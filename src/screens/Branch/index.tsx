@@ -1,13 +1,37 @@
-import {View, Text, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  RefreshControl,
+  ActivityIndicator,
+  Keyboard,
+} from 'react-native';
 import React from 'react';
 import globalStyle from '../../constants/styles';
 import styles from './style';
 import {Header} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import useBranch from './useBranch';
+import SearchComponent from '../../component/Search';
+import {Branch} from '../../modules/branch/model';
+import ListItemEmpty from '../../component/ListItemEmpty';
+import {LIST_BRANCH_EMPTY} from '../../constants/icons';
+import ItemBranchRow from './components/ItemBranchRow';
 
 const BranchScreen = () => {
-  const {goBack, goToNotifcation} = useBranch();
+  const {
+    goBack,
+    goToNotifcation,
+    listBranchRef,
+    refresh,
+    listBranch,
+    pullRefresh,
+    loadMore,
+    isLoadMore,
+    search,
+    setSearch,
+  } = useBranch();
   const renderHeader = () => {
     return (
       <Header
@@ -36,7 +60,62 @@ const BranchScreen = () => {
       />
     );
   };
-  return <View style={globalStyle.container}>{renderHeader()}</View>;
+
+  const renderBranchNear = () => (
+    <TouchableOpacity style={styles.btnBranchNear}>
+      <Icon name="map-marker-alt" size={20} solid color="red" />
+      <Text style={styles.contentBtn}>Chi nhánh gần tôi</Text>
+    </TouchableOpacity>
+  );
+
+  const renderFooterFlatList = () => {
+    return !isLoadMore ? null : (
+      <ActivityIndicator
+        style={{padding: 20, marginTop: 20}}
+        size={'small'}
+        color={'#d4d3d6'}
+      />
+    );
+  };
+
+  const renderBranch = () => (
+    <View style={globalStyle.flex1}>
+      <FlatList<Branch>
+        ref={listBranchRef}
+        refreshControl={
+          <RefreshControl refreshing={refresh} onRefresh={pullRefresh} />
+        }
+        numColumns={2}
+        data={listBranch as ArrayLike<Branch>}
+        keyExtractor={item => item.id}
+        onScrollBeginDrag={() => Keyboard.dismiss()}
+        scrollEventThrottle={16}
+        ListEmptyComponent={
+          <ListItemEmpty
+            image={LIST_BRANCH_EMPTY}
+            content="Không có chi nhánh"
+          />
+        }
+        renderItem={({item}) => <ItemBranchRow key={item.id} {...item} />}
+        ListFooterComponent={renderFooterFlatList}
+        onEndReached={loadMore}
+        onEndReachedThreshold={1}
+      />
+    </View>
+  );
+
+  return (
+    <View style={globalStyle.container}>
+      {renderHeader()}
+      <SearchComponent
+        placeholder="Tên chi nhánh, địa chỉ,..."
+        searchValue={search}
+        onSearch={setSearch}
+      />
+      {renderBranchNear()}
+      {renderBranch()}
+    </View>
+  );
 };
 
 export default BranchScreen;
