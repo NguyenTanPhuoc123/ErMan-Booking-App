@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 import {WITDH} from '../../constants/styles';
 import { InriaSerifBold, InriaSerifRegular } from '../../constants/font';
 
@@ -10,7 +10,10 @@ const styles = StyleSheet.create({
   statusBar:{
     backgroundColor:'#F3B20A',
     borderRadius:3,
-    height:3
+    height:4,
+    width:60,
+    alignSelf:'center',
+    marginLeft:WITDH * 0.05,
   },
   textTab :{
     color:'#fff',

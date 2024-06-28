@@ -18,7 +18,7 @@ const TabNavigator = () => {
         },
       }}
       initialRouteName={HOME_STACK}
-      children={BottomTabNavigator.map(({name, label, component, icon}) => (
+      children={BottomTabNavigator.map(({name,component, icon}) => (
         <Tab.Screen
           key={name}
           name={name}

@@ -1,17 +1,33 @@
 import {StyleSheet} from 'react-native';
-import { InriaSerifBold } from '../../../constants/font';
+import { InriaSerifBold, InriaSerifRegular } from '../../../constants/font';
+import { WITDH } from '../../../constants/styles';
+
 
 const styles = StyleSheet.create({
-  containerHeader: {
-    borderColor: '#433F3F',
-    height: 100,
+  statusBar:{
+    backgroundColor:'#F3B20A',
+    borderRadius:3,
+    height:5,
   },
-  titleHeader: {
-    fontSize: 22,
-    marginHorizontal: 5,
-    fontFamily: InriaSerifBold,
-    color: '#D4D3D6',
+  textTab :{
+    color:'#fff',
+    fontFamily:InriaSerifRegular,
+    fontSize:18,
+    textTransform:'none'
   },
+  containerButton:{
+    justifyContent:'center',
+    alignItems:'center',
+    width:50,
+    height:50,
+    borderRadius:25,
+    backgroundColor:"yellow",
+    position:'absolute',
+    bottom:60,
+    right:20,
+    zIndex:99999
+  },
+  
 });
 
 export default styles;
