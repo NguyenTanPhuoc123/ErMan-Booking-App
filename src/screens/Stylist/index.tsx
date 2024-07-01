@@ -4,10 +4,10 @@ import globalStyle from '../../constants/styles';
 import styles from './style';
 import {Header} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import useNews from './useNews';
+import useStylist from './useStylist';
 
-const NewsScreen = () => {
-  const {goBack, goToNotifcation} = useNews();
+const StylistScreen = () => {
+  const {goBack, goToNotifcation} = useStylist();
   const renderHeader = () => {
     return (
       <Header
@@ -23,7 +23,7 @@ const NewsScreen = () => {
             />
           </TouchableOpacity>
         }
-        centerComponent={<Text style={styles.titleHeader}>Tin tức</Text>}
+        centerComponent={<Text style={styles.titleHeader}>Stylist</Text>}
         rightContainerStyle={styles.rightComponentHeader}
         rightComponent={
           <TouchableOpacity onPress={goToNotifcation}>
@@ -39,4 +39,4 @@ const NewsScreen = () => {
   return <View style={globalStyle.container}>{renderHeader()}</View>;
 };
 
-export default NewsScreen;
+export default StylistScreen;

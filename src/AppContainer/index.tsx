@@ -15,7 +15,10 @@ import CustomPopup from '../component/CustomPopup';
 import {LoadingPageRef} from '../component/LoadingPage/type';
 import LoadingPage from '../component/LoadingPage';
 import BootSplashScreen from 'react-native-bootsplash';
-
+import {SkeletonLoadingRef} from '../component/CustomSketelonService/type';
+import CustomSketelonService from '../component/CustomSketelonService';
+import {ApolloProvider} from '@apollo/client';
+import client from '../api';
 
 export const BaseService = BaseServiceClass.instance(store);
 const Stack = createStackNavigator();
@@ -29,24 +32,26 @@ const App = () => {
     };
   }, []);
   return (
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <NavigationContainer
-          ref={navigationRef}
-          onReady={() => BootSplashScreen.hide({fade: true})}>
-          <Stack.Navigator
-            screenOptions={{headerShown: false, gestureEnabled: false}}>
-            <Stack.Screen name={MAIN_SCREEN} component={AppComponent} />
-            <Stack.Screen
-              options={getStackScreenOptions as StackNavigationOptions}
-              name={CUSTOM_POPUP}
-              component={CustomPopup}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
-        <LoadingPage ref={loadingRef} />
-      </PersistGate>
-    </Provider>
+    <ApolloProvider client={client}>
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+          <NavigationContainer
+            ref={navigationRef}
+            onReady={() => BootSplashScreen.hide({fade: true})}>
+            <Stack.Navigator
+              screenOptions={{headerShown: false, gestureEnabled: false}}>
+              <Stack.Screen name={MAIN_SCREEN} component={AppComponent} />
+              <Stack.Screen
+                options={getStackScreenOptions as StackNavigationOptions}
+                name={CUSTOM_POPUP}
+                component={CustomPopup}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+          <LoadingPage ref={loadingRef} />
+        </PersistGate>
+      </Provider>
+    </ApolloProvider>
   );
 };
 

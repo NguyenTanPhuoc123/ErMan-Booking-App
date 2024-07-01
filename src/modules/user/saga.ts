@@ -1,11 +1,11 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import * as UserService from './service'
-import { IActionAddNewUserPayload, IActionGetListCustomerPayload } from './model';
+import { IActionAddNewUserPayload, IActionGetListUserPayload } from './model';
 import { isNetworkAvailable } from '../network/saga';
 import { call, put } from 'redux-saga/effects';
 import { addToList, saveListUser } from './reducer';
 
-export function* getListCustomerFn(action:PayloadAction<IActionGetListCustomerPayload>){
+export function* getListCustomerFn(action:PayloadAction<IActionGetListUserPayload>){
     const {onSuccess,onFail} = action.payload;
     const {isConnected} = yield isNetworkAvailable();
     if(!isConnected){
@@ -13,7 +13,7 @@ export function* getListCustomerFn(action:PayloadAction<IActionGetListCustomerPa
         return;
     }
 
-    const {result,error} = yield call(UserService.getListCustomer);
+    const {result,error} = yield call(UserService.getListUsers);
     if(!error){
         onSuccess && onSuccess(result);
         yield put(saveListUser({users:result}));

@@ -10,7 +10,6 @@ import styles from './style';
 import globalStyle from '../../constants/styles';
 import {Header} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import SearchComponent from './components/Search';
 import useService from './useService';
 import ItemServiceRow from './components/ItemServiceRow';
 import NavigationActionService from '../../navigation/navigation';
@@ -19,6 +18,7 @@ import ListItemEmpty from '../../component/ListItemEmpty';
 import {LIST_SERVICE_EMPTY} from '../../constants/icons';
 import {Tab, TabView} from 'react-native-elements';
 import CustomSketelonService from '../../component/CustomSketelonService';
+import SearchComponent from '../../component/Search';
 
 const ServiceScreen = () => {
   const {
@@ -30,9 +30,9 @@ const ServiceScreen = () => {
     category,
     servicesDiscount,
     goToNotifcation,
-    categoryService,
-    setCategoryService,
-    skeleton,
+    skeletonRef,
+    search,
+    setSearch
   } = useService();
   const renderHeader = () => {
     return (
@@ -66,37 +66,10 @@ const ServiceScreen = () => {
       />
     );
   };
-
-  const renderButtonCategory = () => (
-    <Tab
-      style={styles.containerCategory}
-      value={categoryService}
-      onChange={setCategoryService}
-      indicatorStyle={globalStyle.bgTransparent}>
-      {category.map(item => {
-        return (
-          <Tab.Item
-            containerStyle={
-              categoryService === item.id
-                ? styles.buttonCategoryActive
-                : styles.buttonCategory
-            }
-            titleStyle={[
-              globalStyle.fontText,
-              categoryService === item.id
-                ? styles.txtBtnActive
-                : styles.txtBtnCategory,
-            ]}
-            key={item.id}
-            title={item.name}
-          />
-        );
-      })}
-    </Tab>
-  );
-
+  const renderLoadMore = ()=>{
+    
+  }
   const renderService = () => (
-    <TabView value={categoryService}>
       <FlatList<Service>
         ref={serviceListRef}
         refreshControl={
@@ -105,7 +78,6 @@ const ServiceScreen = () => {
         numColumns={2}
         data={services as ArrayLike<Service>}
         keyExtractor={item => item.id}
-        pagingEnabled
         ListEmptyComponent={
           <ListItemEmpty
             image={LIST_SERVICE_EMPTY}
@@ -114,31 +86,13 @@ const ServiceScreen = () => {
         }
         renderItem={({item}) => <ItemServiceRow key={item.id} {...item} />}
       />
-      <FlatList<Service>
-        ref={serviceListRef}
-        refreshControl={
-          <RefreshControl refreshing={refresh} onRefresh={pullRefresh} />
-        }
-        numColumns={2}
-        data={servicesDiscount as ArrayLike<Service>}
-        keyExtractor={item => item.id}
-        pagingEnabled
-        ListEmptyComponent={
-          <ListItemEmpty
-            image={LIST_SERVICE_EMPTY}
-            content="Không có dịch vụ"
-          />
-        }
-        renderItem={({item}) => <ItemServiceRow key={item.id} {...item} />}
-      />
-    </TabView>
+      
   );
   return (
     <View style={globalStyle.container}>
       {renderHeader()}
-      <SearchComponent />
-      {renderButtonCategory()}
-      {skeleton ? <CustomSketelonService status={skeleton} /> : renderService()}
+      <SearchComponent placeholder='Tên dịch vụ,...' searchValue={search} onSearch={setSearch}/>
+      {renderService()}
     </View>
   );
 };

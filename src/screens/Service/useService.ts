@@ -1,7 +1,7 @@
 import {useRoute} from '@react-navigation/native';
-import {createRef, useCallback, useEffect, useRef, useState} from 'react';
+import {createRef, useCallback, useEffect, useState} from 'react';
 import {FlatList} from 'react-native';
-import {getListService, getListServicesDiscount} from '../../modules/service';
+import {getListService, getListServicesDiscount, searchServiceByName} from '../../modules/service';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../redux/reducers';
 import {IServiceState} from '../../modules/service/model';
@@ -28,39 +28,40 @@ const useService = () => {
   const {services, servicesDiscount} = useSelector<RootState, IServiceState>(
     state => state.service,
   );
+  const [loadMore,setLoadMore] = useState(false);
   const [refresh, setRefresh] = useState(false);
+  const [search,setSearch] = useState('');
   const [categoryService, setCategoryService] = useState(0);
-  const [skeleton,setSkeleton] = useState(false);
+  const skeletonRef = createRef<SkeletonLoadingRef>();
   const onLoadServiceSuccess = () => {
-    setSkeleton(true);
+    skeletonRef.current?.hideSkeletonLoading();
     setRefresh(false);
   };
   const onLoadServiceFail = (error?: ApiError) => {
-    setSkeleton(false);
+    skeletonRef.current?.hideSkeletonLoading();
     setRefresh(false);
     console.log(error?.message);
   };
   useEffect(() => {
-    setSkeleton(false);
-    if (categoryService === 1) {
-      getListDiscount();
-    } else {
+    // skeletonRef.current?.showSkeletonLoading();
+    if (search==='') {
       getListServices();
+    }else{
+      dispatch(searchServiceByName({
+        serviceName:search,
+        onSuccess:onLoadServiceSuccess,
+        onFail:onLoadServiceFail
+      }))
     }
-  }, [categoryService]);
+      
+  }, [refresh,search]);
   const pullRefresh = useCallback(() => {
     setRefresh(true);
-    if (categoryService === 1) {
-      getListDiscount();
-    } else {
-      getListServices();
-    }
   }, []);
 
   const getListDiscount = () => {
     dispatch(
       getListServicesDiscount({
-        page: 1,
         limit: 4,
         onSuccess: onLoadServiceSuccess,
         onFail: onLoadServiceFail,
@@ -93,7 +94,9 @@ const useService = () => {
     setCategoryService,
     servicesDiscount,
     category,
-    skeleton
+    skeletonRef,
+    search,
+    setSearch
   };
 };
 

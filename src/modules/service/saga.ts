@@ -1,9 +1,12 @@
 import {PayloadAction} from '@reduxjs/toolkit';
 import * as ServiceSalonService from './service';
-import {IActionGetListServicesPayLoad} from './model';
+import {
+  IActionGetListServicesPayLoad,
+  IActionSearchServicesByNamePayLoad,
+} from './model';
 import {isNetworkAvailable} from '../network/saga';
 import {call, put} from 'redux-saga/effects';
-import {saveListServices, saveListServicesDiscount} from './reducer';
+import {saveListServices,saveListServicesLoadMore} from './reducer';
 
 export function* getListServiceFn(
   action: PayloadAction<IActionGetListServicesPayLoad>,
@@ -17,11 +20,15 @@ export function* getListServiceFn(
   const {result, error} = yield call(
     ServiceSalonService.getListServices,
     q,
-    page,
     limit,
   );
   if (!error) {
+    if(page===1){
     yield put(saveListServices({services: result}));
+    }
+    else{
+      yield put(saveListServicesLoadMore({services: result}));
+    }
     onSuccess && onSuccess(result);
   } else {
     onFail && onFail(error);
@@ -31,7 +38,7 @@ export function* getListServiceFn(
 export function* getListServicesDiscountFn(
   action: PayloadAction<IActionGetListServicesPayLoad>,
 ) {
-  const {onSuccess, onFail, limit, page, q} = action.payload;
+  const {onSuccess, onFail, limit, q} = action.payload;
   const {isConnected} = yield isNetworkAvailable();
   if (!isConnected) {
     onFail && onFail();
@@ -40,11 +47,29 @@ export function* getListServicesDiscountFn(
   const {result, error} = yield call(
     ServiceSalonService.getListServicesDiscount,
     q,
-    page,
     limit,
   );
   if (!error) {
-    yield put(saveListServicesDiscount({servicesDiscount: result}));
+    onSuccess && onSuccess(result);
+  } else {
+    onFail && onFail(error);
+  }
+}
+
+export function* searchServiceByNameFn(
+  action: PayloadAction<IActionSearchServicesByNamePayLoad>,
+) {
+  const {onSuccess, onFail, serviceName} = action.payload;
+  const {isConnected} = yield isNetworkAvailable();
+  if (!isConnected) {
+    onFail && onFail();
+    return;
+  }
+  const {result, error} = yield call(
+    ServiceSalonService.searchServiceByName,
+    serviceName,
+  );
+  if (!error) {
     onSuccess && onSuccess(result);
   } else {
     onFail && onFail(error);

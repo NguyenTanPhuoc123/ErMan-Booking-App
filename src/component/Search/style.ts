@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import { WITDH } from '../../../../constants/styles';
+import {WITDH} from '../../constants/styles';
 
 const styles = StyleSheet.create({
   containerSearch: {
@@ -20,11 +20,11 @@ const styles = StyleSheet.create({
     width: '87%',
     alignSelf: 'flex-start',
   },
-  btnSearch: {
+  iconSearch: {
     position: 'absolute',
     right: 25,
     top: 18,
-    zIndex: 9999,
+    color: '#d4d3d6',
   },
 });
 
