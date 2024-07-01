@@ -3,6 +3,8 @@ import {IActionSaveListBranch, IBranchState} from './model';
 
 const initialState: IBranchState = {
   branchs: [],
+  hasNextPage: true,
+  endCursor: '',
 };
 
 const branchSlice = createSlice({
@@ -13,19 +15,22 @@ const branchSlice = createSlice({
       state: IBranchState,
       action: PayloadAction<IActionSaveListBranch>,
     ) => {
-      return {...state, branchs: action.payload.branchs};
+      return {
+        ...state,
+        branchs: action.payload.branchs,
+        hasNextPage: action.payload.hasNextPage,
+        endCursor: action.payload.endCursor,
+      };
     },
     SAVE_LIST_BRANCH_LOAD_MORE: (
       state: IBranchState,
       action: PayloadAction<IActionSaveListBranch>,
     ) => {
-      
       return {
         ...state,
-        branchs: [
-          ...state.branchs,
-          ...action.payload.branchs,
-        ],
+        hasNextPage: action.payload.hasNextPage,
+        endCursor: action.payload.endCursor,
+        branchs: [...state.branchs, ...action.payload.branchs],
       };
     },
   },

@@ -20,7 +20,7 @@ const UserItem = (props: User) => {
         source={!avatar ? AVARTAR_DEFAULT_CUSTOMER : {uri: avatar}}
         resizeMode="cover"
       />
-      <View style={styles.containerInfo}>
+      <View>
         <Text style={styles.info}>{firstname + ' ' + lastname}</Text>
         <Text style={styles.info}>Số điện thoại: {phone}</Text>
       </View>

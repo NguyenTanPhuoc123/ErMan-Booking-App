@@ -24,7 +24,6 @@ import DiscountCarousel from 'react-native-reanimated-carousel';
 import Dots from 'react-native-dots-pagination';
 import ItemServiceRow from './components/ItemServiceRow';
 import ButtonComponent from './components/ButtonComponent';
-import ItemNewsRow from './components/ItemNewsRow';
 import ItemBranchRow from './components/ItemBranchRow';
 import ItemStylistRow from './components/ItemStylistRow';
 import BookingNear from './components/BookingNear';
@@ -48,29 +47,6 @@ const Sale = [
     code: 'ERMAN18',
     content: 'Tất cả các dịch vụ tại Erman Salon từ 5/7 - 6/7',
     discountPercent: 70,
-  },
-];
-
-const dataNews = [
-  {
-    image: SERVICE_CUT_HAIR,
-    title: 'Làm thế nào để không bị rụng tóc?',
-  },
-  {
-    image: SERVICE_CUT_HAIR,
-    title: 'Làm thế nào để không bị rụng tóc?',
-  },
-  {
-    image: SERVICE_CUT_HAIR,
-    title: 'Làm thế nào để không bị rụng tóc?',
-  },
-  {
-    image: SERVICE_CUT_HAIR,
-    title: 'Làm thế nào để không bị rụng tóc?',
-  },
-  {
-    image: SERVICE_CUT_HAIR,
-    title: 'Làm thế nào để không bị rụng tóc?',
   },
 ];
 
@@ -106,12 +82,11 @@ const HomeScreen = () => {
     currentUser,
     goToBranch,
     goToNotifcation,
-    goToNews,
+    goToStylists,
     discountRef,
     currentIndex,
     setCurrentIndex,
     serviceListRef,
-    newsListRef,
     branchListRef,
     stylistListRef,
     refresh,
@@ -167,8 +142,8 @@ const HomeScreen = () => {
         ) : (
           <ButtonComponent
             icon="newspaper"
-            title="Tin tức"
-            onPress={goToNews}
+            title="Stylist"
+            onPress={goToStylists}
           />
         )}
         <ButtonComponent icon="store" title="Chi nhánh" onPress={goToBranch} />
@@ -240,28 +215,6 @@ const HomeScreen = () => {
     </View>
   );
 
-  const renderNews = () => (
-    <View style={styles.containerList}>
-      <View style={styles.lineTitle}>
-        <Text style={[globalStyle.fontText, styles.titleList]}>Tin tức</Text>
-        <TouchableOpacity>
-          <Text style={[globalStyle.fontText, styles.txtViewMore]}>
-            Xem thêm
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <FlatList
-        ref={newsListRef}
-        data={dataNews}
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        renderItem={({item, index}) => (
-          <ItemNewsRow key={index} image={item.image} title={item.title} />
-        )}
-      />
-    </View>
-  );
-
   const renderBranch = () => (
     <View style={styles.containerList}>
       <View style={styles.lineTitle}>
@@ -275,6 +228,7 @@ const HomeScreen = () => {
       <FlatList<Branch>
         ref={branchListRef}
         data={branchs}
+        keyExtractor={item => item.id.toString()}
         horizontal={true}
         renderItem={({item}) => <ItemBranchRow key={item.id} {...item} />}
       />
@@ -285,7 +239,7 @@ const HomeScreen = () => {
     <View style={styles.containerList}>
       <View style={styles.lineTitle}>
         <Text style={[globalStyle.fontText, styles.titleList]}>Stylist</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={goToStylists}>
           <Text style={[globalStyle.fontText, styles.txtViewMore]}>
             Xem thêm
           </Text>
@@ -335,7 +289,6 @@ const HomeScreen = () => {
         {renderSlideDiscount()}
         {APP_TYPE === 'Staff' ? renderBookingNear() : <></>}
         {renderService()}
-        {renderNews()}
         {renderBranch()}
         {renderStylist()}
       </ScrollView>

@@ -1,46 +1,47 @@
-import { PayloadAction } from '@reduxjs/toolkit';
-import { IActionGetListBranch, IActionSearchBranch } from './model';
-import * as BranchService from './service'
-import { isNetworkAvailable } from '../network/saga';
-import { call, put } from 'redux-saga/effects';
-import { saveListBranch, saveListBranchLoadMore } from './reducer';
+import {PayloadAction} from '@reduxjs/toolkit';
+import {IActionGetListBranch, IActionSearchBranch} from './model';
+import * as BranchService from './service';
+import {isNetworkAvailable} from '../network/saga';
+import {call, put} from 'redux-saga/effects';
+import {saveListBranch, saveListBranchLoadMore} from './reducer';
 
-export function* getListBranchsFn(action:PayloadAction<IActionGetListBranch>){
-    const {q,page,limit,onSuccess,onFail} = action.payload;
-    const {isConnected} = yield isNetworkAvailable();
-    if(!isConnected){
-        onFail && onFail();
-        return;
-    }
+export function* getListBranchsFn(action: PayloadAction<IActionGetListBranch>) {
+  const {endCursor, page, limit, onSuccess, onFail} = action.payload;
+  const {isConnected} = yield isNetworkAvailable();
+  if (!isConnected) {
+    onFail && onFail();
+    return;
+  }
 
-    const {result,error} = yield call(BranchService.getListBranchs,q,limit);
-    if(!error){
-        if(page===1){
-        yield put(saveListBranch({branchs:result}));
-        }
-        else{    
-            yield put(saveListBranchLoadMore({branchs:result}));
-        }
-        onSuccess && onSuccess(result);
+  const {result, error} = yield call(
+    BranchService.getListBranchs,
+    endCursor,
+    limit,
+  );
+  if (!error) {
+    if (page === 1) {
+      yield put(saveListBranch(result));
+    } else {
+      yield put(saveListBranchLoadMore(result));
     }
-    else if(onFail){
-        onFail && onFail(error);
-    }
-} 
+    onSuccess && onSuccess(result);
+  } else if (onFail) {
+    onFail && onFail(error);
+  }
+}
 
-export function* searchBranchFn(action:PayloadAction<IActionSearchBranch>){
-    const {search,q,limit,onSuccess,onFail} = action.payload;
-    const {isConnected} = yield isNetworkAvailable();
-    if(!isConnected){
-        onFail && onFail();
-        return;
-    }
+export function* searchBranchFn(action: PayloadAction<IActionSearchBranch>) {
+  const {search, limit, onSuccess, onFail} = action.payload;
+  const {isConnected} = yield isNetworkAvailable();
+  if (!isConnected) {
+    onFail && onFail();
+    return;
+  }
 
-    const {result,error} = yield call(BranchService.searchBranch,search,q,limit);
-    if(!error){
-        onSuccess && onSuccess(result);
-    }
-    else if(onFail){
-        onFail && onFail(error);
-    }
-} 
+  const {result, error} = yield call(BranchService.searchBranch, search);
+  if (!error) {
+    onSuccess && onSuccess(result);
+  } else if (onFail) {
+    onFail && onFail(error);
+  }
+}

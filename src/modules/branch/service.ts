@@ -1,47 +1,54 @@
-import firestore from '@react-native-firebase/firestore';
 import {Branch} from './model';
-
-export const getListBranchs = async (q?: string, limit = 2) => {
+import * as BranchApi from '../../api/branch/queries';
+import client from '../../api';
+export const getListBranchs = async (after?: string, limit = 4) => {
   try {
-    let query = firestore()
-      .collection('branchs')
-      .orderBy('branchName')
-      .limit(limit);
-    if (q) {
-      query = query.startAfter(q);
+    let res;
+    if (after) {
+      res = await client.query({
+        query: BranchApi.GetListBranchs,
+        variables: {limit, after},
+      });
+    } else {
+      res = await client.query({
+        query: BranchApi.GetListBranchs,
+        variables: {limit},
+      });
     }
 
-    const res = await query.get();
-    const listBranch: Branch[] = res.docs.map(doc => {
-      return {id: doc.id, ...doc.data()};
+    const listData = res.data.Branch_connection.edges;
+    const hasNextPage = res.data.Branch_connection.pageInfo.hasNextPage;
+    const endCursor = res.data.Branch_connection.pageInfo.endCursor;
+    if (endCursor === after) {
+      console.log('Error Cursor');
+      return;
+    }
+    const listBranch: Branch[] = listData.map((data: any) => {
+      const branchId = JSON.parse(atob(data.node.id))[3];
+      const {id, ...newBranch} = data.node;
+      return {id: branchId, ...newBranch};
     }) as Branch[];
-    return {result: listBranch};
+
+    return {result: {branchs: listBranch, hasNextPage, endCursor}};
   } catch (error) {
     console.log('Error get list branch: ', error);
     return {error};
   }
 };
 
-export const searchBranch = async (search: string, q?: string, limit = 2) => {
+export const searchBranch = async (search: string) => {
   try {
-    let query = firestore()
-      .collection('branchs')
-      .orderBy('branchName')
-      // .limit(limit)
-    // if (q) {
-    //   query = query.startAfter(q);
-    // }
+    const res = await client.query({
+      query: BranchApi.searchBranch,
+      variables: {search: `%${search}%`},
+    });
+    const listData = res.data.Branch_connection.edges;
+    const listBranch: Branch[] = listData.map((data: any) => {
+      const branchId = JSON.parse(atob(data.node.id))[3];
+      const {id, ...newBranch} = data.node;
+      return {id: branchId, ...newBranch};
+    }) as Branch[];
 
-    const res = await query.get();
-    const listBranch: Branch[] = res.docs.map(doc => {
-      if (
-        doc.data().branchName.includes(search) ||
-        doc.data().address.includes(search)
-      ) {
-        return {id: doc.id, ...doc.data()};
-      }
-      return null;
-    }).filter(branch=>branch!=null) as Branch[];
     return {result: listBranch};
   } catch (error) {
     console.log('Error search branch: ', error);

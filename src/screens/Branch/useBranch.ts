@@ -10,26 +10,32 @@ import {ApiError} from '../../constants/api';
 import {MessageType, PopupType} from '../../component/CustomPopup/type';
 import {debounce} from 'lodash';
 const useBranch = () => {
-  const {branchs} = useSelector<RootState, IBranchState>(state => state.branch);
+  const {branchs, hasNextPage, endCursor} = useSelector<
+    RootState,
+    IBranchState
+  >(state => state.branch);
   const dispatch = useDispatch();
   const listBranchRef = createRef<FlatList>();
   const [refresh, setRefresh] = useState(false);
   const [isLoadMore, setIsLoadMore] = useState(false);
   const [search, setSearch] = useState('');
+  const [loading, setLoading] = useState(false);
   const [listBranch, setListBranch] = useState<Array<Branch>>(branchs);
+
   useEffect(() => {
-    if (search==='') {
+    if (search === '') {
       getListBranch();
     } else {
       searchListBranch();
     }
   }, [search, refresh]);
-  
+
   const getListBranch = () => {
+    setLoading(true);
     dispatch(
       getListBranchs({
         page: 1,
-        limit: 2,
+        limit: 4,
         onSuccess: onLoadBranchSuccess,
         onFail: onLoadBranchFail,
       }),
@@ -37,23 +43,31 @@ const useBranch = () => {
   };
 
   const searchListBranch = debounce(() => {
+    setLoading(true);
     dispatch(
       searchBranch({
         search: search,
-        limit:2,
-        onSuccess: value => setListBranch(value),
-        onFail: () => setListBranch([]),
+        limit: 4,
+        onSuccess: value => {
+          setListBranch(value);
+          setLoading(false);
+        },
+        onFail: () => {
+          setListBranch([]), setLoading(false);
+        },
       }),
     );
-  },500);
+  }, 500);
 
   const onLoadBranchSuccess = () => {
     setRefresh(false);
+    setLoading(false);
     setListBranch(branchs);
   };
 
   const onLoadBranchFail = (error?: ApiError) => {
     setRefresh(false);
+    setLoading(false);
     setIsLoadMore(false);
     NavigationActionService.showPopup({
       type: PopupType.ONE_BUTTON,
@@ -63,38 +77,34 @@ const useBranch = () => {
     });
   };
 
-  const pullRefresh = useCallback(() => {
+  const pullRefresh = () => {
     setRefresh(true);
-  },[]);
+  };
 
-  const onLoadMoreSuccess = (value:Branch[]) => {
+  const onLoadMoreSuccess = () => {
     setIsLoadMore(false);
-    
   };
 
   const onLoadMoreFail = () => {
     setIsLoadMore(false);
   };
 
-  const loadMore = useCallback(() => {
-    if(listBranch.length===0 && branchs[branchs.length]){
+  const loadMore = () => {
+    setIsLoadMore(true);
+    if (!hasNextPage || search != '') {
       setIsLoadMore(false);
       return;
     }
-    setIsLoadMore(true);
-    if (branchs[branchs.length - 1].branchName && search==='') {
-      dispatch(
-        getListBranchs({
-          page: 2,
-          limit: 2,
-          q: branchs[branchs.length - 1].branchName,
-          onSuccess: onLoadMoreSuccess,
-          onFail: onLoadMoreFail,
-        }),
-      );
-    }
-  
-  },[]);
+    dispatch(
+      getListBranchs({
+        page: 2,
+        limit: 4,
+        endCursor: endCursor,
+        onSuccess: onLoadMoreSuccess,
+        onFail: onLoadMoreFail,
+      }),
+    );
+  };
   const goBack = () => {
     NavigationActionService.pop();
   };
@@ -113,6 +123,8 @@ const useBranch = () => {
     isLoadMore,
     search,
     setSearch,
+    branchs,
+    loading,
   };
 };
 

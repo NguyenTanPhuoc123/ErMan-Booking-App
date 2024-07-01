@@ -10,6 +10,8 @@ import {reducer as user} from '../modules/user/reducer'
 import {reducer as branch} from '../modules/branch/reducer'
 import { IAuthState } from '../modules/auth/model';
 import { IServiceState } from '../modules/service/model';
+import { IUserState } from '../modules/user/model';
+import { IBranchState } from '../modules/branch/model';
 
 const authPersist: PersistConfig<IAuthState>={
     key:'auth',

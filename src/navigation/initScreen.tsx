@@ -23,12 +23,11 @@ import EditProfileScreen from '../screens/Account/EditProfile';
 import UserManagerScreen from '../screens/Admin/UserManager';
 import BranchScreen from '../screens/Branch';
 import NotificationScreen from '../screens/Notifications';
-import NewsScreen from '../screens/News';
+import NewsScreen from '../screens/Stylist';
 import ServiceManagerScreen from '../screens/Admin/ServiceManager';
 import DrawerNavigator from './Drawer';
 import DashboardScreen from '../screens/Admin/Dashboard';
 import AddUsersScreen from '../screens/Admin/AddUsers';
-
 
 import BranchDetailScreen from '../screens/BranchDetail';
 
@@ -91,21 +90,22 @@ export const mainStackScreens: MainStackObject = {
   [SCREEN_KEYS.PROFILE_SCREEN]: ProfileScreen,
   [SCREEN_KEYS.EDIT_PROFILE_SCREEN]: EditProfileScreen,
   [SCREEN_KEYS.SERVICE_DETAIL_SCREEN]: ServiceDetailScreen,
-  [SCREEN_KEYS.BRANCH_SCREEN]:BranchScreen,
-  [SCREEN_KEYS.NOTIFICATION_SCREEN]:NotificationScreen,
-  [SCREEN_KEYS.NEWS_SCREEN]:NewsScreen
+  [SCREEN_KEYS.BRANCH_SCREEN]: BranchScreen,
+  [SCREEN_KEYS.BRANCH_DETAIL_SCREEN]: BranchDetailScreen,
+  [SCREEN_KEYS.NOTIFICATION_SCREEN]: NotificationScreen,
+  [SCREEN_KEYS.STYLIST_SCREEN]: NewsScreen,
 };
 
 export const drawerStackScreens: AdminStackObject = {
   [SCREEN_KEYS.DASHBOARD_SCREEN]: DashboardScreen,
   [SCREEN_KEYS.USER_MANAGER_SCREEN]: UserManagerScreen,
   [SCREEN_KEYS.SERVICE_MANAGER_SCREEN]: ServiceManagerScreen,
-  [SCREEN_KEYS.PROFILE_SCREEN]:ProfileScreen
+  [SCREEN_KEYS.PROFILE_SCREEN]: ProfileScreen,
 };
 export const adminStackScreens: AdminStackObject = {
   ...drawerStackScreens,
-  [SCREEN_KEYS.EDIT_PROFILE_SCREEN]:EditProfileScreen,
-  [SCREEN_KEYS.ADD_USER_SCREEN]:AddUsersScreen
+  [SCREEN_KEYS.EDIT_PROFILE_SCREEN]: EditProfileScreen,
+  [SCREEN_KEYS.ADD_USER_SCREEN]: AddUsersScreen,
 };
 
 const Stack = createStackNavigator();

@@ -19,7 +19,6 @@ const ServiceManagerScreen = () => {
         numColumns={2}
         data={services as ArrayLike<Service>}
         keyExtractor={item => item.id}
-        pagingEnabled
         ListEmptyComponent={
           <ListItemEmpty
             image={LIST_SERVICE_EMPTY}

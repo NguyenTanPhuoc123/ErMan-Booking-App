@@ -3,14 +3,16 @@ import {User} from './model';
 import {BodyParams} from '../auth/model';
 import auth from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
-export const getListCustomer = async (q?: string, page = 1, limit = 4) => {
+import client from '../../api';
+import * as UserApi from '../../api/user/queries';
+export const getListUsers = async (q?: string, page = 1, limit = 4) => {
   try {
-    const res = await firestore()
-      .collection('users').get();
-    const listUsers: User[] = res.docs.map(doc => {
-      return {id: doc.id, ...doc?.data()};
-    }) as User[];
-    return {result: listUsers};
+    const res = await client.query({query: UserApi.GetListUsers});
+    const edges = res.data.User_connection.edges;
+    const users: User[] = edges.map((edge: any) => {
+      return {...edge.node};
+    });
+    return {result: users};
   } catch (error) {
     console.log('Error get list users: ', error);
     return {error};
@@ -35,7 +37,7 @@ export const addNewUser = async (body: BodyParams, typeAccount: string) => {
           typeAccount: typeAccount,
         });
       });
-      
+
     return {result: res};
   } catch (error) {
     console.log('Error register: ', error);
@@ -56,7 +58,7 @@ export const editProfile = async (user: User) => {
       address: user.address,
     });
     const userData = await firestore().collection('users').doc(user.id).get();
-    return {result: { id:user.id,...userData.data()}};
+    return {result: {id: user.id, ...userData.data()}};
   } catch (error) {
     console.log('Error edit user: ', error);
     return {error};
@@ -97,5 +99,3 @@ export const verifyPhone = async (phone: string) => {
     return {error};
   }
 };
-
-

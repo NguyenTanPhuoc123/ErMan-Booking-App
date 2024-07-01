@@ -31,6 +31,8 @@ const BranchScreen = () => {
     isLoadMore,
     search,
     setSearch,
+    branchs,
+    loading,
   } = useBranch();
   const renderHeader = () => {
     return (
@@ -67,7 +69,15 @@ const BranchScreen = () => {
       <Text style={styles.contentBtn}>Chi nhánh gần tôi</Text>
     </TouchableOpacity>
   );
-
+  const renderLoading = () => {
+    return (
+      <ActivityIndicator
+        style={styles.loading}
+        size={'large'}
+        color={'#d4d3d6'}
+      />
+    );
+  };
   const renderFooterFlatList = () => {
     return !isLoadMore ? null : (
       <ActivityIndicator
@@ -86,8 +96,8 @@ const BranchScreen = () => {
           <RefreshControl refreshing={refresh} onRefresh={pullRefresh} />
         }
         numColumns={2}
-        data={listBranch as ArrayLike<Branch>}
-        keyExtractor={item => item.id}
+        data={search === '' ? branchs : listBranch}
+        keyExtractor={item => item.id.toString()}
         onScrollBeginDrag={() => Keyboard.dismiss()}
         scrollEventThrottle={16}
         ListEmptyComponent={
@@ -113,7 +123,7 @@ const BranchScreen = () => {
         onSearch={setSearch}
       />
       {renderBranchNear()}
-      {renderBranch()}
+      {loading ? renderLoading() : renderBranch()}
     </View>
   );
 };

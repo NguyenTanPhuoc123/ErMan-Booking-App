@@ -2,13 +2,13 @@ import {View,  TouchableOpacity, RefreshControl} from 'react-native';
 import React from 'react';
 import styles from './style';
 import globalStyle, {WITDH} from '../../../constants/styles';
-import SearchComponent from './components/Search';
 import Tabs from './components/Tabs';
 import {SceneMap, TabBar, TabView} from 'react-native-tab-view';
 import useUserManager from './useUserManage';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import NavigationActionService from '../../../navigation/navigation';
 import {ADD_USER_SCREEN} from '../../../constants/screen_key';
+import SearchComponent from '../../../component/Search';
 
 const UserManagerScreen = () => {
   const {index, setIndex, routes, users, refresh, pullRefresh} =
@@ -45,17 +45,17 @@ const UserManagerScreen = () => {
   );
   const renderButtonAdd = () => (
     <TouchableOpacity
-      style={styles.containerButton}
+      style={[globalStyle.bgPopupCommon,styles.containerButton]}
       onPress={() => {
         NavigationActionService.navigate(ADD_USER_SCREEN);
       }}>
-      <Icon name="plus" size={20} />
+      <Icon name="plus" size={24} />
     </TouchableOpacity>
   );
 
   return (
     <View style={globalStyle.container}>
-      <SearchComponent />
+      <SearchComponent placeholder='Tên dịch vụ,...' searchValue='' onSearch={(value)=>{}} />
       {renderBody()}
       {renderButtonAdd()}
     </View>
