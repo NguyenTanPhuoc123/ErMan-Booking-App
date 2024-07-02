@@ -25,8 +25,8 @@ const styles = StyleSheet.create({
     right: 0,
     zIndex: 9999,
   },
-  containerCategory:{
-    flexDirection:'row'
+  containerCategory: {
+    flexDirection: 'row',
   },
   buttonCategory: {
     justifyContent: 'center',
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'grey',
     marginHorizontal: 10,
     borderRadius: 25,
-    marginBottom: 10
+    marginBottom: 10,
   },
   buttonCategoryActive: {
     justifyContent: 'center',
@@ -46,11 +46,16 @@ const styles = StyleSheet.create({
   },
   txtBtnActive: {
     color: '#433F3F',
-    textTransform:'none'
+    textTransform: 'none',
   },
-  txtBtnCategory:{
-    textTransform:'none'
-  }
+  txtBtnCategory: {
+    textTransform: 'none',
+  },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
 });
 
 export default styles;

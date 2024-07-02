@@ -1,9 +1,10 @@
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
-import {IActionSaveListServicesDiscountPayLoad, IActionSaveListServicesPayLoad, IServiceState} from './model';
+import {IActionSaveListServicesPayLoad, IServiceState} from './model';
 
 const initialState: IServiceState = {
   services: [],
-  servicesDiscount:[]
+  hasNextPage:true,
+  endCursor:''
 };
 
 const serviceSlice = createSlice({
@@ -17,6 +18,8 @@ const serviceSlice = createSlice({
       return {
         ...state,
         services: action.payload.services,
+        hasNextPage:action.payload.hasNextPage,
+        endCursor:action.payload.endCursor
       };
     },
     SAVE_LIST_SERVICES_LOAD_MORE: (
@@ -25,6 +28,8 @@ const serviceSlice = createSlice({
     ) => {
       return {
         ...state,
+        hasNextPage:action.payload.hasNextPage,
+        endCursor:action.payload.endCursor,
         branchs: [
           ...state.services,
           ...action.payload.services,

@@ -8,11 +8,13 @@ import * as UserApi from '../../api/user/queries';
 export const getListUsers = async (q?: string, page = 1, limit = 4) => {
   try {
     const res = await client.query({query: UserApi.GetListUsers});
-    const edges = res.data.User_connection.edges;
-    const users: User[] = edges.map((edge: any) => {
-      return {...edge.node};
-    });
-    return {result: users};
+    const listData = res.data.User_connection.edges;
+    const listUser: User[] = listData.map((data: any) => {
+      const userId = JSON.parse(atob(data.node.id))[3];
+      const {id, ...newUser} = data.node;
+      return {id: userId, ...newUser};
+    }) as User[];
+    return {result: listUser};
   } catch (error) {
     console.log('Error get list users: ', error);
     return {error};
@@ -50,22 +52,39 @@ export const editProfile = async (user: User) => {
     if (user.avatar) {
       saveAvatarInStorage(user.id, user.avatar);
     }
-    await firestore().collection('users').doc(user.id).update({
-      firstname: user.firstname,
-      lastname: user.lastname,
-      gender: user.gender,
-      birthday: user.birthday,
-      address: user.address,
+    const res = await client.mutate({
+      mutation: UserApi.EditProfile,
+      variables: {
+        id: user.id,
+        avatar: user.avatar,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        gender: user.gender,
+        birthday: user.birthday,
+        address: user.address,
+      },
     });
-    const userData = await firestore().collection('users').doc(user.id).get();
-    return {result: {id: user.id, ...userData.data()}};
+    const userData = res.data.update_User_by_pk;
+    const userUpdated: User = {
+      id: user.id,
+      avatar: user.avatar,
+      firstname: userData.firstname,
+      lastname: userData.lastname,
+      gender: userData.gender,
+      birthday: userData.birthday,
+      address: userData.address,
+      phone: userData.phone,
+      isVerified: userData.isVerified,
+      typeAccount: userData.typeAccount,
+    };
+    return {result: userUpdated};
   } catch (error) {
     console.log('Error edit user: ', error);
     return {error};
   }
 };
 
-const saveAvatarInStorage = async (id: string, path: string) => {
+const saveAvatarInStorage = async (id: number, path: string) => {
   try {
     storage()
       .ref(`users/${id}/${id}_avatar`)
@@ -75,19 +94,17 @@ const saveAvatarInStorage = async (id: string, path: string) => {
           .ref(`users/${id}/${id}_avatar`)
           .getDownloadURL()
           .then(async value => {
-            firestore()
-              .collection('users')
-              .doc(id)
-              .update({avatar: value.toString()})
-              .then(() => {
-                console.log('Updated avatar after edit profile');
-              });
+            await client.mutate({
+              mutation: UserApi.UpdateAvatar,
+              variables: {id: id, avatar: value},
+            });
           });
       });
   } catch (error) {
     console.log('Error save avatar on storage, because ', error);
   }
 };
+
 export const verifyPhone = async (phone: string) => {
   try {
     const confirmation = await auth().verifyPhoneNumber(phone);
