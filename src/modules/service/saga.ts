@@ -11,7 +11,7 @@ import {saveListServices,saveListServicesLoadMore} from './reducer';
 export function* getListServiceFn(
   action: PayloadAction<IActionGetListServicesPayLoad>,
 ) {
-  const {onSuccess, onFail, limit, page, q} = action.payload;
+  const {onSuccess, onFail, limit, page,endCursor} = action.payload;
   const {isConnected} = yield isNetworkAvailable();
   if (!isConnected) {
     onFail && onFail();
@@ -19,15 +19,15 @@ export function* getListServiceFn(
   }
   const {result, error} = yield call(
     ServiceSalonService.getListServices,
-    q,
+    endCursor,
     limit,
   );
   if (!error) {
     if(page===1){
-    yield put(saveListServices({services: result}));
+    yield put(saveListServices(result));
     }
     else{
-      yield put(saveListServicesLoadMore({services: result}));
+      yield put(saveListServicesLoadMore(result));
     }
     onSuccess && onSuccess(result);
   } else {
@@ -35,26 +35,6 @@ export function* getListServiceFn(
   }
 }
 
-export function* getListServicesDiscountFn(
-  action: PayloadAction<IActionGetListServicesPayLoad>,
-) {
-  const {onSuccess, onFail, limit, q} = action.payload;
-  const {isConnected} = yield isNetworkAvailable();
-  if (!isConnected) {
-    onFail && onFail();
-    return;
-  }
-  const {result, error} = yield call(
-    ServiceSalonService.getListServicesDiscount,
-    q,
-    limit,
-  );
-  if (!error) {
-    onSuccess && onSuccess(result);
-  } else {
-    onFail && onFail(error);
-  }
-}
 
 export function* searchServiceByNameFn(
   action: PayloadAction<IActionSearchServicesByNamePayLoad>,

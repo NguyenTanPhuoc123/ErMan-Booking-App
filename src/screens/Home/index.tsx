@@ -208,7 +208,7 @@ const HomeScreen = () => {
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         ListEmptyComponent={
-          <Text style={globalStyle.fontText}>Không có dịch vụ</Text>
+          <Text style={styles.noItems}>Không có dịch vụ</Text>
         }
         renderItem={({item}) => <ItemServiceRow key={item.id} {...item} />}
       />
@@ -230,6 +230,9 @@ const HomeScreen = () => {
         data={branchs}
         keyExtractor={item => item.id.toString()}
         horizontal={true}
+        ListEmptyComponent={
+          <Text style={styles.noItems}>Không có chi nhánh</Text>
+        }
         renderItem={({item}) => <ItemBranchRow key={item.id} {...item} />}
       />
     </View>
@@ -249,6 +252,9 @@ const HomeScreen = () => {
         ref={stylistListRef}
         data={dataStylist}
         horizontal={true}
+        ListEmptyComponent={
+          <Text style={styles.noItems}>Không có stylist</Text>
+        }
         showsHorizontalScrollIndicator={false}
         renderItem={({item, index}) => (
           <ItemStylistRow

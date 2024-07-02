@@ -83,6 +83,13 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginHorizontal: 10,
   },
+  noItems: {
+    fontFamily: InriaSerifBold,
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+    color: '#D4D3D6',
+  },
 });
 
 export default styles;

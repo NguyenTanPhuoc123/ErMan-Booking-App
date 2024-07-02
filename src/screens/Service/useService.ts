@@ -1,14 +1,14 @@
 import {useRoute} from '@react-navigation/native';
-import {createRef, useCallback, useEffect, useState} from 'react';
+import {createRef, useEffect, useState} from 'react';
 import {FlatList} from 'react-native';
-import {getListService, getListServicesDiscount, searchServiceByName} from '../../modules/service';
+import {getListService, searchServiceByName} from '../../modules/service';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../redux/reducers';
-import {IServiceState} from '../../modules/service/model';
+import {IServiceState, Service} from '../../modules/service/model';
 import NavigationActionService from '../../navigation/navigation';
 import {ApiError} from '../../constants/api';
 import {NOTIFICATION_SCREEN} from '../../constants/screen_key';
-import {SkeletonLoadingRef} from '../../component/CustomSketelonService/type';
+import {debounce} from 'lodash';
 
 const category = [
   {
@@ -25,51 +25,39 @@ const useService = () => {
   const serviceListRef = createRef<FlatList>();
   const route = useRoute();
   const dispatch = useDispatch();
-  const {services, servicesDiscount} = useSelector<RootState, IServiceState>(
-    state => state.service,
-  );
-  const [loadMore,setLoadMore] = useState(false);
+  const {services, hasNextPage, endCursor} = useSelector<
+    RootState,
+    IServiceState
+  >(state => state.service);
+  const [isLoadMore, setIsLoadMore] = useState(false);
   const [refresh, setRefresh] = useState(false);
-  const [search,setSearch] = useState('');
+  const [search, setSearch] = useState('');
   const [categoryService, setCategoryService] = useState(0);
-  const skeletonRef = createRef<SkeletonLoadingRef>();
+  const [loading, setLoading] = useState(false);
+  const [listSearch, setListSearch] = useState<Service[]>([]);
   const onLoadServiceSuccess = () => {
-    skeletonRef.current?.hideSkeletonLoading();
+    setLoading(false);
     setRefresh(false);
   };
   const onLoadServiceFail = (error?: ApiError) => {
-    skeletonRef.current?.hideSkeletonLoading();
+    setLoading(false);
     setRefresh(false);
     console.log(error?.message);
   };
   useEffect(() => {
     // skeletonRef.current?.showSkeletonLoading();
-    if (search==='') {
+    if (search === '') {
       getListServices();
-    }else{
-      dispatch(searchServiceByName({
-        serviceName:search,
-        onSuccess:onLoadServiceSuccess,
-        onFail:onLoadServiceFail
-      }))
+    } else {
+      searchService();
     }
-      
-  }, [refresh,search]);
-  const pullRefresh = useCallback(() => {
+  }, [refresh, search]);
+  const pullRefresh = () => {
     setRefresh(true);
-  }, []);
-
-  const getListDiscount = () => {
-    dispatch(
-      getListServicesDiscount({
-        limit: 4,
-        onSuccess: onLoadServiceSuccess,
-        onFail: onLoadServiceFail,
-      }),
-    );
   };
 
   const getListServices = () => {
+    setLoading(true);
     dispatch(
       getListService({
         page: 1,
@@ -79,7 +67,45 @@ const useService = () => {
       }),
     );
   };
+  const onLoadMoreSuccess = () => {
+    setIsLoadMore(false);
+  };
+  const searchService = debounce(() => {
+    setLoading(true);
+    dispatch(
+      searchServiceByName({
+        serviceName: search,
+        onSuccess: (value: Service[]) => {
+          setListSearch(value);
+          setLoading(false);
+        },
+        onFail: () => {
+          setListSearch([]);
+          setLoading(false);
+        },
+      }),
+    );
+  }, 500);
+  const onLoadMoreFail = () => {
+    setIsLoadMore(false);
+  };
 
+  const loadMore = () => {
+    setIsLoadMore(true);
+    if (!hasNextPage && search != '') {
+      setIsLoadMore(false);
+      return;
+    }
+    dispatch(
+      getListService({
+        page: 2,
+        limit: 4,
+        endCursor: endCursor,
+        onSuccess: onLoadMoreSuccess,
+        onFail: onLoadMoreFail,
+      }),
+    );
+  };
   const goToNotifcation = () => {
     NavigationActionService.navigate(NOTIFICATION_SCREEN);
   };
@@ -92,11 +118,13 @@ const useService = () => {
     goToNotifcation,
     categoryService,
     setCategoryService,
-    servicesDiscount,
     category,
-    skeletonRef,
+    loading,
     search,
-    setSearch
+    setSearch,
+    loadMore,
+    isLoadMore,
+    listSearch,
   };
 };
 

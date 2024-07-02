@@ -30,12 +30,9 @@ const useDasboard = () => {
   const branchListRef = createRef<FlatList>();
   const stylistListRef = createRef<FlatList>();
   const [refresh, setRefresh] = useState(false);
-  const pullRefresh = useCallback(() => {
+  const pullRefresh = () => {
     setRefresh(true);
-    setTimeout(() => {
-      setRefresh(false);
-    }, 2000);
-  }, []);
+  };
   useEffect(() => {
     dispatch(getListService({page: 1, limit: 4}));
     dispatch(
@@ -44,7 +41,8 @@ const useDasboard = () => {
         limit: 4,
       }),
     );
-  }, []);
+    setRefresh(false);
+  }, [refresh]);
 
   const goToNotifcation = () => {
     NavigationActionService.navigate(NOTIFICATION_SCREEN);
