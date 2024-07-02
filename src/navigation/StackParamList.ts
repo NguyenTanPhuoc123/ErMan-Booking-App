@@ -20,8 +20,9 @@ import {
   SERVICE_SCREEN,
   USER_MANAGER_SCREEN,
   VERIFY_PHONE_SCREEN,
+  CALENDAR_SCREEN,
 } from '../constants/screen_key';
-import { ADD_NEW_USER } from '../modules/user/model';
+
 
 export type AuthStackParamList = {
   [LANDING_PAGE]: undefined;
@@ -43,7 +44,8 @@ export type MainStackParamList = {
   [SERVICE_DETAIL_SCREEN]:undefined;
   [BRANCH_SCREEN]:undefined;
   [NOTIFICATION_SCREEN]:undefined;
-  [NEWS_SCREEN]:undefined
+  [NEWS_SCREEN]:undefined;
+  [CALENDAR_SCREEN]:undefined;
 };
 
 export type AdminStackParamList = {

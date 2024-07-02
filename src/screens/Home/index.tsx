@@ -37,9 +37,14 @@ import ItemBranchRow from './components/ItemBranchRow';
 import ItemStylistRow from './components/ItemStylistRow';
 import BookingNear from './components/BookingNear';
 import NavigationActionService from '../../navigation/navigation';
-import {HOME_SCREEN, SERVICE_SCREEN} from '../../constants/screen_key';
+import {
+  CALENDAR_SCREEN,
+  HOME_SCREEN,
+  SERVICE_SCREEN,
+} from '../../constants/screen_key';
 import useDasboard from './useDashboard';
 import {Service} from '../../modules/service/model';
+import CalendarScreen from '../Calendar';
 const Sale = [
   {
     code: 'ERMAN16',
@@ -202,7 +207,9 @@ const HomeScreen = () => {
           <ButtonComponent
             icon="calendar-alt"
             title="Lịch làm việc"
-            onPress={() => {}}
+            onPress={() => {
+              NavigationActionService.navigate(CALENDAR_SCREEN);
+            }}
           />
         ) : (
           <ButtonComponent
@@ -269,11 +276,13 @@ const HomeScreen = () => {
       <FlatList<Service>
         ref={serviceListRef}
         data={services}
-        keyExtractor={item=>item.id}
+        keyExtractor={item => item.id}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         pagingEnabled
-        ListEmptyComponent={<Text style={globalStyle.fontText}>Không có dịch vụ</Text>}
+        ListEmptyComponent={
+          <Text style={globalStyle.fontText}>Không có dịch vụ</Text>
+        }
         renderItem={({item}) => <ItemServiceRow key={item.id} {...item} />}
       />
     </View>

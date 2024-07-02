@@ -28,6 +28,7 @@ import ServiceManagerScreen from '../screens/Admin/ServiceManager';
 import DrawerNavigator from './Drawer';
 import DashboardScreen from '../screens/Admin/Dashboard';
 import AddUsersScreen from '../screens/Admin/AddUsers';
+import CalendarScreen from '../screens/Calendar';
 
 
 
@@ -84,6 +85,7 @@ export const dashboardStackScreens: MainStackObject = {
   [SCREEN_KEYS.MY_BOOKING_SCREEN]: MyBookingScreen,
   [SCREEN_KEYS.MESSAGE_SCREEN]: MessageScreen,
   [SCREEN_KEYS.PERSONAL_SCREEN]: PersonalScreen,
+  [SCREEN_KEYS.NEWS_SCREEN]: NewsScreen,
 };
 export const mainStackScreens: MainStackObject = {
   ...dashboardStackScreens,
@@ -92,14 +94,16 @@ export const mainStackScreens: MainStackObject = {
   [SCREEN_KEYS.SERVICE_DETAIL_SCREEN]: ServiceDetailScreen,
   [SCREEN_KEYS.BRANCH_SCREEN]: BranchScreen,
   [SCREEN_KEYS.NOTIFICATION_SCREEN]: NotificationScreen,
-  [SCREEN_KEYS.NEWS_SCREEN]: NewsScreen,
+  [SCREEN_KEYS.CALENDAR_SCREEN]:CalendarScreen,
+  
 };
 
 export const drawerStackScreens: AdminStackObject = {
   [SCREEN_KEYS.DASHBOARD_SCREEN]: DashboardScreen,
   [SCREEN_KEYS.USER_MANAGER_SCREEN]: UserManagerScreen,
   [SCREEN_KEYS.SERVICE_MANAGER_SCREEN]: ServiceManagerScreen,
-  [SCREEN_KEYS.PROFILE_SCREEN]:ProfileScreen
+  [SCREEN_KEYS.PROFILE_SCREEN]:ProfileScreen,
+  
 };
 export const adminStackScreens: AdminStackObject = {
   ...drawerStackScreens,
