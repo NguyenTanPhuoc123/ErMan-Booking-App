@@ -22,7 +22,6 @@ import ItemBranchRow from './components/ItemBranchRow';
 const BranchScreen = () => {
   const {
     goBack,
-    goToNotifcation,
     listBranchRef,
     refresh,
     listBranch,
@@ -51,14 +50,6 @@ const BranchScreen = () => {
         }
         centerComponent={<Text style={styles.titleHeader}>Chi nhánh</Text>}
         rightContainerStyle={styles.rightComponentHeader}
-        rightComponent={
-          <TouchableOpacity onPress={goToNotifcation}>
-            <View>
-              <View style={styles.pointNotification}></View>
-              <Icon name="bell" size={25} style={globalStyle.fontText} solid />
-            </View>
-          </TouchableOpacity>
-        }
       />
     );
   };

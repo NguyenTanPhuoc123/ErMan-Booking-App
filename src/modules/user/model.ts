@@ -2,12 +2,16 @@ import {BodyParams} from '../auth/model';
 import {IActionCallback} from '../base';
 
 export const ROOT_MODULE = 'user';
-export const GET_LIST_USERS = `${ROOT_MODULE}/GET_LIST_CUSTOMER`;
+export const GET_LIST_CUSTOMER = `${ROOT_MODULE}/GET_LIST_CUSTOMER`;
+export const GET_LIST_STAFF= `${ROOT_MODULE}/GET_LIST_STAFF`;
 export const ADD_NEW_USER = `${ROOT_MODULE}/ADD_NEW_USER`;
 export const DELETE_USER = `${ROOT_MODULE}/DELETE_USER`;
 export const EDIT_USER = `${ROOT_MODULE}/EDIT_USER`;
+export const SEARCH_STAFF = `${ROOT_MODULE}/SEARCH_STAFF`;
 export interface IUserState {
-  users: User[];
+  users: (User | Staff | Admin) [];
+  hasNextPage:boolean;
+  endCursor?: string;
 }
 export interface User {
   id: number;
@@ -22,21 +26,42 @@ export interface User {
   typeAccount: 'Customer' | 'Staff' | 'Admin';
 }
 
-export interface IActionGetListUserPayload extends IActionCallback {
-  q?: string;
-  page?: number;
-  limit?: number;
+export interface Staff extends User {
+  workPlace: string;
+  timeStartWork: string;
+
 }
-export type IActionGetListStaffPayload = IActionCallback;
+
+export interface Admin extends User {
+  workPlace: string;
+  timeStartWork: string;
+} 
+
+export interface IActionGetListUserPayload extends IActionCallback {
+  page:number;
+  limit:number;
+  endCursor?:string;
+}
+
+export interface IActionGetListStaffPayload extends IActionCallback {
+  endCursor?: string;
+  limit: number;
+  page:number;
+};
 
 export interface IActionSaveListUserPayload {
-  users: User[];
+  users: (User | Staff | Admin)[];
+  hasNextPage:boolean;
+  endCursor?: string;
 }
 
 export interface IActionAddToListUserPayload {
-  user: User;
+  user: User | Staff | Admin;
 }
 
+export interface IActionSearchStylistPayload extends IActionCallback {
+  search:string;
+}
 export interface IActionDeleteUserPayload {
   id: string;
 }

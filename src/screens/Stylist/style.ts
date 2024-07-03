@@ -26,6 +26,11 @@ const styles = StyleSheet.create({
     right: 0,
     zIndex: 9999,
   },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
 });
 
 export default styles;

@@ -14,9 +14,14 @@ import {ICarouselInstance} from 'react-native-reanimated-carousel';
 import {FlatList} from 'react-native';
 import {IBranchState} from '../../modules/branch/model';
 import {getListBranchs} from '../../modules/branch';
+import { IUserState } from '../../modules/user/model';
+import { getListStaff } from '../../modules/user';
 
 const useDasboard = () => {
   const dispatch = useDispatch();
+  const stylists = useSelector<RootState, IUserState>(
+    state => state.user,
+  ).users.filter(user => user.typeAccount === 'Staff');
   const currentUser = useSelector<RootState, IAuthState>(
     state => state.auth,
   ).userData;
@@ -39,6 +44,12 @@ const useDasboard = () => {
       getListBranchs({
         page: 1,
         limit: 4,
+      }),
+    );
+    dispatch(
+      getListStaff({
+        limit: 4,
+        page: 1,
       }),
     );
     setRefresh(false);
@@ -71,6 +82,7 @@ const useDasboard = () => {
     refresh,
     pullRefresh,
     branchs,
+    stylists
   };
 };
 

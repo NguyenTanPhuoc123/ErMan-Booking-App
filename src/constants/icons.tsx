@@ -10,6 +10,7 @@ import CUSTOMER from '../assets/images/customer.jpg'
 import LIST_SERVICE_EMPTY from '../assets/icons/listservice_empty.png'
 import LIST_USER_EMPTY from'../assets/icons/user_empty.png'
 import LIST_BRANCH_EMPTY from '../assets/icons/store_empty.png'
+import ICON_STYLIST from '../assets/icons/cut_hair.png'
 export {
   LANDING_PAGE,
   LOGO_APP,
@@ -22,5 +23,6 @@ export {
   CUSTOMER,
   LIST_SERVICE_EMPTY,
   LIST_USER_EMPTY,
-  LIST_BRANCH_EMPTY
+  LIST_BRANCH_EMPTY,
+  ICON_STYLIST
 };
