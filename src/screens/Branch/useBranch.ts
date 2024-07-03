@@ -108,13 +108,8 @@ const useBranch = () => {
   const goBack = () => {
     NavigationActionService.pop();
   };
-
-  const goToNotifcation = () => {
-    NavigationActionService.navigate(NOTIFICATION_SCREEN);
-  };
   return {
     goBack,
-    goToNotifcation,
     listBranchRef,
     refresh,
     listBranch,

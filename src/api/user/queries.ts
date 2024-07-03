@@ -92,3 +92,73 @@ export const UpdateAvatar = gql`
     }
   }
 `;
+
+export const GetListStaff = gql`
+  query GetListStaff($limit: Int, $after: String) {
+    User_connection(
+      where: {typeAccount: {_eq: "Staff"}}
+      first: $limit
+      order_by: {id: asc}
+      after: $after
+    ) {
+      edges {
+        node {
+          id
+          firstname
+          lastname
+          avatar
+          gender
+          birthday
+          address
+          phone
+          isVerified
+          Staff {
+            timeStartWork
+            workPlace
+          }
+          typeAccount
+        }
+        cursor
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+    }
+  }
+`;
+
+export const SearchStaff = gql`
+  query SearchStaf($search: String) {
+    User_connection(
+      where: {
+        typeAccount: {_eq: "Staff"}
+        _or: [
+          {firstname: {_ilike: $search}}
+          {lastname: {_ilike: $search}}
+          {Staff: {workPlace: {_ilike: $search}}}
+        ]
+      }
+      order_by: {id: asc}
+    ) {
+      edges {
+        node {
+          id
+          firstname
+          lastname
+          avatar
+          gender
+          birthday
+          address
+          phone
+          isVerified
+          Staff {
+            timeStartWork
+            workPlace
+          }
+          typeAccount
+        }
+      }
+    }
+  }
+`;

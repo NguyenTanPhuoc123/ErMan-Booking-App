@@ -1,11 +1,11 @@
 import firestore from '@react-native-firebase/firestore';
-import {User} from './model';
+import {Staff, User} from './model';
 import {BodyParams} from '../auth/model';
 import auth from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
 import client from '../../api';
 import * as UserApi from '../../api/user/queries';
-export const getListUsers = async (q?: string, page = 1, limit = 4) => {
+export const getListCustomer = async (q?: string, page = 1, limit = 4) => {
   try {
     const res = await client.query({query: UserApi.GetListUsers});
     const listData = res.data.User_connection.edges;
@@ -15,6 +15,51 @@ export const getListUsers = async (q?: string, page = 1, limit = 4) => {
       return {id: userId, ...newUser};
     }) as User[];
     return {result: listUser};
+  } catch (error) {
+    console.log('Error get list users: ', error);
+    return {error};
+  }
+};
+
+export const getListStaffs = async (limit:number,after?: string) => {
+  try {
+    let res;
+    if (after) {
+      res = await client.query({
+        query: UserApi.GetListStaff,
+        variables: {
+          limit,
+          after,
+        },
+      });
+    }
+    else{
+      res = await client.query({
+        query: UserApi.GetListStaff,
+        variables: {
+          limit,
+        },
+      });
+    }
+    const hasNextPage = res.data.User_connection.pageInfo.hasNextPage;
+    const endCursor = res.data.User_connection.pageInfo.endCursor;
+    const listData = res.data.User_connection.edges;
+    if(after===endCursor){
+      return;
+    }
+    const listStaff: Staff[] = listData.map((data: any) => {
+      const userId = JSON.parse(atob(data.node.id))[3];
+      const workPlace = data.node.Staff.workPlace;
+      const timeStartWork = data.node.Staff.timeStartWork;
+      const {id, Staffs, ...newUser} = data.node;
+      return {
+        id: userId,
+        workPlace: workPlace,
+        timeStartWork: timeStartWork,
+        ...newUser,
+      };
+    }) as Staff[];
+    return {result: {users: listStaff, hasNextPage, endCursor}}
   } catch (error) {
     console.log('Error get list users: ', error);
     return {error};
@@ -43,6 +88,28 @@ export const addNewUser = async (body: BodyParams, typeAccount: string) => {
     return {result: res};
   } catch (error) {
     console.log('Error register: ', error);
+    return {error};
+  }
+};
+
+export const searchStaff = async (search: string) => {
+  try {
+    const res = await client.query({
+      query: UserApi.SearchStaff,
+      variables: {search: `%${search}%`},
+    });
+    const listData = res.data.User_connection.edges;
+    const listStaff: Staff[] = listData.map((data: any) => {
+      const userId = JSON.parse(atob(data.node.id))[3];
+      const workPlace = data.node.Staff.workPlace;
+      const timeStartWork = data.node.Staff.timeStartWork;
+      const {id,Staffs, ...newUser} = data.node;
+      return {id: userId,workPlace:workPlace,timeStartWork:timeStartWork, ...newUser};
+    }) as Staff[];
+
+    return {result: listStaff};
+  } catch (error) {
+    console.log('Error search stylist: ', error);
     return {error};
   }
 };

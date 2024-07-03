@@ -14,6 +14,8 @@ const initialState: IAuthState = {
     address: '',
     isVerified: false,
     typeAccount: 'Customer',
+    workPlace:'',
+    timeStartWork:'01-01-2024'
   },
 };
 
