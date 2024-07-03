@@ -7,6 +7,8 @@ import {
 
 const initialState: IUserState = {
   users: [],
+  endCursor: '',
+  hasNextPage: true,
 };
 
 const userSlice = createSlice({
@@ -17,8 +19,18 @@ const userSlice = createSlice({
       state: IUserState,
       action: PayloadAction<IActionSaveListUserPayload>,
     ) => {
-      const {users} = action.payload;
-      return {...state, users: users};
+      return {...state, ...action.payload};
+    },
+    SAVE_LIST_USER_LOADMORE: (
+      state: IUserState,
+      action: PayloadAction<IActionSaveListUserPayload>,
+    ) => {
+      return {
+        ...state,
+        hasNextPage: action.payload.hasNextPage,
+        endCursor: action.payload.endCursor,
+        users: [...state.users, ...action.payload.users],
+      };
     },
     ADD_TO_LIST: (
       state: IUserState,
@@ -31,5 +43,8 @@ const userSlice = createSlice({
 });
 
 export const {reducer} = userSlice;
-export const {SAVE_LIST_USER: saveListUser, ADD_TO_LIST: addToList} =
-  userSlice.actions;
+export const {
+  SAVE_LIST_USER: saveListUser,
+  ADD_TO_LIST: addToList,
+  SAVE_LIST_USER_LOADMORE: saveListUserLoadmore,
+} = userSlice.actions;

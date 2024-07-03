@@ -1,5 +1,5 @@
 import {IActionCallback} from '../base';
-import {User} from '../user/model';
+import {Admin, Staff, User} from '../user/model';
 export const ROOT_MODULE = 'auth';
 export const LOGIN = `${ROOT_MODULE}/LOGIN`;
 export const REGISTER = `${ROOT_MODULE}/REGISTER`;
@@ -13,7 +13,7 @@ export const USER_READY_LOAD_DATA = `${ROOT_MODULE}/USER_READY_LOAD_DATA`;
 export const EDIT_PROFILE = `${ROOT_MODULE}/EDIT_PROFILE`;
 export interface IAuthState {
   isLogged: boolean;
-  userData: User;
+  userData: User | Staff | Admin;
 }
 
 export type IActionGetCurrentUserPayload = IActionCallback;
@@ -22,7 +22,7 @@ export interface IActionVerifyPhonePayload extends IActionCallback {
   phone: string;
 }
 export interface IActionSaveUserPayload {
-  user: User;
+  user: User | Staff | Admin;
 }
 
 export interface IActionLoginPayload extends IActionCallback {
@@ -50,5 +50,5 @@ export interface IActionChangePasswordPayload extends IActionCallback {
   newPassword: string;
 }
 export interface IActionEditProfilePayload extends IActionCallback {
-  user: User;
+  user: User | Staff | Admin;
 }

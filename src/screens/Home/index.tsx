@@ -25,13 +25,13 @@ import Dots from 'react-native-dots-pagination';
 import ItemServiceRow from './components/ItemServiceRow';
 import ButtonComponent from './components/ButtonComponent';
 import ItemBranchRow from './components/ItemBranchRow';
-import ItemStylistRow from './components/ItemStylistRow';
 import BookingNear from './components/BookingNear';
 import NavigationActionService from '../../navigation/navigation';
 import {HOME_SCREEN, SERVICE_SCREEN} from '../../constants/screen_key';
 import useDasboard from './useDashboard';
 import {Service} from '../../modules/service/model';
 import {Branch} from '../../modules/branch/model';
+import ItemStylistRow from './components/ItemStylistRow';
 const Sale = [
   {
     code: 'ERMAN16',
@@ -50,32 +50,6 @@ const Sale = [
   },
 ];
 
-const dataStylist = [
-  {
-    image: STYLELIST,
-    fullname: 'Nguyễn Thanh Sang',
-    rate: 5,
-    address: '96A Lý Phục Man, phường Bình Thuận, quận 7, TP.HCM',
-  },
-  {
-    image: STYLELIST,
-    fullname: 'Nguyễn Thanh Sang',
-    rate: 4,
-    address: 'ấp Long Phú, xã Long Định, huyện Bình Đại, Bến Tre',
-  },
-  {
-    image: STYLELIST,
-    fullname: 'Nguyễn Thanh Sang',
-    rate: 2,
-    address: '96A Lý Phục Man, phường Bình Thuận, quận 7, TP.HCM',
-  },
-  {
-    image: STYLELIST,
-    fullname: 'Nguyễn Thanh Sang',
-    rate: 1,
-    address: '15 Thép Mới, phường 12, quận Tân Bình, TP.HCM',
-  },
-];
 const HomeScreen = () => {
   const {
     services,
@@ -92,6 +66,7 @@ const HomeScreen = () => {
     refresh,
     pullRefresh,
     branchs,
+    stylists
   } = useDasboard();
   const renderHeader = () => {
     return (
@@ -141,7 +116,7 @@ const HomeScreen = () => {
           />
         ) : (
           <ButtonComponent
-            icon="newspaper"
+            icon="user"
             title="Stylist"
             onPress={goToStylists}
           />
@@ -250,7 +225,7 @@ const HomeScreen = () => {
       </View>
       <FlatList
         ref={stylistListRef}
-        data={dataStylist}
+        data={stylists}
         horizontal={true}
         ListEmptyComponent={
           <Text style={styles.noItems}>Không có stylist</Text>
@@ -259,10 +234,7 @@ const HomeScreen = () => {
         renderItem={({item, index}) => (
           <ItemStylistRow
             key={index}
-            image={item.image}
-            fullname={item.fullname}
-            rate={item.rate}
-            address={item.address}
+            {...item}
           />
         )}
       />
