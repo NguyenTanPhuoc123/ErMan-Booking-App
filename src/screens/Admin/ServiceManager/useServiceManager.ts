@@ -22,6 +22,7 @@ const useServiceManager = () =>{
         setRefresh(true);
         dispatch(getListService({
             limit:3,
+            page:1,
             onSuccess:onGetSuccess,
             onFail:onGetFail
         }));

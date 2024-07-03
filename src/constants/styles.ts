@@ -2,7 +2,7 @@ import {Dimensions, StyleSheet} from 'react-native';
 import * as Font from './font'
 export const WITDH = Dimensions.get('screen').width;
 export const HEIGHT = Dimensions.get('screen').height;
-
+export const colorSkeletonItem = 'rgba(95, 92, 85,0.8)';
 const globalStyle = StyleSheet.create({
   fullScreenSize: {
     width: Dimensions.get('screen').width,

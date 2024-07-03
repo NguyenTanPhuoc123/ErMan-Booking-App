@@ -12,16 +12,15 @@ const styles = StyleSheet.create({
   textTab :{
     color:'#fff',
     fontFamily:InriaSerifRegular,
-    fontSize:18,
+    fontSize:16,
     textTransform:'none'
   },
   containerButton:{
     justifyContent:'center',
     alignItems:'center',
-    width:50,
-    height:50,
-    borderRadius:25,
-    backgroundColor:"yellow",
+    width:60,
+    height:60,
+    borderRadius:30,
     position:'absolute',
     bottom:60,
     right:20,

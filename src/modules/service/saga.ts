@@ -1,14 +1,17 @@
 import {PayloadAction} from '@reduxjs/toolkit';
 import * as ServiceSalonService from './service';
-import {IActionGetListServicesPayLoad} from './model';
+import {
+  IActionGetListServicesPayLoad,
+  IActionSearchServicesByNamePayLoad,
+} from './model';
 import {isNetworkAvailable} from '../network/saga';
 import {call, put} from 'redux-saga/effects';
-import {saveListServices, saveListServicesDiscount} from './reducer';
+import {saveListServices,saveListServicesLoadMore} from './reducer';
 
 export function* getListServiceFn(
   action: PayloadAction<IActionGetListServicesPayLoad>,
 ) {
-  const {onSuccess, onFail, limit, page, q} = action.payload;
+  const {onSuccess, onFail, limit, page,endCursor} = action.payload;
   const {isConnected} = yield isNetworkAvailable();
   if (!isConnected) {
     onFail && onFail();
@@ -16,35 +19,37 @@ export function* getListServiceFn(
   }
   const {result, error} = yield call(
     ServiceSalonService.getListServices,
-    q,
-    page,
+    endCursor,
     limit,
   );
   if (!error) {
-    yield put(saveListServices({services: result}));
+    if(page===1){
+    yield put(saveListServices(result));
+    }
+    else{
+      yield put(saveListServicesLoadMore(result));
+    }
     onSuccess && onSuccess(result);
   } else {
     onFail && onFail(error);
   }
 }
 
-export function* getListServicesDiscountFn(
-  action: PayloadAction<IActionGetListServicesPayLoad>,
+
+export function* searchServiceByNameFn(
+  action: PayloadAction<IActionSearchServicesByNamePayLoad>,
 ) {
-  const {onSuccess, onFail, limit, page, q} = action.payload;
+  const {onSuccess, onFail, serviceName} = action.payload;
   const {isConnected} = yield isNetworkAvailable();
   if (!isConnected) {
     onFail && onFail();
     return;
   }
   const {result, error} = yield call(
-    ServiceSalonService.getListServicesDiscount,
-    q,
-    page,
-    limit,
+    ServiceSalonService.searchServiceByName,
+    serviceName,
   );
   if (!error) {
-    yield put(saveListServicesDiscount({servicesDiscount: result}));
     onSuccess && onSuccess(result);
   } else {
     onFail && onFail(error);

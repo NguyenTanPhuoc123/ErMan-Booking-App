@@ -40,6 +40,7 @@ export function* getCurrentUserFn(
     return;
   }
   const {result, error} = yield call(AuthService.getCurrentUser);
+
   if (!error) {
     yield put(saveUser({user: result}));
     onSuccess && onSuccess(result);
@@ -88,19 +89,18 @@ export function* userReadyLoadDataFn() {
 export function* editProfileFn(
   action: PayloadAction<IActionEditProfilePayload>,
 ) {
-  const {user,onSuccess, onFail} = action.payload;
+  const {user, onSuccess, onFail} = action.payload;
   const {isConnected} = yield isNetworkAvailable();
   if (!isConnected) {
     onFail && onFail();
     return;
   }
-  const {result,error} = yield call(AuthService.editProfile,user);
+  const {result, error} = yield call(AuthService.editProfile, user);
 
-  if(!error){
-    yield put(saveUser({user:result}))
+  if (!error) {
+    yield put(saveUser({user: result}));
     onSuccess && onSuccess(result);
-  }
-  else if (onFail){
+  } else if (onFail) {
     onFail && onFail(error);
   }
 }

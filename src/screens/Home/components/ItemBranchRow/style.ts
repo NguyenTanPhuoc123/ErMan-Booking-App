@@ -4,7 +4,7 @@ import { InriaSerifBold } from '../../../../constants/font';
 
 const styles = StyleSheet.create({
   container: {
-    width: WITDH / 2,
+    width: WITDH / 2 - 20,
     backgroundColor: '#474444',
     height: 205,
     borderRadius: 20,

@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import { WITDH } from '../../../../constants/styles';
+import { WITDH } from '../../../../../constants/styles';
 
 const styles = StyleSheet.create({
   containerSearch: {

@@ -1,5 +1,5 @@
 export interface SkeletonLoadingRef {
-    isLoading: ()=>boolean;
-    showLoading: () => void;
-    hideLoading: () => void;
+    isSkeletonLoading: ()=>boolean;
+    showSkeletonLoading: () => void;
+    hideSkeletonLoading: () => void;
   }

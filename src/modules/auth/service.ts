@@ -3,7 +3,8 @@ import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import {BodyParams} from './model';
 import {User} from '../user/model';
-
+import client from '../../api';
+import * as UserApi from '../../api/user/queries';
 export const login = async (phone: string, password: string) => {
   try {
     const phoneMail = `${phone}@gmail.com`;
@@ -20,12 +21,28 @@ export const login = async (phone: string, password: string) => {
 export const getCurrentUser = async () => {
   try {
     const indexEnd = auth().currentUser?.email?.indexOf('@gmail.com');
-    const phone = auth().currentUser?.email?.substring(0, indexEnd);
-    const res = await firestore().collection('users').get();
-    const userData = res.docs.find(user => user.data().phone === phone);
-    const user = userData?.data();
+    const numberPhone = auth().currentUser?.email?.substring(0, indexEnd);
 
-    return {result: {id: userData?.id, ...user}};
+    const res = await client.query({
+      query: UserApi.GetCurrentUser,
+      variables: {numberPhone},
+    });
+    const userData = res.data.User_connection.edges;
+    const id = JSON.parse(atob(userData[0].node.id));
+    const result: User = {
+      id: id[3],
+      avatar: userData[0].node.avatar,
+      firstname: userData[0].node.firstname,
+      lastname: userData[0].node.lastname,
+      gender: userData[0].node.gender,
+      birthday: userData[0].node.birthday,
+      address: userData[0].node.address,
+      phone: userData[0].node.phone,
+      isVerified: userData[0].node.isVerified,
+      typeAccount: userData[0].node.typeAccount,
+    };
+
+    return {result: result};
   } catch (error) {
     console.log('Error get current user: ', error);
     return {error};
@@ -85,22 +102,39 @@ export const editProfile = async (user: User) => {
     if (user.avatar) {
       saveAvatarInStorage(user.id, user.avatar);
     }
-    await firestore().collection('users').doc(user.id).update({
-      firstname: user.firstname,
-      lastname: user.lastname,
-      gender: user.gender,
-      birthday: user.birthday,
-      address: user.address,
+    const res = await client.mutate({
+      mutation: UserApi.EditProfile,
+      variables: {
+        id: user.id,
+        avatar: user.avatar,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        gender: user.gender,
+        birthday: user.birthday,
+        address: user.address,
+      },
     });
-    const userData = await firestore().collection('users').doc(user.id).get();
-    return {result: { id:user.id,...userData.data()}};
+    const userData = res.data.update_User_by_pk;
+    const userUpdated: User = {
+      id: user.id,
+      avatar: user.avatar,
+      firstname: userData.firstname,
+      lastname: userData.lastname,
+      gender: userData.gender,
+      birthday: userData.birthday,
+      address: userData.address,
+      phone: userData.phone,
+      isVerified: userData.isVerified,
+      typeAccount: userData.typeAccount,
+    };
+    return {result: userUpdated};
   } catch (error) {
     console.log('Error edit user: ', error);
     return {error};
   }
 };
 
-const saveAvatarInStorage = async (id: string, path: string) => {
+const saveAvatarInStorage = async (id: number, path: string) => {
   try {
     storage()
       .ref(`users/${id}/${id}_avatar`)
@@ -110,13 +144,10 @@ const saveAvatarInStorage = async (id: string, path: string) => {
           .ref(`users/${id}/${id}_avatar`)
           .getDownloadURL()
           .then(async value => {
-            firestore()
-              .collection('users')
-              .doc(id)
-              .update({avatar: value.toString()})
-              .then(() => {
-                console.log('Updated avatar after edit profile');
-              });
+            await client.mutate({
+              mutation: UserApi.UpdateAvatar,
+              variables: {id: id, avatar: value},
+            });
           });
       });
   } catch (error) {
@@ -134,12 +165,10 @@ export const logout = async () => {
   }
 };
 
-export const forgotPassword = async() =>{
-  try{
-
+export const forgotPassword = async () => {
+  try {
+  } catch (error) {
+    console.log('Error change password: ', error);
+    return {error};
   }
-  catch(error){
-    console.log("Error change password: ",error);
-    return {error}
-  }
-}
+};

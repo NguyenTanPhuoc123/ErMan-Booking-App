@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../redux/reducers';
 import {IUserState} from '../../../modules/user/model';
-import {getListCustomer} from '../../../modules/user';
+import {getListUser} from '../../../modules/user';
 
 const useUserManager = () => {
   const dispatch = useDispatch();
@@ -11,7 +11,7 @@ const useUserManager = () => {
   const [refresh, setRefresh] = useState(false);
   useEffect(() => {
     dispatch(
-      getListCustomer({
+      getListUser({
         onSuccess: loadSuccess,
         onFail: loadFail,
       }),

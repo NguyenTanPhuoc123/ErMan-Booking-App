@@ -4,7 +4,7 @@ import {IActionSaveUserPayload, IAuthState, LOG_OUT} from './model';
 const initialState: IAuthState = {
   isLogged: false,
   userData: {
-    id: '',
+    id: 0,
     avatar: '',
     firstname: '',
     lastname: '',
@@ -26,6 +26,7 @@ const authSlice = createSlice({
       action: PayloadAction<IActionSaveUserPayload>,
     ) => {
       const {user} = action.payload;
+
       return {
         ...state,
         userData: user,

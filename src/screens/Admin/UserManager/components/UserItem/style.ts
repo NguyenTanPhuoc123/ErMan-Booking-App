@@ -20,11 +20,8 @@ avatar:{
     marginRight:20,
     marginLeft:10
 },
-containerInfo:{
-
-},
 info:{
-    fontSize:20,
+    fontSize:18,
     color:'#d4d3d6',
     fontFamily:InriaSerifBold
 },

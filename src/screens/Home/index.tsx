@@ -6,33 +6,24 @@ import {
   FlatList,
   RefreshControl,
 } from 'react-native';
-import React, {createRef, useCallback, useEffect, useState} from 'react';
+import React from 'react';
 import globalStyle, {WITDH} from '../../constants/styles';
-import {useSelector} from 'react-redux';
-import {RootState} from '../../redux/reducers';
-import {IAuthState} from '../../modules/auth/model';
 import {Header} from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
 import styles from './style';
 import {
   AVARTAR_DEFAULT_CUSTOMER,
   AVARTAR_DEFAULT_STAFF,
-  BRANCH,
-  CUSTOMER,
   SERVICE_CUT_HAIR,
   STYLELIST,
 } from '../../constants/icons';
 import {APP_TYPE} from '../../constants/app_info';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import SearchComponent from './components/Search';
 import SaleComponent from './components/Sales';
-import DiscountCarousel, {
-  ICarouselInstance,
-} from 'react-native-reanimated-carousel';
+import DiscountCarousel from 'react-native-reanimated-carousel';
 import Dots from 'react-native-dots-pagination';
 import ItemServiceRow from './components/ItemServiceRow';
 import ButtonComponent from './components/ButtonComponent';
-import ItemNewsRow from './components/ItemNewsRow';
 import ItemBranchRow from './components/ItemBranchRow';
 import ItemStylistRow from './components/ItemStylistRow';
 import BookingNear from './components/BookingNear';
@@ -44,7 +35,7 @@ import {
 } from '../../constants/screen_key';
 import useDasboard from './useDashboard';
 import {Service} from '../../modules/service/model';
-import CalendarScreen from '../Calendar';
+import {Branch} from '../../modules/branch/model';
 const Sale = [
   {
     code: 'ERMAN16',
@@ -60,64 +51,6 @@ const Sale = [
     code: 'ERMAN18',
     content: 'Tất cả các dịch vụ tại Erman Salon từ 5/7 - 6/7',
     discountPercent: 70,
-  },
-];
-
-const dataNews = [
-  {
-    image: SERVICE_CUT_HAIR,
-    title: 'Làm thế nào để không bị rụng tóc?',
-  },
-  {
-    image: SERVICE_CUT_HAIR,
-    title: 'Làm thế nào để không bị rụng tóc?',
-  },
-  {
-    image: SERVICE_CUT_HAIR,
-    title: 'Làm thế nào để không bị rụng tóc?',
-  },
-  {
-    image: SERVICE_CUT_HAIR,
-    title: 'Làm thế nào để không bị rụng tóc?',
-  },
-  {
-    image: SERVICE_CUT_HAIR,
-    title: 'Làm thế nào để không bị rụng tóc?',
-  },
-];
-
-const dataBranch = [
-  {
-    image: BRANCH,
-    branchName: 'Erman Quận 7',
-    rate: 5,
-    address: '96A Lý Phục Man, phường Bình Thuận, quận 7, TP.HCM',
-    distance: 1000,
-    status: true,
-  },
-  {
-    image: BRANCH,
-    branchName: 'Erman Bến Tre',
-    rate: 4,
-    address: 'ấp Long Phú, xã Long Định, huyện Bình Đại, Bến Tre',
-    distance: 500,
-    status: false,
-  },
-  {
-    image: BRANCH,
-    branchName: 'Erman Quận 7',
-    rate: 2,
-    address: '96A Lý Phục Man, phường Bình Thuận, quận 7, TP.HCM',
-    distance: 100,
-    status: true,
-  },
-  {
-    image: BRANCH,
-    branchName: 'Erman Quận Tân Bình',
-    rate: 1,
-    address: '15 Thép Mới, phường 12, quận Tân Bình, TP.HCM',
-    distance: 1000,
-    status: false,
   },
 ];
 
@@ -148,21 +81,22 @@ const dataStylist = [
   },
 ];
 const HomeScreen = () => {
-  const {services, currentUser, goToBranch, goToNotifcation, goToNews} =
-    useDasboard();
-  const discountRef = createRef<ICarouselInstance>();
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const serviceListRef = createRef<FlatList>();
-  const newsListRef = createRef<FlatList>();
-  const branchListRef = createRef<FlatList>();
-  const stylistListRef = createRef<FlatList>();
-  const [refresh, setRefresh] = useState(false);
-  const pullRefresh = useCallback(() => {
-    setRefresh(true);
-    setTimeout(() => {
-      setRefresh(false);
-    }, 2000);
-  }, []);
+  const {
+    services,
+    currentUser,
+    goToBranch,
+    goToNotifcation,
+    goToStylists,
+    discountRef,
+    currentIndex,
+    setCurrentIndex,
+    serviceListRef,
+    branchListRef,
+    stylistListRef,
+    refresh,
+    pullRefresh,
+    branchs,
+  } = useDasboard();
   const renderHeader = () => {
     return (
       <Header
@@ -214,8 +148,8 @@ const HomeScreen = () => {
         ) : (
           <ButtonComponent
             icon="newspaper"
-            title="Tin tức"
-            onPress={goToNews}
+            title="Stylist"
+            onPress={goToStylists}
           />
         )}
         <ButtonComponent icon="store" title="Chi nhánh" onPress={goToBranch} />
@@ -279,34 +213,10 @@ const HomeScreen = () => {
         keyExtractor={item => item.id}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        pagingEnabled
         ListEmptyComponent={
-          <Text style={globalStyle.fontText}>Không có dịch vụ</Text>
+          <Text style={styles.noItems}>Không có dịch vụ</Text>
         }
         renderItem={({item}) => <ItemServiceRow key={item.id} {...item} />}
-      />
-    </View>
-  );
-
-  const renderNews = () => (
-    <View style={styles.containerList}>
-      <View style={styles.lineTitle}>
-        <Text style={[globalStyle.fontText, styles.titleList]}>Tin tức</Text>
-        <TouchableOpacity>
-          <Text style={[globalStyle.fontText, styles.txtViewMore]}>
-            Xem thêm
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <FlatList
-        ref={newsListRef}
-        data={dataNews}
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        pagingEnabled
-        renderItem={({item, index}) => (
-          <ItemNewsRow key={index} image={item.image} title={item.title} />
-        )}
       />
     </View>
   );
@@ -315,29 +225,21 @@ const HomeScreen = () => {
     <View style={styles.containerList}>
       <View style={styles.lineTitle}>
         <Text style={[globalStyle.fontText, styles.titleList]}>Chi nhánh</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={goToBranch}>
           <Text style={[globalStyle.fontText, styles.txtViewMore]}>
             Xem thêm
           </Text>
         </TouchableOpacity>
       </View>
-      <FlatList
+      <FlatList<Branch>
         ref={branchListRef}
-        data={dataBranch}
+        data={branchs}
+        keyExtractor={item => item.id.toString()}
         horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        pagingEnabled
-        renderItem={({item, index}) => (
-          <ItemBranchRow
-            key={index}
-            image={item.image}
-            branchName={item.branchName}
-            distance={item.distance}
-            rate={item.rate}
-            address={item.address}
-            status={item.status}
-          />
-        )}
+        ListEmptyComponent={
+          <Text style={styles.noItems}>Không có chi nhánh</Text>
+        }
+        renderItem={({item}) => <ItemBranchRow key={item.id} {...item} />}
       />
     </View>
   );
@@ -346,7 +248,7 @@ const HomeScreen = () => {
     <View style={styles.containerList}>
       <View style={styles.lineTitle}>
         <Text style={[globalStyle.fontText, styles.titleList]}>Stylist</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={goToStylists}>
           <Text style={[globalStyle.fontText, styles.txtViewMore]}>
             Xem thêm
           </Text>
@@ -356,8 +258,10 @@ const HomeScreen = () => {
         ref={stylistListRef}
         data={dataStylist}
         horizontal={true}
+        ListEmptyComponent={
+          <Text style={styles.noItems}>Không có stylist</Text>
+        }
         showsHorizontalScrollIndicator={false}
-        pagingEnabled
         renderItem={({item, index}) => (
           <ItemStylistRow
             key={index}
@@ -394,11 +298,9 @@ const HomeScreen = () => {
           <RefreshControl onRefresh={pullRefresh} refreshing={refresh} />
         }>
         {renderButtonComponent()}
-        <SearchComponent />
         {renderSlideDiscount()}
         {APP_TYPE === 'Staff' ? renderBookingNear() : <></>}
         {renderService()}
-        {renderNews()}
         {renderBranch()}
         {renderStylist()}
       </ScrollView>
