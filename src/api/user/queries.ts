@@ -51,28 +51,28 @@ export const GetListUsers = gql`
 `;
 
 export const GetCurrentUser = gql`
-  query MyQuery($phone:String!) {
-  User_connection(where: {phone: {_eq: $phone}}) {
-    edges {
-      node {
-        id
-        firstname
-        lastname
-        isVerified
-        phone
-        typeAccount
-        avatar
-        address
-        birthday
-        gender
-        Staff {
-          timeStartWork
-          workPlace
+  query MyQuery($phone: String!) {
+    User_connection(where: {phone: {_eq: $phone}}) {
+      edges {
+        node {
+          id
+          firstname
+          lastname
+          isVerified
+          phone
+          typeAccount
+          avatar
+          address
+          birthday
+          gender
+          Staff {
+            timeStartWork
+            workPlace
+          }
         }
       }
     }
   }
-}
 `;
 
 export const EditProfile = gql`
@@ -111,18 +111,37 @@ export const EditProfile = gql`
 `;
 
 export const AddNewUser = gql`
-  mutation AddNewUser($firstname: String!, $lastname: String!, $phone: String!, $typeAccount: String) {
-  insert_User_one(object: {avatar: "", birthday: "", firstname: $firstname, lastname: $lastname, isVerified: true, phone: $phone, typeAccount: $typeAccount, gender: true, address: ""}, on_conflict: {constraint: User_phone_key}) {
-    id
-    avatar
-    firstname
-    lastname
-    gender
-    birthday
-    phone
-    isVerified
-    address
-    typeAccount
+  mutation CreateNewUser(
+    $firstname: String!
+    $lastname: String!
+    $phone: String!
+    $typeAccount: String
+  ) {
+    insert_User_one(
+      object: {
+        avatar: ""
+        birthday: ""
+        firstname: $firstname
+        lastname: $lastname
+        isVerified: true
+        phone: $phone
+        typeAccount: $typeAccount
+        gender: true
+        address: ""
+      }
+      on_conflict: {constraint: User_phone_key}
+    ) {
+      id
+      avatar
+      firstname
+      lastname
+      gender
+      birthday
+      phone
+      isVerified
+      address
+      typeAccount
+    }
   }
 `;
 
@@ -146,29 +165,31 @@ export const UpdateAvatar = gql`
 export const GetListStaff = gql`
   query GetListStaff($limit: Int, $after: String) {
     User_connection(
+      order_by: {id: asc}
       where: {typeAccount: {_eq: "Staff"}}
       first: $limit
-      order_by: {id: asc}
       after: $after
     ) {
       edges {
+        cursor
         node {
           id
           firstname
           lastname
-          avatar
+          phone
+          typeAccount
           gender
           birthday
+          avatar
           address
-          phone
           isVerified
           Staff {
             timeStartWork
-            workPlace
+            Branch {
+              branchName
+            }
           }
-          typeAccount
         }
-        cursor
       }
       pageInfo {
         endCursor
