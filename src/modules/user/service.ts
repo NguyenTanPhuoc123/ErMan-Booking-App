@@ -48,10 +48,11 @@ export const getListStaffs = async (limit:number,after?: string) => {
       return;
     }
     const listStaff: Staff[] = listData.map((data: any) => {
+   
       const userId = JSON.parse(atob(data.node.id))[3];
-      const workPlace = data.node.Staff.workPlace;
+      const workPlace = data.node.Staff.Branch.branchName;
       const timeStartWork = data.node.Staff.timeStartWork;
-      const {id, Staffs, ...newUser} = data.node;
+      const {id, Staff, ...newUser} = data.node;
       return {
         id: userId,
         workPlace: workPlace,
@@ -95,10 +96,11 @@ export const searchStaff = async (search: string) => {
     });
     const listData = res.data.User_connection.edges;
     const listStaff: Staff[] = listData.map((data: any) => {
+      console.log("Staff ",data.node.Staff)
       const userId = JSON.parse(atob(data.node.id))[3];
-      const workPlace = data.node.Staff.workPlace;
+      const workPlace = data.node.Staff.Branch.branchName;
       const timeStartWork = data.node.Staff.timeStartWork;
-      const {id,Staffs, ...newUser} = data.node;
+      const {id,Staff, ...newUser} = data.node;
       return {id: userId,workPlace:workPlace,timeStartWork:timeStartWork, ...newUser};
     }) as Staff[];
 

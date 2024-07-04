@@ -24,10 +24,11 @@ export const getCurrentUser = async () => {
 
     const res = await client.query({
       query: UserApi.GetCurrentUser,
-      variables: {phone:numberPhone},
+      variables: {phone: numberPhone},
     });
     const userData = res.data.User_connection.edges;
     const id = JSON.parse(atob(userData[0].node.id));
+    const staff = userData[0].node.Staff;
     const result: User | Staff | Admin = {
       id: id[3],
       avatar: userData[0].node.avatar,
@@ -39,8 +40,8 @@ export const getCurrentUser = async () => {
       phone: userData[0].node.phone,
       isVerified: userData[0].node.isVerified,
       typeAccount: userData[0].node.typeAccount,
-      workPlace: userData[0].node.Staff.workPlace,
-      timeStartWork: userData[0].node.Staff.timeStartWork
+      workPlace: staff ? staff.workPlace : null,
+      timeStartWork: staff ? staff.timeStartWork : null,
     };
 
     return {result: result};
@@ -56,11 +57,14 @@ export const register = async (body: BodyParams) => {
     const res = auth()
       .createUserWithEmailAndPassword(phoneMail, body.password)
       .then(async () => {
-        await client.mutate({mutation:UserApi.Register,variables:{
-          firstname:body.firstname,
-          lastname:body.lastname,
-          phone:body.phone
-        }})
+        await client.mutate({
+          mutation: UserApi.Register,
+          variables: {
+            firstname: body.firstname,
+            lastname: body.lastname,
+            phone: body.phone,
+          },
+        });
       });
 
     return {result: res};

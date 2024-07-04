@@ -21,10 +21,10 @@ const styles = StyleSheet.create({
     marginBottom: 3,
     fontFamily: InriaSerifBold,
   },
-  address: {
+  workPlace: {
     textAlign: 'left',
-    fontSize: 12,
-    marginHorizontal: 4,
+    fontSize: 14,
+    marginHorizontal: 8,
     marginTop: 5,
   },
   rate: {
