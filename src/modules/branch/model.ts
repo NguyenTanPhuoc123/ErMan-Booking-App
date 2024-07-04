@@ -29,8 +29,8 @@ export interface IBranchState {
 
 export interface IActionGetListBranch extends IActionCallback {
   endCursor?: string;
-  page?: number;
-  limit?: number;
+  page: number;
+  limit: number;
 }
 
 export interface IActionSaveListBranch {

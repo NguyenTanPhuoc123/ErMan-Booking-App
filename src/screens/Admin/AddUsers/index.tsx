@@ -24,6 +24,7 @@ import {
 import {RadioButton} from 'react-native-paper';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
+import { loadBundle } from '@react-native-firebase/firestore';
 
 const AddUsersScreen = () => {
   const {
@@ -46,7 +47,9 @@ const AddUsersScreen = () => {
     closePicker,
     goBack,
     open,
-    onUploadAvatar
+    onUploadAvatar,
+    branchs,
+    isTypeAccountStaff
   } = useAddUser();
 
   const renderAvatar = () =>
@@ -101,6 +104,22 @@ const AddUsersScreen = () => {
         <CustomDropDown
           placeholder="Loại tài khoản"
           data={data}
+          label='label'
+          value={value}
+          onChange={onChange}
+        />
+      )}
+    />
+  );
+  const renderDropdownWorkPlace = () => (
+    <Controller
+      control={control}
+      name="workPlace"
+      render={({field: {onChange, value}}) => (
+        <CustomDropDown
+          placeholder="Nơi làm việc"
+          data={branchs}
+          label='branchName'
           value={value}
           onChange={onChange}
         />
@@ -315,6 +334,7 @@ const AddUsersScreen = () => {
             {renderAvatar()}
             {renderInputInfo()}
             {renderEditInfo('Loại tài khoản', renderDropdown())}
+            { renderEditInfo('Nơi làm việc ',renderDropdownWorkPlace())}
             {renderButtonAdd()}
           </>
         </TouchableWithoutFeedback>

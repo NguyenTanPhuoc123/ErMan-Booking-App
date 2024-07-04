@@ -5,13 +5,14 @@ import styles from './style';
 
 
 type DropDownProps = {
-    value:string;
-    data:Array<{label:string,value:string}>;
+    value:string | number ;
+    data: Array<any>;
+    label:string;
     onChange: (value:string)=>void;
     placeholder?:string;
 }
 const CustomDropDown = (props:DropDownProps) => {
-    const {data,value, onChange, placeholder='Chọn...'} = props;
+    const {data,value, onChange,label, placeholder='Chọn...'} = props;
   return (
     <Dropdown
         value={value}
@@ -19,7 +20,7 @@ const CustomDropDown = (props:DropDownProps) => {
         style={styles.container}
         selectedTextStyle={styles.selectedItem}
         itemTextStyle={styles.textItem}
-        labelField='label'
+        labelField={label || 'label'}
         valueField='value'
         placeholder={placeholder}
         onChange={(value) => onChange(value.value)}

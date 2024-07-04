@@ -1,8 +1,8 @@
-import {useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {FormInfoUserValues} from './model';
 import {TextInput} from 'react-native-gesture-handler';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {addNewUser} from '../../../modules/user';
 import {ApiError} from '../../../constants/api';
 import NavigationActionService from '../../../navigation/navigation';
@@ -10,6 +10,9 @@ import {MessageType, PopupType} from '../../../component/CustomPopup/type';
 import {Keyboard} from 'react-native';
 import {useRoute} from '@react-navigation/native';
 import DocumentPicker from 'react-native-document-picker';
+import {RootState} from '../../../redux/reducers';
+import {IBranchState} from '../../../modules/branch/model';
+import {getListBranchs} from '../../../modules/branch';
 export const data = [
   {label: 'Khách hàng', value: 'Customer'},
   {label: 'Nhân viên', value: 'Staff'},
@@ -26,7 +29,8 @@ const useAddUser = () => {
     typeAccount: 'Customer',
     gender: true,
     birthday: '01-01-2000',
-    address:''
+    address: '',
+    workPlace: 1,
   };
   const {
     control,
@@ -49,7 +53,16 @@ const useAddUser = () => {
   const passwordRef = useRef<TextInput>(null);
   const phoneRef = useRef<TextInput>(null);
   const addressRef = useRef<TextInput>(null);
+  const {branchs} = useSelector<RootState, IBranchState>(state => state.branch);
 
+  useEffect(() => {
+    dispatch(
+      getListBranchs({
+        page: 1,
+        limit: 100,
+      }),
+    );
+  }, []);
   const onFocusFirstName = () => {
     firstNameRef.current?.focus();
   };
@@ -85,7 +98,11 @@ const useAddUser = () => {
       message: error?.message || 'Có một lỗi gì đó đã xảy ra',
     });
   };
-
+  const isTypeAccountStaff = () => {
+    const type = getValues('typeAccount');
+    if (type === 'Staff' || type === 'Admin') return true;
+    return false;
+  };
   const createNewUser = handleSubmit(() => {
     Keyboard.dismiss();
     NavigationActionService.showLoading();
@@ -144,8 +161,8 @@ const useAddUser = () => {
     open,
     onUploadAvatar,
     onFocusAddress,
-
-    
+    branchs,
+    isTypeAccountStaff,
   };
 };
 
