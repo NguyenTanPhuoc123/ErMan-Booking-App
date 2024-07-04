@@ -51,28 +51,28 @@ export const GetListUsers = gql`
 `;
 
 export const GetCurrentUser = gql`
-  query MyQuery($phone:String!) {
-  User_connection(where: {phone: {_eq: $phone}}) {
-    edges {
-      node {
-        id
-        firstname
-        lastname
-        isVerified
-        phone
-        typeAccount
-        avatar
-        address
-        birthday
-        gender
-        Staff {
-          timeStartWork
-          workPlace
+  query MyQuery($phone: String!) {
+    User_connection(where: {phone: {_eq: $phone}}) {
+      edges {
+        node {
+          id
+          firstname
+          lastname
+          isVerified
+          phone
+          typeAccount
+          avatar
+          address
+          birthday
+          gender
+          Staff {
+            timeStartWork
+            workPlace
+          }
         }
       }
     }
   }
-}
 `;
 
 export const EditProfile = gql`
@@ -165,29 +165,31 @@ export const UpdateAvatar = gql`
 export const GetListStaff = gql`
   query GetListStaff($limit: Int, $after: String) {
     User_connection(
+      order_by: {id: asc}
       where: {typeAccount: {_eq: "Staff"}}
       first: $limit
-      order_by: {id: asc}
       after: $after
     ) {
       edges {
+        cursor
         node {
           id
           firstname
           lastname
-          avatar
+          phone
+          typeAccount
           gender
           birthday
+          avatar
           address
-          phone
           isVerified
           Staff {
             timeStartWork
-            workPlace
+            Branch {
+              branchName
+            }
           }
-          typeAccount
         }
-        cursor
       }
       pageInfo {
         endCursor

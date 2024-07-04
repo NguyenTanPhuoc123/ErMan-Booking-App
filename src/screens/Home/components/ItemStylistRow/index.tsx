@@ -20,7 +20,7 @@ const ItemStylistRow = (props: Staff) => {
       <Text style={[globalStyle.fontText, styles.title]}>
         {firstname + ' ' + lastname}
       </Text>
-      <Text style={[globalStyle.fontText, styles.address]}>{workPlace}</Text>
+      <Text style={[globalStyle.fontText, styles.workPlace]}>{workPlace}</Text>
         <TouchableOpacity style={styles.chat}>
           <Text style={[globalStyle.fontText, styles.contentBtn]}>
             Gửi tin nhắn
