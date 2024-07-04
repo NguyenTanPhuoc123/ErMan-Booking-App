@@ -62,6 +62,7 @@ const useEditProfile = () => {
   };
   const openPicker = () => setOpen(true);
   const closePicker = () => setOpen(false);
+  closePicker(); // Đóng DatePicker sau khi chọn ngày tháng
 
   const onUploadAvatar = async () => {
     try {

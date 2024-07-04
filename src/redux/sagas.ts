@@ -4,12 +4,14 @@ import { authSaga } from "../modules/auth";
 import {serviceSaga} from "../modules/service"
 import userSaga from "../modules/user";
 import branchSaga from "../modules/branch";
+import workScheduleSaga from "../modules/workschedule";
 export default function* rootSaga(){
     yield all([
         fork(networkSaga),
         fork(authSaga),
         fork(serviceSaga),
         fork(userSaga),
-        fork(branchSaga)
+        fork(branchSaga),
+        fork(workScheduleSaga)
     ]);
 }

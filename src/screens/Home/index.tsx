@@ -27,7 +27,11 @@ import ButtonComponent from './components/ButtonComponent';
 import ItemBranchRow from './components/ItemBranchRow';
 import BookingNear from './components/BookingNear';
 import NavigationActionService from '../../navigation/navigation';
-import {HOME_SCREEN, SERVICE_SCREEN} from '../../constants/screen_key';
+import {
+  CALENDAR_SCREEN,
+  HOME_SCREEN,
+  SERVICE_SCREEN,
+} from '../../constants/screen_key';
 import useDasboard from './useDashboard';
 import {Service} from '../../modules/service/model';
 import {Branch} from '../../modules/branch/model';
@@ -112,7 +116,9 @@ const HomeScreen = () => {
           <ButtonComponent
             icon="calendar-alt"
             title="Lịch làm việc"
-            onPress={() => {}}
+            onPress={() => {
+              NavigationActionService.navigate(CALENDAR_SCREEN);
+            }}
           />
         ) : (
           <ButtonComponent

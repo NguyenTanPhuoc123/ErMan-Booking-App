@@ -1,7 +1,7 @@
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
 import {BodyParams} from './model';
-import {User} from '../user/model';
+import {Admin, Staff, User} from '../user/model';
 import client from '../../api';
 import * as UserApi from '../../api/user/queries';
 export const login = async (phone: string, password: string) => {
@@ -24,11 +24,11 @@ export const getCurrentUser = async () => {
 
     const res = await client.query({
       query: UserApi.GetCurrentUser,
-      variables: {numberPhone},
+      variables: {phone:numberPhone},
     });
     const userData = res.data.User_connection.edges;
     const id = JSON.parse(atob(userData[0].node.id));
-    const result: User = {
+    const result: User | Staff | Admin = {
       id: id[3],
       avatar: userData[0].node.avatar,
       firstname: userData[0].node.firstname,
@@ -39,6 +39,8 @@ export const getCurrentUser = async () => {
       phone: userData[0].node.phone,
       isVerified: userData[0].node.isVerified,
       typeAccount: userData[0].node.typeAccount,
+      workPlace: userData[0].node.Staff.workPlace,
+      timeStartWork: userData[0].node.Staff.timeStartWork
     };
 
     return {result: result};
