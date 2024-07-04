@@ -8,10 +8,12 @@ import {reducer as auth} from '../modules/auth/reducer'
 import {reducer as service} from '../modules/service/reducer'
 import {reducer as user} from '../modules/user/reducer'
 import {reducer as branch} from '../modules/branch/reducer'
+import {reducer as workSchedule} from '../modules/workschedule/reducer'
 import { IAuthState } from '../modules/auth/model';
 import { IServiceState } from '../modules/service/model';
 import { IUserState } from '../modules/user/model';
 import { IBranchState } from '../modules/branch/model';
+import { IWorkScheduleState } from '../modules/workschedule/model';
 
 const authPersist: PersistConfig<IAuthState>={
     key:'auth',
@@ -41,12 +43,20 @@ const branchPersist: PersistConfig<IBranchState>= {
     stateReconciler:autoMergeLevel1
 }
 
+const workSchedulePersist: PersistConfig<IWorkScheduleState>= {
+    key: 'workschedule',
+    whitelist:['workschedules'],
+    storage:AsyncStorage,
+    stateReconciler:autoMergeLevel1
+}
+
 const reducers = combineReducers({
     network,
     auth: persistReducer(authPersist,auth),
     user: persistReducer(userPersist,user),
     service: persistReducer(servicePersist,service),
-    branch: persistReducer(branchPersist,branch)
+    branch: persistReducer(branchPersist,branch),
+    workschedule: persistReducer(workSchedulePersist,workSchedule)
 });
 
 export type RootState = ReturnType<typeof reducers>;

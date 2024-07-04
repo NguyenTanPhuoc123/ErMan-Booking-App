@@ -23,6 +23,7 @@ export const BRANCH_SCREEN = 'BranchScreen';
 export const NOTIFICATION_SCREEN = 'NotificationScreen';
 export const STYLIST_SCREEN = 'StylistScreen';
 export const BRANCH_DETAIL_SCREEN = 'BranchDetailScreen';
+export const CALENDAR_SCREEN = 'CalendarScreen';
 //admin
 export const USER_MANAGER_SCREEN = 'UserManagerScreen';
 export const SERVICE_MANAGER_SCREEN = 'ServiceManagerScreen';
@@ -33,3 +34,5 @@ export const PROFILE_STACK= 'ProfileStack';
 export const EDIT_PROFILE_ADMIN = 'EditProfileStack';
 export const DASHBOARD_SCREEN = 'DashboardScreen';
 export const ADD_USER_SCREEN = 'AddUsersScreen';
+export const BRANCH_MANAGER_STACK = 'BranchManagerStack';
+export const BRANCH_MANAGER_SCREEN = 'BranchManagerScreen';

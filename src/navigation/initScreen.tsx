@@ -28,8 +28,10 @@ import ServiceManagerScreen from '../screens/Admin/ServiceManager';
 import DrawerNavigator from './Drawer';
 import DashboardScreen from '../screens/Admin/Dashboard';
 import AddUsersScreen from '../screens/Admin/AddUsers';
+import CalendarScreen from '../screens/Calendar';
 
 import BranchDetailScreen from '../screens/BranchDetail';
+import BranchManagerScreen from '../screens/Admin/BranchManagerScreen';
 
 export type AuthStackObject = {
   [key in keyof Partial<AuthStackParamList>]:
@@ -93,6 +95,7 @@ export const mainStackScreens: MainStackObject = {
   [SCREEN_KEYS.BRANCH_SCREEN]: BranchScreen,
   [SCREEN_KEYS.BRANCH_DETAIL_SCREEN]: BranchDetailScreen,
   [SCREEN_KEYS.NOTIFICATION_SCREEN]: NotificationScreen,
+  [SCREEN_KEYS.CALENDAR_SCREEN]: CalendarScreen,
   [SCREEN_KEYS.STYLIST_SCREEN]: NewsScreen,
 };
 
@@ -101,6 +104,7 @@ export const drawerStackScreens: AdminStackObject = {
   [SCREEN_KEYS.USER_MANAGER_SCREEN]: UserManagerScreen,
   [SCREEN_KEYS.SERVICE_MANAGER_SCREEN]: ServiceManagerScreen,
   [SCREEN_KEYS.PROFILE_SCREEN]: ProfileScreen,
+  [SCREEN_KEYS.BRANCH_MANAGER_SCREEN]:BranchManagerScreen,
 };
 export const adminStackScreens: AdminStackObject = {
   ...drawerStackScreens,
@@ -233,9 +237,11 @@ export const UserDrawerNavigator = () =>
 export const ServiceDrawerNavigator = () =>
   DrawerStackNavigator(SCREEN_KEYS.SERVICE_MANAGER_SCREEN);
 export const DashboardDrawerNavigator = () =>
-  DrawerStackNavigator(SCREEN_KEYS.DASHBOARD_SCREEN);
+  DrawerStackNavigator(SCREEN_KEYS.HOME_SCREEN);
 export const ProfileDrawerNavigator = () =>
   DrawerStackNavigator(SCREEN_KEYS.PROFILE_SCREEN);
+export const BranchDrawerNavigator = () =>
+  DrawerStackNavigator(SCREEN_KEYS.BRANCH_MANAGER_SCREEN);
 
 export const drawerStackNavigator: DrawerItem[] = [
   {
@@ -257,5 +263,10 @@ export const drawerStackNavigator: DrawerItem[] = [
     name: SCREEN_KEYS.PROFILE_STACK,
     label: 'Thông tin cá nhân',
     component: ProfileDrawerNavigator,
+  },
+  {
+    name: SCREEN_KEYS.BRANCH_MANAGER_STACK,
+    label: 'Quản lý chi nhánh',
+    component: BranchDrawerNavigator,
   },
 ];

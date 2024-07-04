@@ -21,24 +21,28 @@ export const GetListUsers = gql`
 `;
 
 export const GetCurrentUser = gql`
-  query GetCurrentUser($numberPhone: String) {
-    User_connection(where: {phone: {_eq: $numberPhone}}) {
-      edges {
-        node {
-          avatar
-          birthday
-          firstname
-          gender
-          id
-          isVerified
-          lastname
-          phone
-          typeAccount
-          address
+  query MyQuery($phone:String!) {
+  User_connection(where: {phone: {_eq: $phone}}) {
+    edges {
+      node {
+        id
+        firstname
+        lastname
+        isVerified
+        phone
+        typeAccount
+        avatar
+        address
+        birthday
+        gender
+        Staff {
+          timeStartWork
+          workPlace
         }
       }
     }
   }
+}
 `;
 
 export const EditProfile = gql`
