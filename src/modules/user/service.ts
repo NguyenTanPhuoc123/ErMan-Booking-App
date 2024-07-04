@@ -72,17 +72,12 @@ export const addNewUser = async (body: BodyParams, typeAccount: string) => {
     const res = auth()
       .createUserWithEmailAndPassword(phoneMail, body.password)
       .then(async () => {
-        await firestore().collection('users').add({
-          avatar: '',
-          firstname: body.firstname,
-          lastname: body.lastname,
-          phone: body.phone,
-          gender: true,
-          address: '',
-          birthday: '01-01-2000',
-          isVerified: true,
+        await client.mutate({mutation:UserApi.AddNewUser,variables:{
+          firstname:body.firstname,
+          lastname:body.lastname,
+          phone:body.phone,
           typeAccount: typeAccount,
-        });
+        }})
       });
 
     return {result: res};

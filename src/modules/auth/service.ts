@@ -1,5 +1,4 @@
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import {BodyParams} from './model';
 import {User} from '../user/model';
@@ -55,17 +54,11 @@ export const register = async (body: BodyParams) => {
     const res = auth()
       .createUserWithEmailAndPassword(phoneMail, body.password)
       .then(async () => {
-        firestore().collection('users').add({
-          avatar: '',
-          firstname: body.firstname,
-          lastname: body.lastname,
-          phone: body.phone,
-          gender: true,
-          address: '',
-          birthday: '01-01-2000',
-          isVerified: true,
-          typeAccount: 'Customer',
-        });
+        await client.mutate({mutation:UserApi.Register,variables:{
+          firstname:body.firstname,
+          lastname:body.lastname,
+          phone:body.phone
+        }})
       });
 
     return {result: res};

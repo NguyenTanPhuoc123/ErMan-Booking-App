@@ -1,5 +1,35 @@
 import {gql} from '@apollo/client';
 
+export const Register = gql`
+  mutation Register($firstname: String!, $lastname: String!, $phone: String!) {
+    insert_User_one(
+      object: {
+        avatar: ""
+        birthday: ""
+        firstname: $firstname
+        lastname: $lastname
+        isVerified: true
+        phone: $phone
+        typeAccount: "Customer"
+        gender: true
+        address: ""
+      }
+      on_conflict: {constraint: User_phone_key}
+    ) {
+      id
+      avatar
+      firstname
+      lastname
+      gender
+      birthday
+      phone
+      isVerified
+      address
+      typeAccount
+    }
+  }
+`;
+
 export const GetListUsers = gql`
   query GetListUsers {
     User_connection {
@@ -73,6 +103,22 @@ export const EditProfile = gql`
       typeAccount
       isVerified
     }
+  }
+`;
+
+export const AddNewUser = gql`
+  mutation AddNewUser($firstname: String!, $lastname: String!, $phone: String!, $typeAccount: String) {
+  insert_User_one(object: {avatar: "", birthday: "", firstname: $firstname, lastname: $lastname, isVerified: true, phone: $phone, typeAccount: $typeAccount, gender: true, address: ""}, on_conflict: {constraint: User_phone_key}) {
+    id
+    avatar
+    firstname
+    lastname
+    gender
+    birthday
+    phone
+    isVerified
+    address
+    typeAccount
   }
 `;
 
