@@ -1,6 +1,6 @@
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, ActivityIndicator, RefreshControl, FlatList, Keyboard} from 'react-native';
 import React, {useState} from 'react';
-import style from './style';
+import styles from './style';
 import globalStyle from '../../constants/styles';
 import {Header} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -10,15 +10,23 @@ import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import {getMonthYearLong} from '../../utils/date';
 import WorkScheduleItem from './components/WorkScheduleItem';
+import { WorkSchedule } from '../../modules/workschedule/model';
+import ListItemEmpty from '../../component/ListItemEmpty';
+import { Staff } from '../../modules/user/model';
+import { LIST_CALENDAR_EMPTY } from '../../constants/icons';
 
 const CalendarScreen = () => {
   const {
-    index,
-    setIndex,
     open,
     openPicker,
     closePicker,
     goBack,
+    refresh,
+    pullRefresh,
+    userData,
+    workSchedules,
+    listWorkScheduleRef,
+    loading
   } = useCalendar();
 
   const [date, setDate] = useState(new Date());
@@ -26,10 +34,10 @@ const CalendarScreen = () => {
   const renderHeader = () => {
     return (
       <Header
-        containerStyle={style.containerHeader}
+        containerStyle={styles.containerHeader}
         backgroundColor="#433F3F"
         centerComponent={
-          <Text style={style.titleHeader}>{getMonthYearLong(date)}</Text>
+          <Text style={styles.titleHeader}>{getMonthYearLong(date)}</Text>
         }
         leftComponent={
           <TouchableOpacity onPress={goBack}>
@@ -74,21 +82,45 @@ const CalendarScreen = () => {
     );
   };
 
+  const renderLoading = () => {
+    return (
+      <ActivityIndicator
+        style={styles.loading}
+        size={'large'}
+        color={'#d4d3d6'}
+      />
+    );
+  };
+
   const renderBody = () => (
-    <View>
-      {/* <ScrollView>
-        <View style={{flexDirection:"column",paddingLeft:20,paddingTop:40}}>
-          <Text style={{color:'#817AC7',fontSize:24, fontFamily:InriaSerifBold}}>{moment(date).format('ddd')}</Text>
-          <Text style={{color:'#817AC7',marginLeft:10,fontSize:24, fontFamily:InriaSerifBold}}>{moment(date).format('DD')}</Text>
-        </View>
-      </ScrollView> */}
-    </View>
+    <View style={globalStyle.flex1}>
+    <FlatList<WorkSchedule>
+      ref={listWorkScheduleRef}
+      refreshControl={
+        <RefreshControl refreshing={refresh} onRefresh={pullRefresh} />
+      }
+      data={workSchedules}
+      keyExtractor={item => item.id.toString()}
+      onScrollBeginDrag={() => Keyboard.dismiss()}
+      scrollEventThrottle={16}
+      // ListEmptyComponent={
+      //   <ListItemEmpty
+      //     image={LIST_CALENDAR_EMPTY}
+      //     content="Không có lịch làm việc"
+      //   />
+      // }
+      renderItem={({item}) => <WorkScheduleItem key={item.id} workSchedule={item} staff={userData as Staff} />}
+      // ListFooterComponent={renderFooterFlatList}
+      // onEndReached={loadMore}
+      // onEndReachedThreshold={1}
+    />
+  </View>
   );
 
   return (
     <View style={globalStyle.container}>
       {renderHeader()}
-      <WorkScheduleItem/>
+      {loading? renderLoading() : renderBody()}
     </View>
   );
 };

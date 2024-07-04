@@ -23,8 +23,33 @@ export function checkStatus(openTime: string, closeTime: string) {
   return false;
 }
 
-export function getMonthYearLong(day:Date){
+export function getMonthYearLong(day: Date) {
   const month = moment(day).format('MM');
   const year = moment(day).format('YYYY');
   return `Tháng ${month}, ${year}`;
 }
+
+export function changeDayInWeekToVI(day: Date) {
+  const dayInWeek = moment(day).format('dddd');
+  switch (dayInWeek) {
+    case 'Monday':
+      return 'Thứ 2';
+    case 'Tuesday':
+      return 'Thứ 3';
+    case 'Wednesday':
+      return 'Thứ 4';
+    case 'Thursday':
+      return 'Thứ 5';
+    case 'Friday':
+      return 'Thứ 6';
+    case 'Saturday':
+      return 'Thứ 7';
+    default:
+      return 'Chủ nhật';
+  }
+}
+
+export function formatStringDate(dateStr: string){
+  const [date, month, year] = dateStr.split('-');
+  return `${year}-${month}-${date}`;
+};

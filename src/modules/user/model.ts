@@ -29,8 +29,8 @@ export interface User {
 export interface Staff extends User {
   workPlace: string;
   timeStartWork: string;
-
 }
+
 
 export interface Admin extends User {
   workPlace: string;

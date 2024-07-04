@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     width: WITDH - 20,
     margin: 5,
     marginVertical:10,
-    height: 85,
+    height: 'auto',
     flexDirection: 'row',
     justifyContent: 'center',
   },
@@ -26,6 +26,13 @@ const styles = StyleSheet.create({
     height: '100%',
     width: 15,
     backgroundColor: '#FCB704',
+    borderTopLeftRadius:6,
+    borderBottomLeftRadius:6
+  },
+  lineNotToday: {
+    height: '100%',
+    width: 15,
+    backgroundColor: '#ff8572',
     borderTopLeftRadius:6,
     borderBottomLeftRadius:6
   },
