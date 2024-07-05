@@ -12,10 +12,10 @@ import { login, userReadyLoadData } from '../../../modules/auth';
 import { ApiError } from '../../../constants/api';
 
 const useSignIn = () => {
-  const phoneRef = useRef<TextInput>(null);
+  const emailRef = useRef<TextInput>(null);
   const dispatch = useDispatch();
   const passwordRef = useRef<TextInput>(null);
-  const initValue = {phone: '', password: ''};
+  const initValue = {email: '', password: ''};
   const [isSecureEntry, setIsSecureEntry] = useState<boolean>(true);
   const {
     control,
@@ -26,8 +26,8 @@ const useSignIn = () => {
     resolver: yupResolver(validationSchema),
   });
 
-  const onFocusPhone = () => {
-    phoneRef.current?.focus();
+  const onFocusEmail = () => {
+    emailRef.current?.focus();
   };
 
   const onFocusPassword = () => {
@@ -54,7 +54,7 @@ const useSignIn = () => {
     Keyboard.dismiss();
     NavigationActionService.showLoading();
     dispatch(login({
-      phone: values.phone,
+      email: values.email,
       password: values.password,
       onSuccess:onLoginSuccess,
       onFail:onLoginFailure
@@ -76,12 +76,12 @@ const useSignIn = () => {
   };
 
   return {
-    phoneRef,
+    emailRef,
     control,
     onLogin,
     errors,
     passwordRef,
-    onFocusPhone,
+    onFocusEmail,
     onFocusPassword,
     isSecureEntry,
     setIsSecureEntry,

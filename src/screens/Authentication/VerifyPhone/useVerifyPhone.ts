@@ -6,27 +6,43 @@ import {
   INFORMATION_SCREEN,
 } from '../../../constants/screen_key';
 import {useRoute} from '@react-navigation/native';
-
+import {useDispatch} from 'react-redux';
+import {verifyEmail} from '../../../modules/auth';
+import auth from '@react-native-firebase/auth';
 const useVerifyPhone = () => {
   const route = useRoute();
-  const {id, phone} = route.params as any;
+  const dispatch = useDispatch();
+  const {id, email} = route.params as any;
   const [otpCode, setOtpCode] = useState<Array<string>>([]);
   const [expiredTime, setExpiredTime] = useState<number>(30);
   const [disableResend, setDisableResend] = useState<boolean>(true);
+  const [isVerified, setIsVerified] = useState(false);
   const [errors, setErrors] = useState('');
   const otp = 3567;
   useEffect(() => {
-    if (expiredTime >= 0) {
-      const timer = setInterval(() => {
-        setExpiredTime(expiredTime - 1);
-      }, 1000);
+    // if (expiredTime >= 0) {
+    //   const timer = setInterval(() => {
+    //     setExpiredTime(expiredTime - 1);
+    //   }, 1000);
 
-      if (expiredTime < 1) {
-        setDisableResend(false);
-      }
-      return () => clearInterval(timer);
-    }
-  }, [expiredTime]);
+    //   if (expiredTime < 1) {
+    //     setDisableResend(false);
+    //   }
+    //   return () => clearInterval(timer);
+    // }
+    dispatch(
+      verifyEmail({
+        email: email,
+      }),
+    );
+  }, []);
+
+  useEffect(() => {
+    auth().onAuthStateChanged(user => {
+      user?.sendEmailVerification();
+      console.log('Email verify: ', isVerified);
+    });
+  });
 
   const cofirmOTPCode = () => {
     const code = otpCode.join('');
@@ -37,7 +53,7 @@ const useVerifyPhone = () => {
     } else {
       NavigationActionService.navigate(
         id === 'Register' ? INFORMATION_SCREEN : CHANGE_PASSWORD_SCREEN,
-        {phone: phone},
+        {email: email},
       );
     }
   };

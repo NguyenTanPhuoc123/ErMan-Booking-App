@@ -32,13 +32,13 @@ const AddUsersScreen = () => {
     firstNameRef,
     lastNameRef,
     passwordRef,
-    phoneRef,
+    emailRef,
     addressRef,
     onFocusAddress,
     onFocusFirstName,
     onFocusLastName,
     onFocusPassword,
-    onFocusPhone,
+    onFocusEmail,
     user,
     createNewUser,
     formatStringDate,
@@ -46,26 +46,29 @@ const AddUsersScreen = () => {
     closePicker,
     goBack,
     open,
-    onUploadAvatar
+    onUploadAvatar,
+    branchs,
+    type,
+    setType,
   } = useAddUser();
 
   const renderAvatar = () =>
     !user ? null : (
       <>
-      <FastImage
-        style={styles.avatar}
-        resizeMode="cover"
-        source={
-          user.avatar
-            ? {uri: user.avatar}
-            : APP_TYPE === 'Customer'
-            ? AVARTAR_DEFAULT_CUSTOMER
-            : AVARTAR_DEFAULT_STAFF
-        }
-      />
-      <TouchableOpacity style={styles.uploadImg} onPress={onUploadAvatar}>
-        <Icon name="camera" solid size={20} color="#D4D3D6" />
-      </TouchableOpacity>
+        <FastImage
+          style={styles.avatar}
+          resizeMode="cover"
+          source={
+            user.avatar
+              ? {uri: user.avatar}
+              : APP_TYPE === 'Customer'
+              ? AVARTAR_DEFAULT_CUSTOMER
+              : AVARTAR_DEFAULT_STAFF
+          }
+        />
+        <TouchableOpacity style={styles.uploadImg} onPress={onUploadAvatar}>
+          <Icon name="camera" solid size={20} color="#D4D3D6" />
+        </TouchableOpacity>
       </>
     );
 
@@ -97,13 +100,70 @@ const AddUsersScreen = () => {
     <Controller
       control={control}
       name="typeAccount"
-      render={({field: {onChange, value}}) => (
+      render={({field: {value}}) => (
         <CustomDropDown
           placeholder="Loại tài khoản"
           data={data}
+          label="label"
+          valueField="value"
+          value={value}
+          onChange={setType}
+        />
+      )}
+    />
+  );
+  const renderDropdownWorkPlace = () => (
+    <Controller
+      control={control}
+      name="workPlace"
+      render={({field: {onChange, value}}) => (
+        <CustomDropDown
+          placeholder="Nơi làm việc"
+          data={branchs}
+          label="branchName"
+          valueField="id"
           value={value}
           onChange={onChange}
         />
+      )}
+    />
+  );
+
+  const renderWorkStartTime = () => (
+    <Controller
+      control={control}
+      name="workStartTime"
+      render={({field: {value, onChange}}) => (
+        <>
+          <TextInput
+            style={[globalStyle.fontText, styles.inputworktime]}
+            value={value}
+            editable={false}
+            selectTextOnFocus={false}
+            underlineColorAndroid="#D4D3D6"
+            autoCapitalize="none"
+            autoCorrect={false}
+          />
+          <TouchableOpacity onPress={() => openPicker()}>
+            <Icon name="calendar-alt" style={globalStyle.fontText} size={25} />
+          </TouchableOpacity>
+          <DatePicker
+            date={new Date(formatStringDate(value))}
+            mode="date"
+            modal
+            title="Chọn ngày bắt đầu làm việc..."
+            buttonColor="black"
+            confirmText="Xác nhận"
+            cancelText="Hủy"
+            dividerColor="#000000"
+            onConfirm={date => {
+              onChange(moment(date).format('DD-MM-YYYY'));
+              closePicker();
+            }}
+            onCancel={() => closePicker()}
+            open={open}
+          />
+        </>
       )}
     />
   );
@@ -168,53 +228,56 @@ const AddUsersScreen = () => {
         />,
       )}
       {renderEditInfo(
-        'Số điện thoại',
+        'Email',
         <Controller
           control={control}
-          name="phone"
+          name="email"
           render={({field: {onChange, onBlur, value}}) => (
             <TextInput
-              ref={phoneRef}
+              ref={emailRef}
               style={[globalStyle.fontText, styles.input]}
               value={value}
               underlineColorAndroid="#D4D3D6"
               autoCapitalize="none"
               autoCorrect={false}
-              keyboardType="phone-pad"
               onChangeText={onChange}
               onBlur={onBlur}
-              onSubmitEditing={onFocusPhone}
+              onSubmitEditing={onFocusEmail}
             />
           )}
         />,
       )}
-      {! user ? null:renderEditInfo(
-        'Giới tính',
-        <Controller
-          control={control}
-          name="gender"
-          render={({field: {onChange, value}}) => (
-            <View style={styles.gender}>
-              <Text style={[globalStyle.fontText, styles.labelGender]}>
-                Nam
-              </Text>
-              <RadioButton
-                color="#D4D3D6"
-                value={value.toString()}
-                status={value === true ? 'checked' : 'unchecked'}
-                onPress={() => onChange(true)}
-              />
-              <Text style={[globalStyle.fontText, styles.labelGender]}>Nữ</Text>
-              <RadioButton
-                color="#D4D3D6"
-                value="value.toString()"
-                status={value === false ? 'checked' : 'unchecked'}
-                onPress={() => onChange(false)}
-              />
-            </View>
+      {!user
+        ? null
+        : renderEditInfo(
+            'Giới tính',
+            <Controller
+              control={control}
+              name="gender"
+              render={({field: {onChange, value}}) => (
+                <View style={styles.gender}>
+                  <Text style={[globalStyle.fontText, styles.labelGender]}>
+                    Nam
+                  </Text>
+                  <RadioButton
+                    color="#D4D3D6"
+                    value={value.toString()}
+                    status={value === true ? 'checked' : 'unchecked'}
+                    onPress={() => onChange(true)}
+                  />
+                  <Text style={[globalStyle.fontText, styles.labelGender]}>
+                    Nữ
+                  </Text>
+                  <RadioButton
+                    color="#D4D3D6"
+                    value="value.toString()"
+                    status={value === false ? 'checked' : 'unchecked'}
+                    onPress={() => onChange(false)}
+                  />
+                </View>
+              )}
+            />,
           )}
-        />,
-      )}
       {!user
         ? null
         : renderEditInfo(
@@ -237,7 +300,7 @@ const AddUsersScreen = () => {
                     <Icon
                       name="calendar-alt"
                       style={globalStyle.fontText}
-                      size={20}
+                      size={25}
                     />
                   </TouchableOpacity>
                   <DatePicker
@@ -282,27 +345,27 @@ const AddUsersScreen = () => {
               )}
             />,
           )}
-          {renderEditInfo(
-              'Địa chỉ',
-              <Controller
-                control={control}
-                name="address"
-                render={({field: {onChange, onBlur, value}}) => (
-                  <TextInput
-                    ref={addressRef}
-                    multiline
-                    style={[globalStyle.fontText, styles.input]}
-                    value={value}
-                    underlineColorAndroid="#D4D3D6"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    onChangeText={onChange}
-                    onBlur={onBlur}
-                    onSubmitEditing={onFocusAddress}
-                  />
-                )}
-              />,
-            )}
+      {renderEditInfo(
+        'Địa chỉ',
+        <Controller
+          control={control}
+          name="address"
+          render={({field: {onChange, onBlur, value}}) => (
+            <TextInput
+              ref={addressRef}
+              multiline
+              style={[globalStyle.fontText, styles.input]}
+              value={value}
+              underlineColorAndroid="#D4D3D6"
+              autoCapitalize="none"
+              autoCorrect={false}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              onSubmitEditing={onFocusAddress}
+            />
+          )}
+        />,
+      )}
     </>
   );
 
@@ -315,6 +378,12 @@ const AddUsersScreen = () => {
             {renderAvatar()}
             {renderInputInfo()}
             {renderEditInfo('Loại tài khoản', renderDropdown())}
+            {type === 'Staff' || type === 'Admin'
+              ? renderEditInfo('Nơi làm việc', renderDropdownWorkPlace())
+              : null}
+            {type === 'Staff' || type === 'Admin'
+              ? renderEditInfo('Ngày vào làm ', renderWorkStartTime())
+              : null}
             {renderButtonAdd()}
           </>
         </TouchableWithoutFeedback>

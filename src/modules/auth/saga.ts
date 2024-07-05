@@ -5,7 +5,7 @@ import {
   IActionLoginPayload,
   IActionLogoutPayload,
   IActionRegisterPayload,
-  IActionVerifyPhonePayload,
+  IActionVerifyEmailPayload,
 } from './model';
 import * as AuthService from './service';
 import {isNetworkAvailable} from '../network/saga';
@@ -14,13 +14,13 @@ import {clearUser, saveUser, userReady} from './reducer';
 import {getCurrentUser} from '.';
 
 export function* loginFn(action: PayloadAction<IActionLoginPayload>) {
-  const {phone, password, onSuccess, onFail} = action.payload;
+  const {email, password, onSuccess, onFail} = action.payload;
   const {isConnected} = yield isNetworkAvailable();
   if (!isConnected) {
     onFail && onFail();
     return;
   }
-  const {error} = yield call(AuthService.login, phone, password);
+  const {error} = yield call(AuthService.login, email, password);
 
   if (!error) {
     yield put(getCurrentUser({onSuccess, onFail}));
@@ -49,17 +49,19 @@ export function* getCurrentUserFn(
   }
 }
 
-export function* verifyPhoneFn(
-  action: PayloadAction<IActionVerifyPhonePayload>,
+export function* verifyEmailFn(
+  action: PayloadAction<IActionVerifyEmailPayload>,
 ) {
-  const {phone, onSuccess, onFail} = action.payload;
+  const {email, onSuccess, onFail} = action.payload;
   const {isConnected} = yield isNetworkAvailable();
   if (!isConnected) {
     onFail && onFail();
     return;
   }
-  const {error} = yield call(AuthService.verifyPhone, phone);
+  const {error, result} = yield call(AuthService.verifyEmail, email);
   if (!error) {
+    console.log('Result: ', result);
+
     onSuccess && onSuccess();
   } else if (onFail) {
     onFail && onFail(error);

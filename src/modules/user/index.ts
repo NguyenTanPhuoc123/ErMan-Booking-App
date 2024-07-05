@@ -9,7 +9,7 @@ export const getListStaff = createAction<Models.IActionGetListStaffPayload>(Mode
 export const searchStaff = createAction<Models.IActionSearchStylistPayload>(Models.SEARCH_STAFF);
 function* userSaga(){
     yield takeLatest(getListCustomer,FuncSaga.getListCustomerFn);
-    yield takeLatest(addNewUser,FuncSaga.addNewUserFn);
+    // yield takeLatest(addNewUser,FuncSaga.addNewUserFn);
     yield takeLatest(getListStaff,FuncSaga.getListStaffFn);
     yield takeLatest(searchStaff,FuncSaga.searchStaffFn);
 }
