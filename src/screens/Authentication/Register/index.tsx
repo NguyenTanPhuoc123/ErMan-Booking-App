@@ -14,7 +14,7 @@ import {LOGIN_SCREEN} from '../../../constants/screen_key';
 import useRegister from './useRegister';
 import {Controller} from 'react-hook-form';
 const RegisterScreen = () => {
-  const {phoneRef, control, errors, onFocusPhone, onRegister, id, title} =
+  const {emailRef, control, errors, onFocusEmail, id, title, onRegister} =
     useRegister();
   const renderLogin = () => {
     return id === 'Register' ? (
@@ -35,31 +35,32 @@ const RegisterScreen = () => {
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={globalStyle.containerForm}>
         <Text style={[globalStyle.fontText, styles.title]}>{title}</Text>
-        <Text style={[globalStyle.fontText, styles.label]}>Số điện thoại</Text>
+        <Text style={[globalStyle.fontText, styles.label]}>Email</Text>
         <Controller
           control={control}
-          name="phone"
+          name="email"
           render={({field: {onBlur, onChange, value}}) => (
             <TextInput
-              ref={phoneRef}
+              ref={emailRef}
               style={[globalStyle.fontText, styles.textInput]}
               autoCapitalize="none"
               autoCorrect={false}
-              keyboardType="phone-pad"
               onBlur={onBlur}
               onChangeText={onChange}
               returnKeyType="next"
               value={value}
-              placeholder="Nhập số điện thoại..."
-              onSubmitEditing={onFocusPhone}
+              placeholder="Nhập email..."
+              onSubmitEditing={onFocusEmail}
             />
           )}
         />
         <Text style={[globalStyle.fontText, styles.txtError]}>
-          {errors.phone?.message}
+          {errors.email?.message}
         </Text>
 
-        <TouchableOpacity style={styles.buttonContainer} onPress={onRegister}>
+        <TouchableOpacity style={styles.buttonContainer} 
+          onPress={onRegister}
+        >
           <Text style={[globalStyle.fontText, styles.buttonLabel]}>
             Gửi OTP
           </Text>

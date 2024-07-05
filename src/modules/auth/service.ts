@@ -4,10 +4,9 @@ import {BodyParams} from './model';
 import {Admin, Staff, User} from '../user/model';
 import client from '../../api';
 import * as UserApi from '../../api/user/queries';
-export const login = async (phone: string, password: string) => {
+export const login = async (email: string, password: string) => {
   try {
-    const phoneMail = `${phone}@gmail.com`;
-    const res = await auth().signInWithEmailAndPassword(phoneMail, password);
+    const res = await auth().signInWithEmailAndPassword(email, password);
     return {result: res};
   } catch (error) {
     console.log('Error login: ', error);
@@ -19,12 +18,9 @@ export const login = async (phone: string, password: string) => {
 
 export const getCurrentUser = async () => {
   try {
-    const indexEnd = auth().currentUser?.email?.indexOf('@gmail.com');
-    const numberPhone = auth().currentUser?.email?.substring(0, indexEnd);
-
     const res = await client.query({
       query: UserApi.GetCurrentUser,
-      variables: {phone: numberPhone},
+      variables: {email: auth().currentUser?.email},
     });
     const userData = res.data.User_connection.edges;
     const id = JSON.parse(atob(userData[0].node.id));
@@ -37,7 +33,7 @@ export const getCurrentUser = async () => {
       gender: userData[0].node.gender,
       birthday: userData[0].node.birthday,
       address: userData[0].node.address,
-      phone: userData[0].node.phone,
+      email: userData[0].node.email,
       isVerified: userData[0].node.isVerified,
       typeAccount: userData[0].node.typeAccount,
       workPlace: staff ? staff.workPlace : null,
@@ -53,16 +49,15 @@ export const getCurrentUser = async () => {
 
 export const register = async (body: BodyParams) => {
   try {
-    const phoneMail = `${body.phone}@gmail.com`;
     const res = auth()
-      .createUserWithEmailAndPassword(phoneMail, body.password)
+      .createUserWithEmailAndPassword(body.email, body.password)
       .then(async () => {
         await client.mutate({
           mutation: UserApi.Register,
           variables: {
             firstname: body.firstname,
             lastname: body.lastname,
-            phone: body.phone,
+            email: body.email,
           },
         });
       });
@@ -74,24 +69,14 @@ export const register = async (body: BodyParams) => {
   }
 };
 
-export const verifyPhone = async (phone: string) => {
-  try {
-    const confirmation = await auth().verifyPhoneNumber(phone);
-    console.log(confirmation);
+export const verifyEmail = async (email: string) => {
+  try {    const confirmation = auth().createUserWithEmailAndPassword(email,'123456@aA').then(user=>{
+      user.user.sendEmailVerification();
 
+    })
     return {result: confirmation};
   } catch (error) {
-    console.log('Error verify phone: ', error);
-    return {error};
-  }
-};
-
-export const confirmOTPCode = async (code: string) => {
-  try {
-    const credential = auth.PhoneAuthProvider.credential(code);
-    return {result: credential};
-  } catch (error) {
-    console.log('Error: ', error);
+    console.log('Error verify email: ', error);
     return {error};
   }
 };
@@ -122,7 +107,7 @@ export const editProfile = async (user: User) => {
       gender: userData.gender,
       birthday: userData.birthday,
       address: userData.address,
-      phone: userData.phone,
+      email: userData.email,
       isVerified: userData.isVerified,
       typeAccount: userData.typeAccount,
     };

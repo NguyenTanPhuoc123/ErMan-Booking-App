@@ -8,7 +8,7 @@ const initialState: IAuthState = {
     avatar: '',
     firstname: '',
     lastname: '',
-    phone: '',
+    email: '',
     birthday: '01-01-2000',
     gender: true,
     address: '',

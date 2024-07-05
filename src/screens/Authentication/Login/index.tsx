@@ -16,14 +16,14 @@ import {APP_TYPE} from '../../../constants/app_info';
 
 const LoginScreen = () => {
   const {
-    phoneRef,
+    emailRef,
     control,
     onLogin,
     passwordRef,
     errors,
     isSecureEntry,
     setIsSecureEntry,
-    onFocusPhone,
+    onFocusEmail,
     onFocusPassword,
     goToRegister,
     goToForgotPassword,
@@ -47,28 +47,27 @@ const LoginScreen = () => {
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={globalStyle.containerForm}>
         <Text style={[globalStyle.fontText, styles.title]}>Đăng nhập</Text>
-        <Text style={[globalStyle.fontText, styles.label]}>Số điện thoại</Text>
+        <Text style={[globalStyle.fontText, styles.label]}>Email</Text>
         <Controller
           control={control}
-          name="phone"
+          name="email"
           render={({field: {onBlur, onChange, value}}) => (
             <TextInput
-              ref={phoneRef}
+              ref={emailRef}
               style={[globalStyle.fontText, styles.textInput]}
               autoCapitalize="none"
               autoCorrect={false}
-              keyboardType="phone-pad"
               onBlur={onBlur}
               onChangeText={onChange}
               returnKeyType="next"
               value={value}
-              placeholder="Nhập số điện thoại..."
-              onSubmitEditing={onFocusPhone}
+              placeholder="Nhập email..."
+              onSubmitEditing={onFocusEmail}
             />
           )}
         />
         <Text style={[globalStyle.fontText, styles.txtError]}>
-          {errors.phone?.message}
+          {errors.email?.message}
         </Text>
         <Text style={[globalStyle.fontText, styles.label]}>Mật khẩu</Text>
         <Controller

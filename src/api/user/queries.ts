@@ -1,7 +1,7 @@
 import {gql} from '@apollo/client';
 
 export const Register = gql`
-  mutation Register($firstname: String!, $lastname: String!, $phone: String!) {
+  mutation Register($firstname: String!, $lastname: String!, $email: String!) {
     insert_User_one(
       object: {
         avatar: ""
@@ -9,12 +9,12 @@ export const Register = gql`
         firstname: $firstname
         lastname: $lastname
         isVerified: true
-        phone: $phone
+        email: $email
         typeAccount: "Customer"
         gender: true
         address: ""
       }
-      on_conflict: {constraint: User_phone_key}
+      on_conflict: {constraint: User_email_key}
     ) {
       id
       avatar
@@ -22,7 +22,7 @@ export const Register = gql`
       lastname
       gender
       birthday
-      phone
+      email
       isVerified
       address
       typeAccount
@@ -42,7 +42,7 @@ export const GetListUsers = gql`
           id
           isVerified
           lastname
-          phone
+          email
           typeAccount
         }
       }
@@ -51,15 +51,15 @@ export const GetListUsers = gql`
 `;
 
 export const GetCurrentUser = gql`
-  query MyQuery($phone: String!) {
-    User_connection(where: {phone: {_eq: $phone}}) {
+  query MyQuery($email: String!) {
+    User_connection(where: {email: {_eq: $email}}) {
       edges {
         node {
           id
           firstname
           lastname
           isVerified
-          phone
+          email
           typeAccount
           avatar
           address
@@ -103,7 +103,7 @@ export const EditProfile = gql`
       gender
       birthday
       address
-      phone
+      email
       typeAccount
       isVerified
     }
@@ -114,7 +114,7 @@ export const AddNewUser = gql`
   mutation CreateNewUser(
     $firstname: String!
     $lastname: String!
-    $phone: String!
+    $email: String!
     $typeAccount: String
   ) {
     insert_User_one(
@@ -124,12 +124,12 @@ export const AddNewUser = gql`
         firstname: $firstname
         lastname: $lastname
         isVerified: true
-        phone: $phone
+        email: $email
         typeAccount: $typeAccount
         gender: true
         address: ""
       }
-      on_conflict: {constraint: User_phone_key}
+      on_conflict: {constraint: User_email_key}
     ) {
       id
       avatar
@@ -137,10 +137,28 @@ export const AddNewUser = gql`
       lastname
       gender
       birthday
-      phone
+      email
       isVerified
       address
       typeAccount
+    }
+  }
+`;
+
+export const AddInfoStaff = gql`
+  mutation AddStaffInfo($timeStartWork: String, $workPlace: Int) {
+    insert_User_one(
+      object: {
+        Staff: {
+          data: {timeStartWork: $timeStartWork, workPlace: $workPlace}
+        }
+      }
+    ) {
+      Staff {
+        id
+        timeStartWork
+        workPlace
+      }
     }
   }
 `;
@@ -155,7 +173,7 @@ export const UpdateAvatar = gql`
       gender
       birthday
       address
-      phone
+      email
       typeAccount
       isVerified
     }
@@ -176,7 +194,7 @@ export const GetListStaff = gql`
           id
           firstname
           lastname
-          phone
+          email
           typeAccount
           gender
           birthday
@@ -221,7 +239,7 @@ export const SearchStaff = gql`
           gender
           birthday
           address
-          phone
+          email
           isVerified
           Staff {
             timeStartWork

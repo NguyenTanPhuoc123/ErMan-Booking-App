@@ -18,7 +18,7 @@ export interface User {
   avatar: string;
   firstname: string;
   lastname: string;
-  phone: string;
+  email: string;
   gender: boolean;
   birthday: string;
   address: string;
@@ -68,4 +68,6 @@ export interface IActionDeleteUserPayload {
 export interface IActionAddNewUserPayload extends IActionCallback {
   body: BodyParams;
   typeAccount: 'Customer' | 'Staff' | 'Admin';
+  workPlace?:number;
+  timeStartWork?:string
 }

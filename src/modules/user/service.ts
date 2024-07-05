@@ -67,18 +67,25 @@ export const getListStaffs = async (limit:number,after?: string) => {
   }
 };
 
-export const addNewUser = async (body: BodyParams, typeAccount: string) => {
+export const addNewUser = async (body: BodyParams, typeAccount: string,workPlace:number,timeStartWork:string) => {
   try {
-    const phoneMail = `${body.phone}@gmail.com`;
     const res = auth()
-      .createUserWithEmailAndPassword(phoneMail, body.password)
+      .createUserWithEmailAndPassword(body.email,body.password)
       .then(async () => {
-        await client.mutate({mutation:UserApi.AddNewUser,variables:{
+         client.mutate({mutation:UserApi.AddNewUser,variables:{
           firstname:body.firstname,
           lastname:body.lastname,
-          phone:body.phone,
+          email:body.email,
           typeAccount: typeAccount,
-        }})
+        }}).then(async(value)=>{
+          await client.mutate({
+            mutation:UserApi.AddInfoStaff,
+            variables:{
+              workPlace:workPlace,
+              timeStartWork:timeStartWork,
+            }
+          })
+        })
       });
 
     return {result: res};
@@ -137,7 +144,7 @@ export const editProfile = async (user: User) => {
       gender: userData.gender,
       birthday: userData.birthday,
       address: userData.address,
-      phone: userData.phone,
+      email: userData.email,
       isVerified: userData.isVerified,
       typeAccount: userData.typeAccount,
     };
@@ -169,14 +176,14 @@ const saveAvatarInStorage = async (id: number, path: string) => {
   }
 };
 
-export const verifyPhone = async (phone: string) => {
+export const verifyEmail= async (email: string) => {
   try {
-    const confirmation = await auth().verifyPhoneNumber(phone);
+    const confirmation = await auth().sendSignInLinkToEmail(email);
     console.log(confirmation);
 
     return {result: confirmation};
   } catch (error) {
-    console.log('Error verify phone: ', error);
+    console.log('Error verify email: ', error);
     return {error};
   }
 };

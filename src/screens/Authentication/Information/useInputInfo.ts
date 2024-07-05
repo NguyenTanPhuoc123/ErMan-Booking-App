@@ -5,7 +5,7 @@ import {validationSchema} from './validation';
 import {useRef, useState} from 'react';
 import {TextInput} from 'react-native-gesture-handler';
 import NavigationActionService from '../../../navigation/navigation';
-import {LOGIN_SCREEN} from '../../../constants/screen_key';
+import {LANDING_PAGE, LOGIN_SCREEN} from '../../../constants/screen_key';
 import {MessageType, PopupType} from '../../../component/CustomPopup/type';
 import {useDispatch} from 'react-redux';
 import {ApiError} from '../../../constants/api';
@@ -24,13 +24,12 @@ const useInputInfo = () => {
     control,
     formState: {errors},
     handleSubmit,
-    getValues,
   } = useForm<InfoFormValues>({
     defaultValues: initValue,
     resolver: yupResolver(validationSchema),
   });
   const route = useRoute();
-  const {phone} = route.params as any;
+  const {email} = route.params as any;
   const dispatch = useDispatch();
   const firstNameRef = useRef<TextInput>(null);
   const lastNameRef = useRef<TextInput>(null);
@@ -73,12 +72,12 @@ const useInputInfo = () => {
     });
   };
 
-  const onRegister = handleSubmit((values:InfoFormValues) => {
+  const onRegister = handleSubmit((values: InfoFormValues) => {
     NavigationActionService.showLoading();
     dispatch(
       register({
         body: {
-          phone: phone as string,
+          email: email as string,
           firstname: values.firstname,
           lastname: values.lastname,
           password: values.password,

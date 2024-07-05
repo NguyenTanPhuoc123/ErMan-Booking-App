@@ -5,15 +5,15 @@ import {TextInput} from 'react-native';
 import {validationSchema} from './validation';
 import NavigationActionService from '../../../navigation/navigation';
 import {
-  REGISTER_SCREEN,
+  INFORMATION_SCREEN,
   VERIFY_PHONE_SCREEN,
 } from '../../../constants/screen_key';
 import {useRoute} from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
-import { verifyPhone } from '../../../modules/auth';
+import {useDispatch} from 'react-redux';
+import {verifyEmail} from '../../../modules/auth';
 
 const useRegister = () => {
-  const phoneRef = useRef<TextInput>(null);
+  const emailRef = useRef<TextInput>(null);
   const route = useRoute();
   const dispatch = useDispatch();
   const {id, title} = route.params as any;
@@ -23,29 +23,31 @@ const useRegister = () => {
     getValues,
     formState: {errors},
   } = useForm({
-    defaultValues: {phone: ''},
+    defaultValues: {email: ''},
     resolver: yupResolver(validationSchema),
   });
 
-  const onFocusPhone = () => {
-    phoneRef.current?.focus();
-  };
-
   const onRegister = handleSubmit(() => {
-    const phoneFormat = getValues('phone').replace(getValues('phone')[0],'+84 ');
-    console.log(phoneFormat);
-    dispatch(verifyPhone({phone:getValues('phone')}));
-    NavigationActionService.navigate(VERIFY_PHONE_SCREEN, {id: id,phone:getValues("phone")});
+     //dispatch(verifyPhone({phone:getValues('phone')}));
+
+    NavigationActionService.navigate(VERIFY_PHONE_SCREEN, {
+      id: id,
+      email: getValues('email'),
+    });
   });
 
+  const onFocusEmail = () => {
+    emailRef.current?.focus();
+  };
+
   return {
-    phoneRef,
+    emailRef,
     control,
     errors,
-    onFocusPhone,
-    onRegister,
+    onFocusEmail,
     title,
-    id
+    onRegister,
+    id,
   };
 };
 
