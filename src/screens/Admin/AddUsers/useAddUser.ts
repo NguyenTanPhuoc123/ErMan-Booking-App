@@ -1,8 +1,8 @@
-import {useRef, useState} from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {FormInfoUserValues} from './model';
 import {TextInput} from 'react-native-gesture-handler';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {addNewUser} from '../../../modules/user';
 import {ApiError} from '../../../constants/api';
 import NavigationActionService from '../../../navigation/navigation';
@@ -10,8 +10,11 @@ import {MessageType, PopupType} from '../../../component/CustomPopup/type';
 import {Keyboard} from 'react-native';
 import {useRoute} from '@react-navigation/native';
 import DocumentPicker from 'react-native-document-picker';
+import {RootState} from '../../../redux/reducers';
+import {IBranchState} from '../../../modules/branch/model';
+import {getListBranchs} from '../../../modules/branch';
 export const data = [
-  {label: 'Khách hàng', value: 'Customer'},
+  // {label: 'Khách hàng', value: 'Customer'},
   {label: 'Nhân viên', value: 'Staff'},
   {label: 'Quản trị viên', value: 'Admin'},
 ];
@@ -21,12 +24,14 @@ const useAddUser = () => {
   const initValue: FormInfoUserValues = {
     firstname: '',
     lastname: '',
-    phone: '',
+    email: '',
     password: '',
-    typeAccount: 'Customer',
+    typeAccount: 'Staff',
     gender: true,
     birthday: '01-01-2000',
-    address:''
+    address: '',
+    workPlace: 1,
+    workStartTime:'01-01-2024'
   };
   const {
     control,
@@ -47,9 +52,19 @@ const useAddUser = () => {
   const firstNameRef = useRef<TextInput>(null);
   const lastNameRef = useRef<TextInput>(null);
   const passwordRef = useRef<TextInput>(null);
-  const phoneRef = useRef<TextInput>(null);
+  const emailRef = useRef<TextInput>(null);
   const addressRef = useRef<TextInput>(null);
+  const [type,setType] = useState("Customer");
+  const {branchs} = useSelector<RootState, IBranchState>(state => state.branch);
 
+  useEffect(() => {
+    dispatch(
+      getListBranchs({
+        page: 1,
+        limit: 100,
+      }),
+    );
+  }, []);
   const onFocusFirstName = () => {
     firstNameRef.current?.focus();
   };
@@ -58,8 +73,8 @@ const useAddUser = () => {
     lastNameRef.current?.focus();
   };
 
-  const onFocusPhone = () => {
-    phoneRef.current?.focus();
+  const onFocusEmail = () => {
+    emailRef.current?.focus();
   };
 
   const onFocusPassword = () => {
@@ -85,7 +100,7 @@ const useAddUser = () => {
       message: error?.message || 'Có một lỗi gì đó đã xảy ra',
     });
   };
-
+  
   const createNewUser = handleSubmit(() => {
     Keyboard.dismiss();
     NavigationActionService.showLoading();
@@ -94,10 +109,12 @@ const useAddUser = () => {
         body: {
           firstname: getValues('firstname'),
           lastname: getValues('lastname'),
-          phone: getValues('phone'),
+          email: getValues('email'),
           password: getValues('password'),
         },
-        typeAccount: getValues('typeAccount') || 'Customer',
+        typeAccount: type as "Customer" | "Staff" | "Admin" || 'Staff',
+        timeStartWork: type==="Staff" || type==="Admin" ? getValues('workStartTime') : '',
+        workPlace: type==="Staff" || type==="Admin" ? getValues('workPlace') : 0,
         onSuccess: onCreateSuccess,
         onFail: onCreateFail,
       }),
@@ -129,12 +146,12 @@ const useAddUser = () => {
     firstNameRef,
     lastNameRef,
     passwordRef,
-    phoneRef,
+    emailRef,
     addressRef,
     onFocusFirstName,
     onFocusLastName,
     onFocusPassword,
-    onFocusPhone,
+    onFocusEmail,
     createNewUser,
     formatStringDate,
     openPicker,
@@ -144,8 +161,9 @@ const useAddUser = () => {
     open,
     onUploadAvatar,
     onFocusAddress,
-
-    
+    branchs,
+    type,
+    setType
   };
 };
 

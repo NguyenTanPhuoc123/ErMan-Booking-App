@@ -154,8 +154,8 @@ const InformationScreen = () => {
                   onChangeText={onChange}
                   returnKeyType="done"
                   value={value}
-                  secureTextEntry={isSecureEntry}
-                  placeholder="Nhập mật khẩu..."
+                  secureTextEntry={isSecureEntryConfirm}
+                  placeholder="Nhập lại mật khẩu..."
                   onSubmitEditing={onFocusConfirmPassword}
                 />
                 <TouchableOpacity

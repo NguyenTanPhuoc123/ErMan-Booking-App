@@ -7,7 +7,7 @@ export const FORGOT_PASSWORD = `${ROOT_MODULE}/FORGOT_PASSWORD`;
 export const LOG_OUT = `${ROOT_MODULE}/LOG_OUT`;
 export const GET_AUTH_TOKEN = `${ROOT_MODULE}/GET_AUTH_TOKEN`;
 export const REFRESH_TOKEN = `${ROOT_MODULE}/REFRESH_TOKEN`;
-export const VERIFY_PHONE = `${ROOT_MODULE}/VERIFY_PHONE`;
+export const VERIFY_EMAIL = `${ROOT_MODULE}/VERIFY_EMAIL`;
 export const GET_CURRENT_USER = `${ROOT_MODULE}/GET_CURRENT_USER`;
 export const USER_READY_LOAD_DATA = `${ROOT_MODULE}/USER_READY_LOAD_DATA`;
 export const EDIT_PROFILE = `${ROOT_MODULE}/EDIT_PROFILE`;
@@ -18,15 +18,15 @@ export interface IAuthState {
 
 export type IActionGetCurrentUserPayload = IActionCallback;
 export type IActionLogoutPayload = IActionCallback;
-export interface IActionVerifyPhonePayload extends IActionCallback {
-  phone: string;
+export interface IActionVerifyEmailPayload extends IActionCallback {
+  email: string;
 }
 export interface IActionSaveUserPayload {
   user: User | Staff | Admin;
 }
 
 export interface IActionLoginPayload extends IActionCallback {
-  phone: string;
+  email: string;
   password: string;
 }
 
@@ -35,7 +35,7 @@ export interface IActionRegisterPayload extends IActionCallback {
 }
 
 export interface BodyParams {
-  phone: string;
+  email: string;
   firstname: string;
   lastname: string;
   password: string;

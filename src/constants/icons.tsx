@@ -11,6 +11,7 @@ import LIST_SERVICE_EMPTY from '../assets/icons/listservice_empty.png'
 import LIST_USER_EMPTY from'../assets/icons/user_empty.png'
 import LIST_BRANCH_EMPTY from '../assets/icons/store_empty.png'
 import ICON_STYLIST from '../assets/icons/cut_hair.png'
+import LIST_CALENDAR_EMPTY from '../assets/icons/calendar.jpg'
 export {
   LANDING_PAGE,
   LOGO_APP,
@@ -24,5 +25,6 @@ export {
   LIST_SERVICE_EMPTY,
   LIST_USER_EMPTY,
   LIST_BRANCH_EMPTY,
-  ICON_STYLIST
+  ICON_STYLIST,
+  LIST_CALENDAR_EMPTY,
 };

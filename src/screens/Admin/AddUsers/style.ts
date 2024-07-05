@@ -44,6 +44,12 @@ const styles = StyleSheet.create({
     width: WITDH / 2 + 30,
     textAlign: 'center',
   },
+  inputworktime: {
+    marginLeft: 20,
+    fontSize: 20,
+    width: WITDH / 2 ,
+    textAlign: 'center',
+  },
   container: {
     margin: 20,
     flexDirection: 'row',
