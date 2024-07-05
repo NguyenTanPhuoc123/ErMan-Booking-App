@@ -23,7 +23,6 @@ import EditProfileScreen from '../screens/Account/EditProfile';
 import UserManagerScreen from '../screens/Admin/UserManager';
 import BranchScreen from '../screens/Branch';
 import NotificationScreen from '../screens/Notifications';
-import NewsScreen from '../screens/Stylist';
 import ServiceManagerScreen from '../screens/Admin/ServiceManager';
 import DrawerNavigator from './Drawer';
 import DashboardScreen from '../screens/Admin/Dashboard';
@@ -32,6 +31,8 @@ import CalendarScreen from '../screens/Calendar';
 
 import BranchDetailScreen from '../screens/BranchDetail';
 import BranchManagerScreen from '../screens/Admin/BranchManagerScreen';
+import StylistScreen from '../screens/Stylist';
+import CreateBookingScreen from '../screens/CreateBooking';
 
 export type AuthStackObject = {
   [key in keyof Partial<AuthStackParamList>]:
@@ -96,7 +97,8 @@ export const mainStackScreens: MainStackObject = {
   [SCREEN_KEYS.BRANCH_DETAIL_SCREEN]: BranchDetailScreen,
   [SCREEN_KEYS.NOTIFICATION_SCREEN]: NotificationScreen,
   [SCREEN_KEYS.CALENDAR_SCREEN]: CalendarScreen,
-  [SCREEN_KEYS.STYLIST_SCREEN]: NewsScreen,
+  [SCREEN_KEYS.STYLIST_SCREEN]: StylistScreen,
+  [SCREEN_KEYS.CREATE_BOOKING_SCREEN]:CreateBookingScreen
 };
 
 export const drawerStackScreens: AdminStackObject = {

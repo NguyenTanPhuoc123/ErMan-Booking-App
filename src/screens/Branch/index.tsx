@@ -32,6 +32,7 @@ const BranchScreen = () => {
     setSearch,
     branchs,
     loading,
+    params,
   } = useBranch();
   const renderHeader = () => {
     return (
@@ -97,7 +98,14 @@ const BranchScreen = () => {
             content="Không có chi nhánh"
           />
         }
-        renderItem={({item}) => <ItemBranchRow key={item.id} {...item} />}
+        renderItem={({item}) => (
+          <ItemBranchRow
+            key={item.id}
+            item={item}
+            services={params.services || null}
+            fromScreen={params.screen || ''}
+          />
+        )}
         ListFooterComponent={renderFooterFlatList}
         onEndReached={loadMore}
         onEndReachedThreshold={1}

@@ -49,7 +49,20 @@ export function changeDayInWeekToVI(day: Date) {
   }
 }
 
-export function formatStringDate(dateStr: string){
+export function formatStringDate(dateStr: string) {
   const [date, month, year] = dateStr.split('-');
   return `${year}-${month}-${date}`;
-};
+}
+
+export function compareTimesByHoursMinute(time1: string, time2: string) {
+  const [hours1, minutes1] = time1.split(':').map(Number);
+  const [hours2, minutes2] = time2.split(':').map(Number);
+
+  const totalMinutes1 = hours1 * 60 + minutes1;
+  const totalMinutes2 = hours2 * 60 + minutes2;
+
+  if (totalMinutes1 < totalMinutes2) {
+    return true;
+  }
+  return false;
+}

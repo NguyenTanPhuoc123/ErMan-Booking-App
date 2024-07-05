@@ -9,11 +9,13 @@ import {getListBranchs, searchBranch} from '../../modules/branch';
 import {ApiError} from '../../constants/api';
 import {MessageType, PopupType} from '../../component/CustomPopup/type';
 import {debounce} from 'lodash';
+import {useRoute} from '@react-navigation/native';
 const useBranch = () => {
   const {branchs, hasNextPage, endCursor} = useSelector<
     RootState,
     IBranchState
   >(state => state.branch);
+  const {params} = useRoute() as any;
   const dispatch = useDispatch();
   const listBranchRef = createRef<FlatList>();
   const [refresh, setRefresh] = useState(false);
@@ -120,6 +122,7 @@ const useBranch = () => {
     setSearch,
     branchs,
     loading,
+    params,
   };
 };
 

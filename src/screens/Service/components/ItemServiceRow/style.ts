@@ -26,12 +26,21 @@ const styles = StyleSheet.create({
     fontFamily: InriaSerifBold,
     marginHorizontal: 10,
   },
-  time:{
-    marginHorizontal:10,
-    marginTop:3
+  time: {
+    marginHorizontal: 10,
+    marginTop: 3,
   },
   bookNow: {
     backgroundColor: '#EEB156',
+    padding: 7,
+    borderRadius: 10,
+    marginHorizontal: 10,
+    marginVertical: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  selectService: {
+    backgroundColor: '#D4D3D6',
     padding: 7,
     borderRadius: 10,
     marginHorizontal: 10,
@@ -43,22 +52,22 @@ const styles = StyleSheet.create({
     color: '#433F3F',
     fontSize: 16,
   },
-  discount:{
-    backgroundColor:'#F3B20A',
-    width:50,
-    height:60,
-    justifyContent:'center',
-    borderTopRightRadius:20,
-    alignItems:'center',
-    position:'absolute',
-    right:0
+  discount: {
+    backgroundColor: '#F3B20A',
+    width: 50,
+    height: 60,
+    justifyContent: 'center',
+    borderTopRightRadius: 20,
+    alignItems: 'center',
+    position: 'absolute',
+    right: 0,
   },
-  textDiscount:{
-    color:'red',
-    fontSize:16,
-    fontFamily:InriaSerifBold,
-    textAlign:'center'
-  }
+  textDiscount: {
+    color: 'red',
+    fontSize: 16,
+    fontFamily: InriaSerifBold,
+    textAlign: 'center',
+  },
 });
 
 export default styles;

@@ -1,4 +1,4 @@
-import {View, Text, TouchableOpacity } from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Header} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -22,7 +22,8 @@ const renderScene = SceneMap({
 });
 
 const MyBookingScreen = () => {
-  const {index,setIndex,routes,goToNotifcation} = useBooking();
+  const {index, setIndex, routes, goToNotifcation, goToCreateBooking} =
+    useBooking();
   const renderHeader = () => {
     return (
       <Header
@@ -43,6 +44,14 @@ const MyBookingScreen = () => {
       />
     );
   };
+
+  const renderButtonAddBooking = () => (
+    <TouchableOpacity
+      style={[globalStyle.bgPopupCommon, styles.containerButton]}
+      onPress={goToCreateBooking}>
+      <Icon name="plus" size={24} />
+    </TouchableOpacity>
+  );
 
   const renderBody = () => (
     <TabView
@@ -69,8 +78,13 @@ const MyBookingScreen = () => {
     <>
       <View style={globalStyle.container}>
         {renderHeader()}
-        <SearchComponent placeholder='Thông tin lịch đặt,...' searchValue='' onSearch={()=>{}}/>
+        <SearchComponent
+          placeholder="Thông tin lịch đặt,..."
+          searchValue=""
+          onSearch={() => {}}
+        />
         {renderBody()}
+        {renderButtonAddBooking()}
       </View>
     </>
   );

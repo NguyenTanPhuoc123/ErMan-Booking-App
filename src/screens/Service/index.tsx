@@ -19,6 +19,8 @@ import ListItemEmpty from '../../component/ListItemEmpty';
 import {LIST_SERVICE_EMPTY} from '../../constants/icons';
 import {Tab, TabView} from 'react-native-elements';
 import SearchComponent from '../../component/Search';
+import {CREATE_BOOKING_SCREEN} from '../../constants/screen_key';
+import SelectListService from './components/SelectListService';
 
 const ServiceScreen = () => {
   const {
@@ -35,6 +37,9 @@ const ServiceScreen = () => {
     isLoadMore,
     loading,
     listSearch,
+    listSelected,
+    addService,
+    removeService,
   } = useService();
   const renderHeader = () => {
     return (
@@ -58,12 +63,21 @@ const ServiceScreen = () => {
         centerComponent={<Text style={styles.textHeader}>Dịch vụ</Text>}
         rightContainerStyle={styles.rightComponentHeader}
         rightComponent={
-          <TouchableOpacity onPress={goToNotifcation}>
-            <View>
-              <View style={styles.pointNotification}></View>
-              <Icon name="bell" size={25} style={globalStyle.fontText} solid />
-            </View>
-          </TouchableOpacity>
+          route.params ? (
+            <></>
+          ) : (
+            <TouchableOpacity onPress={goToNotifcation}>
+              <View>
+                <View style={styles.pointNotification}></View>
+                <Icon
+                  name="bell"
+                  size={25}
+                  style={globalStyle.fontText}
+                  solid
+                />
+              </View>
+            </TouchableOpacity>
+          )
         }
       />
     );
@@ -88,6 +102,16 @@ const ServiceScreen = () => {
       />
     );
   };
+
+  const renderSelectListService = () => {
+    if (route.params) {
+      if ((route.params as any).screen === CREATE_BOOKING_SCREEN) {
+        return <SelectListService listSelected={listSelected} />;
+      }
+    }
+    return null;
+  };
+
   const renderService = () => (
     <FlatList<Service>
       ref={serviceListRef}
@@ -100,7 +124,16 @@ const ServiceScreen = () => {
       ListEmptyComponent={
         <ListItemEmpty image={LIST_SERVICE_EMPTY} content="Không có dịch vụ" />
       }
-      renderItem={({item}) => <ItemServiceRow key={item.id} {...item} />}
+      renderItem={({item}) => (
+        <ItemServiceRow
+          screenFrom={route.params ? (route.params as any).screen : ''}
+          key={item.id}
+          item={item}
+          listService={listSelected}
+          addService={addService}
+          removeService={removeService}
+        />
+      )}
       ListFooterComponent={renderLoadMore()}
       onEndReached={loadMore}
       onEndReachedThreshold={1}
@@ -115,6 +148,7 @@ const ServiceScreen = () => {
         onSearch={setSearch}
       />
       {loading ? renderLoading() : renderService()}
+      {renderSelectListService()}
     </View>
   );
 };

@@ -1,25 +1,25 @@
 import {Dimensions, StyleSheet} from 'react-native';
 import {WITDH} from '../../constants/styles';
-import { InriaSerifBold, InriaSerifRegular } from '../../constants/font';
+import {InriaSerifBold, InriaSerifRegular} from '../../constants/font';
 
 const styles = StyleSheet.create({
   containerHeader: {
     borderColor: '#433F3F',
     height: 100,
   },
-  statusBar:{
-    backgroundColor:'#F3B20A',
-    borderRadius:3,
-    height:4,
-    width:60,
-    alignSelf:'center',
-    marginLeft:WITDH * 0.05,
+  statusBar: {
+    backgroundColor: '#F3B20A',
+    borderRadius: 3,
+    height: 4,
+    width: 60,
+    alignSelf: 'center',
+    marginLeft: WITDH * 0.05,
   },
-  textTab :{
-    color:'#fff',
-    fontFamily:InriaSerifRegular,
-    fontSize:14,
-    textTransform:'none'
+  textTab: {
+    color: '#fff',
+    fontFamily: InriaSerifRegular,
+    fontSize: 14,
+    textTransform: 'none',
   },
   textHeader: {
     fontSize: 22,
@@ -46,7 +46,18 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     fontFamily: InriaSerifBold,
     color: '#D4D3D6',
-  }
+  },
+  containerButton: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    position: 'absolute',
+    bottom: 60,
+    right: 20,
+    zIndex: 99999,
+  },
 });
 
 export default styles;
