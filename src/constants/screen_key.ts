@@ -24,6 +24,7 @@ export const NOTIFICATION_SCREEN = 'NotificationScreen';
 export const STYLIST_SCREEN = 'StylistScreen';
 export const BRANCH_DETAIL_SCREEN = 'BranchDetailScreen';
 export const CALENDAR_SCREEN = 'CalendarScreen';
+export const CREATE_BOOKING_SCREEN = "CreateBookingScreen";
 //admin
 export const USER_MANAGER_SCREEN = 'UserManagerScreen';
 export const SERVICE_MANAGER_SCREEN = 'ServiceManagerScreen';
@@ -36,3 +37,4 @@ export const DASHBOARD_SCREEN = 'DashboardScreen';
 export const ADD_USER_SCREEN = 'AddUsersScreen';
 export const BRANCH_MANAGER_STACK = 'BranchManagerStack';
 export const BRANCH_MANAGER_SCREEN = 'BranchManagerScreen';
+export const BOOKING_DETAIL_SCREEN = 'BookingDetailScreen';

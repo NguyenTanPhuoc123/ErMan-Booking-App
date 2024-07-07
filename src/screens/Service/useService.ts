@@ -24,6 +24,7 @@ const category = [
 const useService = () => {
   const serviceListRef = createRef<FlatList>();
   const route = useRoute();
+  const selected = route.params as any;
   const dispatch = useDispatch();
   const {services, hasNextPage, endCursor} = useSelector<
     RootState,
@@ -35,6 +36,9 @@ const useService = () => {
   const [categoryService, setCategoryService] = useState(0);
   const [loading, setLoading] = useState(false);
   const [listSearch, setListSearch] = useState<Service[]>([]);
+  const [listSelected, setListSelected] = useState<Service[]>(
+    selected ? selected.services : [],
+  );
   const onLoadServiceSuccess = () => {
     setLoading(false);
     setRefresh(false);
@@ -54,6 +58,14 @@ const useService = () => {
   }, [refresh, search]);
   const pullRefresh = () => {
     setRefresh(true);
+  };
+
+  const addService = (service: Service) => {
+    setListSelected([...listSelected, service]);
+  };
+
+  const removeService = (service: Service) => {
+    setListSelected(listSelected.filter(item => item.id !== service.id));
   };
 
   const getListServices = () => {
@@ -125,6 +137,9 @@ const useService = () => {
     loadMore,
     isLoadMore,
     listSearch,
+    listSelected,
+    addService,
+    removeService,
   };
 };
 

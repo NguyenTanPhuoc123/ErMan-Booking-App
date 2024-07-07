@@ -13,7 +13,7 @@ import { formatBlogDuration } from '../../utils/date';
 import { SERVICE_CUT_HAIR } from '../../constants/icons';
 
 const ServiceDetailScreen = () => {
-  const {value} = useServiceDetail();
+  const {value,goToCreateBooking,goBack} = useServiceDetail();
 
   const renderHeader = () => {
     return (
@@ -26,7 +26,7 @@ const ServiceDetailScreen = () => {
           </Text>
         }
         leftComponent={
-          <TouchableOpacity onPress={() => NavigationActionService.pop()}>
+          <TouchableOpacity onPress={goBack}>
             <Icon
               name="arrow-left"
               size={25}
@@ -55,7 +55,7 @@ const ServiceDetailScreen = () => {
         </ScrollView>
       </View>
       {APP_TYPE==='Customer'?
-      <TouchableOpacity style={styles.btnBookingNow}>
+      <TouchableOpacity style={styles.btnBookingNow} onPress={goToCreateBooking}>
         <Text style={styles.contentBtn}>Đặt lịch ngay</Text>
       </TouchableOpacity>
       :<></> 

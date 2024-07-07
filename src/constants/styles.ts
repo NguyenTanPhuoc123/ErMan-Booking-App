@@ -1,5 +1,5 @@
 import {Dimensions, StyleSheet} from 'react-native';
-import * as Font from './font'
+import * as Font from './font';
 export const WITDH = Dimensions.get('screen').width;
 export const HEIGHT = Dimensions.get('screen').height;
 export const colorSkeletonItem = 'rgba(95, 92, 85,0.8)';
@@ -44,23 +44,20 @@ const globalStyle = StyleSheet.create({
   bgBtnPopupError: {
     backgroundColor: '#CA524A',
   },
-  colorYellowBold:{
-    color:'#EEB156',
-
+  colorYellowBold: {
+    color: '#EEB156',
   },
-  colorYellowRegular:{
-    color:'#F3CC67'
+  colorYellowRegular: {
+    color: '#F3CC67',
   },
-  colorStatusOpen:{
-    color:'#229C1F',
-
+  colorStatusOpen: {
+    color: '#229C1F',
   },
-  colorStatusClose:{
-    color:'#F45B5B',
-
+  colorStatusClose: {
+    color: '#F45B5B',
   },
-  bgTransparent :{
-    backgroundColor:'transparent'
+  bgTransparent: {
+    backgroundColor: 'transparent',
   },
 });
 

@@ -23,6 +23,8 @@ import {
   VERIFY_PHONE_SCREEN,
   CALENDAR_SCREEN,
   BRANCH_MANAGER_SCREEN,
+  CREATE_BOOKING_SCREEN,
+  BOOKING_DETAIL_SCREEN,
 } from '../constants/screen_key';
 import { ADD_NEW_USER } from '../modules/user/model';
 
@@ -49,6 +51,8 @@ export type MainStackParamList = {
   [STYLIST_SCREEN]:undefined;
   [BRANCH_DETAIL_SCREEN]:undefined;
   [CALENDAR_SCREEN]:undefined;
+  [CREATE_BOOKING_SCREEN]:undefined;
+  [BOOKING_DETAIL_SCREEN]:undefined;
 };
 
 export type AdminStackParamList = {

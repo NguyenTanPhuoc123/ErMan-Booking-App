@@ -149,9 +149,7 @@ export const AddInfoStaff = gql`
   mutation AddStaffInfo($timeStartWork: String, $workPlace: Int) {
     insert_User_one(
       object: {
-        Staff: {
-          data: {timeStartWork: $timeStartWork, workPlace: $workPlace}
-        }
+        Staff: {data: {timeStartWork: $timeStartWork, workPlace: $workPlace}}
       }
     ) {
       Staff {
@@ -251,3 +249,4 @@ export const SearchStaff = gql`
     }
   }
 `;
+

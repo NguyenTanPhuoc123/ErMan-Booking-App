@@ -18,7 +18,7 @@ const Tabs = (props: TabsProps) => {
   return (
       <FlatList
         data={data.filter(user=>user.typeAccount===name)}
-        keyExtractor={item=>item.id}
+        keyExtractor={item=>item.id.toString()}
         renderItem={({item})=> <UserItem key={item.id} {...item}/>}
         ListEmptyComponent={<ListItemEmpty content='Không có người dùng' image={LIST_USER_EMPTY} />}
         refreshControl={<RefreshControl onRefresh={pullRefresh} refreshing={refreshing} />}

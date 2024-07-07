@@ -9,11 +9,13 @@ import {reducer as service} from '../modules/service/reducer'
 import {reducer as user} from '../modules/user/reducer'
 import {reducer as branch} from '../modules/branch/reducer'
 import {reducer as workSchedule} from '../modules/workschedule/reducer'
+import {reducer as booking} from '../modules/booking/reducer'
 import { IAuthState } from '../modules/auth/model';
 import { IServiceState } from '../modules/service/model';
 import { IUserState } from '../modules/user/model';
 import { IBranchState } from '../modules/branch/model';
 import { IWorkScheduleState } from '../modules/workschedule/model';
+import { IBookingState } from '../modules/booking/model';
 
 const authPersist: PersistConfig<IAuthState>={
     key:'auth',
@@ -24,21 +26,28 @@ const authPersist: PersistConfig<IAuthState>={
 
 const userPersist: PersistConfig<IUserState>={
     key:'user',
-    whitelist:['users'],
+    whitelist:['users','hasNextPage','endCursor'],
     storage: AsyncStorage,
     stateReconciler: autoMergeLevel1
 };
 
 const servicePersist: PersistConfig<IServiceState>= {
     key: 'service',
-    whitelist:['services'],
+    whitelist:['services','hasNextPage','endCursor'],
     storage:AsyncStorage,
     stateReconciler:autoMergeLevel1
 }
 
 const branchPersist: PersistConfig<IBranchState>= {
     key: 'branch',
-    whitelist:['branchs'],
+    whitelist:['branchs','hasNextPage','endCursor'],
+    storage:AsyncStorage,
+    stateReconciler:autoMergeLevel1
+}
+
+const bookingPersist: PersistConfig<IBookingState>= {
+    key: 'booking',
+    whitelist:['bookings','hasNextPage','endCursor'],
     storage:AsyncStorage,
     stateReconciler:autoMergeLevel1
 }
@@ -56,7 +65,8 @@ const reducers = combineReducers({
     user: persistReducer(userPersist,user),
     service: persistReducer(servicePersist,service),
     branch: persistReducer(branchPersist,branch),
-    workschedule: persistReducer(workSchedulePersist,workSchedule)
+    workschedule: persistReducer(workSchedulePersist,workSchedule),
+    booking: persistReducer(bookingPersist,booking),
 });
 
 export type RootState = ReturnType<typeof reducers>;

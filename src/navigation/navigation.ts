@@ -1,6 +1,7 @@
 import {
   createNavigationContainerRef,
   StackActions,
+  CommonActions,
 } from '@react-navigation/native';
 import {CUSTOM_POPUP} from '../constants/screen_key';
 import {PopupProps} from '../component/CustomPopup/type';
@@ -39,6 +40,12 @@ function showPopup(props: PopupProps) {
   }
 }
 
+function replace(screenName: string, passProps = {}) {
+  if (navigationRef.isReady()) {
+    navigationRef.dispatch(StackActions.replace(screenName, passProps));
+  }
+}
+
 function hidePopup() {
   if (navigationRef.isReady()) {
     const navigationState = navigationRef.getState();
@@ -69,6 +76,7 @@ const NavigationActionService = {
   hidePopup,
   showLoading,
   hideLoading,
+  replace,
 };
 
 export default NavigationActionService;

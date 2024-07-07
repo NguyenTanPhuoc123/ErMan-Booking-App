@@ -11,7 +11,7 @@ export interface IServiceState {
 }
 
 export interface Service {
-  id: string;
+  id: number;
   image: string;
   serviceName: string;
   price: number;
