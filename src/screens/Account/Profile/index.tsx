@@ -1,7 +1,7 @@
 import {View, Text, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import NavigationActionService from '../../../navigation/navigation';
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Header} from 'react-native-elements';
 import styles from './style';
 import globalStyle from '../../../constants/styles';
@@ -14,7 +14,8 @@ import {
 } from '../../../constants/icons';
 import {IAuthState} from '../../../modules/auth/model';
 import {RootState} from '../../../redux/reducers';
-import { EDIT_PROFILE_SCREEN } from '../../../constants/screen_key';
+import {EDIT_PROFILE_SCREEN} from '../../../constants/screen_key';
+import {Staff} from '../../../modules/user/model';
 
 const ProfileScreen = () => {
   const currentUser = useSelector<RootState, IAuthState>(
@@ -72,11 +73,22 @@ const ProfileScreen = () => {
       {renderButtonFeature('Giới tính:', currentUser.gender ? 'Nam' : 'Nữ')}
       {renderButtonFeature('Ngày sinh:', currentUser.birthday)}
       {renderButtonFeature('Địa chỉ:', currentUser.address)}
-      {renderButtonFeature('Số điện thoại:', currentUser.phone)}
+      {renderButtonFeature('Email:', currentUser.email)}
+      {currentUser.typeAccount != 'Customer'
+        ? [
+            renderButtonFeature(
+              'Ngày vào làm:',
+              (currentUser as Staff).timeStartWork,
+            ),
+            renderButtonFeature('Email:', (currentUser as Staff).workPlace),
+          ]
+        : null}
     </View>
   );
   const renderButton = () => (
-    <TouchableOpacity style={styles.buttonEdit} onPress={()=>NavigationActionService.navigate(EDIT_PROFILE_SCREEN)}>
+    <TouchableOpacity
+      style={styles.buttonEdit}
+      onPress={() => NavigationActionService.navigate(EDIT_PROFILE_SCREEN)}>
       <Text style={styles.textEdit}>Chỉnh sửa</Text>
     </TouchableOpacity>
   );
@@ -84,7 +96,7 @@ const ProfileScreen = () => {
   return (
     <>
       <View style={globalStyle.container}>
-        {APP_TYPE!="Admin" ?renderHeader():null}
+        {APP_TYPE != 'Admin' ? renderHeader() : null}
         {renderAvatar()}
         {renderInformation()}
         {renderButton()}

@@ -10,6 +10,8 @@ import { MessageType, PopupType } from '../../component/CustomPopup/type';
 import { ApiError } from '../../constants/api';
 import { createNewBooking } from '../../modules/booking';
 import { IAuthState } from '../../modules/auth/model';
+import client from '../../api';
+import { GetListBookingsSubscription } from '../../api/booking/queries';
 
 const useCreateBooking = () => {
   const dispatch = useDispatch();
@@ -45,6 +47,7 @@ const useCreateBooking = () => {
       title:'Đặt lịch',
       message:'Đặt lịch thành công',
     })
+     client.subscribe({query:GetListBookingsSubscription})
   }
 
   const onCreateFail = (error?:ApiError)=>{
