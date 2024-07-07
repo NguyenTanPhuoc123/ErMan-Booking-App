@@ -58,6 +58,7 @@ const useBranchManager = () => {
     dispatch(
       getListBranchs({
         limit: 3,
+        page:1,
         onSuccess: onGetSuccess,
         onFail: onGetFail,
       }),

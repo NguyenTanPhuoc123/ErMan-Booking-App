@@ -77,6 +77,78 @@ export const GetListBookings = gql`
   }
 `;
 
+export const GetListBookingsSubscription = gql`
+  subscription GetListBookings($limit: Int, $after: String) {
+    Booking_connection(
+      first: $limit
+      after: $after
+      order_by: {datetimeCreate: desc}
+    ) {
+      edges {
+        node {
+          id
+          isPaid
+          status
+          total
+          datetimeBooking
+          datetimeCreate
+          BookingDetails {
+            Service {
+              description
+              discount
+              id
+              image
+              price
+              serviceName
+              time
+            }
+            id
+          }
+          User {
+            address
+            avatar
+            birthday
+            email
+            firstname
+            gender
+            id
+            isVerified
+            lastname
+            typeAccount
+          }
+          Branch {
+            address
+            branchName
+            closeTime
+            description
+            id
+            image
+            openTime
+          }
+          userByStaff {
+            Staff {
+              User {
+                address
+                avatar
+                birthday
+                email
+                firstname
+                gender
+                id
+                isVerified
+                lastname
+                typeAccount
+              }
+              timeStartWork
+              workPlace
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const CreateNewBooking = gql`
   mutation AddNewBooking(
     $branchId: Int!

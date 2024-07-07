@@ -22,6 +22,9 @@ const globalStyle = StyleSheet.create({
     color: '#D4D3D6',
     ...StyleSheet,
   },
+  fontBold:{
+    fontFamily:Font.InriaSerifBold
+  },
   container: {
     backgroundColor: '#282828',
     flex: 1,
