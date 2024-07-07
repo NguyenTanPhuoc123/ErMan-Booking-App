@@ -42,7 +42,7 @@ const SelectService = (props: SelectServiceProps) => {
           data={services}
           numColumns={2}
           scrollEnabled={false}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item.id.toString()}
           renderItem={({item}) => (
             <Text key={item.id} style={[globalStyle.fontText, styles.service]}>
               {item.serviceName}

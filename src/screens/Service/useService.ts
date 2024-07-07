@@ -37,7 +37,7 @@ const useService = () => {
   const [loading, setLoading] = useState(false);
   const [listSearch, setListSearch] = useState<Service[]>([]);
   const [listSelected, setListSelected] = useState<Service[]>(
-    selected.services || [],
+    selected ? selected.services : [],
   );
   const onLoadServiceSuccess = () => {
     setLoading(false);

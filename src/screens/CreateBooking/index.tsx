@@ -59,7 +59,7 @@ const CreateBookingScreen = () => {
     return (
       <View style={styles.infoBooking}>
         <Text style={styles.label}>1. Chọn dịch vụ</Text>
-        <SelectService services={services} />
+        <SelectService services={services}/>
         <Text style={styles.label}>2. Chọn chi nhánh</Text>
         <SelectBranch listService={services} branch={branch} />
         <Text style={styles.label}>3. Chọn stylist & thời gian</Text>

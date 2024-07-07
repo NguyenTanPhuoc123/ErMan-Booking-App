@@ -120,7 +120,7 @@ const ServiceScreen = () => {
       }
       numColumns={2}
       data={search != '' ? listSearch : services}
-      keyExtractor={item => item.id}
+      keyExtractor={item => item.id.toString()}
       ListEmptyComponent={
         <ListItemEmpty image={LIST_SERVICE_EMPTY} content="Không có dịch vụ" />
       }

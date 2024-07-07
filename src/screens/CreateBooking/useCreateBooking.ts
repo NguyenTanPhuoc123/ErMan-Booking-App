@@ -6,6 +6,10 @@ import {IUserState, Staff} from '../../modules/user/model';
 import {useEffect, useState} from 'react';
 import {getListStaff} from '../../modules/user';
 import moment from 'moment';
+import { MessageType, PopupType } from '../../component/CustomPopup/type';
+import { ApiError } from '../../constants/api';
+import { createNewBooking } from '../../modules/booking';
+import { IAuthState } from '../../modules/auth/model';
 
 const useCreateBooking = () => {
   const dispatch = useDispatch();
@@ -13,6 +17,7 @@ const useCreateBooking = () => {
   const stylists = useSelector<RootState, IUserState>(
     state => state.user,
   ).users.filter(user => user.typeAccount === 'Staff');
+  const {userData} = useSelector<RootState,IAuthState>(state=>state.auth);
   const services = (params as any).services || [];
   const branch = (params as any).branch || null;
   const [stylist, setStylist] = useState<Staff>();
@@ -32,12 +37,40 @@ const useCreateBooking = () => {
     );
   }, []);
 
+  const onCreateSuccess = ()=>{
+    NavigationActionService.hideLoading();
+    NavigationActionService.showPopup({
+      type:PopupType.ONE_BUTTON,
+      typeMessage:MessageType.COMMON,
+      title:'Đặt lịch',
+      message:'Đặt lịch thành công',
+    })
+  }
+
+  const onCreateFail = (error?:ApiError)=>{
+    NavigationActionService.hideLoading();
+    NavigationActionService.showPopup({
+      type:PopupType.ONE_BUTTON,
+      typeMessage:MessageType.ERROR,
+      title:'Đặt lịch thất bại',
+      message:error?.message || 'Có lỗi gì đó đã xảy ra',
+    })
+  }
+
   const createBooking = () => {
-    console.log('Service: ', services);
-    console.log('Branch: ', branch);
-    console.log('Stylist: ', stylist);
-    console.log('Date: ', date);
-    console.log('Time: ', time);
+    NavigationActionService.showLoading();
+    dispatch(createNewBooking({
+      onSuccess:onCreateSuccess,
+      onFail:onCreateFail,
+      body:{
+        branch:branch,
+        services:services,
+        customer: userData,
+        staff: stylist || stylists[0] as Staff,
+        isPaid:false,
+        datetimeBooking:`${date} ${time} `,
+      }
+    }))
   };
 
   const goBack = () => {

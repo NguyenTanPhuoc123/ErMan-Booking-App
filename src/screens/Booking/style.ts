@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
     fontFamily: InriaSerifRegular,
     fontSize: 14,
     textTransform: 'none',
+    textAlign: 'center',
   },
   textHeader: {
     fontSize: 22,
@@ -50,11 +51,11 @@ const styles = StyleSheet.create({
   containerButton: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
     position: 'absolute',
-    bottom: 60,
+    bottom: 40,
     right: 20,
     zIndex: 99999,
   },

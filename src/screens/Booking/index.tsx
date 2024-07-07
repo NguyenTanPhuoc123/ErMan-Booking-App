@@ -7,23 +7,23 @@ import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import styles from './style';
 import Tabs from './components/Tabs';
 import useBooking from './useBooking';
-import SearchComponent from '../../component/Search';
-
-const renderUpcoming = () => <Tabs name="upcoming" id="1" />;
-const renderOngoing = () => <Tabs name="ongoing" id="2" />;
-const renderComplete = () => <Tabs name="complete" id="3" />;
-const renderCanceled = () => <Tabs name="Canceled" id="4" />;
-
-const renderScene = SceneMap({
-  upcoming: renderUpcoming as any,
-  ongoing: renderOngoing as any,
-  complete: renderComplete as any,
-  canceled: renderCanceled as any,
-});
 
 const MyBookingScreen = () => {
-  const {index, setIndex, routes, goToNotifcation, goToCreateBooking} =
+  const {index, setIndex, routes, goToNotifcation, goToCreateBooking, bookings} =
     useBooking();
+
+  const renderUpcoming = () => <Tabs name="upcoming" data={bookings}  />;
+  const renderOngoing = () => <Tabs name="ongoing" data={bookings}/>;
+  const renderComplete = () => <Tabs name="completed" data={bookings}/>;
+  const renderCanceled = () => <Tabs name="canceled" data={bookings} />;
+
+  const renderScene = SceneMap({
+    upcoming: renderUpcoming as any,
+    ongoing: renderOngoing as any,
+    completed: renderComplete as any,
+    canceled: renderCanceled as any,
+  });
+
   const renderHeader = () => {
     return (
       <Header
@@ -63,12 +63,10 @@ const MyBookingScreen = () => {
         <TabBar
           {...props}
           indicatorStyle={styles.statusBar}
-          style={{backgroundColor: '#282828'}}
+          style={{backgroundColor: '#433F3F'}}
           labelStyle={styles.textTab}
           activeColor="#F3B20A"
           inactiveColor="#D4D3D6"
-          pressColor="rgba(255, 255, 255, 0.5)"
-          pressOpacity={0.8}
         />
       )}
     />
@@ -78,11 +76,6 @@ const MyBookingScreen = () => {
     <>
       <View style={globalStyle.container}>
         {renderHeader()}
-        <SearchComponent
-          placeholder="Thông tin lịch đặt,..."
-          searchValue=""
-          onSearch={() => {}}
-        />
         {renderBody()}
         {renderButtonAddBooking()}
       </View>
