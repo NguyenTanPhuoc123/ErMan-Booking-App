@@ -7,15 +7,52 @@ import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import styles from './style';
 import Tabs from './components/Tabs';
 import useBooking from './useBooking';
+import {APP_TYPE} from '../../constants/app_info';
 
 const MyBookingScreen = () => {
-  const {index, setIndex, routes, goToNotifcation, goToCreateBooking, bookings} =
-    useBooking();
+  const {
+    index,
+    setIndex,
+    routes,
+    goToNotifcation,
+    goToCreateBooking,
+    bookings,
+    refresh,
+    pullRefresh,
+  } = useBooking();
 
-  const renderUpcoming = () => <Tabs name="upcoming" data={bookings}  />;
-  const renderOngoing = () => <Tabs name="ongoing" data={bookings}/>;
-  const renderComplete = () => <Tabs name="completed" data={bookings}/>;
-  const renderCanceled = () => <Tabs name="canceled" data={bookings} />;
+  const renderUpcoming = () => (
+    <Tabs
+      refresh={refresh}
+      pullRefresh={pullRefresh}
+      name="upcoming"
+      data={bookings}
+    />
+  );
+  const renderOngoing = () => (
+    <Tabs
+      refresh={refresh}
+      pullRefresh={pullRefresh}
+      name="ongoing"
+      data={bookings}
+    />
+  );
+  const renderComplete = () => (
+    <Tabs
+      refresh={refresh}
+      pullRefresh={pullRefresh}
+      name="completed"
+      data={bookings}
+    />
+  );
+  const renderCanceled = () => (
+    <Tabs
+      refresh={refresh}
+      pullRefresh={pullRefresh}
+      name="canceled"
+      data={bookings}
+    />
+  );
 
   const renderScene = SceneMap({
     upcoming: renderUpcoming as any,
@@ -55,7 +92,7 @@ const MyBookingScreen = () => {
 
   const renderBody = () => (
     <TabView
-      navigationState={{index, routes}}
+      navigationState={{index, routes: routes.current}}
       renderScene={renderScene}
       onIndexChange={setIndex}
       initialLayout={{width: WITDH}}
@@ -77,7 +114,7 @@ const MyBookingScreen = () => {
       <View style={globalStyle.container}>
         {renderHeader()}
         {renderBody()}
-        {renderButtonAddBooking()}
+        {APP_TYPE != 'Customer' ? null : renderButtonAddBooking()}
       </View>
     </>
   );

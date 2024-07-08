@@ -14,7 +14,7 @@ import useSelectStylistAndTime from './useSelectStylistAndTime';
 type SelectStylistAndTimeProps = {
   stylists: Staff[];
   stylist?: Staff;
-  onSelectStylist: (stylist?: Staff) => void;
+  onSelectStylist: (stylist: Staff) => void;
   bookingDate: string;
   onSelectBookingDate: (date: string) => void;
   bookingTime: string;
@@ -62,9 +62,7 @@ const SelectStylistAndTime = (props: SelectStylistAndTimeProps) => {
   const status = bookingDate != dateNow;
 
   const handleSelectStylist = (staff: Staff) => {
-    if (staff === stylist) {
-      onSelectStylist(undefined);
-    } else {
+    if (staff != stylist) {
       onSelectStylist(staff);
     }
   };

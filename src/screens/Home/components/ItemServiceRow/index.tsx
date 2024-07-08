@@ -11,6 +11,7 @@ import {
 } from '../../../../constants/screen_key';
 import {Service} from '../../../../modules/service/model';
 import {formatBlogDuration} from '../../../../utils/date';
+import {APP_TYPE} from '../../../../constants/app_info';
 
 const ItemServiceRow = (props: Service) => {
   const {image, serviceName, price, time, discount} = props;
@@ -38,11 +39,13 @@ const ItemServiceRow = (props: Service) => {
       <Text style={[globalStyle.fontText, styles.time]}>
         Thời gian: {formatBlogDuration(time)}
       </Text>
-      <TouchableOpacity style={styles.bookNow} onPress={goToCreateBooking}>
-        <Text style={[globalStyle.fontText, styles.contentBtn]}>
-          Đặt lịch ngay
-        </Text>
-      </TouchableOpacity>
+      {APP_TYPE != 'Customer' ? null : (
+        <TouchableOpacity style={styles.bookNow} onPress={goToCreateBooking}>
+          <Text style={[globalStyle.fontText, styles.contentBtn]}>
+            Đặt lịch ngay
+          </Text>
+        </TouchableOpacity>
+      )}
     </TouchableOpacity>
   );
 };

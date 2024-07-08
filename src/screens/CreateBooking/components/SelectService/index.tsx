@@ -19,6 +19,7 @@ const SelectService = (props: SelectServiceProps) => {
   const {services} = props;
   let totalPrice = 0;
   const listServiceRef = createRef<FlatList>();
+
   const getLenghtService = () => {
     if (services.length > 0) {
       services.map(service => {

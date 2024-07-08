@@ -1,10 +1,12 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {IAcionSaveListBookingPayLoad, IBookingState} from './model';
+import {
+  IAcionSaveListBookingPayLoad,
+  IActionUpdateStatusBookingPayload,
+  IBookingState,
+} from './model';
 
 const initialState: IBookingState = {
   bookings: [],
-  endCursor: '',
-  hasNextPage: true,
 };
 
 const bookingSlice = createSlice({
@@ -18,8 +20,6 @@ const bookingSlice = createSlice({
       return {
         ...state,
         bookings: action.payload.bookings,
-        endCursor: action.payload.endCursor,
-        hasNextPage: action.payload.hasNextPage,
       };
     },
     SAVE_LIST_BOOKINGS_LOAD_MORE: (
@@ -33,6 +33,16 @@ const bookingSlice = createSlice({
         branchs: [...state.bookings, ...action.payload.bookings],
       };
     },
+    UPDATE_STATUS: (
+      state: IBookingState,
+      action: PayloadAction<IActionUpdateStatusBookingPayload>,
+    ) => {
+      const {id, status} = action.payload;
+      const bookingExist = state.bookings.find(booking => booking.id === id);
+      if (bookingExist) {
+        bookingExist.status = status;
+      }
+    },
   },
 });
 
@@ -40,4 +50,5 @@ export const {reducer} = bookingSlice;
 export const {
   SAVE_LIST_BOOKINGS: saveListBookings,
   SAVE_LIST_BOOKINGS_LOAD_MORE: saveListBookingsLoadMore,
+  UPDATE_STATUS: updateStatus,
 } = bookingSlice.actions;

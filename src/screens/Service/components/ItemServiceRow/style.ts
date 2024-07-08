@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
     height: 'auto',
     borderRadius: 20,
     margin: 10,
+    padding: 7,
   },
   img: {
     width: '100%',

@@ -14,8 +14,6 @@ import styles from './style';
 import {
   AVARTAR_DEFAULT_CUSTOMER,
   AVARTAR_DEFAULT_STAFF,
-  SERVICE_CUT_HAIR,
-  STYLELIST,
 } from '../../constants/icons';
 import {APP_TYPE} from '../../constants/app_info';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -70,7 +68,8 @@ const HomeScreen = () => {
     refresh,
     pullRefresh,
     branchs,
-    stylists
+    stylists,
+    bookingNear,
   } = useDasboard();
   const renderHeader = () => {
     return (
@@ -121,11 +120,7 @@ const HomeScreen = () => {
             }}
           />
         ) : (
-          <ButtonComponent
-            icon="user"
-            title="Stylist"
-            onPress={goToStylists}
-          />
+          <ButtonComponent icon="user" title="Stylist" onPress={goToStylists} />
         )}
         <ButtonComponent icon="store" title="Chi nhánh" onPress={goToBranch} />
       </View>
@@ -185,7 +180,7 @@ const HomeScreen = () => {
       <FlatList<Service>
         ref={serviceListRef}
         data={services}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.id.toString()}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         ListEmptyComponent={
@@ -237,12 +232,7 @@ const HomeScreen = () => {
           <Text style={styles.noItems}>Không có stylist</Text>
         }
         showsHorizontalScrollIndicator={false}
-        renderItem={({item, index}) => (
-          <ItemStylistRow
-            key={index}
-            {...item}
-          />
-        )}
+        renderItem={({item, index}) => <ItemStylistRow key={index} {...item} />}
       />
     </View>
   );
@@ -259,7 +249,7 @@ const HomeScreen = () => {
           </Text>
         </TouchableOpacity>
       </View>
-      <BookingNear />
+      <BookingNear booking={bookingNear} />
     </View>
   );
   return (

@@ -11,6 +11,7 @@ import {
 import NavigationActionService from '../../../../navigation/navigation';
 import {Service} from '../../../../modules/service/model';
 import {formatBlogDuration} from '../../../../utils/date';
+import {APP_TYPE} from '../../../../constants/app_info';
 
 type ItemServiceRowProps = {
   item: Service;
@@ -77,13 +78,15 @@ const ItemServiceRow = (props: ItemServiceRowProps) => {
       <Text style={[globalStyle.fontText, styles.time]}>
         Thời gian: {formatBlogDuration(item.time)}
       </Text>
-      <TouchableOpacity
-        style={status ? styles.selectService : styles.bookNow}
-        onPress={onPressBtn}>
-        <Text style={[globalStyle.fontText, styles.contentBtn]}>
-          {getContentBtn()}
-        </Text>
-      </TouchableOpacity>
+      {APP_TYPE != 'Customer' ? null : (
+        <TouchableOpacity
+          style={status ? styles.selectService : styles.bookNow}
+          onPress={onPressBtn}>
+          <Text style={[globalStyle.fontText, styles.contentBtn]}>
+            {getContentBtn()}
+          </Text>
+        </TouchableOpacity>
+      )}
     </TouchableOpacity>
   );
 };

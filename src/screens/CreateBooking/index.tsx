@@ -9,6 +9,7 @@ import SelectService from './components/SelectService';
 import SelectBranch from './components/SelectBranch';
 import SelectStylistAndTime from './components/SelectStylistAndTime';
 import {Staff} from '../../modules/user/model';
+import {BOOKING_DETAIL_SCREEN} from '../../constants/screen_key';
 
 const CreateBookingScreen = () => {
   const {
@@ -23,6 +24,8 @@ const CreateBookingScreen = () => {
     time,
     setTime,
     createBooking,
+    screen,
+    goToSelectPayment,
   } = useCreateBooking();
 
   const renderHeader = () => {
@@ -50,8 +53,10 @@ const CreateBookingScreen = () => {
   };
 
   const renderButtonBooking = () => (
-    <TouchableOpacity style={styles.btnBooking} onPress={createBooking}>
-      <Text style={styles.contentBtnBooking}>Chốt giờ đặt</Text>
+    <TouchableOpacity style={styles.btnBooking} onPress={goToSelectPayment}>
+      <Text style={styles.contentBtnBooking}>
+        {screen === BOOKING_DETAIL_SCREEN ? 'Thay đổi' : 'Tiếp tục'}
+      </Text>
     </TouchableOpacity>
   );
 
@@ -59,7 +64,7 @@ const CreateBookingScreen = () => {
     return (
       <View style={styles.infoBooking}>
         <Text style={styles.label}>1. Chọn dịch vụ</Text>
-        <SelectService services={services}/>
+        <SelectService services={services} />
         <Text style={styles.label}>2. Chọn chi nhánh</Text>
         <SelectBranch listService={services} branch={branch} />
         <Text style={styles.label}>3. Chọn stylist & thời gian</Text>

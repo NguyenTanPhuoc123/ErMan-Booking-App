@@ -1,5 +1,28 @@
 import {gql} from '@apollo/client';
 
+export const onAuthStateChanged = gql`
+  subscription onAuthStateChanged($id: Int) {
+    User(where: {id: {_eq: $id}}) {
+      address
+      avatar
+      birthday
+      email
+      firstname
+      gender
+      id
+      isVerified
+      lastname
+      typeAccount
+      Staff {
+        timeStartWork
+        Branch {
+          branchName
+        }
+      }
+    }
+  }
+`;
+
 export const Register = gql`
   mutation Register($firstname: String!, $lastname: String!, $email: String!) {
     insert_User_one(
@@ -67,7 +90,9 @@ export const GetCurrentUser = gql`
           gender
           Staff {
             timeStartWork
-            workPlace
+            Branch {
+              branchName
+            }
           }
         }
       }
@@ -249,4 +274,3 @@ export const SearchStaff = gql`
     }
   }
 `;
-

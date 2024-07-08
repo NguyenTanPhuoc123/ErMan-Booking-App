@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {
   CREATE_BOOKING_SCREEN,
   NOTIFICATION_SCREEN,
@@ -8,6 +8,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../redux/reducers';
 import {IBookingState} from '../../modules/booking/model';
 import {getListBookings} from '../../modules/booking';
+import {MessageType, PopupType} from '../../component/CustomPopup/type';
+import {ApiError} from '../../constants/api';
+import {IAuthState} from '../../modules/auth/model';
 
 const useBooking = () => {
   const [index, setIndex] = useState(0);
@@ -15,42 +18,54 @@ const useBooking = () => {
   const {bookings} = useSelector<RootState, IBookingState>(
     state => state.booking,
   );
-  const [routes] = useState([
+  const {userData} = useSelector<RootState, IAuthState>(state => state.auth);
+  const [refresh, setRefresh] = useState(false);
+  const routes = useRef([
     {
       key: 'upcoming',
-      title: `(${
-        bookings.filter(booking => booking.status === 'upcoming').length
-      })\n Sắp tới`,
+      title: `Sắp tới`,
     },
     {
       key: 'ongoing',
-      title: `(${
-        bookings.filter(booking => booking.status === 'ongoing').length
-      })\n Đang làm`,
+      title: `Đang làm`,
     },
     {
       key: 'completed',
-      title: `(${
-        bookings.filter(booking => booking.status === 'completed').length
-      })\n Đã xong`,
+      title: `Đã xong`,
     },
     {
       key: 'canceled',
-      title: `(${
-        bookings.filter(booking => booking.status === 'canceled').length
-      })\n Đã hủy`,
+      title: `Đã hủy`,
     },
   ]);
 
   useEffect(() => {
     dispatch(
       getListBookings({
-        limit: 4,
-        onSuccess: () => {},
-        onFail: () => {},
+        limit: 100,
+        id: userData.id,
+        onSuccess: onLoadSuccess,
+        onFail: onLoadFail,
       }),
     );
-  }, []);
+  }, [refresh]);
+
+  const onLoadSuccess = () => {
+    setRefresh(false);
+  };
+  const onLoadFail = (error?: ApiError) => {
+    setRefresh(false);
+    NavigationActionService.showPopup({
+      type: PopupType.ONE_BUTTON,
+      typeMessage: MessageType.ERROR,
+      title: 'Lấy lịch đặt thất bại',
+      message: error?.message || 'Có một lỗi gì đó đã xảy ra',
+    });
+  };
+
+  const pullRefresh = () => {
+    setRefresh(true);
+  };
 
   const goToNotifcation = () => {
     NavigationActionService.navigate(NOTIFICATION_SCREEN);
@@ -67,6 +82,8 @@ const useBooking = () => {
     routes,
     goToCreateBooking,
     bookings,
+    refresh,
+    pullRefresh,
   };
 };
 

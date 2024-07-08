@@ -75,13 +75,13 @@ const ProfileScreen = () => {
       {renderButtonFeature('Địa chỉ:', currentUser.address)}
       {renderButtonFeature('Email:', currentUser.email)}
       {currentUser.typeAccount != 'Customer'
-        ? [
-            renderButtonFeature(
-              'Ngày vào làm:',
-              (currentUser as Staff).timeStartWork,
-            ),
-            renderButtonFeature('Email:', (currentUser as Staff).workPlace),
-          ]
+        ? renderButtonFeature(
+            'Ngày vào làm:',
+            (currentUser as Staff).timeStartWork,
+          )
+        : null}
+      {currentUser.typeAccount != 'Customer'
+        ? renderButtonFeature('Nơi làm việc:', (currentUser as Staff).workPlace)
         : null}
     </View>
   );

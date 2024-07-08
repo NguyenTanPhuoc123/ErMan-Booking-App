@@ -1,4 +1,4 @@
-import {createRef, useCallback, useEffect, useState} from 'react';
+import {createRef, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {getListService} from '../../modules/service';
 import {RootState} from '../../redux/reducers';
@@ -14,8 +14,12 @@ import {ICarouselInstance} from 'react-native-reanimated-carousel';
 import {FlatList} from 'react-native';
 import {IBranchState} from '../../modules/branch/model';
 import {getListBranchs} from '../../modules/branch';
-import { IUserState } from '../../modules/user/model';
-import { getListStaff } from '../../modules/user';
+import {IUserState} from '../../modules/user/model';
+import {getListStaff} from '../../modules/user';
+import {IBookingState} from '../../modules/booking/model';
+import {getListBookings} from '../../modules/booking';
+import {APP_TYPE} from '../../constants/app_info';
+import moment from 'moment';
 
 const useDasboard = () => {
   const dispatch = useDispatch();
@@ -35,6 +39,23 @@ const useDasboard = () => {
   const branchListRef = createRef<FlatList>();
   const stylistListRef = createRef<FlatList>();
   const [refresh, setRefresh] = useState(false);
+  const {bookings} = useSelector<RootState, IBookingState>(
+    state => state.booking,
+  );
+  const bookingNear =
+    APP_TYPE === 'Staff'
+      ? bookings.filter(booking => {
+          const [date, time] = booking.datetimeBooking.split(' ');
+          const dateNow = moment(new Date()).format('DD-MM-YYYY');
+          const timeNow = moment(new Date()).format('HH:mm');
+          if (
+            date === dateNow &&
+            moment(time, 'HH:mm').isAfter(moment(timeNow, 'HH:mm'))
+          )
+            return booking;
+        })[0]
+      : null;
+
   const pullRefresh = () => {
     setRefresh(true);
   };
@@ -50,6 +71,12 @@ const useDasboard = () => {
       getListStaff({
         limit: 4,
         page: 1,
+      }),
+    );
+    dispatch(
+      getListBookings({
+        limit: 100,
+        id: currentUser.id,
       }),
     );
     setRefresh(false);
@@ -82,7 +109,8 @@ const useDasboard = () => {
     refresh,
     pullRefresh,
     branchs,
-    stylists
+    stylists,
+    bookingNear,
   };
 };
 

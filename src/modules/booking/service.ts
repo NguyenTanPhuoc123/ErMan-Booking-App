@@ -5,19 +5,21 @@ import {Service} from '../service/model';
 
 export const getListBookings = async (
   limit: number,
+  id: number,
   after?: string,
 ) => {
   try {
     let res;
+
     if (after) {
       res = await client.query({
         query: BookingApi.GetListBookings,
-        variables: {limit: limit, after: after},
+        variables: {limit: limit, after: after, id: id},
       });
     } else {
       res = await client.query({
         query: BookingApi.GetListBookings,
-        variables: {limit: limit},
+        variables: {limit: limit, id: id},
       });
     }
 
@@ -28,6 +30,7 @@ export const getListBookings = async (
       console.log('Error Cursor');
       return;
     }
+
     const listBooking: Booking[] = listData.map((data: any) => {
       const bookingId = JSON.parse(atob(data.node.id))[3];
       const {id, userByStaff, User, Branch, BookingDetails, ...newBooking} =
@@ -39,16 +42,15 @@ export const getListBookings = async (
       const {id: customerId, ...newUser} = User;
       const idCustomer = JSON.parse(atob(customerId))[3];
       const services: Service[] = BookingDetails.map((service: any) => {
-        const serviceId = JSON.parse(atob(service.id))[3];
-        const {id, ...newService} = service;
+        const serviceId = JSON.parse(atob(service.Service.id))[3];
+        const {id, ...newService} = service.Service;
         return {id: serviceId, ...newService};
       }) as Service[];
-
       return {
         id: bookingId,
         customer: {id: idCustomer, ...newUser},
-        staff: {id:idStaff,...newStaff},
-        branch: {id:idBranch,...newBranch},
+        staff: {id: idStaff, ...newStaff},
+        branch: {id: idBranch, ...newBranch},
         services: services,
         ...newBooking,
       };
@@ -90,3 +92,20 @@ export const createNewBooking = async (body: BookingParams) => {
   }
 };
 
+export const updateStatusBooking = async (id: number, status: string) => {
+  try {
+    const res = await client.mutate({
+      mutation: BookingApi.updateStatusBooking,
+      variables: {
+        id,
+        status,
+      },
+    });
+    const data = res.data.update_Booking_by_pk;
+    const bookingId = JSON.parse(atob(data.id))[3];
+    const bookingStatus = data.status;
+    return {result: {id: bookingId, status: bookingStatus}};
+  } catch (error) {
+    console.log('Error update status booking: ', error);
+  }
+};
