@@ -14,16 +14,8 @@ const styles = StyleSheet.create({
   bodyContainer: {
     flex: 1,
   },
-  label: {
-    color: '#d4d3d6',
-    fontSize: 22,
-    fontFamily: InriaSerifBold,
-    margin: 15,
-    width: WITDH / 1.3,
-  },
   infoBooking: {
-    width: WITDH,
-    height: '75%',
+    flex: 1,
   },
   btnBooking: {
     backgroundColor: '#F3CC67',
@@ -34,8 +26,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
     borderRadius: 20,
-    position: 'absolute',
-    bottom: 0,
   },
   contentBtnBooking: {
     fontSize: 20,

@@ -202,8 +202,6 @@ export const ServiceBottomTabNavigator = () =>
   BottomTabStackNavigator(SCREEN_KEYS.SERVICE_SCREEN);
 export const BookingBottomTabNavigator = () =>
   BottomTabStackNavigator(SCREEN_KEYS.MY_BOOKING_SCREEN);
-export const MessageBottomTabNavigator = () =>
-  BottomTabStackNavigator(SCREEN_KEYS.MESSAGE_SCREEN);
 export const PersonalBottomTabNavigator = () =>
   BottomTabStackNavigator(SCREEN_KEYS.PERSONAL_SCREEN);
 export const BottomTabNavigator: BottomTabItem[] = [
@@ -224,12 +222,6 @@ export const BottomTabNavigator: BottomTabItem[] = [
     label: 'Lịch đặt',
     component: BookingBottomTabNavigator,
     icon: 'calendar-alt',
-  },
-  {
-    name: SCREEN_KEYS.MESSAGE_STACK,
-    label: 'Tin nhắn',
-    component: MessageBottomTabNavigator,
-    icon: 'facebook-messenger',
   },
   {
     name: SCREEN_KEYS.ACCOUNT_STACK,

@@ -18,9 +18,6 @@ import {
 const useCreateBooking = () => {
   const dispatch = useDispatch();
   const {params} = useRoute();
-  const stylists = useSelector<RootState, IUserState>(
-    state => state.user,
-  ).users.filter(user => user.typeAccount === 'Staff');
   const {userData} = useSelector<RootState, IAuthState>(state => state.auth);
   const screen = (params as any).screen || '';
   const booking = (params as any).booking || null;
@@ -32,9 +29,17 @@ const useCreateBooking = () => {
     screen === BOOKING_DETAIL_SCREEN && booking
       ? booking.branch
       : (params as any).branch || null;
+  const stylists = useSelector<RootState, IUserState>(
+    state => state.user,
+  ).users.filter(user => {
+    if (user.typeAccount === 'Staff' && branch) {
+      if ((user as Staff).workPlace === branch.branchName) return user;
+    }
+  });
   const [stylist, setStylist] = useState<Staff>(
     screen === BOOKING_DETAIL_SCREEN && booking ? booking.staff : stylists[0],
   );
+
   const [dateBooking, timeBooking] =
     screen === BOOKING_DETAIL_SCREEN && booking
       ? booking.datetimeBooking.split(' ')
@@ -75,15 +80,13 @@ const useCreateBooking = () => {
     });
   };
 
-  const goToSelectPayment = () => {
-    if (services.lenght <= 0 || !branch || !stylist || !date || !time) {
-      showPopupError();
-      return;
-    }
-    NavigationActionService.navigate(SELECT_PAYMENT_SCREEN);
-  };
   const createBooking = () => {
     NavigationActionService.showLoading();
+    if (services.lenght <= 0 || !branch || !stylist || !date || !time) {
+      showPopupError();
+      NavigationActionService.hideLoading();
+      return;
+    }
     dispatch(
       createNewBooking({
         onSuccess: onCreateSuccess,
@@ -125,7 +128,6 @@ const useCreateBooking = () => {
     createBooking,
     screen,
     booking,
-    goToSelectPayment,
   };
 };
 

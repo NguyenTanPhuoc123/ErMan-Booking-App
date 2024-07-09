@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {WITDH} from '../../../../constants/styles';
-import {InriaSerifRegular} from '../../../../constants/font';
+import {InriaSerifBold, InriaSerifRegular} from '../../../../constants/font';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,6 +20,13 @@ const styles = StyleSheet.create({
     fontFamily: InriaSerifRegular,
     marginLeft: 7,
     width: WITDH / 1.2,
+  },
+  label: {
+    color: '#d4d3d6',
+    fontSize: 22,
+    fontFamily: InriaSerifBold,
+    margin: 15,
+    width: WITDH / 1.3,
   },
 });
 

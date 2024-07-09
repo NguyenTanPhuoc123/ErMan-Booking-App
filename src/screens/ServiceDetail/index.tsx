@@ -8,12 +8,12 @@ import styles from './style';
 import NavigationActionService from '../../navigation/navigation';
 import FastImage from 'react-native-fast-image';
 import {FormatCurrency} from '../../utils/currentcy';
-import { APP_TYPE } from '../../constants/app_info';
-import { formatBlogDuration } from '../../utils/date';
-import { SERVICE_CUT_HAIR } from '../../constants/icons';
+import {APP_TYPE} from '../../constants/app_info';
+import {formatBlogDuration} from '../../utils/date';
+import {SERVICE_CUT_HAIR} from '../../constants/icons';
 
 const ServiceDetailScreen = () => {
-  const {value,goToCreateBooking,goBack} = useServiceDetail();
+  const {value, goToCreateBooking, goBack} = useServiceDetail();
 
   const renderHeader = () => {
     return (
@@ -38,11 +38,6 @@ const ServiceDetailScreen = () => {
       />
     );
   };
-  const renderDiscount = ()=>(
-    <View style={styles.discount}>
-      <Text style={styles.textDiscount}>Giảm {value.discount}%</Text>
-    </View>
-  )
 
   const renderDescription = () => (
     <View style={styles.containerDescription}>
@@ -50,34 +45,38 @@ const ServiceDetailScreen = () => {
       <View style={styles.displayDescription}>
         <ScrollView>
           <Text style={[globalStyle.fontText, styles.description]}>
-            {'    '}{value.description || 'Không có mô tả'}
+            {'    '}
+            {value.description || 'Không có mô tả'}
           </Text>
         </ScrollView>
       </View>
-      {APP_TYPE==='Customer'?
-      <TouchableOpacity style={styles.btnBookingNow} onPress={goToCreateBooking}>
-        <Text style={styles.contentBtn}>Đặt lịch ngay</Text>
-      </TouchableOpacity>
-      :<></> 
-      }
+      {APP_TYPE === 'Customer' ? (
+        <TouchableOpacity
+          style={styles.btnBookingNow}
+          onPress={goToCreateBooking}>
+          <Text style={styles.contentBtn}>Đặt lịch ngay</Text>
+        </TouchableOpacity>
+      ) : (
+        <></>
+      )}
     </View>
   );
   return (
     <View style={globalStyle.container}>
       {renderHeader()}
       <FastImage
-        source={!value.image?SERVICE_CUT_HAIR:{uri: value.image}}
+        source={!value.image ? SERVICE_CUT_HAIR : {uri: value.image}}
         style={styles.img}
         resizeMode="cover"
       />
       <Text style={[globalStyle.fontText, styles.serviceName]}>
         {value.serviceName}
       </Text>
-      <Text style={[globalStyle.fontText,styles.time]}>
+      <Text style={[globalStyle.fontText, styles.time]}>
         Thời gian thực hiện: {formatBlogDuration(value.time)}
       </Text>
       <Text style={[globalStyle.fontText, styles.price]}>
-        Giá: {FormatCurrency(value.price)} {value.discount>0 ? renderDiscount():null}
+        Giá: {FormatCurrency(value.price)}
       </Text>
       {renderDescription()}
     </View>

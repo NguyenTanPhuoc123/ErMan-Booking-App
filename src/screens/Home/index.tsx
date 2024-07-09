@@ -70,6 +70,7 @@ const HomeScreen = () => {
     branchs,
     stylists,
     bookingNear,
+    goToBooking
   } = useDasboard();
   const renderHeader = () => {
     return (
@@ -243,7 +244,7 @@ const HomeScreen = () => {
         <Text style={[globalStyle.fontText, styles.titleList]}>
           Lịch đặt sắp đến
         </Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={goToBooking}>
           <Text style={[globalStyle.fontText, styles.txtViewMore]}>
             Xem thêm
           </Text>

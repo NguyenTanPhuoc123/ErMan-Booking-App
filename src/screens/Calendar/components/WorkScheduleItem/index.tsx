@@ -14,7 +14,6 @@ type WorkScheduleItemProps = {
 
 const WorkScheduleItem = (props:WorkScheduleItemProps) => {
   const {workSchedule,staff} = props;
-  console.log("Day: ",workSchedule);
   const today = moment().format('YYYY-MM-DD');
   const dayInWeek = changeDayInWeekToVI(new Date(formatStringDate(workSchedule.dayWork)));
   const date = moment(formatStringDate(workSchedule.dayWork)).format('DD');

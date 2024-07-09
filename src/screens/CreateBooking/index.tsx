@@ -1,4 +1,4 @@
-import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
+import {View, Text, TouchableOpacity, FlatList, ScrollView} from 'react-native';
 import React from 'react';
 import {Header} from 'react-native-elements';
 import styles from './style';
@@ -10,6 +10,12 @@ import SelectBranch from './components/SelectBranch';
 import SelectStylistAndTime from './components/SelectStylistAndTime';
 import {Staff} from '../../modules/user/model';
 import {BOOKING_DETAIL_SCREEN} from '../../constants/screen_key';
+
+type SectionListItem = {
+  id: number;
+  title: string;
+  data: JSX.Element;
+};
 
 const CreateBookingScreen = () => {
   const {
@@ -25,8 +31,31 @@ const CreateBookingScreen = () => {
     setTime,
     createBooking,
     screen,
-    goToSelectPayment,
   } = useCreateBooking();
+
+  const data = [
+    {id: 1, title: 'Chọn dịch vụ', data: <SelectService services={services} />},
+    {
+      id: 2,
+      title: 'Chọn chi nhánh',
+      data: <SelectBranch listService={services} branch={branch} />,
+    },
+    {
+      id: 3,
+      title: 'Chọn stylist & thời gian',
+      data: (
+        <SelectStylistAndTime
+          onSelectStylist={setStylist}
+          bookingDate={date}
+          onSelectBookingDate={setDate}
+          bookingTime={time}
+          onSelectBookingTime={setTime}
+          stylist={stylist}
+          stylists={stylists as Staff[]}
+        />
+      ),
+    },
+  ];
 
   const renderHeader = () => {
     return (
@@ -53,39 +82,42 @@ const CreateBookingScreen = () => {
   };
 
   const renderButtonBooking = () => (
-    <TouchableOpacity style={styles.btnBooking} onPress={goToSelectPayment}>
+    <TouchableOpacity style={styles.btnBooking} onPress={createBooking}>
       <Text style={styles.contentBtnBooking}>
         {screen === BOOKING_DETAIL_SCREEN ? 'Thay đổi' : 'Tiếp tục'}
       </Text>
     </TouchableOpacity>
   );
 
+  const renderPayment = ()=>{
+    return (
+      <View>
+        
+      </View>
+    )
+  }
+
   const renderBody = () => {
     return (
-      <View style={styles.infoBooking}>
-        <Text style={styles.label}>1. Chọn dịch vụ</Text>
-        <SelectService services={services} />
-        <Text style={styles.label}>2. Chọn chi nhánh</Text>
-        <SelectBranch listService={services} branch={branch} />
-        <Text style={styles.label}>3. Chọn stylist & thời gian</Text>
-        <SelectStylistAndTime
-          onSelectStylist={setStylist}
-          bookingDate={date}
-          onSelectBookingDate={setDate}
-          bookingTime={time}
-          onSelectBookingTime={setTime}
-          stylist={stylist}
-          stylists={stylists as Staff[]}
-        />
-      </View>
+      <FlatList<SectionListItem>
+        data={data}
+        scrollEnabled={false}
+        keyExtractor={item => item.id.toString()}
+        renderItem={({item}) => {
+          return item.data;
+        }}
+      />
     );
   };
 
   return (
     <View style={globalStyle.container}>
       {renderHeader()}
-      {renderBody()}
-      {renderButtonBooking()}
+      <ScrollView>
+        {renderBody()}
+        {renderButtonBooking()}
+        {renderPayment()}
+      </ScrollView>
     </View>
   );
 };

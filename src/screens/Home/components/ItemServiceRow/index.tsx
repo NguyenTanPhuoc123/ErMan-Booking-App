@@ -23,15 +23,10 @@ const ItemServiceRow = (props: Service) => {
       services: [props],
     });
   };
-  const renderDiscount = () => (
-    <View style={styles.discount}>
-      <Text style={styles.textDiscount}>Giảm {discount}%</Text>
-    </View>
-  );
+
   return (
     <TouchableOpacity style={styles.container} onPress={goToDetail}>
       <FastImage source={{uri: image}} style={styles.img} resizeMode="cover" />
-      {discount > 0 ? renderDiscount() : null}
       <Text style={[globalStyle.fontText, styles.title]}>{serviceName}</Text>
       <Text style={[globalStyle.colorYellowBold, styles.price]}>
         {FormatCurrency(price)}

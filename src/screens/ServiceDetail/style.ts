@@ -71,21 +71,6 @@ const styles = StyleSheet.create({
     fontFamily: InriaSerifBold,
     color: '#433F3F',
   },
-  discount: {
-    backgroundColor: '#F3B20A',
-    width: 80,
-    height: 30,
-    borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginHorizontal: 10,
-  },
-  textDiscount: {
-    color: 'red',
-    fontSize: 14,
-    fontFamily: InriaSerifBold,
-    textAlign: 'center',
-  },
 });
 
 export default styles;

@@ -18,7 +18,7 @@ const useStartup = () => {
   });
 
   useEffect(() => {
-    if (data && !error) {
+    if (data && data.User[0] && !error) {
       if (data.User[0].typeAccount != 'Customer')
         dispatch(
           saveUser({

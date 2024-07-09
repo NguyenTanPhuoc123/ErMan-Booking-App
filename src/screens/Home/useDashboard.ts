@@ -7,6 +7,8 @@ import {IAuthState} from '../../modules/auth/model';
 import NavigationActionService from '../../navigation/navigation';
 import {
   BRANCH_SCREEN,
+  MY_BOOKING_SCREEN,
+  MY_BOOKING_STACK,
   NOTIFICATION_SCREEN,
   STYLIST_SCREEN,
 } from '../../constants/screen_key';
@@ -94,6 +96,10 @@ const useDasboard = () => {
     NavigationActionService.navigate(STYLIST_SCREEN);
   };
 
+  const goToBooking = () => {
+    NavigationActionService.navigate(MY_BOOKING_STACK);
+  };
+
   return {
     currentUser,
     services,
@@ -111,6 +117,7 @@ const useDasboard = () => {
     branchs,
     stylists,
     bookingNear,
+    goToBooking
   };
 };
 

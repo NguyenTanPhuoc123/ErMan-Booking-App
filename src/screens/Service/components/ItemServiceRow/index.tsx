@@ -56,11 +56,6 @@ const ItemServiceRow = (props: ItemServiceRowProps) => {
     }
   };
 
-  const renderDiscount = () => (
-    <View style={styles.discount}>
-      <Text style={styles.textDiscount}>Giảm {item.discount}%</Text>
-    </View>
-  );
   return (
     <TouchableOpacity style={styles.container} onPress={goToDetail}>
       <FastImage
@@ -68,7 +63,6 @@ const ItemServiceRow = (props: ItemServiceRowProps) => {
         style={styles.img}
         resizeMode="cover"
       />
-      {item.discount > 0 ? renderDiscount() : null}
       <Text style={[globalStyle.fontText, styles.title]}>
         {item.serviceName}
       </Text>
