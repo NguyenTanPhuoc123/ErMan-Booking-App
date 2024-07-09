@@ -10,10 +10,7 @@ import {MessageType, PopupType} from '../../component/CustomPopup/type';
 import {ApiError} from '../../constants/api';
 import {createNewBooking} from '../../modules/booking';
 import {IAuthState} from '../../modules/auth/model';
-import {
-  BOOKING_DETAIL_SCREEN,
-  SELECT_PAYMENT_SCREEN,
-} from '../../constants/screen_key';
+import {BOOKING_DETAIL_SCREEN} from '../../constants/screen_key';
 
 const useCreateBooking = () => {
   const dispatch = useDispatch();
@@ -48,7 +45,11 @@ const useCreateBooking = () => {
   const timeNow = moment(new Date()).format('HH:MM');
   const [date, setDate] = useState(dateBooking ? dateBooking : dateNow);
   const [time, setTime] = useState(timeBooking ? timeBooking : timeNow);
-
+  const payments = [
+    {id: '1', name: 'Tiền mặt'},
+    {id: '2', name: 'VnPay'},
+  ];
+  const [payment,setPayment] = useState(payments[0].id);
   useEffect(() => {
     dispatch(
       getListStaff({
@@ -128,6 +129,9 @@ const useCreateBooking = () => {
     createBooking,
     screen,
     booking,
+    payments,
+    payment,
+    setPayment
   };
 };
 

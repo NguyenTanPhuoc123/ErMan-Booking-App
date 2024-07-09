@@ -68,6 +68,10 @@ export const GetListBookings = gql`
               workPlace
             }
           }
+          Payment {
+            id
+            name
+          }
         }
       }
       pageInfo {
@@ -149,6 +153,7 @@ export const CreateNewBooking = gql`
     $staffId: Int!
     $dateTimeBooking: String
     $isPaid: Boolean
+    $payment: Int
     $total: Int
     $bookingDetails: [BookingDetail_insert_input!]!
   ) {
@@ -162,6 +167,7 @@ export const CreateNewBooking = gql`
         status: "upcoming"
         total: $total
         BookingDetails: {data: $bookingDetails}
+        payment: $payment
       }
     ) {
       affected_rows

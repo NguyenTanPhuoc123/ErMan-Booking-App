@@ -10,7 +10,7 @@ import SelectBranch from './components/SelectBranch';
 import SelectStylistAndTime from './components/SelectStylistAndTime';
 import {Staff} from '../../modules/user/model';
 import {BOOKING_DETAIL_SCREEN} from '../../constants/screen_key';
-
+import CustomDropDown from '../../component/CustomDropdown';
 type SectionListItem = {
   id: number;
   title: string;
@@ -31,6 +31,9 @@ const CreateBookingScreen = () => {
     setTime,
     createBooking,
     screen,
+    payments,
+    payment,
+    setPayment,
   } = useCreateBooking();
 
   const data = [
@@ -84,18 +87,27 @@ const CreateBookingScreen = () => {
   const renderButtonBooking = () => (
     <TouchableOpacity style={styles.btnBooking} onPress={createBooking}>
       <Text style={styles.contentBtnBooking}>
-        {screen === BOOKING_DETAIL_SCREEN ? 'Thay đổi' : 'Tiếp tục'}
+        {screen === BOOKING_DETAIL_SCREEN ? 'Thay đổi' : 'Lên lịch ngay'}
       </Text>
     </TouchableOpacity>
   );
 
-  const renderPayment = ()=>{
+  const renderPayment = () => {
     return (
-      <View>
-        
+      <View style={styles.payment}>
+        <Text style={styles.label}>4. Phương thức thanh toán:</Text>
+        <View style={{marginHorizontal:20}}>
+        <CustomDropDown
+          data={payments}
+          value={payment}
+          valueField="id"
+          label="name"
+          onChange={setPayment}
+        />
+        </View>
       </View>
-    )
-  }
+    );
+  };
 
   const renderBody = () => {
     return (
@@ -115,8 +127,8 @@ const CreateBookingScreen = () => {
       {renderHeader()}
       <ScrollView>
         {renderBody()}
-        {renderButtonBooking()}
         {renderPayment()}
+        {renderButtonBooking()}
       </ScrollView>
     </View>
   );

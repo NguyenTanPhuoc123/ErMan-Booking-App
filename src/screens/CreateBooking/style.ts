@@ -32,6 +32,16 @@ const styles = StyleSheet.create({
     fontFamily: InriaSerifBold,
     color: '#433F3F',
   },
+  label: {
+    color: '#d4d3d6',
+    fontSize: 22,
+    fontFamily: InriaSerifBold,
+    margin: 15,
+    width: WITDH / 1.3,
+  },
+  payment: {
+    marginVertical: 20,
+  },
 });
 
 export default styles;

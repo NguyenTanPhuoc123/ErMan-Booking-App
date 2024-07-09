@@ -104,7 +104,7 @@ const BookingDetailScreen = () => {
       <Text style={styles.titleBody}>2. Thông tin thanh toán</Text>
       {rowInfo(
         'Phương thức thanh toán:',
-        <Text style={styles.textInfo}>Tiền mặt</Text>,
+        <Text style={styles.textInfo}>{booking.payment.name}</Text>,
       )}
       {rowInfo(
         'Tổng tiền:',

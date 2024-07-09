@@ -17,9 +17,14 @@ export interface Booking {
   isPaid: boolean;
   total: number;
   branch: Branch;
+  payment: Payment;
   services: Array<Service>;
 }
 
+export interface Payment {
+  id: number;
+  name:string;
+}
 export interface IBookingState {
   bookings: Array<Booking>;
 }

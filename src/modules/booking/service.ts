@@ -33,8 +33,16 @@ export const getListBookings = async (
 
     const listBooking: Booking[] = listData.map((data: any) => {
       const bookingId = JSON.parse(atob(data.node.id))[3];
-      const {id, userByStaff, User, Branch, BookingDetails, ...newBooking} =
-        data.node;
+      const {
+        id,
+        userByStaff,
+        User,
+        Payment,
+        Branch,
+        BookingDetails,
+        ...newBooking
+      } = data.node;
+
       const {id: staffId, ...newStaff} = userByStaff.Staff.User;
       const idStaff = JSON.parse(atob(staffId))[3];
       const {id: branchId, ...newBranch} = Branch;
@@ -46,12 +54,16 @@ export const getListBookings = async (
         const {id, ...newService} = service.Service;
         return {id: serviceId, ...newService};
       }) as Service[];
+      const {id: paymentId, ...newPayment} = Payment;
+
+      const idPayment = JSON.parse(atob(paymentId))[3];
       return {
         id: bookingId,
         customer: {id: idCustomer, ...newUser},
         staff: {id: idStaff, ...newStaff},
         branch: {id: idBranch, ...newBranch},
         services: services,
+        payment: {id: idPayment, ...newPayment},
         ...newBooking,
       };
     }) as Booking[];
@@ -82,6 +94,7 @@ export const createNewBooking = async (body: BookingParams) => {
         isPaid: body.isPaid,
         dateTimeBooking: body.datetimeBooking,
         total: total,
+        payment: 1,
         bookingDetails: listService,
       },
     });
