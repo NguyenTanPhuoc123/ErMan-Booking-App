@@ -18,7 +18,7 @@ const ServiceManagerScreen = () => {
         }
         numColumns={2}
         data={services as ArrayLike<Service>}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.id.toString()}
         ListEmptyComponent={
           <ListItemEmpty
             image={LIST_SERVICE_EMPTY}

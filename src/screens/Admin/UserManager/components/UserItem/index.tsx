@@ -9,7 +9,7 @@ import NavigationActionService from '../../../../../navigation/navigation';
 import { ADD_USER_SCREEN } from '../../../../../constants/screen_key';
 
 const UserItem = (props: User) => {
-  const {firstname, lastname, phone, avatar} = props;
+  const {firstname, lastname, email, avatar} = props;
   const goToEdit = ()=>{
     NavigationActionService.navigate(ADD_USER_SCREEN,{user:props})
   }
@@ -22,7 +22,7 @@ const UserItem = (props: User) => {
       />
       <View>
         <Text style={styles.info}>{firstname + ' ' + lastname}</Text>
-        <Text style={styles.info}>Số điện thoại: {phone}</Text>
+        <Text style={styles.info}>Email: {email}</Text>
       </View>
       <TouchableOpacity style={styles.containerButton}>
         <Icon style={styles.textIcon} name="trash-alt" size={26} />

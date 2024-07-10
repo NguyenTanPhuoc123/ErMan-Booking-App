@@ -207,7 +207,7 @@ export const GetListStaff = gql`
   query GetListStaff($limit: Int, $after: String) {
     User_connection(
       order_by: {id: asc}
-      where: {typeAccount: {_eq: "Staff"}}
+      where: {typeAccount: {_neq: "Customer"}}
       first: $limit
       after: $after
     ) {
@@ -239,6 +239,38 @@ export const GetListStaff = gql`
     }
   }
 `;
+export const getListCustomer = gql`
+  query GetListCustomer($limit: Int, $after: String) {
+    User_connection(
+      order_by: {id: asc}
+      where: {typeAccount: {_eq: "Customer"}}
+      first: $limit
+      after: $after
+    ) {
+      edges {
+        cursor
+        node {
+          id
+          firstname
+          lastname
+          email
+          typeAccount
+          gender
+          birthday
+          avatar
+          address
+          isVerified
+        }
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+    }
+  }
+`;
+
+
 
 export const SearchStaff = gql`
   query SearchStaf($search: String) {

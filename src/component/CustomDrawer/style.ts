@@ -20,7 +20,16 @@ const styles = StyleSheet.create({
         fontFamily:InriaSerifBold,
         color:'#d4d3d6',
         margin:10
-    }
+    },
+    containerbutton:{
+        flexDirection:'row',
+        justifyContent:'flex-end',
+        alignItems:'center',
+        margin:10
+      },
+      button:{
+        marginTop:10
+      }
 });
 
 export default styles;

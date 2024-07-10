@@ -121,7 +121,6 @@ dependencies {
     implementation project(':react-native-otp-verify')
     implementation project(':react-native-document-picker')
     implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
-    implementation files('C:\\Users\\DELL\\Downloads\\DemoZPDK_ReactNative\\DemoZPDK_ReactNative\\ZPDK-Android\\zpdk-release-28052021.aar')
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")

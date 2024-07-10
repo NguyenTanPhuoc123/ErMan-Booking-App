@@ -35,6 +35,7 @@ import CreateBookingScreen from '../screens/CreateBooking';
 import BookingDetailScreen from '../screens/BookingDetail';
 import SelectPaymentScreen from '../screens/SelectPayment';
 import PreviewRatingScreen from '../screens/PreviewRating';
+import StaffManagerScreen from '../screens/Admin/StaffManager';
 
 export type AuthStackObject = {
   [key in keyof Partial<AuthStackParamList>]:
@@ -110,6 +111,7 @@ export const drawerStackScreens: AdminStackObject = {
   [SCREEN_KEYS.SERVICE_MANAGER_SCREEN]: ServiceManagerScreen,
   [SCREEN_KEYS.PROFILE_SCREEN]: ProfileScreen,
   [SCREEN_KEYS.BRANCH_MANAGER_SCREEN]: BranchManagerScreen,
+  [SCREEN_KEYS.STAFF_MANAGER_SCREEN]: StaffManagerScreen,
 };
 
 export const adminStackScreens: AdminStackObject = {
@@ -240,6 +242,8 @@ export const ProfileDrawerNavigator = () =>
   DrawerStackNavigator(SCREEN_KEYS.PROFILE_SCREEN);
 export const BranchDrawerNavigator = () =>
   DrawerStackNavigator(SCREEN_KEYS.BRANCH_MANAGER_SCREEN);
+export const StaffDrawerNavigator = () =>
+  DrawerStackNavigator(SCREEN_KEYS.STAFF_MANAGER_SCREEN);
 
 export const drawerStackNavigator: DrawerItem[] = [
   {
@@ -249,8 +253,13 @@ export const drawerStackNavigator: DrawerItem[] = [
   },
   {
     name: SCREEN_KEYS.USER_MANAGER_STACK,
-    label: 'Quản lý người dùng',
+    label: 'Quản lý khách hàng',
     component: UserDrawerNavigator,
+  },
+  {
+    name: SCREEN_KEYS.STAFF_MANAGER_STACK,
+    label: 'Quản lý nhân viên',
+    component: StaffDrawerNavigator,
   },
   {
     name: SCREEN_KEYS.SERVICE_MANAGER_STACK,
@@ -258,13 +267,13 @@ export const drawerStackNavigator: DrawerItem[] = [
     component: ServiceDrawerNavigator,
   },
   {
-    name: SCREEN_KEYS.PROFILE_STACK,
-    label: 'Thông tin cá nhân',
-    component: ProfileDrawerNavigator,
-  },
-  {
     name: SCREEN_KEYS.BRANCH_MANAGER_STACK,
     label: 'Quản lý chi nhánh',
     component: BranchDrawerNavigator,
+  },
+  {
+    name: SCREEN_KEYS.PROFILE_STACK,
+    label: 'Thông tin cá nhân',
+    component: ProfileDrawerNavigator,
   },
 ];

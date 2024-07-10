@@ -26,7 +26,6 @@ info:{
     fontFamily:InriaSerifBold
 },
 containerButton:{
-    marginLeft: 10, 
     padding: 10
 },
 textIcon:{

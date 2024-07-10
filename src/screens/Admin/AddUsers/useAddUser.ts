@@ -14,13 +14,14 @@ import {RootState} from '../../../redux/reducers';
 import {IBranchState} from '../../../modules/branch/model';
 import {getListBranchs} from '../../../modules/branch';
 export const data = [
-  // {label: 'Khách hàng', value: 'Customer'},
   {label: 'Nhân viên', value: 'Staff'},
   {label: 'Quản trị viên', value: 'Admin'},
 ];
 
 const useAddUser = () => {
   const {user} = useRoute().params as any;
+  const [noedit, setNoedit] = useState(true);
+
   const initValue: FormInfoUserValues = {
     firstname: '',
     lastname: '',
@@ -45,8 +46,10 @@ const useAddUser = () => {
     const [date, month, year] = dateStr.split('-');
     return `${year}-${month}-${date}`;
   };
+  
   const openPicker = () => setOpen(true);
   const closePicker = () => setOpen(false);
+
   const dispatch = useDispatch();
   const [avatar, setAvatar] = useState(user ? user.avatar : '');
   const firstNameRef = useRef<TextInput>(null);
@@ -58,6 +61,8 @@ const useAddUser = () => {
   const {branchs} = useSelector<RootState, IBranchState>(state => state.branch);
 
   useEffect(() => {
+    if(user.typeAccount ==='Customer')
+      setNoedit(false);
     dispatch(
       getListBranchs({
         page: 1,
@@ -163,7 +168,8 @@ const useAddUser = () => {
     onFocusAddress,
     branchs,
     type,
-    setType
+    setType,
+    noedit
   };
 };
 

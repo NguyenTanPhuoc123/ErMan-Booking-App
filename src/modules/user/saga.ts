@@ -13,17 +13,25 @@ import {saveListUser, saveListUserLoadmore} from './reducer';
 export function* getListCustomerFn(
   action: PayloadAction<IActionGetListUserPayload>,
 ) {
-  const {onSuccess, onFail} = action.payload;
+  const {onSuccess, onFail,endCursor, limit, page} = action.payload;
   const {isConnected} = yield isNetworkAvailable();
   if (!isConnected) {
     onFail && onFail();
     return;
   }
 
-  const {result, error} = yield call(UserService.getListCustomer);
+  const {result, error} = yield call(
+    UserService.getListCustomer,
+    limit,
+    endCursor,
+  );
   if (!error) {
+    if (page === 1) {
+      yield put(saveListUser(result));
+    } else {
+      yield put(saveListUserLoadmore(result));
+    }
     onSuccess && onSuccess(result);
-    yield put(saveListUser(result));
   } else if (onFail) {
     onFail && onFail(error);
   }

@@ -5,16 +5,40 @@ import auth from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
 import client from '../../api';
 import * as UserApi from '../../api/user/queries';
-export const getListCustomer = async (q?: string, page = 1, limit = 4) => {
+export const getListCustomer = async (limit: number, after?: string) => {
   try {
-    const res = await client.query({query: UserApi.GetListUsers});
+    let res;
+    if (after) {
+      res = await client.query({
+        query: UserApi.getListCustomer,
+        variables: {
+          limit,
+          after,
+        },
+      });
+    } else {
+      res = await client.query({
+        query: UserApi.getListCustomer,
+        variables: {
+          limit,
+        },
+      });
+    }
+    const hasNextPage = res.data.User_connection.pageInfo.hasNextPage;
+    const endCursor = res.data.User_connection.pageInfo.endCursor;
     const listData = res.data.User_connection.edges;
-    const listUser: User[] = listData.map((data: any) => {
+    if (after === endCursor) {
+      return;
+    }
+    const listCustomer: User[] = listData.map((data: any) => {
       const userId = JSON.parse(atob(data.node.id))[3];
-      const {id, ...newUser} = data.node;
-      return {id: userId, ...newUser};
+      const {id, User, ...newUser} = data.node;
+      return {
+        id: userId,
+        ...newUser,
+      };
     }) as User[];
-    return {result: listUser};
+    return {result: {users: listCustomer, hasNextPage, endCursor}};
   } catch (error) {
     console.log('Error get list users: ', error);
     return {error};
@@ -67,7 +91,12 @@ export const getListStaffs = async (limit:number,after?: string) => {
   }
 };
 
-export const addNewUser = async (body: BodyParams, typeAccount: string,workPlace:number,timeStartWork:string) => {
+export const addNewUser = async (
+  body: BodyParams, 
+  typeAccount: string,
+  workPlace:number,
+  timeStartWork:string
+) => {
   try {
     const res = auth()
       .createUserWithEmailAndPassword(body.email,body.password)
