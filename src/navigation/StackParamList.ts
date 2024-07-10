@@ -41,7 +41,6 @@ export type MainStackParamList = {
   [HOME_SCREEN] : undefined;
   [SERVICE_SCREEN]:undefined;
   [MY_BOOKING_SCREEN]:undefined;
-  [MESSAGE_SCREEN]:undefined;
   [PERSONAL_SCREEN]:undefined;
   [PROFILE_SCREEN]:undefined;
   [EDIT_PROFILE_SCREEN]:undefined;

@@ -14,7 +14,6 @@ import ChangePasswordScreen from '../screens/Authentication/ChangePassword';
 import HomeScreen from '../screens/Home';
 import TabNavigator from './BottomTabNavigator';
 import ServiceScreen from '../screens/Service';
-import MessageScreen from '../screens/Message';
 import PersonalScreen from '../screens/Personal';
 import ProfileScreen from '../screens/Account/Profile';
 import ServiceDetailScreen from '../screens/ServiceDetail';
@@ -86,7 +85,6 @@ export const dashboardStackScreens: MainStackObject = {
   [SCREEN_KEYS.HOME_SCREEN]: HomeScreen,
   [SCREEN_KEYS.SERVICE_SCREEN]: ServiceScreen,
   [SCREEN_KEYS.MY_BOOKING_SCREEN]: MyBookingScreen,
-  [SCREEN_KEYS.MESSAGE_SCREEN]: MessageScreen,
   [SCREEN_KEYS.PERSONAL_SCREEN]: PersonalScreen,
 };
 export const mainStackScreens: MainStackObject = {
