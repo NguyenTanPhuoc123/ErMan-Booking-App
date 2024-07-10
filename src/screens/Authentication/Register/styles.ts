@@ -2,6 +2,12 @@ import {StyleSheet} from 'react-native';
 import {WITDH} from '../../../constants/styles';
 
 const styles = StyleSheet.create({
+  containerHeader: {
+    height: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: '#282828',
+  },
   title: {
     color: '#FFC107',
     fontSize: 40,
@@ -34,7 +40,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#EEB156',
     alignItems: 'center',
     justifyContent: 'center',
-    width: WITDH / 2,
+    width: WITDH - 100,
     height: 60,
     borderRadius: 25,
   },

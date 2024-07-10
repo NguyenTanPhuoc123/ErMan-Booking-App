@@ -161,3 +161,27 @@ export const changePassword = async (newPassword:string) => {
     return {error};
   }
 };
+
+export const checkEmailExist = async (email:String) => {
+  try {
+    const res = await client.query({
+      query: UserApi.CheckEmailExist,
+      variables: {email},
+    });
+    const userData = res.data.User_connection.edges[0];
+    return {result: userData};
+  } catch (error) {
+    console.log('Error get current user: ', error);
+    return {error};
+  }
+};
+
+export const resetPassword = async(email:string)=>{
+  try{
+  const res = await auth().sendPasswordResetEmail(email);
+  return {result:res};
+  }catch(error){
+    console.log("Error reset password: ",error);
+    return {error};
+  }
+}

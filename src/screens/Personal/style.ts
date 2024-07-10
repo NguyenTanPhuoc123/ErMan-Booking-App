@@ -28,8 +28,9 @@ const styles = StyleSheet.create({
     alignItems:'center'
   },
   bodyText:{
-    fontSize: 20,
-    fontFamily:InriaSerifBold
+    fontSize: 18,
+    fontFamily:InriaSerifBold,
+    alignSelf:'flex-start'
   },
   rightComponentHeader: {
     width: WITDH / 2,

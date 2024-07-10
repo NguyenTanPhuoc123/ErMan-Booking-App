@@ -1,7 +1,9 @@
 import {PayloadAction} from '@reduxjs/toolkit';
 import {
   IActionChangePasswordPayload,
+  IActionCheckEmailExist,
   IActionEditProfilePayload,
+  IActionForgotPasswordPayload,
   IActionGetCurrentUserPayload,
   IActionLoginPayload,
   IActionLogoutPayload,
@@ -13,7 +15,6 @@ import {isNetworkAvailable} from '../network/saga';
 import {call, put} from 'redux-saga/effects';
 import {clearUser, saveUser, userReady} from './reducer';
 import {getCurrentUser} from '.';
-import {Admin, Staff, User} from '../user/model';
 
 export function* loginFn(action: PayloadAction<IActionLoginPayload>) {
   const {email, password, onSuccess, onFail} = action.payload;
@@ -135,6 +136,44 @@ export function* logoutFn(action: PayloadAction<IActionLogoutPayload>) {
   const {result, error} = yield call(AuthService.logout);
   if (!error) {
     yield put(clearUser());
+    onSuccess && onSuccess(result);
+  } else if (onFail) {
+    onFail && onFail(error);
+  }
+}
+
+export function* checkEmailExistFn(
+  action: PayloadAction<IActionCheckEmailExist>,
+) {
+  const {onSuccess, onFail,email} = action.payload;
+  const {isConnected} = yield isNetworkAvailable();
+
+  if (!isConnected) {
+    onFail && onFail();
+    return;
+  }
+  const {result, error} = yield call(AuthService.checkEmailExist,email);
+
+  if (!error) {
+    onSuccess && onSuccess(result);
+  } else if (onFail) {
+    onFail && onFail(error);
+  }
+}
+
+export function* forgotPasswordFn(
+  action: PayloadAction<IActionForgotPasswordPayload>,
+) {
+  const {onSuccess, onFail,email} = action.payload;
+  const {isConnected} = yield isNetworkAvailable();
+
+  if (!isConnected) {
+    onFail && onFail();
+    return;
+  }
+  const {result, error} = yield call(AuthService.resetPassword,email);
+
+  if (!error) {
     onSuccess && onSuccess(result);
   } else if (onFail) {
     onFail && onFail(error);

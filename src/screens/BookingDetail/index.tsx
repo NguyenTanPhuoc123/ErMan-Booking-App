@@ -23,7 +23,8 @@ const BookingDetailScreen = () => {
     showPopupConfirm,
     showPopupConfirmComplete,
     showPopupConfirmCancel,
-    goToRatingPreview
+    goToRatingPreview,
+    rating,
   } = useBookingDetail();
 
   const renderHeader = () => {
@@ -123,10 +124,18 @@ const BookingDetailScreen = () => {
     return APP_TYPE === 'Customer' ? (
       <View style={styles.footer}>
         {booking.status === 'completed' || booking.status === 'upcoming' ? (
-          <TouchableOpacity style={styles.buttonEdit} onPress={booking.status === 'completed' ? goToRatingPreview : goToEditBooking}>
+          <TouchableOpacity
+            style={styles.buttonEdit}
+            onPress={
+              booking.status === 'completed'
+                ? goToRatingPreview
+                : goToEditBooking
+            }>
             <Text style={styles.contentBtn}>
               {booking.status === 'completed'
-                ? 'Nhận xét đánh giá'
+                ? rating
+                  ? 'Xem nhận xét đánh giá'
+                  : 'Nhận xét đánh giá'
                 : 'Chỉnh sửa'}
             </Text>
           </TouchableOpacity>

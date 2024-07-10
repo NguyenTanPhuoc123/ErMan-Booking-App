@@ -103,12 +103,12 @@ const CalendarScreen = () => {
       keyExtractor={item => item.id.toString()}
       onScrollBeginDrag={() => Keyboard.dismiss()}
       scrollEventThrottle={16}
-      // ListEmptyComponent={
-      //   <ListItemEmpty
-      //     image={LIST_CALENDAR_EMPTY}
-      //     content="Không có lịch làm việc"
-      //   />
-      // }
+      ListEmptyComponent={
+        <ListItemEmpty
+          image={LIST_CALENDAR_EMPTY}
+          content="Không có lịch làm việc"
+        />
+      }
       renderItem={({item}) => <WorkScheduleItem key={item.id} workSchedule={item} staff={userData as Staff} />}
       // ListFooterComponent={renderFooterFlatList}
       // onEndReached={loadMore}

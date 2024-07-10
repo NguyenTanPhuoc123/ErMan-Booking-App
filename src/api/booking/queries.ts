@@ -176,8 +176,11 @@ export const CreateNewBooking = gql`
 `;
 
 export const updateStatusBooking = gql`
-  mutation MyMutation($id: Int!, $status: String) {
-    update_Booking_by_pk(pk_columns: {id: $id}, _set: {status: $status}) {
+  mutation MyMutation($id: Int!, $status: String, $isPaid: Boolean) {
+    update_Booking_by_pk(
+      pk_columns: {id: $id}
+      _set: {status: $status, isPaid: $isPaid}
+    ) {
       datetimeBooking
       datetimeCreate
       id

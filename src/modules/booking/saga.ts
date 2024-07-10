@@ -57,7 +57,7 @@ export function* getListBookingsFn(
 export function* updateStatusBookingFn(
   action: PayloadAction<IActionUpdateStatusBookingPayload>,
 ) {
-  const {onSuccess, onFail, id, status} = action.payload;
+  const {onSuccess, onFail, id, status, isPaid} = action.payload;
   const {isConnected} = yield isNetworkAvailable();
   if (!isConnected) {
     onFail && onFail();
@@ -67,6 +67,7 @@ export function* updateStatusBookingFn(
     BookingService.updateStatusBooking,
     id,
     status,
+    isPaid,
   );
   if (!error) {
     yield put(updateStatus(result));

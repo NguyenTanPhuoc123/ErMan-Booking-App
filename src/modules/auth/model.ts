@@ -10,7 +10,7 @@ export const VERIFY_EMAIL = `${ROOT_MODULE}/VERIFY_EMAIL`;
 export const GET_CURRENT_USER = `${ROOT_MODULE}/GET_CURRENT_USER`;
 export const USER_READY_LOAD_DATA = `${ROOT_MODULE}/USER_READY_LOAD_DATA`;
 export const EDIT_PROFILE = `${ROOT_MODULE}/EDIT_PROFILE`;
-
+export const CHECK_EMAIL_EXIST = `${ROOT_MODULE}/CHECK_EMAIL_EXIST`;
 export interface IAuthState {
   isLogged: boolean;
   userData: User | Staff | Admin;
@@ -30,6 +30,10 @@ export interface IActionLoginPayload extends IActionCallback {
   password: string;
 }
 
+export interface IActionCheckEmailExist extends IActionCallback{
+  email:string;
+}
+
 export interface IActionRegisterPayload extends IActionCallback {
   body: BodyParams;
 }
@@ -42,7 +46,6 @@ export interface BodyParams {
 }
 export interface IActionForgotPasswordPayload extends IActionCallback {
   email:string
-  newPassword: string;
 }
 
 export interface IActionChangePasswordPayload extends IActionCallback {
