@@ -29,7 +29,6 @@ const ServiceScreen = () => {
     pullRefresh,
     refresh,
     services,
-    category,
     goToNotifcation,
     search,
     setSearch,

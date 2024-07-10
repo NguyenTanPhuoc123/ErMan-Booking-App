@@ -10,16 +10,6 @@ import {ApiError} from '../../constants/api';
 import {NOTIFICATION_SCREEN} from '../../constants/screen_key';
 import {debounce} from 'lodash';
 
-const category = [
-  {
-    id: 0,
-    name: 'Tất cả',
-  },
-  {
-    id: 1,
-    name: 'Giảm giá',
-  },
-];
 
 const useService = () => {
   const serviceListRef = createRef<FlatList>();
@@ -48,8 +38,8 @@ const useService = () => {
     setRefresh(false);
     console.log(error?.message);
   };
+  
   useEffect(() => {
-    // skeletonRef.current?.showSkeletonLoading();
     if (search === '') {
       getListServices();
     } else {
@@ -130,7 +120,6 @@ const useService = () => {
     goToNotifcation,
     categoryService,
     setCategoryService,
-    category,
     loading,
     search,
     setSearch,

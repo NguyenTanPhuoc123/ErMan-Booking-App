@@ -35,6 +35,7 @@ import CreateBookingScreen from '../screens/CreateBooking';
 import BookingDetailScreen from '../screens/BookingDetail';
 import SelectPaymentScreen from '../screens/SelectPayment';
 import PreviewRatingScreen from '../screens/PreviewRating';
+import AddServiceScreen from '../screens/Admin/AddService';
 
 export type AuthStackObject = {
   [key in keyof Partial<AuthStackParamList>]:
@@ -96,12 +97,12 @@ export const mainStackScreens: MainStackObject = {
   [SCREEN_KEYS.BRANCH_DETAIL_SCREEN]: BranchDetailScreen,
   [SCREEN_KEYS.NOTIFICATION_SCREEN]: NotificationScreen,
   [SCREEN_KEYS.CALENDAR_SCREEN]: CalendarScreen,
-  [SCREEN_KEYS.CHANGE_PASSWORD_SCREEN]:ChangePasswordScreen,
+  [SCREEN_KEYS.CHANGE_PASSWORD_SCREEN]: ChangePasswordScreen,
   [SCREEN_KEYS.STYLIST_SCREEN]: StylistScreen,
   [SCREEN_KEYS.CREATE_BOOKING_SCREEN]: CreateBookingScreen,
   [SCREEN_KEYS.BOOKING_DETAIL_SCREEN]: BookingDetailScreen,
   [SCREEN_KEYS.SELECT_PAYMENT_SCREEN]: SelectPaymentScreen,
-  [SCREEN_KEYS.PREVIEW_RATING_SCREEN]:PreviewRatingScreen
+  [SCREEN_KEYS.PREVIEW_RATING_SCREEN]: PreviewRatingScreen,
 };
 
 export const drawerStackScreens: AdminStackObject = {
@@ -116,6 +117,7 @@ export const adminStackScreens: AdminStackObject = {
   ...drawerStackScreens,
   [SCREEN_KEYS.EDIT_PROFILE_SCREEN]: EditProfileScreen,
   [SCREEN_KEYS.ADD_USER_SCREEN]: AddUsersScreen,
+  [SCREEN_KEYS.ADD_SERVICE_SCREEN]: AddServiceScreen,
 };
 
 const Stack = createStackNavigator();

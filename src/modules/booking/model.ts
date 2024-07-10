@@ -44,6 +44,7 @@ export interface IAcionSaveListBookingPayLoad {
 export interface IActionUpdateStatusBookingPayload extends IActionCallback {
   id: number;
   status: 'upcoming' | 'ongoing' | 'completed' | 'canceled';
+  isPaid?:boolean;
 }
 
 export interface IActionCreateNewBookingPayLoad extends IActionCallback {

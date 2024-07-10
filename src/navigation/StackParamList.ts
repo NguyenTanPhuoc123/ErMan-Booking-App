@@ -27,6 +27,7 @@ import {
   BOOKING_DETAIL_SCREEN,
   SELECT_PAYMENT_SCREEN,
   PREVIEW_RATING_SCREEN,
+  ADD_SERVICE_SCREEN,
 } from '../constants/screen_key';
 
 export type AuthStackParamList = {
@@ -65,4 +66,5 @@ export type AdminStackParamList = {
   [EDIT_PROFILE_SCREEN]:undefined;
   [ADD_USER_SCREEN]: undefined;
   [BRANCH_MANAGER_SCREEN]:undefined;
+  [ADD_SERVICE_SCREEN]:undefined;
 }

@@ -6,9 +6,11 @@ import {RootState} from '../redux/reducers';
 import {IAuthState} from '../modules/auth/model';
 import {get} from 'lodash';
 import { APP_TYPE } from '../constants/app_info';
+import useBackHandler from './useBackHandler';
 
 const AppComponent = () => {
   useStartup();
+  // useBackHandler();
   const auth = useSelector<RootState, IAuthState>(state => state.auth);
   const is_verified = get(auth, 'userData.isVerified', false);
   const type_Account = get(auth, 'userData.typeAccount','Customer');

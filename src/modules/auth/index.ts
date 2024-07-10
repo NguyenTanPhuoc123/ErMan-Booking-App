@@ -22,6 +22,12 @@ export const editProfile = createAction<Models.IActionEditProfilePayload>(
 export const changePassword = createAction<Models.IActionChangePasswordPayload>(
   Models.CHANGE_PASSWORD,
 );
+export const checkEmailExist = createAction<Models.IActionCheckEmailExist>(
+  Models.CHECK_EMAIL_EXIST,
+);
+export const forgotPassword = createAction<Models.IActionForgotPasswordPayload>(
+  Models.FORGOT_PASSWORD,
+);
 
 function* authSaga() {
   yield takeLatest(login, FuncSaga.loginFn);
@@ -32,6 +38,8 @@ function* authSaga() {
   yield takeLatest(editProfile, FuncSaga.editProfileFn);
   yield takeLatest(logout, FuncSaga.logoutFn);
   yield takeLatest(changePassword, FuncSaga.changePasswordFn);
+  yield takeLatest(checkEmailExist, FuncSaga.checkEmailExistFn);
+  yield takeLatest(forgotPassword, FuncSaga.forgotPasswordFn);
 }
 
 export {authReducer, authSaga};

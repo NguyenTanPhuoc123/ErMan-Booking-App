@@ -23,7 +23,7 @@ const ItemStylistRow = (props: Staff) => {
       <Text style={[globalStyle.fontText, styles.workPlace]}>{workPlace}</Text>
         <TouchableOpacity style={styles.chat}>
           <Text style={[globalStyle.fontText, styles.contentBtn]}>
-            Gửi tin nhắn
+            Xem thông tin
           </Text>
         </TouchableOpacity>
     </View>

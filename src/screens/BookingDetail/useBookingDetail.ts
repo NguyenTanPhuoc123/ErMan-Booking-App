@@ -3,7 +3,7 @@ import NavigationActionService from '../../navigation/navigation';
 import {Service} from '../../modules/service/model';
 import {formatStringDate} from '../../utils/date';
 import CountDown from 'react-native-countdown-component';
-import {createRef} from 'react';
+import {createRef, useEffect, useState} from 'react';
 import {
   BOOKING_DETAIL_SCREEN,
   CREATE_BOOKING_SCREEN,
@@ -15,12 +15,15 @@ import {IAuthState} from '../../modules/auth/model';
 import {updateStatusBooking} from '../../modules/booking';
 import {MessageType, PopupType} from '../../component/CustomPopup/type';
 import {ApiError} from '../../constants/api';
+import {getRatingBooking} from '../../modules/rate';
+import {Rating} from '../../modules/rate/model';
 
 const useBookingDetail = () => {
   const dispatch = useDispatch();
   const {userData} = useSelector<RootState, IAuthState>(state => state.auth);
   const {booking} = useRoute().params as any;
   const [date, time] = booking.datetimeBooking.split(' ');
+  const [rating, setRating] = useState<Rating>();
   const datetimeNow = new Date().getTime() / 1000;
   const countdown =
     new Date(formatStringDate(date) + ' ' + time).getTime() / 1000;
@@ -37,6 +40,17 @@ const useBookingDetail = () => {
         return 'Đã hủy';
     }
   };
+
+  useEffect(() => {
+    dispatch(
+      getRatingBooking({
+        bookingId: booking.id,
+        reviewerId: userData.id,
+        onSuccess: onGetRatingSuccess,
+        onFail: onGetRatingFail,
+      }),
+    );
+  }, []);
 
   const getTotalTime = () => {
     let totalTime = 0;
@@ -108,6 +122,7 @@ const useBookingDetail = () => {
       updateStatusBooking({
         id: booking.id,
         status: 'completed',
+        isPaid: true,
         onSuccess: onChangeSuccess,
         onFail: onChangeFail,
       }),
@@ -129,9 +144,34 @@ const useBookingDetail = () => {
     NavigationActionService.pop();
   };
 
-  const goToRatingPreview = ()=>{
-    NavigationActionService.navigate(PREVIEW_RATING_SCREEN);
-  }
+  const onGetRatingSuccess = (value?: Rating) => {
+    if (value) {
+      setRating(value);
+    }
+  };
+
+  const onGetRatingFail = (error?: ApiError) => {
+    NavigationActionService.showPopup({
+      type: PopupType.ONE_BUTTON,
+      typeMessage: MessageType.ERROR,
+      title: 'Lỗi khi chuyển trang',
+      message: error?.message || 'Một lỗi gì đó đã xảy ra',
+    });
+  };
+
+  const goToRatingPreview = () => {
+    if (!rating) {
+      NavigationActionService.navigate(PREVIEW_RATING_SCREEN, {
+        booking: booking,
+      });
+    } else {
+      NavigationActionService.navigate(PREVIEW_RATING_SCREEN, {
+        booking: booking,
+        rating: rating,
+      });
+    }
+  };
+
   const goToEditBooking = () => {
     NavigationActionService.navigate(CREATE_BOOKING_SCREEN, {
       screen: BOOKING_DETAIL_SCREEN,
@@ -151,7 +191,8 @@ const useBookingDetail = () => {
     showPopupConfirm,
     showPopupConfirmComplete,
     showPopupConfirmCancel,
-    goToRatingPreview
+    goToRatingPreview,
+    rating,
   };
 };
 
