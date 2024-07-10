@@ -8,6 +8,7 @@ import globalStyle from '../../constants/styles';
 import {formatBlogDuration} from '../../utils/date';
 import {FormatCurrency} from '../../utils/currentcy';
 import CountDown from 'react-native-countdown-component';
+import {APP_TYPE} from '../../constants/app_info';
 
 const BookingDetailScreen = () => {
   const {
@@ -19,6 +20,9 @@ const BookingDetailScreen = () => {
     countdown,
     countdownRef,
     goToEditBooking,
+    showPopupConfirm,
+    showPopupConfirmComplete,
+    showPopupConfirmCancel,
   } = useBookingDetail();
 
   const renderHeader = () => {
@@ -54,12 +58,12 @@ const BookingDetailScreen = () => {
           <Text style={[styles.textInfo, globalStyle.fontBold]}>Dịch vụ</Text>
           <Text style={[styles.textInfo, globalStyle.fontBold]}>Giá</Text>
         </View>
-        {booking.booking.services.map((service: any) => {
+        {booking.services.map((service: any) => {
           return (
-            <View key={service.Service.id} style={styles.rowTable}>
-              <Text style={styles.textInfo}>{service.Service.serviceName}</Text>
+            <View key={service.id} style={styles.rowTable}>
+              <Text style={styles.textInfo}>{service.serviceName}</Text>
               <Text style={styles.textInfo}>
-                {FormatCurrency(service.Service.price)}
+                {FormatCurrency(service.price)}
               </Text>
             </View>
           );
@@ -77,9 +81,7 @@ const BookingDetailScreen = () => {
       )}
       {rowInfo(
         'Thời gian đặt:',
-        <Text style={styles.textInfo}>
-          Ngày {booking.booking.datetimeBooking}
-        </Text>,
+        <Text style={styles.textInfo}>Ngày {booking.datetimeBooking}</Text>,
       )}
       {rowInfo(
         'Tổng thời gian:',
@@ -90,9 +92,7 @@ const BookingDetailScreen = () => {
       {rowInfo(
         'Nhân viên thực hiện:',
         <Text style={styles.textInfo}>
-          {booking.booking.staff.firstname +
-            ' ' +
-            booking.booking.staff.lastname}
+          {booking.staff.firstname + ' ' + booking.staff.lastname}
         </Text>,
       )}
       {tableService()}
@@ -104,40 +104,55 @@ const BookingDetailScreen = () => {
       <Text style={styles.titleBody}>2. Thông tin thanh toán</Text>
       {rowInfo(
         'Phương thức thanh toán:',
-        <Text style={styles.textInfo}>Tiền mặt</Text>,
+        <Text style={styles.textInfo}>{booking.payment.name}</Text>,
       )}
       {rowInfo(
         'Tổng tiền:',
-        <Text style={styles.textInfo}>
-          {FormatCurrency(booking.booking.total)}
-        </Text>,
+        <Text style={styles.textInfo}>{FormatCurrency(booking.total)}</Text>,
       )}
       {rowInfo(
         'Trạng thái thanh toán:',
         <Text style={styles.textInfo}>
-          {booking.booking.isPaid ? 'Đã thanh toán' : 'Chưa thanh toán'}
+          {booking.isPaid ? 'Đã thanh toán' : 'Chưa thanh toán'}
         </Text>,
       )}
     </View>
   );
   const renderFooter = () => {
-    return (
+    return APP_TYPE === 'Customer' ? (
       <View style={styles.footer}>
-        {booking.booking.status === 'completed' ||
-        booking.booking.status === 'upcoming' ? (
+        {booking.status === 'completed' || booking.status === 'upcoming' ? (
           <TouchableOpacity style={styles.buttonEdit} onPress={goToEditBooking}>
             <Text style={styles.contentBtn}>
-              {booking.booking.status === 'completed'
+              {booking.status === 'completed'
                 ? 'Nhận xét đánh giá'
                 : 'Chỉnh sửa'}
             </Text>
           </TouchableOpacity>
         ) : null}
-        {booking.booking.status != 'upcoming' ? null : (
-          <TouchableOpacity style={styles.buttonCancel}>
+        {booking.status != 'upcoming' ? null : (
+          <TouchableOpacity
+            style={styles.buttonCancel}
+            onPress={showPopupConfirmCancel}>
             <Text style={styles.contentBtn}>Hủy</Text>
           </TouchableOpacity>
         )}
+      </View>
+    ) : (
+      <View style={styles.footer}>
+        {booking.status === 'upcoming' ? (
+          <TouchableOpacity
+            style={styles.buttonEdit}
+            onPress={showPopupConfirm}>
+            <Text style={styles.contentBtn}>Bắt đầu ngay</Text>
+          </TouchableOpacity>
+        ) : booking.status === 'ongoing' ? (
+          <TouchableOpacity
+            style={styles.buttonEdit}
+            onPress={showPopupConfirmComplete}>
+            <Text style={styles.contentBtn}>Hoàn thành</Text>
+          </TouchableOpacity>
+        ) : null}
       </View>
     );
   };
@@ -147,9 +162,7 @@ const BookingDetailScreen = () => {
       <ScrollView>
         {renderBookingInfo()}
         {renderPayment()}
-        {booking.booking.status != 'upcoming' ? null : countdown -
-            datetimeNow <=
-          0 ? (
+        {booking.status != 'upcoming' ? null : countdown - datetimeNow <= 0 ? (
           <Text style={styles.textAfterTime}>
             Lịch đặt sẽ tự động hủy trong 24 tiếng tới
           </Text>

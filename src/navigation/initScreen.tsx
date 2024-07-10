@@ -34,6 +34,7 @@ import BranchManagerScreen from '../screens/Admin/BranchManagerScreen';
 import StylistScreen from '../screens/Stylist';
 import CreateBookingScreen from '../screens/CreateBooking';
 import BookingDetailScreen from '../screens/BookingDetail';
+import SelectPaymentScreen from '../screens/SelectPayment';
 
 export type AuthStackObject = {
   [key in keyof Partial<AuthStackParamList>]:
@@ -99,8 +100,9 @@ export const mainStackScreens: MainStackObject = {
   [SCREEN_KEYS.NOTIFICATION_SCREEN]: NotificationScreen,
   [SCREEN_KEYS.CALENDAR_SCREEN]: CalendarScreen,
   [SCREEN_KEYS.STYLIST_SCREEN]: StylistScreen,
-  [SCREEN_KEYS.CREATE_BOOKING_SCREEN]:CreateBookingScreen,
-  [SCREEN_KEYS.BOOKING_DETAIL_SCREEN]:BookingDetailScreen
+  [SCREEN_KEYS.CREATE_BOOKING_SCREEN]: CreateBookingScreen,
+  [SCREEN_KEYS.BOOKING_DETAIL_SCREEN]: BookingDetailScreen,
+  [SCREEN_KEYS.SELECT_PAYMENT_SCREEN]: SelectPaymentScreen,
 };
 
 export const drawerStackScreens: AdminStackObject = {
@@ -108,7 +110,7 @@ export const drawerStackScreens: AdminStackObject = {
   [SCREEN_KEYS.USER_MANAGER_SCREEN]: UserManagerScreen,
   [SCREEN_KEYS.SERVICE_MANAGER_SCREEN]: ServiceManagerScreen,
   [SCREEN_KEYS.PROFILE_SCREEN]: ProfileScreen,
-  [SCREEN_KEYS.BRANCH_MANAGER_SCREEN]:BranchManagerScreen,
+  [SCREEN_KEYS.BRANCH_MANAGER_SCREEN]: BranchManagerScreen,
 };
 
 export const adminStackScreens: AdminStackObject = {
@@ -200,8 +202,6 @@ export const ServiceBottomTabNavigator = () =>
   BottomTabStackNavigator(SCREEN_KEYS.SERVICE_SCREEN);
 export const BookingBottomTabNavigator = () =>
   BottomTabStackNavigator(SCREEN_KEYS.MY_BOOKING_SCREEN);
-export const MessageBottomTabNavigator = () =>
-  BottomTabStackNavigator(SCREEN_KEYS.MESSAGE_SCREEN);
 export const PersonalBottomTabNavigator = () =>
   BottomTabStackNavigator(SCREEN_KEYS.PERSONAL_SCREEN);
 export const BottomTabNavigator: BottomTabItem[] = [
@@ -222,12 +222,6 @@ export const BottomTabNavigator: BottomTabItem[] = [
     label: 'Lịch đặt',
     component: BookingBottomTabNavigator,
     icon: 'calendar-alt',
-  },
-  {
-    name: SCREEN_KEYS.MESSAGE_STACK,
-    label: 'Tin nhắn',
-    component: MessageBottomTabNavigator,
-    icon: 'facebook-messenger',
   },
   {
     name: SCREEN_KEYS.ACCOUNT_STACK,

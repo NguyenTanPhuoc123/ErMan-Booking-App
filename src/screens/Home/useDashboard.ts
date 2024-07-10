@@ -1,4 +1,4 @@
-import {createRef, useCallback, useEffect, useState} from 'react';
+import {createRef, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {getListService} from '../../modules/service';
 import {RootState} from '../../redux/reducers';
@@ -7,6 +7,8 @@ import {IAuthState} from '../../modules/auth/model';
 import NavigationActionService from '../../navigation/navigation';
 import {
   BRANCH_SCREEN,
+  MY_BOOKING_SCREEN,
+  MY_BOOKING_STACK,
   NOTIFICATION_SCREEN,
   STYLIST_SCREEN,
 } from '../../constants/screen_key';
@@ -14,8 +16,12 @@ import {ICarouselInstance} from 'react-native-reanimated-carousel';
 import {FlatList} from 'react-native';
 import {IBranchState} from '../../modules/branch/model';
 import {getListBranchs} from '../../modules/branch';
-import { IUserState } from '../../modules/user/model';
-import { getListStaff } from '../../modules/user';
+import {IUserState} from '../../modules/user/model';
+import {getListStaff} from '../../modules/user';
+import {IBookingState} from '../../modules/booking/model';
+import {getListBookings} from '../../modules/booking';
+import {APP_TYPE} from '../../constants/app_info';
+import moment from 'moment';
 
 const useDasboard = () => {
   const dispatch = useDispatch();
@@ -35,6 +41,23 @@ const useDasboard = () => {
   const branchListRef = createRef<FlatList>();
   const stylistListRef = createRef<FlatList>();
   const [refresh, setRefresh] = useState(false);
+  const {bookings} = useSelector<RootState, IBookingState>(
+    state => state.booking,
+  );
+  const bookingNear =
+    APP_TYPE === 'Staff'
+      ? bookings.filter(booking => {
+          const [date, time] = booking.datetimeBooking.split(' ');
+          const dateNow = moment(new Date()).format('DD-MM-YYYY');
+          const timeNow = moment(new Date()).format('HH:mm');
+          if (
+            date === dateNow &&
+            moment(time, 'HH:mm').isAfter(moment(timeNow, 'HH:mm'))
+          )
+            return booking;
+        })[0]
+      : null;
+
   const pullRefresh = () => {
     setRefresh(true);
   };
@@ -52,6 +75,12 @@ const useDasboard = () => {
         page: 1,
       }),
     );
+    dispatch(
+      getListBookings({
+        limit: 100,
+        id: currentUser.id,
+      }),
+    );
     setRefresh(false);
   }, [refresh]);
 
@@ -65,6 +94,10 @@ const useDasboard = () => {
 
   const goToStylists = () => {
     NavigationActionService.navigate(STYLIST_SCREEN);
+  };
+
+  const goToBooking = () => {
+    NavigationActionService.navigate(MY_BOOKING_STACK);
   };
 
   return {
@@ -82,7 +115,9 @@ const useDasboard = () => {
     refresh,
     pullRefresh,
     branchs,
-    stylists
+    stylists,
+    bookingNear,
+    goToBooking
   };
 };
 

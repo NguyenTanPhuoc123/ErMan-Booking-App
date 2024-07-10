@@ -1,9 +1,10 @@
-import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
 import {BodyParams} from './model';
 import {Admin, Staff, User} from '../user/model';
 import client from '../../api';
 import * as UserApi from '../../api/user/queries';
+
 export const login = async (email: string, password: string) => {
   try {
     const res = await auth().signInWithEmailAndPassword(email, password);
@@ -22,24 +23,23 @@ export const getCurrentUser = async () => {
       query: UserApi.GetCurrentUser,
       variables: {email: auth().currentUser?.email},
     });
-    const userData = res.data.User_connection.edges;
-    const id = JSON.parse(atob(userData[0].node.id));
-    const staff = userData[0].node.Staff;
+    const userData = res.data.User_connection.edges[0].node;
+    const id = JSON.parse(atob(userData.id));
+    const staff = userData.Staff;
     const result: User | Staff | Admin = {
       id: id[3],
-      avatar: userData[0].node.avatar,
-      firstname: userData[0].node.firstname,
-      lastname: userData[0].node.lastname,
-      gender: userData[0].node.gender,
-      birthday: userData[0].node.birthday,
-      address: userData[0].node.address,
-      email: userData[0].node.email,
-      isVerified: userData[0].node.isVerified,
-      typeAccount: userData[0].node.typeAccount,
-      workPlace: staff ? staff.workPlace : null,
+      avatar: userData.avatar,
+      firstname: userData.firstname,
+      lastname: userData.lastname,
+      gender: userData.gender,
+      birthday: userData.birthday,
+      address: userData.address,
+      email: userData.email,
+      isVerified: userData.isVerified,
+      typeAccount: userData.typeAccount,
+      workPlace: staff ? staff.Branch.branchName : null,
       timeStartWork: staff ? staff.timeStartWork : null,
     };
-
     return {result: result};
   } catch (error) {
     console.log('Error get current user: ', error);
@@ -70,10 +70,12 @@ export const register = async (body: BodyParams) => {
 };
 
 export const verifyEmail = async (email: string) => {
-  try {    const confirmation = auth().createUserWithEmailAndPassword(email,'123456@aA').then(user=>{
-      user.user.sendEmailVerification();
-
-    })
+  try {
+    const confirmation = auth()
+      .createUserWithEmailAndPassword(email, '123456@aA')
+      .then(user => {
+        user.user.sendEmailVerification();
+      });
     return {result: confirmation};
   } catch (error) {
     console.log('Error verify email: ', error);

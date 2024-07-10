@@ -25,6 +25,7 @@ import {
   BRANCH_MANAGER_SCREEN,
   CREATE_BOOKING_SCREEN,
   BOOKING_DETAIL_SCREEN,
+  SELECT_PAYMENT_SCREEN,
 } from '../constants/screen_key';
 import { ADD_NEW_USER } from '../modules/user/model';
 
@@ -53,6 +54,7 @@ export type MainStackParamList = {
   [CALENDAR_SCREEN]:undefined;
   [CREATE_BOOKING_SCREEN]:undefined;
   [BOOKING_DETAIL_SCREEN]:undefined;
+  [SELECT_PAYMENT_SCREEN]:undefined;
 };
 
 export type AdminStackParamList = {

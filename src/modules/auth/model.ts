@@ -23,7 +23,7 @@ export interface IActionVerifyEmailPayload extends IActionCallback {
   email: string;
 }
 export interface IActionSaveUserPayload {
-  user: User | Staff | Admin;
+  user: Staff | User | Admin;
 }
 
 export interface IActionLoginPayload extends IActionCallback {
@@ -40,7 +40,6 @@ export interface BodyParams {
   firstname: string;
   lastname: string;
   password: string;
-  
 }
 export interface IActionForgotPasswordPayload extends IActionCallback {
   newPassword: string;

@@ -38,3 +38,4 @@ export const ADD_USER_SCREEN = 'AddUsersScreen';
 export const BRANCH_MANAGER_STACK = 'BranchManagerStack';
 export const BRANCH_MANAGER_SCREEN = 'BranchManagerScreen';
 export const BOOKING_DETAIL_SCREEN = 'BookingDetailScreen';
+export const SELECT_PAYMENT_SCREEN = 'SelectPaymentScreen';

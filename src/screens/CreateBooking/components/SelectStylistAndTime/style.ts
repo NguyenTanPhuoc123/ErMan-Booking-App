@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
-import {HEIGHT, WITDH} from '../../../../constants/styles';
+import {WITDH} from '../../../../constants/styles';
+import {InriaSerifBold} from '../../../../constants/font';
 
 const styles = StyleSheet.create({
   container: {
@@ -21,11 +22,18 @@ const styles = StyleSheet.create({
     width: 15,
     height: 15,
     borderRadius: 8,
-    backgroundColor: '#EEB156',
+    backgroundColor: '#28C42F',
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    bottom: 30,
+    bottom: 27,
+  },
+  label: {
+    color: '#d4d3d6',
+    fontSize: 22,
+    fontFamily: InriaSerifBold,
+    margin: 15,
+    width: WITDH / 1.3,
   },
   name: {
     textAlign: 'center',
@@ -74,7 +82,7 @@ const styles = StyleSheet.create({
   },
   listTime: {
     width: '100%',
-    height: 140,
+    height: 'auto',
     marginHorizontal: 10,
   },
   time: {

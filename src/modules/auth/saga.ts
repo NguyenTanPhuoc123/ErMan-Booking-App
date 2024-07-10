@@ -12,6 +12,7 @@ import {isNetworkAvailable} from '../network/saga';
 import {call, put} from 'redux-saga/effects';
 import {clearUser, saveUser, userReady} from './reducer';
 import {getCurrentUser} from '.';
+import {Admin, Staff, User} from '../user/model';
 
 export function* loginFn(action: PayloadAction<IActionLoginPayload>) {
   const {email, password, onSuccess, onFail} = action.payload;

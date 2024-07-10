@@ -15,7 +15,7 @@ import {PROFILE_SCREEN} from '../../constants/screen_key';
 import usePersonal from './usePersonal';
 
 const PersonalScreen = () => {
-  const {currentUser, showLogout, goToNotifcation, goToNews} = usePersonal();
+  const {currentUser, showLogout, goToNotifcation} = usePersonal();
 
   const renderHeader = () => {
     return (
@@ -75,10 +75,9 @@ const PersonalScreen = () => {
         {renderButtonFeature('user', 'Xem thông tin cá nhân', () => {
           NavigationActionService.navigate(PROFILE_SCREEN);
         })}
-        {renderButtonFeature('tags', 'Mã giảm giá', () => {})}
-        {renderButtonFeature('newspaper', 'Tin tức', goToNews)}
+        {renderButtonFeature('lock', 'Đổi mật khẩu', () => {})}
         {renderButtonFeature('wallet', 'Ví thanh toán', () => {})}
-        {renderButtonFeature('cog', 'Cài đặt', () => {})}
+        {renderButtonFeature('info-circle', 'Thông tin ứng dụng', () => {})}
         {renderButtonFeature('sign-out-alt', 'Đăng xuất', showLogout)}
       </View>
     );
