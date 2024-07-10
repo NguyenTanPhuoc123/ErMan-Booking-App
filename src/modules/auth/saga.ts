@@ -1,5 +1,6 @@
 import {PayloadAction} from '@reduxjs/toolkit';
 import {
+  IActionChangePasswordPayload,
   IActionEditProfilePayload,
   IActionGetCurrentUserPayload,
   IActionLoginPayload,
@@ -104,6 +105,22 @@ export function* editProfileFn(
     yield put(saveUser({user: result}));
     onSuccess && onSuccess(result);
   } else if (onFail) {
+    onFail && onFail(error);
+  }
+}
+
+export function* changePasswordFn(action:PayloadAction<IActionChangePasswordPayload>){
+  const {newPassword, onSuccess, onFail} = action.payload;
+  const {isConnected} = yield isNetworkAvailable();
+  if (!isConnected) {
+    onFail && onFail();
+    return;
+  }
+    const {error} = yield call(AuthService.changePassword, newPassword);
+  if(!error){
+    onSuccess && onSuccess(newPassword);
+  }
+  else if(onFail){
     onFail && onFail(error);
   }
 }

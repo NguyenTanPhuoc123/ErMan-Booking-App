@@ -1,31 +1,45 @@
 import {useRef, useState} from 'react';
 import {TextInput} from 'react-native';
 import NavigationActionService from '../../../navigation/navigation';
-import {validationSchema} from './validation';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {useForm} from 'react-hook-form';
 import {LOGIN_SCREEN} from '../../../constants/screen_key';
 import {MessageType, PopupType} from '../../../component/CustomPopup/type';
-import {useRoute} from '@react-navigation/native';
+import { validationChangePasswordSchema } from './validation';
+import { IChangePasswordFormValues } from './model';
+import { useDispatch } from 'react-redux';
+import { changePassword, logout } from '../../../modules/auth';
 
 const useChangePassword = () => {
-  const initValue = {
-    password: '',
-    confirmPassword: '',
+  const dispatch = useDispatch();
+
+  const initValueChangePassword:IChangePasswordFormValues = {
+    oldPassword:'',
+    newPassword: '',
+    confirmNewPassword: '',
   };
+
   const {
     control,
     formState: {errors},
     handleSubmit,
-  } = useForm({
-    defaultValues: initValue,
-    resolver: yupResolver(validationSchema),
+    getValues
+  } = useForm<IChangePasswordFormValues>({
+    defaultValues: initValueChangePassword,
+    resolver: yupResolver(validationChangePasswordSchema),
+
   });
+  const oldPasswordRef = useRef<TextInput>(null);
   const passwordRef = useRef<TextInput>(null);
   const confirmPasswordRef = useRef<TextInput>(null);
+  const [isSecureEntryOld, setIsSecureEntryOld] = useState<boolean>(true);
   const [isSecureEntry, setIsSecureEntry] = useState<boolean>(true);
   const [isSecureEntryConfirm, setIsSecureEntryConfirm] =
     useState<boolean>(true);
+
+  const onFocusOldPassword = ()=>{
+    oldPasswordRef.current?.focus();
+  }
   const onFocusPassword = () => {
     passwordRef.current?.focus();
   };
@@ -38,15 +52,40 @@ const useChangePassword = () => {
     NavigationActionService.pop();
   };
 
-  const onChangePassword = handleSubmit(() => {
+  const onChangePasswordSuccess = () => {
     NavigationActionService.showPopup({
       type: PopupType.ONE_BUTTON,
       typeMessage: MessageType.COMMON,
-      title: 'Tạo mật khẩu',
-      message: 'Tạo mật khẩu thành công',
-      onPressPrimaryBtn: () => NavigationActionService.navigate(LOGIN_SCREEN),
+      title: 'Đổi mật khẩu',
+      message: 'Đổi mật khẩu thành công',
+      onPressPrimaryBtn: () => dispatch(logout({})),
     });
-  });
+  };
+
+  const onChangePasswordFail = () => {
+    NavigationActionService.showPopup({
+      type: PopupType.ONE_BUTTON,
+      typeMessage: MessageType.ERROR,
+      title: 'Đổi mật khẩu ',
+      message: 'Đổi mật khẩu thất bại',
+    });
+  };
+
+  const onChangePassword = handleSubmit(()=>{
+    // if(getValues('oldPassword')!=getValues('newPassword')){
+    //   NavigationActionService.showPopup({
+    //     type: PopupType.ONE_BUTTON,
+    //     typeMessage: MessageType.ERROR,
+    //     title: 'Đổi mật khẩu ',
+    //     message: 'Mật khẩu trùng',
+    //   });
+    // }
+    dispatch(changePassword({
+      newPassword: getValues('newPassword'),
+      onSuccess:onChangePasswordSuccess,
+      onFail:onChangePasswordFail
+    }))
+  })
 
   return {
     passwordRef,
@@ -61,6 +100,10 @@ const useChangePassword = () => {
     setIsSecureEntry,
     setIsSecureEntryConfirm,
     onChangePassword,
+    onFocusOldPassword,
+    isSecureEntryOld,
+    setIsSecureEntryOld,
+    oldPasswordRef
   };
 };
 

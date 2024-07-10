@@ -8,12 +8,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: '#282828',
   },
-  container: {
-    alignItems: 'center',
-  },
+ 
   title: {
     color: '#FFC107',
-    fontSize: 36,
+    fontSize: 28,
     padding: 10,
   },
   textInput: {
@@ -42,13 +40,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#EEB156',
     alignItems: 'center',
     justifyContent: 'center',
-    width: 'auto',
+    width: WITDH - 120,
     padding: 20,
     borderRadius: 25,
   },
   buttonLabel: {
     color: '#433F3F',
-    fontSize: 32,
+    fontSize: 22,
     fontWeight: '400',
   },
   iconEye: {

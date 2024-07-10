@@ -7,6 +7,7 @@ import {createRef} from 'react';
 import {
   BOOKING_DETAIL_SCREEN,
   CREATE_BOOKING_SCREEN,
+  PREVIEW_RATING_SCREEN,
 } from '../../constants/screen_key';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../redux/reducers';
@@ -128,6 +129,9 @@ const useBookingDetail = () => {
     NavigationActionService.pop();
   };
 
+  const goToRatingPreview = ()=>{
+    NavigationActionService.navigate(PREVIEW_RATING_SCREEN);
+  }
   const goToEditBooking = () => {
     NavigationActionService.navigate(CREATE_BOOKING_SCREEN, {
       screen: BOOKING_DETAIL_SCREEN,
@@ -147,6 +151,7 @@ const useBookingDetail = () => {
     showPopupConfirm,
     showPopupConfirmComplete,
     showPopupConfirmCancel,
+    goToRatingPreview
   };
 };
 
