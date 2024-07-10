@@ -3,17 +3,21 @@ import React from 'react';
 import styles from './style';
 import globalStyle from '../../../../constants/styles';
 import FastImage from 'react-native-fast-image';
-import {CUSTOMER} from '../../../../constants/icons';
+import {AVARTAR_DEFAULT_CUSTOMER, CUSTOMER} from '../../../../constants/icons';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { FormatCurrency } from '../../../../utils/currentcy';
+import {FormatCurrency} from '../../../../utils/currentcy';
+import {Booking} from '../../../../modules/booking/model';
+import NavigationActionService from '../../../../navigation/navigation';
+import {BOOKING_DETAIL_SCREEN} from '../../../../constants/screen_key';
 type BookingNearProps = {
-  avatar?: number;
-  fullname?: string;
-  total?: number;
-  time?: number;
-  service?: string;
+  booking: Booking | null;
 };
 const BookingNear = (props: BookingNearProps) => {
+  const {booking} = props;
+
+  const goToDetail = () => {
+    NavigationActionService.navigate(BOOKING_DETAIL_SCREEN, {booking: booking});
+  };
   const renderEmpty = () => (
     <View style={styles.containerEmpty}>
       <Icon name="sad-tear" style={globalStyle.fontText} solid size={60} />
@@ -26,21 +30,28 @@ const BookingNear = (props: BookingNearProps) => {
     <>
       <FastImage
         style={styles.avatarCustomer}
-        source={props?.avatar}
+        source={
+          !booking?.customer.avatar
+            ? AVARTAR_DEFAULT_CUSTOMER
+            : {uri: booking.customer.avatar}
+        }
         resizeMode="cover"
       />
       <View style={styles.info}>
-        <Text style={[styles.name, globalStyle.fontText]}>{props?.fullname}</Text>
-        <Text style={[globalStyle.fontText, styles.otherInfo]}>
-          Dịch vụ: {props?.service}
+        <Text style={[styles.name, globalStyle.fontText]}>
+          {booking?.customer.firstname + ' ' + booking?.customer.lastname}
         </Text>
         <Text style={[globalStyle.fontText, styles.otherInfo]}>
-          Tổng tiền: {FormatCurrency(props?.total || 0)}
+          Dịch vụ:{' '}
+          {booking?.services.map(service => service.serviceName + ', ')}
         </Text>
         <Text style={[globalStyle.fontText, styles.otherInfo]}>
-          Giờ đặt: {props?.time}
+          Tổng tiền: {FormatCurrency(booking?.total || 0)}
         </Text>
-        <TouchableOpacity style={styles.viewDetail}>
+        <Text style={[globalStyle.fontText, styles.otherInfo]}>
+          Giờ đặt: {booking?.datetimeBooking}
+        </Text>
+        <TouchableOpacity style={styles.viewDetail} onPress={goToDetail}>
           <Text style={[globalStyle.fontText, styles.txtViewDetail]}>
             Xem chi tiết
           </Text>
@@ -48,7 +59,7 @@ const BookingNear = (props: BookingNearProps) => {
       </View>
     </>
   );
-  return props===undefined ? (
+  return booking != null ? (
     <View style={styles.container}>{renderContent()}</View>
   ) : (
     renderEmpty()

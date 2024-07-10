@@ -19,6 +19,7 @@ const SelectService = (props: SelectServiceProps) => {
   const {services} = props;
   let totalPrice = 0;
   const listServiceRef = createRef<FlatList>();
+
   const getLenghtService = () => {
     if (services.length > 0) {
       services.map(service => {
@@ -57,6 +58,7 @@ const SelectService = (props: SelectServiceProps) => {
   };
   return (
     <View style={styles.container}>
+      <Text style={styles.label}>1. Chọn dịch vụ</Text>
       <TouchableOpacity style={styles.containerSelect} onPress={goToService}>
         <Icon name="cut" size={16} color="#d4d3d6" />
         <Text style={styles.text}>{getLenghtService()}</Text>

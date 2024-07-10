@@ -8,14 +8,28 @@ import {
   AVARTAR_DEFAULT_CUSTOMER,
   AVARTAR_DEFAULT_STAFF,
 } from '../../constants/icons';
-import {APP_TYPE} from '../../constants/app_info';
+import {APP_NAME, APP_TYPE, APP_VERSION} from '../../constants/app_info';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import NavigationActionService from '../../navigation/navigation';
 import {PROFILE_SCREEN} from '../../constants/screen_key';
 import usePersonal from './usePersonal';
 
 const PersonalScreen = () => {
-  const {currentUser, showLogout, goToNotifcation, goToNews} = usePersonal();
+  const {
+    currentUser,
+    showLogout,
+    goToNotifcation,
+    showAppInfo,
+    goToChangePassword,
+  } = usePersonal();
+
+  const info = () => (
+    <View style={styles.popupbody}>
+      <Text style={styles.bodyText}>Tên ứng dụng: {APP_NAME}</Text>
+      <Text style={styles.bodyText}>Loại ứng dụng: {APP_TYPE}</Text>
+      <Text style={styles.bodyText}>Phiên bản phần mềm: {APP_VERSION} </Text>
+    </View>
+  );
 
   const renderHeader = () => {
     return (
@@ -75,10 +89,11 @@ const PersonalScreen = () => {
         {renderButtonFeature('user', 'Xem thông tin cá nhân', () => {
           NavigationActionService.navigate(PROFILE_SCREEN);
         })}
-        {renderButtonFeature('tags', 'Mã giảm giá', () => {})}
-        {renderButtonFeature('newspaper', 'Tin tức', goToNews)}
+        {renderButtonFeature('lock', 'Đổi mật khẩu', goToChangePassword)}
         {renderButtonFeature('wallet', 'Ví thanh toán', () => {})}
-        {renderButtonFeature('cog', 'Cài đặt', () => {})}
+        {renderButtonFeature('info-circle', 'Thông tin ứng dụng', () =>
+          showAppInfo(info()),
+        )}
         {renderButtonFeature('sign-out-alt', 'Đăng xuất', showLogout)}
       </View>
     );

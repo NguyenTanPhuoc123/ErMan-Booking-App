@@ -1,11 +1,12 @@
 import {gql} from '@apollo/client';
 
 export const GetListBookings = gql`
-  query GetListBookings($limit: Int, $after: String) {
+  query GetListBookings($limit: Int, $after: String, $id: Int) {
     Booking_connection(
       first: $limit
       after: $after
       order_by: {datetimeCreate: desc}
+      where: {_or: [{staff: {_eq: $id}}, {customer: {_eq: $id}}]}
     ) {
       edges {
         cursor
@@ -67,6 +68,10 @@ export const GetListBookings = gql`
               workPlace
             }
           }
+          Payment {
+            id
+            name
+          }
         }
       }
       pageInfo {
@@ -77,33 +82,50 @@ export const GetListBookings = gql`
   }
 `;
 
-export const GetListBookingsSubscription = gql`
-  subscription GetListBookings($limit: Int, $after: String) {
-    Booking_connection(
-      first: $limit
-      after: $after
-      order_by: {datetimeCreate: desc}
-    ) {
-      edges {
-        node {
+export const UpdateDataFromServer = gql`
+  subscription GetListBookings {
+    Booking(order_by: {datetimeCreate: desc}) {
+      id
+      isPaid
+      status
+      total
+      datetimeBooking
+      datetimeCreate
+      BookingDetails {
+        Service {
+          description
+          discount
           id
-          isPaid
-          status
-          total
-          datetimeBooking
-          datetimeCreate
-          BookingDetails {
-            Service {
-              description
-              discount
-              id
-              image
-              price
-              serviceName
-              time
-            }
-            id
-          }
+          image
+          price
+          serviceName
+          time
+        }
+        id
+      }
+      User {
+        address
+        avatar
+        birthday
+        email
+        firstname
+        gender
+        id
+        isVerified
+        lastname
+        typeAccount
+      }
+      Branch {
+        address
+        branchName
+        closeTime
+        description
+        id
+        image
+        openTime
+      }
+      userByStaff {
+        Staff {
           User {
             address
             avatar
@@ -116,33 +138,8 @@ export const GetListBookingsSubscription = gql`
             lastname
             typeAccount
           }
-          Branch {
-            address
-            branchName
-            closeTime
-            description
-            id
-            image
-            openTime
-          }
-          userByStaff {
-            Staff {
-              User {
-                address
-                avatar
-                birthday
-                email
-                firstname
-                gender
-                id
-                isVerified
-                lastname
-                typeAccount
-              }
-              timeStartWork
-              workPlace
-            }
-          }
+          timeStartWork
+          workPlace
         }
       }
     }
@@ -156,6 +153,7 @@ export const CreateNewBooking = gql`
     $staffId: Int!
     $dateTimeBooking: String
     $isPaid: Boolean
+    $payment: Int
     $total: Int
     $bookingDetails: [BookingDetail_insert_input!]!
   ) {
@@ -169,9 +167,63 @@ export const CreateNewBooking = gql`
         status: "upcoming"
         total: $total
         BookingDetails: {data: $bookingDetails}
+        payment: $payment
       }
     ) {
       affected_rows
+    }
+  }
+`;
+
+export const updateStatusBooking = gql`
+  mutation MyMutation($id: Int!, $status: String) {
+    update_Booking_by_pk(pk_columns: {id: $id}, _set: {status: $status}) {
+      datetimeBooking
+      datetimeCreate
+      id
+      isPaid
+      staff
+      status
+      total
+      userByStaff {
+        Staff {
+          timeStartWork
+          Branch {
+            branchName
+          }
+        }
+        address
+        avatar
+        birthday
+        email
+        firstname
+        gender
+        id
+        isVerified
+        lastname
+        typeAccount
+      }
+      Branch {
+        address
+        branchName
+        closeTime
+        description
+        id
+        image
+        openTime
+      }
+      BookingDetails {
+        Service {
+          description
+          discount
+          id
+          price
+          image
+          serviceName
+          time
+        }
+        id
+      }
     }
   }
 `;

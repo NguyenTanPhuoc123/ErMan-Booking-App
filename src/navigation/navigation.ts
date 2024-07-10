@@ -1,7 +1,6 @@
 import {
   createNavigationContainerRef,
   StackActions,
-  CommonActions,
 } from '@react-navigation/native';
 import {CUSTOM_POPUP} from '../constants/screen_key';
 import {PopupProps} from '../component/CustomPopup/type';

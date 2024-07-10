@@ -1,11 +1,11 @@
 import {StyleSheet} from 'react-native';
 import {WITDH} from '../../../../constants/styles';
-import {InriaSerifRegular} from '../../../../constants/font';
+import {InriaSerifBold, InriaSerifRegular} from '../../../../constants/font';
 
 const styles = StyleSheet.create({
   container: {
     width: WITDH / 1.2,
-    height: 120,
+    height: 160,
     margin: 10,
   },
   containerSelect: {
@@ -28,6 +28,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: InriaSerifRegular,
     color: '#EEB156',
+  },
+  label: {
+    color: '#d4d3d6',
+    fontSize: 22,
+    fontFamily: InriaSerifBold,
+    margin: 15,
+    width: WITDH / 1.3,
   },
   service: {
     width: WITDH / 2.7,

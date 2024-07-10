@@ -6,6 +6,7 @@ import {RootState} from '../redux/reducers';
 import {IAuthState} from '../modules/auth/model';
 import {get} from 'lodash';
 import { APP_TYPE } from '../constants/app_info';
+
 const AppComponent = () => {
   useStartup();
   const auth = useSelector<RootState, IAuthState>(state => state.auth);

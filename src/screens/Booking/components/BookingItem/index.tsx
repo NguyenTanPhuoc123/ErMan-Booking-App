@@ -34,7 +34,7 @@ const BookingItem = (props: BookingItemProps) => {
   const countdown =
     new Date(formatStringDate(date) + ' ' + time).getTime() / 1000;
   const goToDetail = () => {
-    NavigationActionService.navigate(BOOKING_DETAIL_SCREEN, {booking: props});
+    NavigationActionService.navigate(BOOKING_DETAIL_SCREEN, {booking: booking});
   };
   const countdownRef = createRef<Countdown>();
   return (

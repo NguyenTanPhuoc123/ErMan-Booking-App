@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {WITDH} from '../../constants/styles';
+import { InriaSerifBold } from '../../constants/font';
 
 const styles = StyleSheet.create({
   containerHeader: {
@@ -21,6 +22,14 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     fontFamily: 'InriaSerif-Bold',
     color: '#D4D3D6',
+  },
+  popupbody:{
+    justifyContent:'center',
+    alignItems:'center'
+  },
+  bodyText:{
+    fontSize: 20,
+    fontFamily:InriaSerifBold
   },
   rightComponentHeader: {
     width: WITDH / 2,

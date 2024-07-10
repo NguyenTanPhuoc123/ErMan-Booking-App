@@ -1,5 +1,5 @@
-import {View, Text, FlatList, TouchableOpacity, TextInput} from 'react-native';
-import React, {createRef, useState} from 'react';
+import {View, Text, TouchableOpacity, FlatList, TextInput} from 'react-native';
+import React from 'react';
 import {Staff} from '../../../../modules/user/model';
 import FastImage from 'react-native-fast-image';
 import {AVARTAR_DEFAULT_STAFF} from '../../../../constants/icons';
@@ -14,7 +14,7 @@ import useSelectStylistAndTime from './useSelectStylistAndTime';
 type SelectStylistAndTimeProps = {
   stylists: Staff[];
   stylist?: Staff;
-  onSelectStylist: (stylist?: Staff) => void;
+  onSelectStylist: (stylist: Staff) => void;
   bookingDate: string;
   onSelectBookingDate: (date: string) => void;
   bookingTime: string;
@@ -62,9 +62,7 @@ const SelectStylistAndTime = (props: SelectStylistAndTimeProps) => {
   const status = bookingDate != dateNow;
 
   const handleSelectStylist = (staff: Staff) => {
-    if (staff === stylist) {
-      onSelectStylist(undefined);
-    } else {
+    if (staff != stylist) {
       onSelectStylist(staff);
     }
   };
@@ -122,6 +120,7 @@ const SelectStylistAndTime = (props: SelectStylistAndTimeProps) => {
       ref={timeRef}
       data={time}
       numColumns={5}
+      scrollEnabled={false}
       showsVerticalScrollIndicator={false}
       keyExtractor={(_, index) => index.toString()}
       renderItem={({item, index}) => (
@@ -154,7 +153,7 @@ const SelectStylistAndTime = (props: SelectStylistAndTimeProps) => {
         />
         {stylist?.lastname != item.lastname ? null : (
           <View style={styles.select}>
-            <Icon name="check" color="#000" size={12} />
+            <Icon name="check" color="#fff" size={10} />
           </View>
         )}
         <Text style={[globalStyle.fontText, styles.name]}>{item.lastname}</Text>
@@ -163,6 +162,7 @@ const SelectStylistAndTime = (props: SelectStylistAndTimeProps) => {
   };
   return (
     <View style={styles.container}>
+      <Text style={styles.label}>3. Chọn stylist & thời gian</Text>
       <View>
         <FlatList
           ref={stylistRef}

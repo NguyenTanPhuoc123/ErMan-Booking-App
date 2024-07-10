@@ -1,5 +1,6 @@
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
-import {IActionSaveUserPayload, IAuthState, LOG_OUT} from './model';
+import {IActionSaveUserPayload, IAuthState} from './model';
+import {Staff} from '../user/model';
 
 const initialState: IAuthState = {
   isLogged: false,
@@ -14,8 +15,8 @@ const initialState: IAuthState = {
     address: '',
     isVerified: false,
     typeAccount: 'Customer',
-    workPlace:'',
-    timeStartWork:'01-01-2024'
+    workPlace: '',
+    timeStartWork: '01-01-2024',
   },
 };
 
@@ -28,7 +29,6 @@ const authSlice = createSlice({
       action: PayloadAction<IActionSaveUserPayload>,
     ) => {
       const {user} = action.payload;
-
       return {
         ...state,
         userData: user,

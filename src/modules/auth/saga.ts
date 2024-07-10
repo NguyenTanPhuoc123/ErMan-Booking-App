@@ -1,5 +1,6 @@
 import {PayloadAction} from '@reduxjs/toolkit';
 import {
+  IActionChangePasswordPayload,
   IActionEditProfilePayload,
   IActionGetCurrentUserPayload,
   IActionLoginPayload,
@@ -12,6 +13,7 @@ import {isNetworkAvailable} from '../network/saga';
 import {call, put} from 'redux-saga/effects';
 import {clearUser, saveUser, userReady} from './reducer';
 import {getCurrentUser} from '.';
+import {Admin, Staff, User} from '../user/model';
 
 export function* loginFn(action: PayloadAction<IActionLoginPayload>) {
   const {email, password, onSuccess, onFail} = action.payload;
@@ -103,6 +105,22 @@ export function* editProfileFn(
     yield put(saveUser({user: result}));
     onSuccess && onSuccess(result);
   } else if (onFail) {
+    onFail && onFail(error);
+  }
+}
+
+export function* changePasswordFn(action:PayloadAction<IActionChangePasswordPayload>){
+  const {newPassword, onSuccess, onFail} = action.payload;
+  const {isConnected} = yield isNetworkAvailable();
+  if (!isConnected) {
+    onFail && onFail();
+    return;
+  }
+    const {error} = yield call(AuthService.changePassword, newPassword);
+  if(!error){
+    onSuccess && onSuccess(newPassword);
+  }
+  else if(onFail){
     onFail && onFail(error);
   }
 }

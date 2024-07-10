@@ -4,7 +4,8 @@ export const API_TOKEN_EXPIRATION = 60 * 60; // 60*60 seconds ~ 1 hour
 
 export const API = 'https://ermanbooking.hasura.app/v1beta1/relay';
 export const HEADER = {'x-hasura-admin-secret':'A9ngXBcmC0YwgKMm1T8MN7ev61kk2dV86XMBbtwBTwonJISQcGdeEBydbHqQYJrX'}
-export const WS_LINK = 'wss://ermanbooking.hasura.app/v1beta1/relay';
+export const WEB_SOCKET = 'https://ermanbooking.hasura.app/v1/graphql';
+
 export const ApiErrorStatusCode = {
   OK: 200,
   NO_CONTENT: 204,

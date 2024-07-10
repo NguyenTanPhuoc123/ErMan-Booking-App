@@ -25,8 +25,9 @@ import {
   BRANCH_MANAGER_SCREEN,
   CREATE_BOOKING_SCREEN,
   BOOKING_DETAIL_SCREEN,
+  SELECT_PAYMENT_SCREEN,
+  PREVIEW_RATING_SCREEN,
 } from '../constants/screen_key';
-import { ADD_NEW_USER } from '../modules/user/model';
 
 export type AuthStackParamList = {
   [LANDING_PAGE]: undefined;
@@ -34,7 +35,6 @@ export type AuthStackParamList = {
   [VERIFY_PHONE_SCREEN]: undefined;
   [REGISTER_SCREEN]: undefined;
   [INFORMATION_SCREEN]: undefined;
-  [CHANGE_PASSWORD_SCREEN]: undefined;
 };
 
 export type MainStackParamList = {
@@ -53,6 +53,9 @@ export type MainStackParamList = {
   [CALENDAR_SCREEN]:undefined;
   [CREATE_BOOKING_SCREEN]:undefined;
   [BOOKING_DETAIL_SCREEN]:undefined;
+  [SELECT_PAYMENT_SCREEN]:undefined;
+  [CHANGE_PASSWORD_SCREEN]:undefined;
+  [PREVIEW_RATING_SCREEN]:undefined;
 };
 
 export type AdminStackParamList = {

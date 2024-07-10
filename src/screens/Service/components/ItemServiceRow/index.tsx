@@ -11,6 +11,7 @@ import {
 import NavigationActionService from '../../../../navigation/navigation';
 import {Service} from '../../../../modules/service/model';
 import {formatBlogDuration} from '../../../../utils/date';
+import {APP_TYPE} from '../../../../constants/app_info';
 
 type ItemServiceRowProps = {
   item: Service;
@@ -55,11 +56,6 @@ const ItemServiceRow = (props: ItemServiceRowProps) => {
     }
   };
 
-  const renderDiscount = () => (
-    <View style={styles.discount}>
-      <Text style={styles.textDiscount}>Giảm {item.discount}%</Text>
-    </View>
-  );
   return (
     <TouchableOpacity style={styles.container} onPress={goToDetail}>
       <FastImage
@@ -67,7 +63,6 @@ const ItemServiceRow = (props: ItemServiceRowProps) => {
         style={styles.img}
         resizeMode="cover"
       />
-      {item.discount > 0 ? renderDiscount() : null}
       <Text style={[globalStyle.fontText, styles.title]}>
         {item.serviceName}
       </Text>
@@ -77,13 +72,15 @@ const ItemServiceRow = (props: ItemServiceRowProps) => {
       <Text style={[globalStyle.fontText, styles.time]}>
         Thời gian: {formatBlogDuration(item.time)}
       </Text>
-      <TouchableOpacity
-        style={status ? styles.selectService : styles.bookNow}
-        onPress={onPressBtn}>
-        <Text style={[globalStyle.fontText, styles.contentBtn]}>
-          {getContentBtn()}
-        </Text>
-      </TouchableOpacity>
+      {APP_TYPE != 'Customer' ? null : (
+        <TouchableOpacity
+          style={status ? styles.selectService : styles.bookNow}
+          onPress={onPressBtn}>
+          <Text style={[globalStyle.fontText, styles.contentBtn]}>
+            {getContentBtn()}
+          </Text>
+        </TouchableOpacity>
+      )}
     </TouchableOpacity>
   );
 };
