@@ -9,8 +9,12 @@ import SelectService from './components/SelectService';
 import SelectBranch from './components/SelectBranch';
 import SelectStylistAndTime from './components/SelectStylistAndTime';
 import {Staff} from '../../modules/user/model';
-import {BOOKING_DETAIL_SCREEN} from '../../constants/screen_key';
+import {
+  BOOKING_DETAIL_SCREEN,
+  SELECT_PAYMENT_SCREEN,
+} from '../../constants/screen_key';
 import CustomDropDown from '../../component/CustomDropdown';
+import NavigationActionService from '../../navigation/navigation';
 type SectionListItem = {
   id: number;
   title: string;
@@ -85,7 +89,9 @@ const CreateBookingScreen = () => {
   };
 
   const renderButtonBooking = () => (
-    <TouchableOpacity style={styles.btnBooking} onPress={createBooking}>
+    <TouchableOpacity
+      style={styles.btnBooking}
+      onPress={() => NavigationActionService.navigate(SELECT_PAYMENT_SCREEN)}>
       <Text style={styles.contentBtnBooking}>
         {screen === BOOKING_DETAIL_SCREEN ? 'Thay đổi' : 'Lên lịch ngay'}
       </Text>
@@ -96,14 +102,14 @@ const CreateBookingScreen = () => {
     return (
       <View style={styles.payment}>
         <Text style={styles.label}>4. Phương thức thanh toán:</Text>
-        <View style={{marginHorizontal:20}}>
-        <CustomDropDown
-          data={payments}
-          value={payment}
-          valueField="id"
-          label="name"
-          onChange={setPayment}
-        />
+        <View style={{marginHorizontal: 20}}>
+          <CustomDropDown
+            data={payments}
+            value={payment}
+            valueField="id"
+            label="name"
+            onChange={setPayment}
+          />
         </View>
       </View>
     );

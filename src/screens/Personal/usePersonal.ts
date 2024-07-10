@@ -4,7 +4,7 @@ import NavigationActionService from '../../navigation/navigation';
 import {logout} from '../../modules/auth';
 import {RootState} from '../../redux/reducers';
 import {IAuthState} from '../../modules/auth/model';
-import {NOTIFICATION_SCREEN} from '../../constants/screen_key';
+import {CHANGE_PASSWORD_SCREEN, NOTIFICATION_SCREEN} from '../../constants/screen_key';
 
 const usePersonal = () => {
   const dispatch = useDispatch();
@@ -39,10 +39,24 @@ const usePersonal = () => {
     NavigationActionService.navigate(NOTIFICATION_SCREEN);
   };
 
+  const goToChangePassword = ()=>{
+    NavigationActionService.navigate(CHANGE_PASSWORD_SCREEN)
+  }
+
+  const showAppInfo = (children:JSX.Element)=>{
+    NavigationActionService.showPopup({
+      type: PopupType.ONE_BUTTON,
+      typeMessage: MessageType.COMMON,
+      title: 'Thông tin ứng dụng',
+      children:children
+    })
+  }
   return {
     currentUser,
     showLogout,
     goToNotifcation,
+    showAppInfo,
+    goToChangePassword
   };
 };
 

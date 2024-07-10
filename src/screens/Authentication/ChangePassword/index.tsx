@@ -28,6 +28,10 @@ const ChangePasswordScreen = () => {
     setIsSecureEntry,
     setIsSecureEntryConfirm,
     onChangePassword,
+    onFocusOldPassword,
+    isSecureEntryOld,
+    setIsSecureEntryOld,
+    oldPasswordRef,
   } = useChangePassword();
 
   const CustomLeftHeader = () => {
@@ -43,7 +47,7 @@ const ChangePasswordScreen = () => {
       <Header
         leftComponent={<CustomLeftHeader />}
         containerStyle={styles.containerHeader}
-        backgroundColor='#282828'
+        backgroundColor="#282828"
       />
     );
   };
@@ -53,13 +57,45 @@ const ChangePasswordScreen = () => {
       <>
         {renderHeader()}
         <View style={[globalStyle.containerForm]}>
-          <Text style={[globalStyle.fontText, styles.title]}>
-            Tạo mật khẩu mới
-          </Text>
-          <Text style={[globalStyle.fontText, styles.label]}>Mật khẩu</Text>
+          <Text style={[globalStyle.fontText, styles.title]}>Đổi mật khẩu</Text>
+          <Text style={[globalStyle.fontText, styles.label]}>Mật khẩu cũ</Text>
           <Controller
             control={control}
-            name="password"
+            name="oldPassword"
+            render={({field: {onBlur, onChange, value}}) => (
+              <View>
+                <TextInput
+                  ref={oldPasswordRef}
+                  style={[globalStyle.fontText, styles.textInput]}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  returnKeyType="done"
+                  value={value}
+                  secureTextEntry={isSecureEntryOld}
+                  placeholder="Nhập mật khẩu..."
+                  onSubmitEditing={onFocusOldPassword}
+                />
+                <TouchableOpacity
+                  style={styles.iconEye}
+                  onPress={() => setIsSecureEntryOld(!isSecureEntryOld)}>
+                  <Icon
+                    name={!isSecureEntryOld ? 'eye-slash' : 'eye'}
+                    size={20}
+                  />
+                </TouchableOpacity>
+              </View>
+            )}
+          />
+          <Text style={[globalStyle.fontText, styles.txtError]}>
+            {errors.oldPassword?.message}
+          </Text>
+
+          <Text style={[globalStyle.fontText, styles.label]}>Mật khẩu mới</Text>
+          <Controller
+            control={control}
+            name="newPassword"
             render={({field: {onBlur, onChange, value}}) => (
               <View>
                 <TextInput
@@ -84,14 +120,14 @@ const ChangePasswordScreen = () => {
             )}
           />
           <Text style={[globalStyle.fontText, styles.txtError]}>
-            {errors.password?.message}
+            {errors.newPassword?.message}
           </Text>
           <Text style={[globalStyle.fontText, styles.label]}>
-            Nhập lại mật khẩu
+            Nhập lại mật khẩu mới
           </Text>
           <Controller
             control={control}
-            name="confirmPassword"
+            name="confirmNewPassword"
             render={({field: {onBlur, onChange, value}}) => (
               <View>
                 <TextInput
@@ -103,7 +139,7 @@ const ChangePasswordScreen = () => {
                   onChangeText={onChange}
                   returnKeyType="done"
                   value={value}
-                  secureTextEntry={isSecureEntry}
+                  secureTextEntry={isSecureEntryConfirm}
                   placeholder="Nhập mật khẩu..."
                   onSubmitEditing={onFocusConfirmPassword}
                 />
@@ -121,13 +157,13 @@ const ChangePasswordScreen = () => {
             )}
           />
           <Text style={[globalStyle.fontText, styles.txtError]}>
-            {errors.password?.message}
+            {errors.confirmNewPassword?.message}
           </Text>
           <TouchableOpacity
             style={styles.buttonContainer}
             onPress={onChangePassword}>
             <Text style={[globalStyle.fontText, styles.buttonLabel]}>
-              Tạo mật khẩu
+              Đổi mật khẩu
             </Text>
           </TouchableOpacity>
         </View>

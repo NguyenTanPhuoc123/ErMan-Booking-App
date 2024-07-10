@@ -151,8 +151,11 @@ export const logout = async () => {
   }
 };
 
-export const forgotPassword = async () => {
+export const changePassword = async (newPassword:string) => {
   try {
+    console.log(auth().currentUser?.uid);
+    const res = await auth().currentUser?.updatePassword(newPassword);
+    return {result:res};
   } catch (error) {
     console.log('Error change password: ', error);
     return {error};

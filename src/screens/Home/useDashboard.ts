@@ -7,7 +7,6 @@ import {IAuthState} from '../../modules/auth/model';
 import NavigationActionService from '../../navigation/navigation';
 import {
   BRANCH_SCREEN,
-  MY_BOOKING_SCREEN,
   MY_BOOKING_STACK,
   NOTIFICATION_SCREEN,
   STYLIST_SCREEN,
@@ -41,6 +40,7 @@ const useDasboard = () => {
   const branchListRef = createRef<FlatList>();
   const stylistListRef = createRef<FlatList>();
   const [refresh, setRefresh] = useState(false);
+
   const {bookings} = useSelector<RootState, IBookingState>(
     state => state.booking,
   );
@@ -117,7 +117,7 @@ const useDasboard = () => {
     branchs,
     stylists,
     bookingNear,
-    goToBooking
+    goToBooking,
   };
 };
 
