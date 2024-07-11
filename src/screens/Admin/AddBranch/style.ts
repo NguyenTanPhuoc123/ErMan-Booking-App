@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {InriaSerifBold} from '../../../constants/font';
-import {WITDH} from '../../../constants/styles';
+import { WITDH } from '../../../constants/styles';
 
 const styles = StyleSheet.create({
   containerHeader: {
@@ -43,13 +43,18 @@ const styles = StyleSheet.create({
   },
   input: {
     fontSize: 20,
-    width: '97%',
+    width: '85%',
   },
   txtError: {
     color: '#F67067',
     marginVertical: 5,
     marginHorizontal: 9,
     textAlign: 'center',
+  },
+  timeContainer:{
+    flexDirection:'row',
+    justifyContent:'space-between',
+
   },
   btnAdd: {
     backgroundColor: '#DFDA2D',

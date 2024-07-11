@@ -94,7 +94,7 @@ const useService = () => {
 
   const loadMore = () => {
     setIsLoadMore(true);
-    if (!hasNextPage && search != '') {
+    if (!hasNextPage || search != '') {
       setIsLoadMore(false);
       return;
     }

@@ -1,5 +1,9 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {IActionSaveListBranch, IBranchState} from './model';
+import {
+  IActionRemoveBranchPayload,
+  IActionSaveListBranch,
+  IBranchState,
+} from './model';
 
 const initialState: IBranchState = {
   branchs: [],
@@ -33,6 +37,17 @@ const branchSlice = createSlice({
         branchs: [...state.branchs, ...action.payload.branchs],
       };
     },
+    REMOVE_BRANCH: (
+      state: IBranchState,
+      action: PayloadAction<IActionRemoveBranchPayload>,
+    ) => {
+      return {
+        ...state,
+        branchs: state.branchs.filter(
+          branch => branch.id !== action.payload.id,
+        ),
+      };
+    },
   },
 });
 
@@ -40,4 +55,5 @@ export const {reducer} = branchSlice;
 export const {
   SAVE_LIST_BRANCH: saveListBranch,
   SAVE_LIST_BRANCH_LOAD_MORE: saveListBranchLoadMore,
+  REMOVE_BRANCH:removeBranch
 } = branchSlice.actions;

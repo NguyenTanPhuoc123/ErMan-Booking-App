@@ -7,7 +7,6 @@ export const getListServices = gql`
         cursor
         node {
           description
-          discount
           id
           image
           price
@@ -32,7 +31,6 @@ export const searchService = gql`
       edges {
         node {
           description
-          discount
           id
           image
           price
@@ -40,6 +38,105 @@ export const searchService = gql`
           time
         }
       }
+    }
+  }
+`;
+
+export const checkServiceNameExist = gql`
+  query CheckServiceNameExist($serviceName: String!) {
+    Service_connection(where: {serviceName: {_eq: $serviceName}}) {
+      edges {
+        node {
+          description
+          id
+          image
+          price
+          serviceName
+          time
+        }
+      }
+    }
+  }
+`;
+
+export const addNewService = gql`
+  mutation AddNewService(
+    $image: String
+    $serviceName: String!
+    $price: Int!
+    $time: Int
+    $description: String
+  ) {
+    insert_Service_one(
+      object: {
+        description: $description
+        image: $image
+        price: $price
+        serviceName: $serviceName
+        time: $time
+      }
+    ) {
+      id
+      image
+      price
+      serviceName
+      time
+      description
+    }
+  }
+`;
+
+export const UpdateImageService = gql`
+  mutation UpdateImageService($id: Int!, $image: String) {
+    update_Service_by_pk(pk_columns: {id: $id}, _set: {image: $image}) {
+      id
+      image
+      price
+      serviceName
+      time
+      description
+    }
+  }
+`;
+
+export const UpdateService = gql`
+  mutation UpdateService(
+    $id: Int!
+    $serviceName: String
+    $price: Int
+    $time: Int
+    $description: String
+    $image: String
+  ) {
+    update_Service_by_pk(
+      pk_columns: {id: $id}
+      _set: {
+        image: $image
+        price: $price
+        serviceName: $serviceName
+        time: $time
+        description: $description
+      }
+    ) {
+      description
+      id
+      image
+      price
+      serviceName
+      time
+    }
+  }
+`;
+
+export const DeleteService = gql`
+  mutation DeleteService($id: Int!) {
+    delete_Service_by_pk(id: $id) {
+      id
+      description
+      image
+      price
+      serviceName
+      time
     }
   }
 `;

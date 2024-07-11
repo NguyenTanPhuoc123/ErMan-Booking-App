@@ -4,15 +4,22 @@ import styles from './style';
 import FastImage from 'react-native-fast-image';
 import {Service} from '../../../../../modules/service/model';
 import NavigationActionService from '../../../../../navigation/navigation';
-import {SERVICE_DETAIL_SCREEN} from '../../../../../constants/screen_key';
+import {
+  ADD_SERVICE_SCREEN,
+  SERVICE_DETAIL_SCREEN,
+} from '../../../../../constants/screen_key';
 import globalStyle from '../../../../../constants/styles';
 import {FormatCurrency} from '../../../../../utils/currentcy';
 import {formatBlogDuration} from '../../../../../utils/date';
 
 const ItemServiceRow = (props: Service) => {
   const {image, serviceName, price, time} = props;
+
+  const goToEdit = () => {
+    NavigationActionService.navigate(ADD_SERVICE_SCREEN, {service: props});
+  };
   return (
-    <TouchableOpacity style={styles.container} onPress={() => {}}>
+    <TouchableOpacity style={styles.container} onPress={goToEdit}>
       <FastImage source={{uri: image}} style={styles.img} resizeMode="cover" />
       <Text style={[globalStyle.fontText, styles.title]}>{serviceName}</Text>
       <Text style={[globalStyle.colorYellowBold, styles.price]}>

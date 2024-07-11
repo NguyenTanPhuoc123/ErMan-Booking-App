@@ -49,7 +49,7 @@ const useCreateBooking = () => {
     {id: '1', name: 'Tiền mặt'},
     {id: '2', name: 'VnPay'},
   ];
-  const [payment,setPayment] = useState(payments[0].id);
+  const [payment, setPayment] = useState(payments[0].id);
   useEffect(() => {
     dispatch(
       getListStaff({
@@ -68,6 +68,7 @@ const useCreateBooking = () => {
       typeMessage: MessageType.COMMON,
       title: 'Đặt lịch',
       message: 'Đặt lịch thành công',
+      onPressPrimaryBtn: () => NavigationActionService.popToRoot(),
     });
   };
 
@@ -131,7 +132,7 @@ const useCreateBooking = () => {
     booking,
     payments,
     payment,
-    setPayment
+    setPayment,
   };
 };
 
