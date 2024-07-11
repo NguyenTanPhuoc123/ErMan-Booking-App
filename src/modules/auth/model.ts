@@ -30,8 +30,8 @@ export interface IActionLoginPayload extends IActionCallback {
   password: string;
 }
 
-export interface IActionCheckEmailExist extends IActionCallback{
-  email:string;
+export interface IActionCheckEmailExist extends IActionCallback {
+  email: string;
 }
 
 export interface IActionRegisterPayload extends IActionCallback {
@@ -45,7 +45,7 @@ export interface BodyParams {
   password: string;
 }
 export interface IActionForgotPasswordPayload extends IActionCallback {
-  email:string
+  email: string;
 }
 
 export interface IActionChangePasswordPayload extends IActionCallback {

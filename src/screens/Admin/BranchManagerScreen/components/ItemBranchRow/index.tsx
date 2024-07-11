@@ -2,7 +2,7 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Branch} from '../../../../../modules/branch/model';
 import NavigationActionService from '../../../../../navigation/navigation';
-import {BRANCH_DETAIL_SCREEN} from '../../../../../constants/screen_key';
+import {ADD_BRANCH_SCREEN} from '../../../../../constants/screen_key';
 import globalStyle from '../../../../../constants/styles';
 import styles from './style';
 import FastImage from 'react-native-fast-image';
@@ -11,11 +11,11 @@ import {checkStatus} from '../../../../../utils/date';
 import {BRANCH} from '../../../../../constants/icons';
 import {formatDistance} from '../../../../../utils/distance';
 
-const ItemServiceRow = (props: Branch) => {
+const ItemBranchRow = (props: Branch) => {
   const {image, branchName, address, openTime, closeTime} = props;
   const status = checkStatus(openTime, closeTime);
   const goToDetail = () => {
-    NavigationActionService.navigate(BRANCH_DETAIL_SCREEN, {value: props});
+    NavigationActionService.navigate(ADD_BRANCH_SCREEN, {branch: props});
   };
 
   return (
@@ -53,4 +53,4 @@ const ItemServiceRow = (props: Branch) => {
   );
 };
 
-export default ItemServiceRow;
+export default ItemBranchRow;

@@ -28,6 +28,7 @@ import {
   SELECT_PAYMENT_SCREEN,
   PREVIEW_RATING_SCREEN,
   ADD_SERVICE_SCREEN,
+  ADD_BRANCH_SCREEN,
 } from '../constants/screen_key';
 
 export type AuthStackParamList = {
@@ -39,32 +40,33 @@ export type AuthStackParamList = {
 };
 
 export type MainStackParamList = {
-  [HOME_SCREEN] : undefined;
-  [SERVICE_SCREEN]:undefined;
-  [MY_BOOKING_SCREEN]:undefined;
-  [PERSONAL_SCREEN]:undefined;
-  [PROFILE_SCREEN]:undefined;
-  [EDIT_PROFILE_SCREEN]:undefined;
-  [SERVICE_DETAIL_SCREEN]:undefined;
-  [BRANCH_SCREEN]:undefined;
-  [NOTIFICATION_SCREEN]:undefined;
-  [STYLIST_SCREEN]:undefined;
-  [BRANCH_DETAIL_SCREEN]:undefined;
-  [CALENDAR_SCREEN]:undefined;
-  [CREATE_BOOKING_SCREEN]:undefined;
-  [BOOKING_DETAIL_SCREEN]:undefined;
-  [SELECT_PAYMENT_SCREEN]:undefined;
-  [CHANGE_PASSWORD_SCREEN]:undefined;
-  [PREVIEW_RATING_SCREEN]:undefined;
+  [HOME_SCREEN]: undefined;
+  [SERVICE_SCREEN]: undefined;
+  [MY_BOOKING_SCREEN]: undefined;
+  [PERSONAL_SCREEN]: undefined;
+  [PROFILE_SCREEN]: undefined;
+  [EDIT_PROFILE_SCREEN]: undefined;
+  [SERVICE_DETAIL_SCREEN]: undefined;
+  [BRANCH_SCREEN]: undefined;
+  [NOTIFICATION_SCREEN]: undefined;
+  [STYLIST_SCREEN]: undefined;
+  [BRANCH_DETAIL_SCREEN]: undefined;
+  [CALENDAR_SCREEN]: undefined;
+  [CREATE_BOOKING_SCREEN]: undefined;
+  [BOOKING_DETAIL_SCREEN]: undefined;
+  [SELECT_PAYMENT_SCREEN]: undefined;
+  [CHANGE_PASSWORD_SCREEN]: undefined;
+  [PREVIEW_RATING_SCREEN]: undefined;
 };
 
 export type AdminStackParamList = {
-  [DASHBOARD_SCREEN]:undefined;
-  [USER_MANAGER_SCREEN]:undefined;
-  [SERVICE_MANAGER_SCREEN]:undefined;
-  [PROFILE_SCREEN]:undefined;
-  [EDIT_PROFILE_SCREEN]:undefined;
+  [DASHBOARD_SCREEN]: undefined;
+  [USER_MANAGER_SCREEN]: undefined;
+  [SERVICE_MANAGER_SCREEN]: undefined;
+  [PROFILE_SCREEN]: undefined;
+  [EDIT_PROFILE_SCREEN]: undefined;
   [ADD_USER_SCREEN]: undefined;
-  [BRANCH_MANAGER_SCREEN]:undefined;
-  [ADD_SERVICE_SCREEN]:undefined;
-}
+  [BRANCH_MANAGER_SCREEN]: undefined;
+  [ADD_SERVICE_SCREEN]: undefined;
+  [ADD_BRANCH_SCREEN]: undefined;
+};

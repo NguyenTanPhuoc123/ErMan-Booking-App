@@ -36,6 +36,7 @@ import BookingDetailScreen from '../screens/BookingDetail';
 import SelectPaymentScreen from '../screens/SelectPayment';
 import PreviewRatingScreen from '../screens/PreviewRating';
 import AddServiceScreen from '../screens/Admin/AddService';
+import AddBranchScreen from '../screens/Admin/AddBranch';
 
 export type AuthStackObject = {
   [key in keyof Partial<AuthStackParamList>]:
@@ -118,6 +119,7 @@ export const adminStackScreens: AdminStackObject = {
   [SCREEN_KEYS.EDIT_PROFILE_SCREEN]: EditProfileScreen,
   [SCREEN_KEYS.ADD_USER_SCREEN]: AddUsersScreen,
   [SCREEN_KEYS.ADD_SERVICE_SCREEN]: AddServiceScreen,
+  [SCREEN_KEYS.ADD_BRANCH_SCREEN]: AddBranchScreen,
 };
 
 const Stack = createStackNavigator();

@@ -6,30 +6,24 @@ import {getListService, searchServiceByName} from '../../../modules/service';
 import {FlatList} from 'react-native';
 import NavigationActionService from '../../../navigation/navigation';
 import {ADD_SERVICE_SCREEN} from '../../../constants/screen_key';
-import { ApiError } from '../../../constants/api';
-import { debounce } from 'lodash';
+import {ApiError} from '../../../constants/api';
+import {debounce} from 'lodash';
 
 const useServiceManager = () => {
   const dispatch = useDispatch();
-  const {services, hasNextPage, endCursor} = useSelector<RootState, IServiceState>(
-    state => state.service,
-  );
+  const {services, hasNextPage, endCursor} = useSelector<
+    RootState,
+    IServiceState
+  >(state => state.service);
   const listServiceRef = createRef<FlatList>();
   const [search, setSearch] = useState('');
   const [refresh, setRefresh] = useState(false);
-  const [loading,setLoading] = useState(false);
-  const [isLoadMore,setIsLoadMore] = useState(false);
-  const [listSearch,setListSearch] = useState<Service[]>([]);
-  const onGetSuccess = () => {
-    setRefresh(false);
-  };
-
-  const onGetFail = () => {
-    setRefresh(false);
-  };
+  const [loading, setLoading] = useState(false);
+  const [isLoadMore, setIsLoadMore] = useState(false);
+  const [listSearch, setListSearch] = useState<Service[]>([]);
 
   useEffect(() => {
-    if (search === '') {
+    if (search == '') {
       getListServices();
     } else {
       searchService();
@@ -43,7 +37,6 @@ const useServiceManager = () => {
   const onLoadServiceFail = (error?: ApiError) => {
     setLoading(false);
     setRefresh(false);
-    console.log(error?.message);
   };
 
   const getListServices = () => {
@@ -82,7 +75,7 @@ const useServiceManager = () => {
 
   const loadMore = () => {
     setIsLoadMore(true);
-    if (!hasNextPage && search != '') {
+    if (!hasNextPage || search != '') {
       setIsLoadMore(false);
       return;
     }
@@ -115,7 +108,8 @@ const useServiceManager = () => {
     goToAddService,
     listSearch,
     isLoadMore,
-    loading
+    loading,
+    loadMore,
   };
 };
 

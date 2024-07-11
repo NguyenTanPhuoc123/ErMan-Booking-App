@@ -8,7 +8,8 @@ import {useSubscription} from '@apollo/client';
 import {onAuthStateChanged} from '../../api/user/queries';
 import {useEffect} from 'react';
 import {saveUser} from '../auth/reducer';
-import {Staff, User} from '../user/model';
+import {User} from '../user/model';
+import {updateBookingRealtime} from '../booking/service';
 
 const useStartup = () => {
   const dispatch = useDispatch();
@@ -16,8 +17,8 @@ const useStartup = () => {
   const {data, error} = useSubscription(onAuthStateChanged, {
     variables: {id: userData ? userData.id : 0},
   });
-
   useEffect(() => {
+    // updateBookingRealtime();
     if (data && data.User[0] && !error) {
       if (data.User[0].typeAccount != 'Customer')
         dispatch(

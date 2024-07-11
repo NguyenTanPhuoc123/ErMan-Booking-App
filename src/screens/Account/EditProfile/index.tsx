@@ -23,6 +23,7 @@ import {Controller} from 'react-hook-form';
 import {RadioButton} from 'react-native-paper';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
+import { formatStringDate } from '../../../utils/date';
 
 const EditProfileScreen = () => {
   const {
@@ -36,7 +37,6 @@ const EditProfileScreen = () => {
     open,
     openPicker,
     closePicker,
-    formatStringDate,
     addressRef,
     onFocusAddress,
     onUploadAvatar,

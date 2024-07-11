@@ -52,10 +52,6 @@ const useEditProfile = () => {
     addressRef.current?.focus();
   };
 
-  const formatStringDate = (dateStr: string) => {
-    const [date, month, year] = dateStr.split('-');
-    return `${year}-${month}-${date}`;
-  };
 
   const goBack = () => {
     NavigationActionService.pop();
@@ -133,7 +129,6 @@ const useEditProfile = () => {
     open,
     openPicker,
     closePicker,
-    formatStringDate,
     addressRef,
     onFocusAddress,
     onUploadAvatar,

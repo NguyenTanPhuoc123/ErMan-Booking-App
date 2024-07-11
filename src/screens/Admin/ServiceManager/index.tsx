@@ -4,6 +4,7 @@ import {
   RefreshControl,
   TouchableOpacity,
   ActivityIndicator,
+  Keyboard,
 } from 'react-native';
 import React from 'react';
 import {Service} from '../../../modules/service/model';
@@ -28,6 +29,7 @@ const ServiceManagerScreen = () => {
     listSearch,
     isLoadMore,
     loading,
+    loadMore,
   } = useServiceManager();
 
   const renderLoading = () => {
@@ -62,6 +64,9 @@ const ServiceManagerScreen = () => {
       ListEmptyComponent={
         <ListItemEmpty image={LIST_SERVICE_EMPTY} content="Không có dịch vụ" />
       }
+      onScrollBeginDrag={() => Keyboard.dismiss()}
+      onEndReachedThreshold={1}
+      onEndReached={loadMore}
       renderItem={({item}) => <ItemServiceRow key={item.id} {...item} />}
       ListFooterComponent={renderLoadMore}
     />
