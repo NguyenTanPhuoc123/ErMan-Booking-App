@@ -1,4 +1,3 @@
-import {Pagination} from '../../constants/type';
 import {IActionCallback} from '../base';
 import {User} from '../user/model';
 

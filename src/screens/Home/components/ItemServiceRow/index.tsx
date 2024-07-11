@@ -14,7 +14,7 @@ import {formatBlogDuration} from '../../../../utils/date';
 import {APP_TYPE} from '../../../../constants/app_info';
 
 const ItemServiceRow = (props: Service) => {
-  const {image, serviceName, price, time, discount} = props;
+  const {image, serviceName, price, time} = props;
   const goToDetail = () => {
     NavigationActionService.navigate(SERVICE_DETAIL_SCREEN, {value: props});
   };

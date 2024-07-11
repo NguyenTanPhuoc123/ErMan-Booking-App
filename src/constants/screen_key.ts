@@ -42,3 +42,4 @@ export const BRANCH_MANAGER_SCREEN = 'BranchManagerScreen';
 export const BOOKING_DETAIL_SCREEN = 'BookingDetailScreen';
 export const SELECT_PAYMENT_SCREEN = 'SelectPaymentScreen';
 export const PREVIEW_RATING_SCREEN = 'PreviewRatingScreen';
+export const ADD_SERVICE_SCREEN = 'AddServiceScreen';

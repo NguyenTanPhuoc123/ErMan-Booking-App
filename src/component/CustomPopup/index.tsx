@@ -33,8 +33,8 @@ const CustomPopup = () => {
           styles.horizontalButton,
         ]}
         onPress={() => {
-          otherProps.onPressPrimaryBtn && otherProps.onPressPrimaryBtn();
           closePopup();
+          otherProps.onPressPrimaryBtn && otherProps.onPressPrimaryBtn();     
         }}>
         <Text style={[globalStyle.fontText, styles.primaryText]}>OK</Text>
       </TouchableOpacity>

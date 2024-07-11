@@ -1,37 +1,84 @@
-import {View, FlatList, RefreshControl} from 'react-native';
+import {
+  View,
+  FlatList,
+  RefreshControl,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
 import React from 'react';
-import Search_Service from './components/Search';
 import {Service} from '../../../modules/service/model';
 import {LIST_SERVICE_EMPTY} from '../../../constants/icons';
 import globalStyle from '../../../constants/styles';
 import useServiceManager from './useServiceManager';
 import ListItemEmpty from '../../../component/ListItemEmpty';
 import ItemServiceRow from './components/ItemServiceRow';
+import SearchComponent from '../../../component/Search';
+import styles from './style';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const ServiceManagerScreen = () => {
-  const {services,listServiceRef,refresh,pullRequest} = useServiceManager();
-  const renderListService = ()=>(
-    <FlatList<Service>
-        ref={listServiceRef}
-        refreshControl={
-          <RefreshControl refreshing={refresh} onRefresh={pullRequest} />
-        }
-        numColumns={2}
-        data={services as ArrayLike<Service>}
-        keyExtractor={item => item.id.toString()}
-        ListEmptyComponent={
-          <ListItemEmpty
-            image={LIST_SERVICE_EMPTY}
-            content="Không có dịch vụ"
-          />
-        }
-        renderItem={({item}) => <ItemServiceRow key={item.id} {...item} />}
+  const {
+    services,
+    listServiceRef,
+    refresh,
+    pullRequest,
+    search,
+    setSearch,
+    goToAddService,
+    listSearch,
+    isLoadMore,
+    loading,
+  } = useServiceManager();
+
+  const renderLoading = () => {
+    return (
+      <ActivityIndicator
+        style={styles.loading}
+        size={'large'}
+        color={'#d4d3d6'}
       />
-  )
+    );
+  };
+
+  const renderLoadMore = () => {
+    return !isLoadMore ? null : (
+      <ActivityIndicator
+        style={{padding: 20, marginTop: 20}}
+        size={'small'}
+        color={'#d4d3d6'}
+      />
+    );
+  };
+
+  const renderListService = () => (
+    <FlatList<Service>
+      ref={listServiceRef}
+      refreshControl={
+        <RefreshControl refreshing={refresh} onRefresh={pullRequest} />
+      }
+      numColumns={2}
+      data={search != '' ? listSearch : (services as ArrayLike<Service>)}
+      keyExtractor={item => item.id.toString()}
+      ListEmptyComponent={
+        <ListItemEmpty image={LIST_SERVICE_EMPTY} content="Không có dịch vụ" />
+      }
+      renderItem={({item}) => <ItemServiceRow key={item.id} {...item} />}
+      ListFooterComponent={renderLoadMore}
+    />
+  );
   return (
     <View style={globalStyle.container}>
-      <Search_Service />
-      {renderListService()}
+      <SearchComponent
+        placeholder="Tên dịch vụ,..."
+        searchValue={search}
+        onSearch={setSearch}
+      />
+      {loading ? renderLoading() : renderListService()}
+      <TouchableOpacity
+        style={[globalStyle.bgPopupCommon, styles.btnAdd]}
+        onPress={goToAddService}>
+        <Icon name="plus" size={24} />
+      </TouchableOpacity>
     </View>
   );
 };

@@ -1,44 +1,122 @@
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../redux/reducers";
-import { IServiceState } from "../../../modules/service/model";
-import { createRef, useEffect, useState } from "react";
-import { getListService } from "../../../modules/service";
-import { FlatList } from "react-native";
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../redux/reducers';
+import {IServiceState, Service} from '../../../modules/service/model';
+import {createRef, useEffect, useState} from 'react';
+import {getListService, searchServiceByName} from '../../../modules/service';
+import {FlatList} from 'react-native';
+import NavigationActionService from '../../../navigation/navigation';
+import {ADD_SERVICE_SCREEN} from '../../../constants/screen_key';
+import { ApiError } from '../../../constants/api';
+import { debounce } from 'lodash';
 
-const useServiceManager = () =>{
-    const dispatch = useDispatch();
-    const {services} = useSelector<RootState,IServiceState>(state=> state.service);
-    const listServiceRef = createRef<FlatList>();
-    const [refresh,setRefresh] = useState(false);
-    const onGetSuccess = ()=>{
-        setRefresh(false);
+const useServiceManager = () => {
+  const dispatch = useDispatch();
+  const {services, hasNextPage, endCursor} = useSelector<RootState, IServiceState>(
+    state => state.service,
+  );
+  const listServiceRef = createRef<FlatList>();
+  const [search, setSearch] = useState('');
+  const [refresh, setRefresh] = useState(false);
+  const [loading,setLoading] = useState(false);
+  const [isLoadMore,setIsLoadMore] = useState(false);
+  const [listSearch,setListSearch] = useState<Service[]>([]);
+  const onGetSuccess = () => {
+    setRefresh(false);
+  };
+
+  const onGetFail = () => {
+    setRefresh(false);
+  };
+
+  useEffect(() => {
+    if (search === '') {
+      getListServices();
+    } else {
+      searchService();
     }
+  }, [refresh, search]);
 
-    const onGetFail = ()=>{
-        setRefresh(false);
+  const onLoadServiceSuccess = () => {
+    setLoading(false);
+    setRefresh(false);
+  };
+  const onLoadServiceFail = (error?: ApiError) => {
+    setLoading(false);
+    setRefresh(false);
+    console.log(error?.message);
+  };
+
+  const getListServices = () => {
+    setLoading(true);
+    dispatch(
+      getListService({
+        page: 1,
+        limit: 4,
+        onSuccess: onLoadServiceSuccess,
+        onFail: onLoadServiceFail,
+      }),
+    );
+  };
+  const onLoadMoreSuccess = () => {
+    setIsLoadMore(false);
+  };
+  const searchService = debounce(() => {
+    setLoading(true);
+    dispatch(
+      searchServiceByName({
+        serviceName: search,
+        onSuccess: (value: Service[]) => {
+          setListSearch(value);
+          setLoading(false);
+        },
+        onFail: () => {
+          setListSearch([]);
+          setLoading(false);
+        },
+      }),
+    );
+  }, 500);
+  const onLoadMoreFail = () => {
+    setIsLoadMore(false);
+  };
+
+  const loadMore = () => {
+    setIsLoadMore(true);
+    if (!hasNextPage && search != '') {
+      setIsLoadMore(false);
+      return;
     }
+    dispatch(
+      getListService({
+        page: 2,
+        limit: 4,
+        endCursor: endCursor,
+        onSuccess: onLoadMoreSuccess,
+        onFail: onLoadMoreFail,
+      }),
+    );
+  };
 
-    useEffect(()=>{
-        setRefresh(true);
-        dispatch(getListService({
-            limit:3,
-            page:1,
-            onSuccess:onGetSuccess,
-            onFail:onGetFail
-        }));
-    },[])
+  const pullRequest = () => {
+    setRefresh(true);
+  };
 
-    const pullRequest = ()=>{
-        setRefresh(true);
-        dispatch(getListService({
-            limit:3,
-            onSuccess:onGetSuccess,
-            onFail:onGetFail
-        }));
-    }
+  const goToAddService = () => {
+    NavigationActionService.navigate(ADD_SERVICE_SCREEN);
+  };
 
-    return{services,listServiceRef,refresh,pullRequest};
+  return {
+    services,
+    listServiceRef,
+    refresh,
+    pullRequest,
+    search,
+    setSearch,
+    goToAddService,
+    listSearch,
+    isLoadMore,
+    loading
+  };
 };
-
 
 export default useServiceManager;

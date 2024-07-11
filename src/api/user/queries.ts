@@ -27,15 +27,12 @@ export const Register = gql`
   mutation Register($firstname: String!, $lastname: String!, $email: String!) {
     insert_User_one(
       object: {
-        avatar: ""
-        birthday: ""
         firstname: $firstname
         lastname: $lastname
         isVerified: true
         email: $email
         typeAccount: "Customer"
         gender: true
-        address: ""
       }
       on_conflict: {constraint: User_email_key}
     ) {
@@ -300,6 +297,27 @@ export const SearchStaff = gql`
             timeStartWork
             workPlace
           }
+          typeAccount
+        }
+      }
+    }
+  }
+`;
+
+export const CheckEmailExist = gql`
+  query CheckEmailExist($email: String!) {
+    User_connection(where: {email: {_eq: $email}}) {
+      edges {
+        node {
+          address
+          avatar
+          birthday
+          email
+          firstname
+          gender
+          id
+          isVerified
+          lastname
           typeAccount
         }
       }

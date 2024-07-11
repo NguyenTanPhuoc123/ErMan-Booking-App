@@ -105,13 +105,18 @@ export const createNewBooking = async (body: BookingParams) => {
   }
 };
 
-export const updateStatusBooking = async (id: number, status: string) => {
+export const updateStatusBooking = async (
+  id: number,
+  status: string,
+  isPaid?: boolean,
+) => {
   try {
     const res = await client.mutate({
       mutation: BookingApi.updateStatusBooking,
       variables: {
         id,
         status,
+        isPaid: isPaid ? isPaid : false,
       },
     });
     const data = res.data.update_Booking_by_pk;

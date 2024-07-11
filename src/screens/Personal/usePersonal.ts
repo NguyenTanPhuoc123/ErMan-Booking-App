@@ -39,9 +39,6 @@ const usePersonal = () => {
     NavigationActionService.navigate(NOTIFICATION_SCREEN);
   };
 
-  const goToChangePassword = ()=>{
-    NavigationActionService.navigate(CHANGE_PASSWORD_SCREEN)
-  }
 
   const showAppInfo = (children:JSX.Element)=>{
     NavigationActionService.showPopup({
@@ -56,7 +53,6 @@ const usePersonal = () => {
     showLogout,
     goToNotifcation,
     showAppInfo,
-    goToChangePassword
   };
 };
 

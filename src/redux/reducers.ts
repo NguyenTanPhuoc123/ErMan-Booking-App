@@ -10,12 +10,14 @@ import {reducer as user} from '../modules/user/reducer'
 import {reducer as branch} from '../modules/branch/reducer'
 import {reducer as workSchedule} from '../modules/workschedule/reducer'
 import {reducer as booking} from '../modules/booking/reducer'
+import {reducer as rating} from '../modules/rate/reducer'
 import { IAuthState } from '../modules/auth/model';
 import { IServiceState } from '../modules/service/model';
 import { IUserState } from '../modules/user/model';
 import { IBranchState } from '../modules/branch/model';
 import { IWorkScheduleState } from '../modules/workschedule/model';
 import { IBookingState } from '../modules/booking/model';
+import { IRatingState } from '../modules/rate/model';
 
 const authPersist: PersistConfig<IAuthState>={
     key:'auth',
@@ -52,6 +54,13 @@ const bookingPersist: PersistConfig<IBookingState>= {
     stateReconciler:autoMergeLevel1
 }
 
+const ratingPersist: PersistConfig<IRatingState>= {
+    key: 'rating',
+    whitelist:['ratings','hasNextPage','endCursor'],
+    storage:AsyncStorage,
+    stateReconciler:autoMergeLevel1
+}
+
 const workSchedulePersist: PersistConfig<IWorkScheduleState>= {
     key: 'workschedule',
     whitelist:['workschedules'],
@@ -67,6 +76,7 @@ const reducers = combineReducers({
     branch: persistReducer(branchPersist,branch),
     workschedule: persistReducer(workSchedulePersist,workSchedule),
     booking: persistReducer(bookingPersist,booking),
+    rating: persistReducer(ratingPersist,rating)
 });
 
 export type RootState = ReturnType<typeof reducers>;

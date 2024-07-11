@@ -1,14 +1,25 @@
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, TextInput} from 'react-native';
 import React from 'react';
 import usePreviewRating from './usePreviewRating';
 import styles from './style';
 import {Header} from 'react-native-elements';
 import globalStyle from '../../constants/styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {Rating} from 'react-native-elements';
+import {AirbnbRating} from 'react-native-ratings';
 
+const textRating = ['Rất tệ', 'Tệ', 'Tốt', 'Hài lòng', 'Rất hài lòng'];
 const PreviewRatingScreen = () => {
-  const {goBack, rating, setRating} = usePreviewRating();
+  const {
+    goBack,
+    rating,
+    setRating,
+    review,
+    setReview,
+    booking,
+    confirmRating,
+    rate,
+    rated,
+  } = usePreviewRating();
 
   const renderHeader = () => {
     return (
@@ -31,15 +42,40 @@ const PreviewRatingScreen = () => {
 
   const renderRating = () => {
     return (
-      <View >
-        <Text style={styles.label}>Hãy cho chúng tôi biết về mức độ hài lòng của bạn về chất lượng phục vụ của chúng tôi</Text>
-        <Rating
-          imageSize={40}
-          startingValue={rating}
+      <View>
+        <Text style={styles.label}>
+          Hãy cho chúng tôi biết về mức độ hài lòng của bạn về chất lượng phục
+          vụ tại {booking.branch.branchName} của chúng tôi
+        </Text>
+        <AirbnbRating
+          count={5}
+          size={30}
+          defaultRating={rate ? rate.rate : rating}
+          isDisabled={rated}
           onFinishRating={setRating}
-          showReadonlyText
           showRating
-          tintColor='#282828'
+          reviews={textRating}
+          reviewSize={22}
+        />
+      </View>
+    );
+  };
+
+  const renderReview = () => {
+    return (
+      <View>
+        <Text style={styles.label}>
+          Hãy cho biết nhận xét của bạn về chúng tôi
+        </Text>
+        <TextInput
+          style={styles.input}
+          value={rate ? rate.review : review}
+          editable={!rated}
+          selectTextOnFocus={!rated}
+          onChangeText={setReview}
+          placeholder="Viết nhận xét của bạn..."
+          multiline
+          maxLength={150}
         />
       </View>
     );
@@ -49,6 +85,12 @@ const PreviewRatingScreen = () => {
     <View style={globalStyle.container}>
       {renderHeader()}
       {renderRating()}
+      {renderReview()}
+      {rated ? null : (
+        <TouchableOpacity style={styles.btn} onPress={confirmRating}>
+          <Text style={styles.contentBtn}>Xác nhận</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
