@@ -73,12 +73,16 @@ const DashboardScreen = () => {
 
   const renderButton = () => {
     return (
+      <>
       <View style={styles.containerView}>
         {renderItemButton('Tổng thu nhập', '')}
         {renderItemButton('Tổng nhân viên', '')}
+      </View>
+      <View style={styles.containerView}>
         {renderItemButton('Tổng lịch đặt', '')}
         {renderItemButton('Tổng khách hàng', '')}
       </View>
+      </>
     );
   };
 
@@ -107,14 +111,6 @@ const DashboardScreen = () => {
         {renderButton()}
         {renderTopStaff()}
       </ScrollView>
-
-      {/* <FlatList
-        data={users}
-        keyExtractor={(item)=>item.id.toString()}
-        renderItem={({item})=>(
-          <Text style={{margin:20,width:200,height:50,backgroundColor:'red',color:'#fff'}}>{item.firstname+' '+item.lastname}</Text>
-        )}
-      /> */}
     </View>
   );
 };

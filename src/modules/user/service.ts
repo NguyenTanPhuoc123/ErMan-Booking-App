@@ -45,7 +45,7 @@ export const getListCustomer = async (limit: number, after?: string) => {
   }
 };
 
-export const getListStaffs = async (limit:number,after?: string) => {
+export const getListStaffs = async (limit: number, after?: string) => {
   try {
     let res;
     if (after) {
@@ -56,8 +56,7 @@ export const getListStaffs = async (limit:number,after?: string) => {
           after,
         },
       });
-    }
-    else{
+    } else {
       res = await client.query({
         query: UserApi.GetListStaff,
         variables: {
@@ -68,11 +67,10 @@ export const getListStaffs = async (limit:number,after?: string) => {
     const hasNextPage = res.data.User_connection.pageInfo.hasNextPage;
     const endCursor = res.data.User_connection.pageInfo.endCursor;
     const listData = res.data.User_connection.edges;
-    if(after===endCursor){
+    if (after === endCursor) {
       return;
     }
     const listStaff: Staff[] = listData.map((data: any) => {
-   
       const userId = JSON.parse(atob(data.node.id))[3];
       const workPlace = data.node.Staff.Branch.branchName;
       const timeStartWork = data.node.Staff.timeStartWork;
@@ -84,7 +82,7 @@ export const getListStaffs = async (limit:number,after?: string) => {
         ...newUser,
       };
     }) as Staff[];
-    return {result: {users: listStaff, hasNextPage, endCursor}}
+    return {result: {staffs: listStaff, hasNextPage, endCursor}};
   } catch (error) {
     console.log('Error get list users: ', error);
     return {error};
@@ -92,29 +90,34 @@ export const getListStaffs = async (limit:number,after?: string) => {
 };
 
 export const addNewUser = async (
-  body: BodyParams, 
+  body: BodyParams,
   typeAccount: string,
-  workPlace:number,
-  timeStartWork:string
+  workPlace: number,
+  timeStartWork: string,
 ) => {
   try {
     const res = auth()
-      .createUserWithEmailAndPassword(body.email,body.password)
+      .createUserWithEmailAndPassword(body.email, body.password)
       .then(async () => {
-         client.mutate({mutation:UserApi.AddNewUser,variables:{
-          firstname:body.firstname,
-          lastname:body.lastname,
-          email:body.email,
-          typeAccount: typeAccount,
-        }}).then(async(value)=>{
-          await client.mutate({
-            mutation:UserApi.AddInfoStaff,
-            variables:{
-              workPlace:workPlace,
-              timeStartWork:timeStartWork,
-            }
+        client
+          .mutate({
+            mutation: UserApi.AddNewUser,
+            variables: {
+              firstname: body.firstname,
+              lastname: body.lastname,
+              email: body.email,
+              typeAccount: typeAccount,
+            },
           })
-        })
+          .then(async () => {
+            await client.mutate({
+              mutation: UserApi.AddInfoStaff,
+              variables: {
+                workPlace: workPlace,
+                timeStartWork: timeStartWork,
+              },
+            });
+          });
       });
 
     return {result: res};
@@ -132,17 +135,44 @@ export const searchStaff = async (search: string) => {
     });
     const listData = res.data.User_connection.edges;
     const listStaff: Staff[] = listData.map((data: any) => {
-      console.log("Staff ",data.node.Staff)
       const userId = JSON.parse(atob(data.node.id))[3];
       const workPlace = data.node.Staff.Branch.branchName;
       const timeStartWork = data.node.Staff.timeStartWork;
-      const {id,Staff, ...newUser} = data.node;
-      return {id: userId,workPlace:workPlace,timeStartWork:timeStartWork, ...newUser};
+      const {id, Staff, ...newUser} = data.node;
+      return {
+        id: userId,
+        workPlace: workPlace,
+        timeStartWork: timeStartWork,
+        ...newUser,
+      };
     }) as Staff[];
 
     return {result: listStaff};
   } catch (error) {
     console.log('Error search stylist: ', error);
+    return {error};
+  }
+};
+
+export const searchCustomer = async (search: string) => {
+  try {
+    const res = await client.query({
+      query: UserApi.SearchCustomer,
+      variables: {search: `%${search}%`},
+    });
+    const listData = res.data.User_connection.edges;
+    const listStaff: User[] = listData.map((data: any) => {
+      const userId = JSON.parse(atob(data.node.id))[3];
+      const {id, ...newUser} = data.node;
+      return {
+        id: userId,
+        ...newUser,
+      };
+    }) as User[];
+
+    return {result: listStaff};
+  } catch (error) {
+    console.log('Error search customer: ', error);
     return {error};
   }
 };
@@ -205,7 +235,7 @@ const saveAvatarInStorage = async (id: number, path: string) => {
   }
 };
 
-export const verifyEmail= async (email: string) => {
+export const verifyEmail = async (email: string) => {
   try {
     const confirmation = await auth().sendSignInLinkToEmail(email);
     console.log(confirmation);
