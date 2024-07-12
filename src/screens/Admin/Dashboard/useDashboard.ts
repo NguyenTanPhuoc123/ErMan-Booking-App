@@ -2,16 +2,18 @@ import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../redux/reducers';
 import {IUserState} from '../../../modules/user/model';
 import {useEffect} from 'react';
-import {getListCustomer} from '../../../modules/user';
-import {useSubscription} from '@apollo/client';
+import {getListCustomer, getListStaff} from '../../../modules/user';
 import {ChartData} from 'react-native-chart-kit/dist/HelperTypes';
 
 const useDasboard = () => {
   const dispatch = useDispatch();
-  const {users} = useSelector<RootState, IUserState>(state => state.user);
+
+  const users = useSelector<RootState, IUserState>(
+    state => state.user,
+  ).users.filter(user=> user.typeAccount === 'Staff');
   useEffect(() => {
     dispatch(
-      getListCustomer({
+      getListStaff({
         page: 1,
         limit: 20,
         onSuccess: () => {},
@@ -30,8 +32,7 @@ const useDasboard = () => {
       },
     ],
   };
- 
-
+  
   return {users,lineCharData};
 };
 

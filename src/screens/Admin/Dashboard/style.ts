@@ -37,6 +37,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#fff',
   },
+  icon:{
+    color :'#F3B20A'
+  },
   containerIcon:{
     flexDirection:'row',
     paddingHorizontal:10,
@@ -44,7 +47,14 @@ const styles = StyleSheet.create({
   },
   info:{
     marginLeft:5,
-  }
+  },
+  avatar:{
+    width:75,
+    height:75,
+    borderRadius:40,
+    marginRight:20,
+    marginLeft:10
+},
 });
 
 export default styles;

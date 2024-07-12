@@ -9,6 +9,8 @@ import styles from './style';
 import {ScrollView} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import FastImage from 'react-native-fast-image';
+import {AVARTAR_DEFAULT_CUSTOMER} from '../../../constants/icons';
+import Item from './components/Item';
 const DashboardScreen = () => {
   const {users, lineCharData} = useDasboard();
 
@@ -89,13 +91,20 @@ const DashboardScreen = () => {
           <Icon
             name="star-half-alt"
             size={25}
-            style={globalStyle.fontText}
+            style={[globalStyle.fontText, styles.icon]}
             solid
           />
           <Text
             style={[globalStyle.textSize20, globalStyle.fontText, styles.info]}>
             Top 5 nhân viên xuất sắc nhất:{' '}
           </Text>
+        </View>
+        <View>
+          <FlatList
+            data={users}
+            keyExtractor={item => item.id.toString()}
+            renderItem={({item}) => <Item key={item.id} {...item} />}
+          />
         </View>
       </View>
     );
