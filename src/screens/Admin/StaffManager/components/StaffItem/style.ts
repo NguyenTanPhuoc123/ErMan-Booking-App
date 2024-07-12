@@ -7,8 +7,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#433F3F',
     flexDirection: 'row',
     width: '95%',
-    height: 100,
+    height: 'auto',
     margin: 10,
+    paddingVertical:20,
     borderRadius: 20,
     alignItems: 'center',
   },
@@ -25,7 +26,9 @@ const styles = StyleSheet.create({
     fontFamily: InriaSerifBold,
   },
   containerButton: {
-    margin: 20,
+    position:'absolute',
+    right:20,
+    marginLeft:10
   },
 });
 

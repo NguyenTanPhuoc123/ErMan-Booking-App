@@ -3,6 +3,7 @@ import {
   RefreshControl,
   TouchableOpacity,
   ActivityIndicator,
+  Keyboard,
 } from 'react-native';
 import React from 'react';
 import styles from './style';
@@ -28,7 +29,19 @@ const StaffManagerScreen = () => {
     setSearch,
     loading,
     listStaff,
+    isLoadMore,
+    loadMore,
   } = useStaffManage();
+
+  const renderLoadMore = () => {
+    return !isLoadMore ? null : (
+      <ActivityIndicator
+        style={{padding: 20, marginTop: 20}}
+        size={'small'}
+        color={'#d4d3d6'}
+      />
+    );
+  };
 
   const renderBody = () => (
     <FlatList<Staff>
@@ -41,6 +54,10 @@ const StaffManagerScreen = () => {
       ListEmptyComponent={
         <ListItemEmpty image={LIST_USER_EMPTY} content="Không có người dùng" />
       }
+      ListFooterComponent={renderLoadMore()}
+      onScrollBeginDrag={() => Keyboard.dismiss()}
+      onEndReachedThreshold={1}
+      onEndReached={loadMore}
       renderItem={({item}) => <StaffItem key={item.id} {...item} />}
     />
   );

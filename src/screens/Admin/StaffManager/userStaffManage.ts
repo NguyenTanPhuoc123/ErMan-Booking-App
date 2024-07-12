@@ -10,12 +10,12 @@ import {debounce} from 'lodash';
 const useStaffManage = () => {
   const [refresh, setRefresh] = useState(false);
   const dispatch = useDispatch();
-  const {staffs} = useSelector<RootState, IUserState>(state => state.user);
+  const {staffs,endCursor,hasNextPage} = useSelector<RootState, IUserState>(state => state.user);
   const listStaffRef = createRef<FlatList>();
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState('');
   const [listStaff, setListStaff] = useState<(Staff | Admin)[]>();
-
+  const [isLoadMore,setIsLoadMore] = useState(false);
   useEffect(() => {
     setLoading(true);
     if (search == '') {
@@ -48,9 +48,33 @@ const useStaffManage = () => {
     dispatch(
       getListStaff({
         page: 1,
-        limit: 10,
+        limit: 4,
         onSuccess: loadSuccess,
         onFail: loadFail,
+      }),
+    );
+  };
+
+  const onLoadMoreSuccess = () => {
+    setIsLoadMore(false);
+  };
+  const onLoadMoreFail = () => {
+    setIsLoadMore(false);
+  };
+
+  const loadMore = () => {
+    setIsLoadMore(true);
+    if (!hasNextPage || search != '') {
+      setIsLoadMore(false);
+      return;
+    }
+    dispatch(
+      getListStaff({
+        page: 2,
+        limit: 4,
+        endCursor: endCursor,
+        onSuccess: onLoadMoreSuccess,
+        onFail: onLoadMoreFail,
       }),
     );
   };
@@ -74,6 +98,8 @@ const useStaffManage = () => {
     setSearch,
     loading,
     listStaff,
+    isLoadMore,
+    loadMore
   };
 };
 export default useStaffManage;

@@ -26,7 +26,7 @@ const useDasboard = () => {
   const dispatch = useDispatch();
   const stylists = useSelector<RootState, IUserState>(
     state => state.user,
-  ).users.filter(user => user.typeAccount === 'Staff');
+  ).staffs.filter(user => user.typeAccount === 'Staff');
   const currentUser = useSelector<RootState, IAuthState>(
     state => state.auth,
   ).userData;

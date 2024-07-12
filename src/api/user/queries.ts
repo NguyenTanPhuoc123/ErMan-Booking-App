@@ -16,7 +16,13 @@ export const onAuthStateChanged = gql`
       Staff {
         timeStartWork
         Branch {
+          address
           branchName
+          closeTime
+          description
+          id
+          image
+          openTime
         }
       }
     }
@@ -50,47 +56,33 @@ export const Register = gql`
   }
 `;
 
-export const GetListUsers = gql`
-  query GetListUsers {
-    User_connection {
-      edges {
-        node {
-          avatar
-          birthday
-          firstname
-          gender
-          id
-          isVerified
-          lastname
-          email
-          typeAccount
-        }
-      }
-    }
-  }
-`;
-
 export const GetCurrentUser = gql`
-  query MyQuery($email: String!) {
+  query GetCurrentUser($email: String!) {
     User_connection(where: {email: {_eq: $email}}) {
       edges {
         node {
           id
           firstname
           lastname
-          isVerified
-          email
-          typeAccount
           avatar
-          address
-          birthday
           gender
+          birthday
+          address
+          email
+          isVerified
           Staff {
             timeStartWork
             Branch {
+              address
               branchName
+              closeTime
+              description
+              id
+              image
+              openTime
             }
           }
+          typeAccount
         }
       }
     }
@@ -98,82 +90,49 @@ export const GetCurrentUser = gql`
 `;
 
 export const EditProfile = gql`
-  mutation EditProfile(
-    $id: Int!
-    $firstname: String
-    $lastname: String
-    $avatar: String
-    $birthday: String
-    $gender: Boolean
-    $address: String
-  ) {
-    update_User_by_pk(
-      pk_columns: {id: $id}
-      _set: {
-        address: $address
-        avatar: $avatar
-        birthday: $birthday
-        firstname: $firstname
-        gender: $gender
-        lastname: $lastname
-      }
-    ) {
+  mutation EditProfile($id: Int!, $workPlace: Int) {
+    update_Staff_by_pk(pk_columns: {id: $id}, _set: {workPlace: $workPlace}) {
       id
-      avatar
-      firstname
-      lastname
-      gender
-      birthday
-      address
-      email
-      typeAccount
-      isVerified
+      timeStartWork
+      workPlace
     }
   }
 `;
 
 export const AddNewUser = gql`
-  mutation CreateNewUser(
-    $firstname: String!
-    $lastname: String!
-    $email: String!
+  mutation AddNewStaff(
+    $firstname: String
+    $lastname: String
+    $email: String
     $typeAccount: String
+    $address: String
+    $birthday: String
+    $timeStartWork: String
+    $workPlace: Int
   ) {
     insert_User_one(
       object: {
-        avatar: ""
-        birthday: ""
         firstname: $firstname
         lastname: $lastname
         isVerified: true
+        gender: true
         email: $email
         typeAccount: $typeAccount
-        gender: true
-        address: ""
-      }
-      on_conflict: {constraint: User_email_key}
-    ) {
-      id
-      avatar
-      firstname
-      lastname
-      gender
-      birthday
-      email
-      isVerified
-      address
-      typeAccount
-    }
-  }
-`;
-
-export const AddInfoStaff = gql`
-  mutation AddStaffInfo($timeStartWork: String, $workPlace: Int) {
-    insert_User_one(
-      object: {
+        address: $address
+        birthday: $birthday
         Staff: {data: {timeStartWork: $timeStartWork, workPlace: $workPlace}}
       }
     ) {
+      address
+      avatar
+      birthday
+      email
+      gender
+      firstname
+      isVerified
+      id
+      lastname
+      typeAccount
       Staff {
         id
         timeStartWork
@@ -214,19 +173,25 @@ export const GetListStaff = gql`
           id
           firstname
           lastname
-          email
-          typeAccount
+          avatar
           gender
           birthday
-          avatar
           address
+          email
           isVerified
           Staff {
             timeStartWork
             Branch {
+              address
               branchName
+              closeTime
+              description
+              id
+              image
+              openTime
             }
           }
+          typeAccount
         }
       }
       pageInfo {
@@ -295,7 +260,13 @@ export const SearchStaff = gql`
           Staff {
             timeStartWork
             Branch {
+              address
               branchName
+              closeTime
+              description
+              id
+              image
+              openTime
             }
           }
           typeAccount
@@ -352,6 +323,28 @@ export const CheckEmailExist = gql`
           lastname
           typeAccount
         }
+      }
+    }
+  }
+`;
+
+export const deleteUser = gql`
+  mutation DeleteUser($id: Int!) {
+    delete_User_by_pk(id: $id) {
+      address
+      avatar
+      birthday
+      email
+      firstname
+      gender
+      id
+      isVerified
+      lastname
+      typeAccount
+      Staff {
+        id
+        timeStartWork
+        workPlace
       }
     }
   }

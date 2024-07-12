@@ -1,8 +1,5 @@
-import firestore from '@react-native-firebase/firestore';
-import {Staff, User} from './model';
-import {BodyParams} from '../auth/model';
+import {BodyAddStaffParams, Staff, User} from './model';
 import auth from '@react-native-firebase/auth';
-import storage from '@react-native-firebase/storage';
 import client from '../../api';
 import * as UserApi from '../../api/user/queries';
 export const getListCustomer = async (limit: number, after?: string) => {
@@ -72,7 +69,9 @@ export const getListStaffs = async (limit: number, after?: string) => {
     }
     const listStaff: Staff[] = listData.map((data: any) => {
       const userId = JSON.parse(atob(data.node.id))[3];
-      const workPlace = data.node.Staff.Branch.branchName;
+      const {id: branchId, ...newBranch} = data.node.Staff.Branch;
+      const idBranch = JSON.parse(atob(branchId))[3];
+      const workPlace = {id: idBranch, ...newBranch};
       const timeStartWork = data.node.Staff.timeStartWork;
       const {id, Staff, ...newUser} = data.node;
       return {
@@ -84,40 +83,29 @@ export const getListStaffs = async (limit: number, after?: string) => {
     }) as Staff[];
     return {result: {staffs: listStaff, hasNextPage, endCursor}};
   } catch (error) {
-    console.log('Error get list users: ', error);
+    console.log('Error get list staffs: ', error);
     return {error};
   }
 };
 
-export const addNewUser = async (
-  body: BodyParams,
-  typeAccount: string,
-  workPlace: number,
-  timeStartWork: string,
-) => {
+export const addNewStaff = async (body: BodyAddStaffParams) => {
   try {
     const res = auth()
       .createUserWithEmailAndPassword(body.email, body.password)
       .then(async () => {
-        client
-          .mutate({
-            mutation: UserApi.AddNewUser,
-            variables: {
-              firstname: body.firstname,
-              lastname: body.lastname,
-              email: body.email,
-              typeAccount: typeAccount,
-            },
-          })
-          .then(async () => {
-            await client.mutate({
-              mutation: UserApi.AddInfoStaff,
-              variables: {
-                workPlace: workPlace,
-                timeStartWork: timeStartWork,
-              },
-            });
-          });
+        client.mutate({
+          mutation: UserApi.AddNewUser,
+          variables: {
+            firstname: body.firstname,
+            lastname: body.lastname,
+            email: body.email,
+            typeAccount: body.typeAccount,
+            address: body.address,
+            birthday: body.birthday,
+            timeStartWork: body.timeStartWork,
+            workPlace: body.workPlace,
+          },
+        });
       });
 
     return {result: res};
@@ -136,7 +124,9 @@ export const searchStaff = async (search: string) => {
     const listData = res.data.User_connection.edges;
     const listStaff: Staff[] = listData.map((data: any) => {
       const userId = JSON.parse(atob(data.node.id))[3];
-      const workPlace = data.node.Staff.Branch.branchName;
+      const {id: branchId, ...newBranch} = data.node.Staff.Branch;
+      const idBranch = JSON.parse(atob(branchId))[3];
+      const workPlace = {id: idBranch, ...newBranch};
       const timeStartWork = data.node.Staff.timeStartWork;
       const {id, Staff, ...newUser} = data.node;
       return {
@@ -177,72 +167,34 @@ export const searchCustomer = async (search: string) => {
   }
 };
 
-export const editProfile = async (user: User) => {
+export const editProfile = async (id: number, workPlace: number) => {
   try {
-    if (user.avatar) {
-      saveAvatarInStorage(user.id, user.avatar);
-    }
     const res = await client.mutate({
       mutation: UserApi.EditProfile,
       variables: {
-        id: user.id,
-        avatar: user.avatar,
-        firstname: user.firstname,
-        lastname: user.lastname,
-        gender: user.gender,
-        birthday: user.birthday,
-        address: user.address,
+        id: id,
+        workPlace: workPlace,
       },
     });
-    const userData = res.data.update_User_by_pk;
-    const userUpdated: User = {
-      id: user.id,
-      avatar: user.avatar,
-      firstname: userData.firstname,
-      lastname: userData.lastname,
-      gender: userData.gender,
-      birthday: userData.birthday,
-      address: userData.address,
-      email: userData.email,
-      isVerified: userData.isVerified,
-      typeAccount: userData.typeAccount,
-    };
-    return {result: userUpdated};
+
+    return {result: res};
   } catch (error) {
     console.log('Error edit user: ', error);
     return {error};
   }
 };
 
-const saveAvatarInStorage = async (id: number, path: string) => {
+export const deleteUser = async (id: number) => {
   try {
-    storage()
-      .ref(`users/${id}/${id}_avatar`)
-      .putFile(path)
-      .then(async () => {
-        await storage()
-          .ref(`users/${id}/${id}_avatar`)
-          .getDownloadURL()
-          .then(async value => {
-            await client.mutate({
-              mutation: UserApi.UpdateAvatar,
-              variables: {id: id, avatar: value},
-            });
-          });
-      });
+    const res = await client.mutate({
+      mutation: UserApi.deleteUser,
+      variables: {
+        id: id,
+      },
+    });
+    return {result: res};
   } catch (error) {
-    console.log('Error save avatar on storage, because ', error);
-  }
-};
-
-export const verifyEmail = async (email: string) => {
-  try {
-    const confirmation = await auth().sendSignInLinkToEmail(email);
-    console.log(confirmation);
-
-    return {result: confirmation};
-  } catch (error) {
-    console.log('Error verify email: ', error);
+    console.log('Error delete user: ', error);
     return {error};
   }
 };

@@ -31,7 +31,7 @@ const WorkScheduleItem = (props:WorkScheduleItemProps) => {
        <View style={styles.containerContent}>
         <Text style={[globalStyle.fontText,styles.text]}>{workSchedule.timeStart + '->' + workSchedule.timeEnd}</Text>
         <Text style={[globalStyle.fontText,styles.text]}>{staff.firstname +' '+staff.lastname}</Text>
-        <Text style={[globalStyle.fontText,styles.text]}>{staff.workPlace}</Text>
+        <Text style={[globalStyle.fontText,styles.text]}>{staff.workPlace.branchName}</Text>
        </View>
       </View>
      

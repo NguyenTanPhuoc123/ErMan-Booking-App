@@ -81,7 +81,10 @@ const ProfileScreen = () => {
           )
         : null}
       {currentUser.typeAccount != 'Customer'
-        ? renderButtonFeature('Nơi làm việc:', (currentUser as Staff).workPlace)
+        ? renderButtonFeature(
+            'Nơi làm việc:',
+            (currentUser as Staff).workPlace.branchName,
+          )
         : null}
     </View>
   );
