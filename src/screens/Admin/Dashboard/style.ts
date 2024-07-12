@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {HEIGHT, WITDH} from '../../../constants/styles';
+import { InriaSerifBold } from '../../../constants/font';
 
 const styles = StyleSheet.create({
   container: {
@@ -7,6 +8,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  container1:{
+    backgroundColor: '#433F3F',
+     flexDirection: 'row',
+     width: WITDH - 20,
+     height: 100,
+     margin: 10,
+     borderRadius: 20,
+     alignItems: 'center',
+ },
   text: {
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
@@ -14,23 +24,19 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   containerView: {
-  
     flexDirection: 'row',
-    justifyContent:'space-around',
-    flexWrap: 'wrap',
+   
   },
   containerButton: {
-    width: 180,
+    width: '45%',
     height: 100,
     margin: 10,
     backgroundColor: '#666666',
     borderRadius: 15,
-    borderColor: 'black',
-    borderWidth: 2,
   },
   inner: {
     flex: 1,
-    alignItems:'center',
+    alignItems: 'center',
     justifyContent: 'center',
   },
   textinfo: {
@@ -48,13 +54,18 @@ const styles = StyleSheet.create({
   info:{
     marginLeft:5,
   },
-  avatar:{
-    width:75,
-    height:75,
-    borderRadius:40,
-    marginRight:20,
-    marginLeft:10
-},
+  avatar: {
+    width: 75,
+    height: 75,
+    borderRadius: 40,
+    marginRight: 20,
+    marginLeft: 10,
+  },
+  name: {
+    fontSize: 18,
+    color: '#d4d3d6',
+    fontFamily: InriaSerifBold,
+  },
 });
 
 export default styles;

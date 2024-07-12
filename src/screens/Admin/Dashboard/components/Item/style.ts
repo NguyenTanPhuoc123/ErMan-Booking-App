@@ -23,6 +23,7 @@ const styles=StyleSheet.create({
         color: '#d4d3d6',
         fontFamily: InriaSerifBold,
       },
+      
 
 
 })

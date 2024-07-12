@@ -1,6 +1,5 @@
-import {View, RefreshControl} from 'react-native';
+import {View, RefreshControl, ActivityIndicator} from 'react-native';
 import React from 'react';
-import styles from './style';
 import globalStyle from '../../../constants/styles';
 import {FlatList} from 'react-native';
 import useUserManager from './useUserManage';
@@ -9,9 +8,29 @@ import {User} from '../../../modules/user/model';
 import ListItemEmpty from '../../../component/ListItemEmpty';
 import {LIST_USER_EMPTY} from '../../../constants/icons';
 import UserItem from './components/UserItem';
+import styles from './style';
 
 const UserManagerScreen = () => {
-  const {listUserRef, listtusers, refresh, pullRefresh} = useUserManager();
+  const {
+    listUserRef,
+    users,
+    refresh,
+    pullRefresh,
+    search,
+    setSearch,
+    loading,
+    customers,
+  } = useUserManager();
+
+  const renderLoading = () => {
+    return (
+      <ActivityIndicator
+        style={styles.loading}
+        size={'large'}
+        color={'#d4d3d6'}
+      />
+    );
+  };
 
   const renderBody = () => (
     <FlatList<User>
@@ -19,7 +38,7 @@ const UserManagerScreen = () => {
       refreshControl={
         <RefreshControl refreshing={refresh} onRefresh={pullRefresh} />
       }
-      data={listtusers}
+      data={search ? customers : users}
       keyExtractor={item => item.id.toString()}
       ListEmptyComponent={
         <ListItemEmpty image={LIST_USER_EMPTY} content="Không có người dùng" />
@@ -31,11 +50,11 @@ const UserManagerScreen = () => {
   return (
     <View style={globalStyle.container}>
       <SearchComponent
-        placeholder="Tên khách hàng..."
-        searchValue=""
-        onSearch={value => {}}
+        placeholder="Họ tên, email..."
+        searchValue={search}
+        onSearch={setSearch}
       />
-      {renderBody()}
+      {loading ? renderLoading() : renderBody()}
     </View>
   );
 };

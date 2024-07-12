@@ -12,11 +12,11 @@ import FastImage from 'react-native-fast-image';
 import {AVARTAR_DEFAULT_CUSTOMER} from '../../../constants/icons';
 import Item from './components/Item';
 const DashboardScreen = () => {
-  const {users, lineCharData} = useDasboard();
+  const {listStaff, lineCharData} = useDasboard();
 
   const renderLineChar = () => {
     return (
-      <>
+      <View>
         <Text
           style={[globalStyle.fontText, globalStyle.textSize20, styles.text]}>
           Thống kê theo tuần
@@ -54,7 +54,7 @@ const DashboardScreen = () => {
             // }}
           />
         </View>
-      </>
+      </View>
     );
   };
 
@@ -75,11 +75,15 @@ const DashboardScreen = () => {
 
   const renderButton = () => {
     return (
-      <View style={styles.containerView}>
-        {renderItemButton('Tổng thu nhập', '')}
-        {renderItemButton('Tổng nhân viên', '')}
-        {renderItemButton('Tổng lịch đặt', '')}
-        {renderItemButton('Tổng khách hàng', '')}
+      <View>
+        <View style={styles.containerView}>
+          {renderItemButton('Tổng thu nhập', '')}
+          {renderItemButton('Tổng nhân viên', '')}
+        </View>
+        <View style={styles.containerView}>
+          {renderItemButton('Tổng lịch đặt', '')}
+          {renderItemButton('Tổng khách hàng', '')}
+        </View>
       </View>
     );
   };
@@ -95,16 +99,34 @@ const DashboardScreen = () => {
             solid
           />
           <Text
-            style={[globalStyle.textSize20, globalStyle.fontText, styles.info]}>
+            style={[globalStyle.textSize20, globalStyle.fontText,styles.info]}>
             Top 5 nhân viên xuất sắc nhất:{' '}
           </Text>
         </View>
         <View>
-          <FlatList
-            data={users}
+          {listStaff.map(item => (
+            <View key={item.id} style={styles.container1}>
+              <>
+                <FastImage
+                  style={styles.avatar}
+                  source={
+                    !item.avatar ? AVARTAR_DEFAULT_CUSTOMER : {uri: item.avatar}
+                  }
+                  resizeMode="cover"
+                />
+                <View >
+                  <Text style={styles.name}>{item.firstname + ' ' + item.lastname}</Text>
+                  <Text style={styles.name}>Email: {item.email}</Text>
+                </View>
+              </>
+            </View>
+          ))}
+
+          {/* <FlatList
+            data={listStaff}
             keyExtractor={item => item.id.toString()}
             renderItem={({item}) => <Item key={item.id} {...item} />}
-          />
+          /> */}
         </View>
       </View>
     );
@@ -116,14 +138,6 @@ const DashboardScreen = () => {
         {renderButton()}
         {renderTopStaff()}
       </ScrollView>
-
-      {/* <FlatList
-        data={users}
-        keyExtractor={(item)=>item.id.toString()}
-        renderItem={({item})=>(
-          <Text style={{margin:20,width:200,height:50,backgroundColor:'red',color:'#fff'}}>{item.firstname+' '+item.lastname}</Text>
-        )}
-      /> */}
     </View>
   );
 };
