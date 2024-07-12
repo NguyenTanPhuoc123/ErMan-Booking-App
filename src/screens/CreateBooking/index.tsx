@@ -91,7 +91,7 @@ const CreateBookingScreen = () => {
   const renderButtonBooking = () => (
     <TouchableOpacity
       style={styles.btnBooking}
-      onPress={() => NavigationActionService.navigate(SELECT_PAYMENT_SCREEN)}>
+      onPress={createBooking}>
       <Text style={styles.contentBtnBooking}>
         {screen === BOOKING_DETAIL_SCREEN ? 'Thay đổi' : 'Lên lịch ngay'}
       </Text>

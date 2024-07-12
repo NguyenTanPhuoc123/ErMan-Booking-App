@@ -20,7 +20,6 @@ export const GetListBookings = gql`
           BookingDetails {
             Service {
               description
-              discount
               id
               image
               price
@@ -94,7 +93,6 @@ export const UpdateDataFromServer = gql`
       BookingDetails {
         Service {
           description
-          discount
           id
           image
           price
@@ -218,7 +216,6 @@ export const updateStatusBooking = gql`
       BookingDetails {
         Service {
           description
-          discount
           id
           price
           image

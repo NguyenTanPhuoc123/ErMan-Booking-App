@@ -2,6 +2,7 @@ import client from '../../api';
 import {Booking, BookingParams} from './model';
 import * as BookingApi from '../../api/booking/queries';
 import {Service} from '../service/model';
+import {saveListBookings} from './reducer';
 
 export const getListBookings = async (
   limit: number,
@@ -125,5 +126,48 @@ export const updateStatusBooking = async (
     return {result: {id: bookingId, status: bookingStatus}};
   } catch (error) {
     console.log('Error update status booking: ', error);
+  }
+};
+
+export const updateBookingRealtime = () => {
+  try {
+    client
+      .subscribe({query: BookingApi.UpdateDataFromServer})
+      .subscribe(data => {
+        const listBooking: Booking[] = data.data.Booking.map((data: any) => {
+          const {
+            userByStaff,
+            User,
+            Payment,
+            Branch,
+            BookingDetails,
+            ...newBooking
+          } = data;
+
+          const services: Service[] = BookingDetails.map((service: any) => {
+            return {...service.Service};
+          }) as Service[];
+          return {
+            customer: {...User},
+            staff: {
+              workPlace: {...userByStaff.Staff.Branch},
+              timeStartWork: userByStaff.Staff.timeStartWork,
+              ...userByStaff.Staff.User,
+            },
+            branch: {...Branch},
+            services: services,
+            payment: {...Payment},
+            ...newBooking,
+          };
+        }) as Booking[];
+        saveListBookings({
+          bookings: listBooking,
+          hasNextPage: false,
+          endCursor: '',
+        });
+      });
+  } catch (error) {
+    console.log('Error realtime: ', error);
+    return {error};
   }
 };
