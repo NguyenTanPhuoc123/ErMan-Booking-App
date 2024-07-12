@@ -7,8 +7,8 @@ import {reducer as userReducer} from './reducer';
 export const getListCustomer = createAction<Models.IActionGetListUserPayload>(
   Models.GET_LIST_CUSTOMER,
 );
-export const addNewUser = createAction<Models.IActionAddNewUserPayload>(
-  Models.ADD_NEW_USER,
+export const addNewStaff = createAction<Models.IActionAddNewStaffPayload>(
+  Models.ADD_NEW_STAFF,
 );
 export const deleteUser = createAction<Models.IActionDeleteUserPayload>(
   Models.DELETE_USER,
@@ -24,12 +24,18 @@ export const searchCustomer = createAction<Models.IActionSearchUserPayload>(
   Models.SEARCH_CUSTOMER,
 );
 
+export const editProfile = createAction<Models.IActionEditProfileStaffPayload>(
+  Models.EDIT_USER,
+);
+
 function* userSaga() {
   yield takeLatest(getListCustomer, FuncSaga.getListCustomerFn);
-  // yield takeLatest(addNewUser,FuncSaga.addNewUserFn);
+  yield takeLatest(addNewStaff, FuncSaga.addNewStaffFn);
   yield takeLatest(getListStaff, FuncSaga.getListStaffFn);
   yield takeLatest(searchStaff, FuncSaga.searchStaffFn);
   yield takeLatest(searchCustomer, FuncSaga.searchCustomerFn);
+  yield takeLatest(editProfile, FuncSaga.editProfileFn);
+  yield takeLatest(deleteUser, FuncSaga.deleteUser);
 }
 
 export {userReducer, userSaga};

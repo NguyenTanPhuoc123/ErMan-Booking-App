@@ -83,8 +83,8 @@ const PersonalScreen = () => {
         {renderButtonFeature('user', 'Xem thông tin cá nhân', () => {
           NavigationActionService.navigate(PROFILE_SCREEN);
         })}
-        {renderButtonFeature('wallet', 'Ví thanh toán', () => {})}
-        {renderButtonFeature('star', 'Đánh giá và nhận xét của tôi', () => {})}
+        {/* {renderButtonFeature('wallet', 'Ví thanh toán', () => {})}
+        {renderButtonFeature('star', 'Đánh giá và nhận xét của tôi', () => {})} */}
         {renderButtonFeature('info-circle', 'Thông tin ứng dụng', () =>
           showAppInfo(info()),
         )}

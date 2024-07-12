@@ -38,12 +38,14 @@ export interface IActionRegisterPayload extends IActionCallback {
   body: BodyParams;
 }
 
+
 export interface BodyParams {
   email: string;
   firstname: string;
   lastname: string;
   password: string;
 }
+
 export interface IActionForgotPasswordPayload extends IActionCallback {
   email: string;
 }

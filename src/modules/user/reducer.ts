@@ -2,6 +2,7 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {
   Admin,
   IActionAddToListUserPayload,
+  IActionSaveListStaffPayload,
   IActionSaveListUserPayload,
   IUserState,
   Staff,
@@ -32,15 +33,28 @@ const userSlice = createSlice({
         ...state,
         hasNextPage: action.payload.hasNextPage,
         endCursor: action.payload.endCursor,
-        users: [...state.users, ...action.payload.users],
-        staffs: [
+        users: [
           ...state.users,
           ...action.payload.users.filter(
-            user => user.typeAccount != 'Customer',
+            user => user.typeAccount === 'Customer',
           ),
-        ] as (Staff | Admin)[],
+        ],
       };
     },
+
+    SAVE_LIST_STAFF_LOADMORE: (
+      state: IUserState,
+      action: PayloadAction<IActionSaveListStaffPayload>,
+    ) => {
+
+      return {
+        ...state,
+        hasNextPage: action.payload.hasNextPage,
+        endCursor: action.payload.endCursor,
+        staffs: [...state.staffs, ...action.payload.staffs],
+      };
+    },
+
     ADD_TO_LIST: (
       state: IUserState,
       action: PayloadAction<IActionAddToListUserPayload>,
@@ -56,4 +70,5 @@ export const {
   SAVE_LIST_USER: saveListUser,
   ADD_TO_LIST: addToList,
   SAVE_LIST_USER_LOADMORE: saveListUserLoadmore,
+  SAVE_LIST_STAFF_LOADMORE: saveListStaffLoadmore,
 } = userSlice.actions;

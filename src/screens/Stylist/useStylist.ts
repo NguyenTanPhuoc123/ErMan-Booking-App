@@ -13,7 +13,7 @@ const useStylist = () => {
   );
   const stylists = useSelector<RootState, IUserState>(
     state => state.user,
-  ).users.filter(user => user.typeAccount === 'Staff');
+  ).staffs.filter(user => user.typeAccount === 'Staff');
   const [refresh, setRefresh] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isloadMore, setLoadMore] = useState(false);
