@@ -1,63 +1,41 @@
-import {View,  TouchableOpacity, RefreshControl} from 'react-native';
+import {View, RefreshControl} from 'react-native';
 import React from 'react';
 import styles from './style';
-import globalStyle, {WITDH} from '../../../constants/styles';
-import Tabs from './components/Tabs';
-import {SceneMap, TabBar, TabView} from 'react-native-tab-view';
+import globalStyle from '../../../constants/styles';
+import {FlatList} from 'react-native';
 import useUserManager from './useUserManage';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import NavigationActionService from '../../../navigation/navigation';
-import {ADD_USER_SCREEN} from '../../../constants/screen_key';
 import SearchComponent from '../../../component/Search';
+import {User} from '../../../modules/user/model';
+import ListItemEmpty from '../../../component/ListItemEmpty';
+import {LIST_USER_EMPTY} from '../../../constants/icons';
+import UserItem from './components/UserItem';
 
 const UserManagerScreen = () => {
-  const {index, setIndex, routes, users, refresh, pullRefresh} =
-    useUserManager();
-  const renderAdmin = () => <Tabs id='1' name='Admin' refreshing={refresh} pullRefresh={pullRefresh} data={users} />;
-  const renderStaff = () => <Tabs id='2' name='Staff' refreshing={refresh} pullRefresh={pullRefresh} data={users} />;
-  const renderCustomer = () => <Tabs id='3' name='Customer' refreshing={refresh} pullRefresh={pullRefresh} data={users} />;
-
-  const renderScene = SceneMap({
-    admin: renderAdmin as any,
-    staff: renderStaff as any,
-    customer: renderCustomer as any,
-  });
+  const {listUserRef, listtusers, refresh, pullRefresh} = useUserManager();
 
   const renderBody = () => (
-    <TabView
-      navigationState={{index, routes}}
-      renderScene={renderScene}
-      onIndexChange={setIndex}
-      initialLayout={{width: WITDH}}
-      renderTabBar={props => (
-        <TabBar
-          {...props}
-          indicatorStyle={styles.statusBar}
-          style={{backgroundColor: '#282828'}}
-          labelStyle={styles.textTab}
-          activeColor="#F3B20A"
-          inactiveColor="#D4D3D6"
-          pressColor="rgba(255, 255, 255, 0.5)"
-          pressOpacity={0.8}
-        />
-      )}
+    <FlatList<User>
+      ref={listUserRef}
+      refreshControl={
+        <RefreshControl refreshing={refresh} onRefresh={pullRefresh} />
+      }
+      data={listtusers}
+      keyExtractor={item => item.id.toString()}
+      ListEmptyComponent={
+        <ListItemEmpty image={LIST_USER_EMPTY} content="Không có người dùng" />
+      }
+      renderItem={({item}) => <UserItem key={item.id} {...item} />}
     />
-  );
-  const renderButtonAdd = () => (
-    <TouchableOpacity
-      style={[globalStyle.bgPopupCommon,styles.containerButton]}
-      onPress={() => {
-        NavigationActionService.navigate(ADD_USER_SCREEN);
-      }}>
-      <Icon name="plus" size={24} />
-    </TouchableOpacity>
   );
 
   return (
     <View style={globalStyle.container}>
-      <SearchComponent placeholder='Tên dịch vụ,...' searchValue='' onSearch={(value)=>{}} />
+      <SearchComponent
+        placeholder="Tên khách hàng..."
+        searchValue=""
+        onSearch={value => {}}
+      />
       {renderBody()}
-      {renderButtonAdd()}
     </View>
   );
 };

@@ -29,6 +29,7 @@ import {
   PREVIEW_RATING_SCREEN,
   ADD_SERVICE_SCREEN,
   ADD_BRANCH_SCREEN,
+  STAFF_MANAGER_SCREEN,
 } from '../constants/screen_key';
 
 export type AuthStackParamList = {
@@ -66,7 +67,8 @@ export type AdminStackParamList = {
   [PROFILE_SCREEN]: undefined;
   [EDIT_PROFILE_SCREEN]: undefined;
   [ADD_USER_SCREEN]: undefined;
-  [BRANCH_MANAGER_SCREEN]: undefined;
-  [ADD_SERVICE_SCREEN]: undefined;
-  [ADD_BRANCH_SCREEN]: undefined;
-};
+  [BRANCH_MANAGER_SCREEN]:undefined;
+  [ADD_SERVICE_SCREEN]:undefined;
+  [STAFF_MANAGER_SCREEN]:undefined;
+  [ADD_BRANCH_SCREEN]:undefined;
+}

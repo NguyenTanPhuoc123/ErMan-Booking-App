@@ -50,6 +50,7 @@ const AddUsersScreen = () => {
     branchs,
     type,
     setType,
+    noedit,
   } = useAddUser();
 
   const renderAvatar = () =>
@@ -79,7 +80,11 @@ const AddUsersScreen = () => {
         backgroundColor="#433F3F"
         centerComponent={
           <Text style={styles.titleHeader}>
-            {user ? 'Chỉnh sửa thông tin' : 'Thêm tài khoản'}
+            {user
+              ? user.typeAccount === 'Customer'
+                ? 'Xem thông tin'
+                : 'Chỉnh sửa thông'
+              : 'Thêm tài khoản'}
           </Text>
         }
         leftComponent={
@@ -200,6 +205,8 @@ const AddUsersScreen = () => {
               underlineColorAndroid="#D4D3D6"
               autoCapitalize="none"
               autoCorrect={false}
+              editable={noedit}
+              selectTextOnFocus={noedit}
               onChangeText={onChange}
               onBlur={onBlur}
               onSubmitEditing={onFocusFirstName}
@@ -220,6 +227,8 @@ const AddUsersScreen = () => {
               underlineColorAndroid="#D4D3D6"
               autoCapitalize="none"
               autoCorrect={false}
+              editable={noedit}
+              selectTextOnFocus={noedit}
               onChangeText={onChange}
               onBlur={onBlur}
               onSubmitEditing={onFocusLastName}
@@ -240,6 +249,8 @@ const AddUsersScreen = () => {
               underlineColorAndroid="#D4D3D6"
               autoCapitalize="none"
               autoCorrect={false}
+              editable={noedit}
+              selectTextOnFocus={noedit}
               onChangeText={onChange}
               onBlur={onBlur}
               onSubmitEditing={onFocusEmail}
@@ -359,6 +370,8 @@ const AddUsersScreen = () => {
               underlineColorAndroid="#D4D3D6"
               autoCapitalize="none"
               autoCorrect={false}
+              editable={noedit}
+              selectTextOnFocus={noedit}
               onChangeText={onChange}
               onBlur={onBlur}
               onSubmitEditing={onFocusAddress}
@@ -377,14 +390,14 @@ const AddUsersScreen = () => {
           <>
             {renderAvatar()}
             {renderInputInfo()}
-            {renderEditInfo('Loại tài khoản', renderDropdown())}
-            {type === 'Staff' || type === 'Admin'
-              ? renderEditInfo('Nơi làm việc', renderDropdownWorkPlace())
+            {user
+              ? [
+                  renderEditInfo('Loại tài khoản', renderDropdown()),
+                  renderEditInfo('Nơi làm việc', renderDropdownWorkPlace()),
+                  renderEditInfo('Ngày vào làm ', renderWorkStartTime()),
+                ]
               : null}
-            {type === 'Staff' || type === 'Admin'
-              ? renderEditInfo('Ngày vào làm ', renderWorkStartTime())
-              : null}
-            {renderButtonAdd()}
+            {user.typeAccount === 'Customer' ? null : renderButtonAdd()}
           </>
         </TouchableWithoutFeedback>
       </ScrollView>

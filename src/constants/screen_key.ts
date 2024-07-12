@@ -28,6 +28,8 @@ export const CREATE_BOOKING_SCREEN = "CreateBookingScreen";
 //admin
 export const USER_MANAGER_SCREEN = 'UserManagerScreen';
 export const SERVICE_MANAGER_SCREEN = 'ServiceManagerScreen';
+export const STAFF_MANAGER_SCREEN = 'StaffManagerScreen';
+export const STAFF_MANAGER_STACK = 'StaffManagerStack';
 export const DASHBOARD_STACK = 'DashboardStack';
 export const USER_MANAGER_STACK = 'UserManagerStack';
 export const SERVICE_MANAGER_STACK = 'ServiceManagerStack';

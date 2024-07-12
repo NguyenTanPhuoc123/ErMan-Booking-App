@@ -62,6 +62,15 @@ const globalStyle = StyleSheet.create({
   bgTransparent: {
     backgroundColor: 'transparent',
   },
+  textSize20:{
+    fontSize:20
+  },
+  textSize16:{
+    fontSize:16
+  },
+  textSize24:{
+    fontSize:24
+  }
 });
 
 export default globalStyle;
