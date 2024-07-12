@@ -10,7 +10,7 @@ import {
 } from '../../../modules/branch/model';
 import {debounce} from 'lodash';
 import NavigationActionService from '../../../navigation/navigation';
-import { ADD_BRANCH_SCREEN } from '../../../constants/screen_key';
+import {ADD_BRANCH_SCREEN} from '../../../constants/screen_key';
 
 const useBranchManager = () => {
   const {branchs} = useSelector<RootState, IActionSaveListBranch>(
@@ -42,7 +42,7 @@ const useBranchManager = () => {
   };
 
   useEffect(() => {
-    if(search==''){
+    if (search == '') {
       dispatch(
         getListBranchs({
           limit: 3,
@@ -51,23 +51,13 @@ const useBranchManager = () => {
           onFail: onGetFail,
         }),
       );
-    }
-    else{
+    } else {
       searchListBranch();
     }
-    
-  }, [search,refresh]);
+  }, [search, refresh]);
 
   const pullRequest = () => {
     setRefresh(true);
-    dispatch(
-      getListBranchs({
-        limit: 3,
-        page:1,
-        onSuccess: onGetSuccess,
-        onFail: onGetFail,
-      }),
-    );
   };
   const searchListBranch = debounce(() => {
     setLoading(true);
@@ -101,10 +91,10 @@ const useBranchManager = () => {
       }),
     );
   };
- 
-  const goToAddBranch = ()=>{
-    NavigationActionService.navigate(ADD_BRANCH_SCREEN)
-  }
+
+  const goToAddBranch = () => {
+    NavigationActionService.navigate(ADD_BRANCH_SCREEN);
+  };
   return {
     branchs,
     listBranchRef,
@@ -116,7 +106,7 @@ const useBranchManager = () => {
     setSearch,
     listBranch,
     loading,
-    goToAddBranch
+    goToAddBranch,
   };
 };
 

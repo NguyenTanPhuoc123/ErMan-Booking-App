@@ -3,7 +3,6 @@ import {RootState} from '../../../redux/reducers';
 import {IUserState} from '../../../modules/user/model';
 import {useEffect} from 'react';
 import {getListCustomer} from '../../../modules/user';
-import {useSubscription} from '@apollo/client';
 import {ChartData} from 'react-native-chart-kit/dist/HelperTypes';
 
 const useDasboard = () => {

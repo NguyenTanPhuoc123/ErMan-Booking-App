@@ -267,17 +267,16 @@ export const getListCustomer = gql`
   }
 `;
 
-
-
 export const SearchStaff = gql`
-  query SearchStaf($search: String) {
+  query SearchStaff($search: String) {
     User_connection(
       where: {
-        typeAccount: {_eq: "Staff"}
+        typeAccount: {_neq: "Customer"}
         _or: [
           {firstname: {_ilike: $search}}
           {lastname: {_ilike: $search}}
-          {Staff: {workPlace: {_ilike: $search}}}
+          {email: {_ilike: $search}}
+          {Staff: {Branch: {branchName: {_ilike: ""}}}}
         ]
       }
       order_by: {id: asc}
@@ -295,8 +294,41 @@ export const SearchStaff = gql`
           isVerified
           Staff {
             timeStartWork
-            workPlace
+            Branch {
+              branchName
+            }
           }
+          typeAccount
+        }
+      }
+    }
+  }
+`;
+
+export const SearchCustomer = gql`
+  query SearchCustomer($search: String) {
+    User_connection(
+      where: {
+        typeAccount: {_eq: "Customer"}
+        _or: [
+          {firstname: {_ilike: $search}}
+          {lastname: {_ilike: $search}}
+          {email: {_ilike: $search}}
+        ]
+      }
+      order_by: {id: asc}
+    ) {
+      edges {
+        node {
+          id
+          firstname
+          lastname
+          avatar
+          gender
+          birthday
+          address
+          email
+          isVerified
           typeAccount
         }
       }

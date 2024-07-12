@@ -6,13 +6,13 @@ import {AVARTAR_DEFAULT_CUSTOMER} from '../../../../../constants/icons';
 import styles from './style';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import NavigationActionService from '../../../../../navigation/navigation';
-import { ADD_USER_SCREEN } from '../../../../../constants/screen_key';
+import {ADD_USER_SCREEN} from '../../../../../constants/screen_key';
 
 const UserItem = (props: User) => {
   const {firstname, lastname, email, avatar} = props;
-  const goToEdit = ()=>{
-    NavigationActionService.navigate(ADD_USER_SCREEN,{user:props})
-  }
+  const goToEdit = () => {
+    NavigationActionService.navigate(ADD_USER_SCREEN, {user: props});
+  };
   return (
     <TouchableOpacity style={styles.container} onPress={goToEdit}>
       <FastImage
@@ -25,7 +25,7 @@ const UserItem = (props: User) => {
         <Text style={styles.info}>Email: {email}</Text>
       </View>
       <TouchableOpacity style={styles.containerButton}>
-        <Icon style={styles.textIcon} name="trash-alt" size={26} />
+        <Icon color="#FF8572" name="trash-alt" size={20} />
       </TouchableOpacity>
     </TouchableOpacity>
   );

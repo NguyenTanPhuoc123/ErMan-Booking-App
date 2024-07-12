@@ -1,20 +1,50 @@
 import {createRef, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../redux/reducers';
-import {IUserState} from '../../../modules/user/model';
+import {Admin, IUserState, Staff} from '../../../modules/user/model';
 import {FlatList} from 'react-native';
-import {getListStaff} from '../../../modules/user';
+import {getListStaff, searchStaff} from '../../../modules/user';
+import {ApiError} from '../../../constants/api';
+import {debounce} from 'lodash';
 
 const useStaffManage = () => {
   const [refresh, setRefresh] = useState(false);
   const dispatch = useDispatch();
-  const listtusers = useSelector<RootState, IUserState>(
-    state => state.user,
-  ).users.filter(user=> user.typeAccount === 'Staff');
+  const {staffs} = useSelector<RootState, IUserState>(state => state.user);
   const listStaffRef = createRef<FlatList>();
-  console.log("load");
-  
+  const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState('');
+  const [listStaff, setListStaff] = useState<(Staff | Admin)[]>();
+
   useEffect(() => {
+    setLoading(true);
+    if (search == '') {
+      getListStaffs();
+    } else {
+      searchStaffs();
+    }
+  }, [refresh, search]);
+
+  const pullRefresh = () => {
+    setRefresh(true);
+  };
+
+  const searchStaffs = debounce(() => {
+    dispatch(
+      searchStaff({
+        search: search,
+        onSuccess: value => {
+          setListStaff(value);
+          setLoading(false);
+        },
+        onFail: (error?: ApiError) => {
+          setLoading(false);
+        },
+      }),
+    );
+  }, 500);
+
+  const getListStaffs = () => {
     dispatch(
       getListStaff({
         page: 1,
@@ -23,20 +53,27 @@ const useStaffManage = () => {
         onFail: loadFail,
       }),
     );
-  }, [refresh]);
-
-  const pullRefresh = () => {
-    setRefresh(true);
   };
 
   const loadSuccess = () => {
     setRefresh(false);
+    setLoading(false);
   };
 
   const loadFail = () => {
     setRefresh(false);
+    setLoading(false);
   };
 
-  return {listStaffRef, pullRefresh, refresh,listtusers};
+  return {
+    listStaffRef,
+    pullRefresh,
+    refresh,
+    staffs,
+    search,
+    setSearch,
+    loading,
+    listStaff,
+  };
 };
 export default useStaffManage;

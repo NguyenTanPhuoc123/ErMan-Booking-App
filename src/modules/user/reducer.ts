@@ -1,12 +1,15 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {
+  Admin,
   IActionAddToListUserPayload,
   IActionSaveListUserPayload,
   IUserState,
+  Staff,
 } from './model';
 
 const initialState: IUserState = {
   users: [],
+  staffs: [],
   endCursor: '',
   hasNextPage: true,
 };
@@ -30,6 +33,12 @@ const userSlice = createSlice({
         hasNextPage: action.payload.hasNextPage,
         endCursor: action.payload.endCursor,
         users: [...state.users, ...action.payload.users],
+        staffs: [
+          ...state.users,
+          ...action.payload.users.filter(
+            user => user.typeAccount != 'Customer',
+          ),
+        ] as (Staff | Admin)[],
       };
     },
     ADD_TO_LIST: (

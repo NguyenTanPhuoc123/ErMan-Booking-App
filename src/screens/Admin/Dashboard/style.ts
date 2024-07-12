@@ -14,37 +14,33 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   containerView: {
-  
     flexDirection: 'row',
-    justifyContent:'space-around',
-    flexWrap: 'wrap',
+   
   },
   containerButton: {
-    width: 180,
+    width: '45%',
     height: 100,
     margin: 10,
     backgroundColor: '#666666',
     borderRadius: 15,
-    borderColor: 'black',
-    borderWidth: 2,
   },
   inner: {
     flex: 1,
-    alignItems:'center',
+    alignItems: 'center',
     justifyContent: 'center',
   },
   textinfo: {
     textAlign: 'center',
     color: '#fff',
   },
-  containerIcon:{
-    flexDirection:'row',
-    paddingHorizontal:10,
-    alignItems:'center'
+  containerIcon: {
+    flexDirection: 'row',
+    paddingHorizontal: 10,
+    alignItems: 'center',
   },
-  info:{
-    marginLeft:5,
-  }
+  info: {
+    marginLeft: 5,
+  },
 });
 
 export default styles;
