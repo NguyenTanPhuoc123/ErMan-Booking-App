@@ -93,7 +93,8 @@ export const createNewBooking = async (body: BookingParams) => {
         customerId: body.customer.id,
         staffId: body.staff.id,
         isPaid: body.isPaid,
-        dateTimeBooking: body.datetimeBooking,
+        dateBooking: body.dateBooking,
+        timeBooking: body.timeBooking,
         total: total,
         payment: 1,
         bookingDetails: listService,
@@ -169,5 +170,57 @@ export const updateBookingRealtime = () => {
   } catch (error) {
     console.log('Error realtime: ', error);
     return {error};
+  }
+};
+
+export const getListBooked = async (
+  staffId: number,
+  dateBooking: string,
+) => {
+  try {
+    const res = await client.query({
+      query: BookingApi.GetListBookings,
+      variables: {staffId: staffId, dateBooking: dateBooking},
+    });
+    const listData = res.data.Booking_connection.edges;
+    const listBooking: Booking[] = listData.map((data: any) => {
+      const bookingId = JSON.parse(atob(data.node.id))[3];
+      const {
+        id,
+        userByStaff,
+        User,
+        Payment,
+        Branch,
+        BookingDetails,
+        ...newBooking
+      } = data.node;
+
+      const {id: staffId, ...newStaff} = userByStaff.Staff.User;
+      const idStaff = JSON.parse(atob(staffId))[3];
+      const {id: branchId, ...newBranch} = Branch;
+      const idBranch = JSON.parse(atob(branchId))[3];
+      const {id: customerId, ...newUser} = User;
+      const idCustomer = JSON.parse(atob(customerId))[3];
+      const services: Service[] = BookingDetails.map((service: any) => {
+        const serviceId = JSON.parse(atob(service.Service.id))[3];
+        const {id, ...newService} = service.Service;
+        return {id: serviceId, ...newService};
+      }) as Service[];
+      const {id: paymentId, ...newPayment} = Payment;
+
+      const idPayment = JSON.parse(atob(paymentId))[3];
+      return {
+        id: bookingId,
+        customer: {id: idCustomer, ...newUser},
+        staff: {id: idStaff, ...newStaff},
+        branch: {id: idBranch, ...newBranch},
+        services: services,
+        payment: {id: idPayment, ...newPayment},
+        ...newBooking,
+      };
+    }) as Booking[];
+    return {result: {bookings: listBooking}};
+  } catch (error) {
+    console.log('Error get list booked: ', error);
   }
 };

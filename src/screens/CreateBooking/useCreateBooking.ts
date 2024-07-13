@@ -28,7 +28,7 @@ const useCreateBooking = () => {
       : (params as any).branch || null;
   const stylists = useSelector<RootState, IUserState>(
     state => state.user,
-  ).users.filter(user => {
+  ).staffs.filter(user => {
     if (user.typeAccount === 'Staff' && branch) {
       if ((user as Staff).workPlace.id === branch.id) return user;
     }
@@ -99,7 +99,8 @@ const useCreateBooking = () => {
           customer: userData,
           staff: stylist || (stylists[0] as Staff),
           isPaid: false,
-          datetimeBooking: `${date} ${time} `,
+          dateBooking:date,
+          timeBooking:time
         },
       }),
     );

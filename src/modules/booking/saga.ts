@@ -1,6 +1,7 @@
 import {PayloadAction} from '@reduxjs/toolkit';
 import {
   IActionCreateNewBookingPayLoad,
+  IActionGetListBookedPayload,
   IActionGetListBookingPayLoad,
   IActionUpdateStatusBookingPayload,
 } from './model';
@@ -71,6 +72,28 @@ export function* updateStatusBookingFn(
   );
   if (!error) {
     yield put(updateStatus(result));
+    onSuccess && onSuccess(result);
+  } else if (onFail) {
+    onFail && onFail(error);
+  }
+}
+
+export function* getListBookedFn(
+  action: PayloadAction<IActionGetListBookedPayload>,
+) {
+  const {onSuccess, onFail, staffId, dateBooking} = action.payload;
+  const {isConnected} = yield isNetworkAvailable();
+  if (!isConnected) {
+    onFail && onFail();
+    return;
+  }
+
+  const {result, error} = yield call(
+    BookingService.getListBooked,
+    staffId,
+    dateBooking,
+  );
+  if (!error) {
     onSuccess && onSuccess(result);
   } else if (onFail) {
     onFail && onFail(error);

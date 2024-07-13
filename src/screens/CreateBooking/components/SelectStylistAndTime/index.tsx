@@ -1,5 +1,5 @@
 import {View, Text, TouchableOpacity, FlatList, TextInput} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Staff} from '../../../../modules/user/model';
 import FastImage from 'react-native-fast-image';
 import {AVARTAR_DEFAULT_STAFF} from '../../../../constants/icons';
@@ -10,10 +10,12 @@ import {compareTimesByHoursMinute} from '../../../../utils/date';
 import DateTimePicker from 'react-native-date-picker';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import useSelectStylistAndTime from './useSelectStylistAndTime';
+import {getListBooked} from '../../../../modules/booking';
+import {useDispatch} from 'react-redux';
 
 type SelectStylistAndTimeProps = {
   stylists: Staff[];
-  stylist?: Staff;
+  stylist: Staff;
   onSelectStylist: (stylist: Staff) => void;
   bookingDate: string;
   onSelectBookingDate: (date: string) => void;
@@ -57,10 +59,31 @@ const SelectStylistAndTime = (props: SelectStylistAndTimeProps) => {
     bookingTime,
     onSelectBookingTime,
   } = props;
-  const {stylistRef, timeRef, openPicker, closePicker, open, dateNow, timeNow} =
-    useSelectStylistAndTime();
-  const status = bookingDate != dateNow;
+  const {
+    stylistRef,
+    timeRef,
+    openPicker,
+    closePicker,
+    open,
+    dateNow,
+    timeNow,
+    onSuccess,
+    onFail,
+    bookings,
+  } = useSelectStylistAndTime();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(
+      getListBooked({
+        dateBooking: bookingDate,
+        staffId: stylist.id,
+        onSuccess: onSuccess,
+        onFail: onFail,
+      }),
+    );
+  });
 
+  const status = bookingDate != dateNow;
   const handleSelectStylist = (staff: Staff) => {
     if (staff != stylist) {
       onSelectStylist(staff);
@@ -68,7 +91,7 @@ const SelectStylistAndTime = (props: SelectStylistAndTimeProps) => {
   };
 
   const handleSelectTime = (time: string) => {
-    if (status || compareTimesByHoursMinute(timeNow, time)) {
+    if (status || compareTimesByHoursMinute(timeNow, time) || !bookings) {
       if (bookingTime != time) {
         onSelectBookingTime(time);
       }
