@@ -1,32 +1,47 @@
+import { Staff } from './../../../modules/user/model';
 
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../redux/reducers';
 import {IUserState} from '../../../modules/user/model';
-import {useEffect, useState} from 'react';
+import { useEffect, useState} from 'react';
 import {getListCustomer, getListStaff} from '../../../modules/user';
 import {ChartData} from 'react-native-chart-kit/dist/HelperTypes';
+import { Booking, IActionGetListBookingPayLoad, IBookingState } from '../../../modules/booking/model';
+
 
 const useDasboard = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
+
+
   // const users = useSelector<RootState, IUserState>(
   //   state => state.user,
   // ).users.filter(user=> user.typeAccount === 'Staff');
+  const {users} = useSelector<RootState, IUserState>(state => state.user);
+  const listCustomer = users.filter(staff=>staff.typeAccount==="Customer");
 
   const {staffs} = useSelector<RootState, IUserState>(state => state.user);
   const listStaff = staffs.filter(staff=>staff.typeAccount==="Staff");
 
+  const {bookings} = useSelector<RootState, IBookingState>(state => state.booking)
+  const listBooking = bookings.filter(staffs=>staffs.status==='upcoming')
+  console.log(listBooking.length);
+  
+
+ 
+  
   useEffect(() => {
     dispatch(
       getListStaff({
         page: 1,
-        limit: 6,
+        limit: 100,
         onSuccess: () => {},
         onFail: () => {},
       }),
     );
   }, []);
+
 
   const lineCharData: ChartData = {
     labels: ['01-07-2024', '02-07-2024', '03-07-2024', '04-07-2024', '05-07-2024', '06-07-2024', '07-07-2024'],
@@ -39,7 +54,7 @@ const useDasboard = () => {
     ],
   };
   
-  return {listStaff,lineCharData};
+  return {listCustomer,listStaff,lineCharData};
 };
 
 export default useDasboard;

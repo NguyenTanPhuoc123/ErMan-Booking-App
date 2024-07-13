@@ -10,9 +10,8 @@ import {ScrollView} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import FastImage from 'react-native-fast-image';
 import {AVARTAR_DEFAULT_CUSTOMER} from '../../../constants/icons';
-import Item from './components/Item';
 const DashboardScreen = () => {
-  const {listStaff, lineCharData} = useDasboard();
+  const {listCustomer,listStaff,lineCharData} = useDasboard();
 
   const renderLineChar = () => {
     return (
@@ -47,18 +46,13 @@ const DashboardScreen = () => {
               },
             }}
             bezier
-            // style={{
-            //   borderColor: 'black',
-            //  borderWidth: 1,
-            //   borderRadius: 16,
-            // }}
           />
         </View>
       </View>
     );
   };
 
-  const renderItemButton = (label: string, value: string) => (
+  const renderItemButton = (label: string, value: number) => (
     <View style={styles.containerButton}>
       <View style={styles.inner}>
         <Text
@@ -67,7 +61,15 @@ const DashboardScreen = () => {
             globalStyle.textSize20,
             styles.textinfo,
           ]}>
-          {label + ' ' + value}
+          {label}
+        </Text>
+        <Text
+          style={[
+            globalStyle.fontText,
+            globalStyle.textSize20,
+            styles.textinfo,
+          ]}>
+          {value}
         </Text>
       </View>
     </View>
@@ -77,12 +79,12 @@ const DashboardScreen = () => {
     return (
       <View>
         <View style={styles.containerView}>
-          {renderItemButton('Tổng thu nhập', '')}
-          {renderItemButton('Tổng nhân viên', '')}
+          {renderItemButton('Tổng thu nhập',100)}
+          {renderItemButton('Tổng nhân viên', listStaff.length)}
         </View>
         <View style={styles.containerView}>
-          {renderItemButton('Tổng lịch đặt', '')}
-          {renderItemButton('Tổng khách hàng', '')}
+          {renderItemButton('Tổng lịch đặt', 100)}
+          {renderItemButton('Tổng khách hàng',listCustomer.length )}
         </View>
       </View>
     );
@@ -99,12 +101,12 @@ const DashboardScreen = () => {
             solid
           />
           <Text
-            style={[globalStyle.textSize20, globalStyle.fontText,styles.info]}>
+            style={[globalStyle.textSize20, globalStyle.fontText, styles.info]}>
             Top 5 nhân viên xuất sắc nhất:{' '}
           </Text>
         </View>
         <View>
-          {listStaff.map(item => (
+          {listStaff.slice(0,5).map(item => (
             <View key={item.id} style={styles.container1}>
               <>
                 <FastImage
@@ -114,19 +116,15 @@ const DashboardScreen = () => {
                   }
                   resizeMode="cover"
                 />
-                <View >
-                  <Text style={styles.name}>{item.firstname + ' ' + item.lastname}</Text>
+                <View>
+                  <Text style={styles.name}>
+                    {item.firstname + ' ' + item.lastname}
+                  </Text>
                   <Text style={styles.name}>Email: {item.email}</Text>
                 </View>
               </>
             </View>
           ))}
-
-          {/* <FlatList
-            data={listStaff}
-            keyExtractor={item => item.id.toString()}
-            renderItem={({item}) => <Item key={item.id} {...item} />}
-          /> */}
         </View>
       </View>
     );
