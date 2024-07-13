@@ -16,6 +16,7 @@ export const GetListBookings = gql`
           status
           total
           dateBooking
+          timeBooking
           datetimeCreate
           BookingDetails {
             Service {
@@ -87,6 +88,7 @@ export const UpdateDataFromServer = gql`
       status
       total
       dateBooking
+      timeBooking
       datetimeCreate
       BookingDetails {
         Service {

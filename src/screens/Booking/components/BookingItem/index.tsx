@@ -17,7 +17,7 @@ type BookingItemProps = {
 
 const BookingItem = (props: BookingItemProps) => {
   const {booking} = props;
-  const [date, time] = booking.datetimeBooking.split(' ');
+
   const datetimeNow = new Date().getTime() / 1000;
   const getStatusText = () => {
     switch (booking.status) {
@@ -32,7 +32,9 @@ const BookingItem = (props: BookingItemProps) => {
     }
   };
   const countdown =
-    new Date(formatStringDate(date) + ' ' + time).getTime() / 1000;
+    new Date(
+      formatStringDate(booking.dateBooking) + ' ' + booking.timeBooking,
+    ).getTime() / 1000;
   const goToDetail = () => {
     NavigationActionService.navigate(BOOKING_DETAIL_SCREEN, {booking: booking});
   };
@@ -43,11 +45,12 @@ const BookingItem = (props: BookingItemProps) => {
       onPress={goToDetail}
       activeOpacity={0.6}>
       <View style={styles.headItem}>
-        <Text style={styles.date}>Ngày {date}</Text>
+        <Text style={styles.date}>Ngày {booking.dateBooking}</Text>
         <Text style={styles.price}>{FormatCurrency(booking.total)}</Text>
       </View>
       <Text style={[globalStyle.fontText, styles.time]}>
-        {changeDayInWeekToVI(new Date(formatStringDate(date)))}, {time}
+        {changeDayInWeekToVI(new Date(formatStringDate(booking.dateBooking)))},{' '}
+        {booking.timeBooking}
       </Text>
       <View style={styles.addressContainer}>
         <Icon size={16} color="#d4d3d6" name="store" />

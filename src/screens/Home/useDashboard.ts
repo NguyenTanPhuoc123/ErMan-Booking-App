@@ -47,12 +47,11 @@ const useDasboard = () => {
   const bookingNear =
     APP_TYPE === 'Staff'
       ? bookings.filter(booking => {
-          const [date, time] = booking.datetimeBooking.split(' ');
           const dateNow = moment(new Date()).format('DD-MM-YYYY');
           const timeNow = moment(new Date()).format('HH:mm');
           if (
-            date === dateNow &&
-            moment(time, 'HH:mm').isAfter(moment(timeNow, 'HH:mm'))
+            booking.dateBooking === dateNow &&
+            moment(booking.timeBooking, 'HH:mm').isAfter(moment(timeNow, 'HH:mm'))
           )
             return booking;
         })[0]

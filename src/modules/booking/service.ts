@@ -173,16 +173,14 @@ export const updateBookingRealtime = () => {
   }
 };
 
-export const getListBooked = async (
-  staffId: number,
-  dateBooking: string,
-) => {
+export const getListBooked = async (staffId: number, dateBooking: string) => {
   try {
     const res = await client.query({
-      query: BookingApi.GetListBookings,
+      query: BookingApi.getListBooked,
       variables: {staffId: staffId, dateBooking: dateBooking},
     });
     const listData = res.data.Booking_connection.edges;
+
     const listBooking: Booking[] = listData.map((data: any) => {
       const bookingId = JSON.parse(atob(data.node.id))[3];
       const {
@@ -219,7 +217,7 @@ export const getListBooked = async (
         ...newBooking,
       };
     }) as Booking[];
-    return {result: {bookings: listBooking}};
+    return {result: listBooking};
   } catch (error) {
     console.log('Error get list booked: ', error);
   }
