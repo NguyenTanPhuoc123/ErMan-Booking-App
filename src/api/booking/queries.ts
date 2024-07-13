@@ -15,7 +15,8 @@ export const GetListBookings = gql`
           isPaid
           status
           total
-          datetimeBooking
+          dateBooking
+          timeBooking
           datetimeCreate
           BookingDetails {
             Service {
@@ -86,7 +87,8 @@ export const UpdateDataFromServer = gql`
       isPaid
       status
       total
-      datetimeBooking
+      dateBooking
+      timeBooking
       datetimeCreate
       BookingDetails {
         Service {
@@ -145,7 +147,8 @@ export const CreateNewBooking = gql`
     $branchId: Int!
     $customerId: Int!
     $staffId: Int!
-    $dateTimeBooking: String
+    $dateBooking: String
+    $timeBooking: String
     $isPaid: Boolean
     $payment: Int
     $total: Int
@@ -155,7 +158,8 @@ export const CreateNewBooking = gql`
       objects: {
         branch: $branchId
         customer: $customerId
-        datetimeBooking: $dateTimeBooking
+        dateBooking: $dateBooking
+        timeBooking: $timeBooking
         isPaid: $isPaid
         staff: $staffId
         status: "upcoming"
@@ -175,7 +179,8 @@ export const updateStatusBooking = gql`
       pk_columns: {id: $id}
       _set: {status: $status, isPaid: $isPaid}
     ) {
-      datetimeBooking
+      dateBooking
+      timeBooking
       datetimeCreate
       id
       isPaid
@@ -221,4 +226,84 @@ export const updateStatusBooking = gql`
       }
     }
   }
+`;
+
+export const getListBooked = gql`
+query GetListBooked($staffId: Int!, $dateBooking: String) {
+  Booking_connection(
+    order_by: { datetimeCreate: desc }, 
+    where: {
+      _or: [
+        { staff: { _eq: $staffId } },
+        { dateBooking: { _eq: $dateBooking } }
+      ],
+      status: { _in: ["upcoming", "ongoing"] }
+    }
+  ) {
+    edges {
+      cursor
+      node {
+        id
+        isPaid
+        status
+        total
+        dateBooking
+        timeBooking
+        datetimeCreate
+        BookingDetails {
+          Service {
+            description
+            id
+            image
+            price
+            serviceName
+            time
+          }
+          id
+        }
+        User {
+          address
+          avatar
+          birthday
+          email
+          firstname
+          id
+          isVerified
+          lastname
+          typeAccount
+        }
+        Branch {
+          address
+          branchName
+          closeTime
+          description
+          id
+          image
+          openTime
+        }
+        userByStaff {
+          Staff {
+            User {
+              address
+              avatar
+              birthday
+              email
+              firstname
+              id
+              isVerified
+              lastname
+              typeAccount
+            }
+            timeStartWork
+            workPlace
+          }
+        }
+        Payment {
+          id
+          name
+        }
+      }
+    }
+  }
+}
 `;

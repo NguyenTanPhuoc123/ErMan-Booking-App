@@ -83,7 +83,7 @@ const BookingDetailScreen = () => {
       )}
       {rowInfo(
         'Thời gian đặt:',
-        <Text style={styles.textInfo}>Ngày {booking.datetimeBooking}</Text>,
+        <Text style={styles.textInfo}>Ngày {booking.dateBooking + ' '+booking.timeBooking}</Text>,
       )}
       {rowInfo(
         'Tổng thời gian:',

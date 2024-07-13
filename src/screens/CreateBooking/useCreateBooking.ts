@@ -28,13 +28,13 @@ const useCreateBooking = () => {
       : (params as any).branch || null;
   const stylists = useSelector<RootState, IUserState>(
     state => state.user,
-  ).users.filter(user => {
+  ).staffs.filter(user => {
     if (user.typeAccount === 'Staff' && branch) {
       if ((user as Staff).workPlace.id === branch.id) return user;
     }
   });
   const [stylist, setStylist] = useState<Staff>(
-    screen === BOOKING_DETAIL_SCREEN && booking ? booking.staff : stylists[0],
+    screen === BOOKING_DETAIL_SCREEN && booking ? booking.staff :null,
   );
 
   const [dateBooking, timeBooking] =
@@ -42,7 +42,7 @@ const useCreateBooking = () => {
       ? booking.datetimeBooking.split(' ')
       : [null, null];
   const dateNow = moment(new Date()).format('DD-MM-YYYY');
-  const timeNow = moment(new Date()).format('HH:MM');
+  const timeNow = moment(new Date()).format('HH:mm');
   const [date, setDate] = useState(dateBooking ? dateBooking : dateNow);
   const [time, setTime] = useState(timeBooking ? timeBooking : timeNow);
   const payments = [
@@ -97,9 +97,10 @@ const useCreateBooking = () => {
           branch: branch,
           services: services,
           customer: userData,
-          staff: stylist || (stylists[0] as Staff),
+          staff: stylist,
           isPaid: false,
-          datetimeBooking: `${date} ${time} `,
+          dateBooking:date,
+          timeBooking:time
         },
       }),
     );

@@ -1,5 +1,5 @@
 import {View, Text, TouchableOpacity, FlatList, TextInput} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Staff} from '../../../../modules/user/model';
 import FastImage from 'react-native-fast-image';
 import {AVARTAR_DEFAULT_STAFF} from '../../../../constants/icons';
@@ -10,6 +10,8 @@ import {compareTimesByHoursMinute} from '../../../../utils/date';
 import DateTimePicker from 'react-native-date-picker';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import useSelectStylistAndTime from './useSelectStylistAndTime';
+import {getListBooked} from '../../../../modules/booking';
+import {useDispatch} from 'react-redux';
 
 type SelectStylistAndTimeProps = {
   stylists: Staff[];
@@ -57,10 +59,31 @@ const SelectStylistAndTime = (props: SelectStylistAndTimeProps) => {
     bookingTime,
     onSelectBookingTime,
   } = props;
-  const {stylistRef, timeRef, openPicker, closePicker, open, dateNow, timeNow} =
-    useSelectStylistAndTime();
-  const status = bookingDate != dateNow;
+  const {
+    stylistRef,
+    timeRef,
+    openPicker,
+    closePicker,
+    open,
+    onSuccess,
+    onFail,
+    listTimeBooked,
+  } = useSelectStylistAndTime();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (stylist) {
+      dispatch(
+        getListBooked({
+          dateBooking: bookingDate,
+          staffId: stylist.id,
+          onSuccess: onSuccess,
+          onFail: onFail,
+        }),
+      );
+    }
+  }, [stylist]);
 
+  const status = bookingDate != moment(Date.now()).format('DD-MM-YYYY');
   const handleSelectStylist = (staff: Staff) => {
     if (staff != stylist) {
       onSelectStylist(staff);
@@ -68,7 +91,11 @@ const SelectStylistAndTime = (props: SelectStylistAndTimeProps) => {
   };
 
   const handleSelectTime = (time: string) => {
-    if (status || compareTimesByHoursMinute(timeNow, time)) {
+    if (
+      status ||
+      (compareTimesByHoursMinute(moment(Date.now()).format('HH:mm'), time) &&
+        !listTimeBooked.includes(time))
+    ) {
       if (bookingTime != time) {
         onSelectBookingTime(time);
       }
@@ -128,7 +155,12 @@ const SelectStylistAndTime = (props: SelectStylistAndTimeProps) => {
           onPress={() => handleSelectTime(item)}
           key={index}
           style={
-            status || compareTimesByHoursMinute(timeNow, item)
+            status ||
+            (!listTimeBooked.includes(item) &&
+              compareTimesByHoursMinute(
+                moment(Date.now()).format('HH:MM'),
+                item,
+              ))
               ? bookingTime === item
                 ? styles.containerSelectedTime
                 : styles.containerTime

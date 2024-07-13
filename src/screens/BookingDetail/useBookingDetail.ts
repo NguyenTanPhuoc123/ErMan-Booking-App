@@ -22,11 +22,10 @@ const useBookingDetail = () => {
   const dispatch = useDispatch();
   const {userData} = useSelector<RootState, IAuthState>(state => state.auth);
   const {booking} = useRoute().params as any;
-  const [date, time] = booking.datetimeBooking.split(' ');
   const [rating, setRating] = useState<Rating>();
   const datetimeNow = new Date().getTime() / 1000;
   const countdown =
-    new Date(formatStringDate(date) + ' ' + time).getTime() / 1000;
+    new Date(formatStringDate(booking.dateBooking) + ' ' + booking.timeBooking).getTime() / 1000;
   const countdownRef = createRef<CountDown>();
   const getStatusText = () => {
     switch (booking.status) {

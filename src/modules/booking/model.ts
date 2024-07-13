@@ -7,12 +7,14 @@ const ROOT_MODULE = 'booking';
 export const GET_LIST_BOOKINGS = `${ROOT_MODULE}/GET_LIST_BOOKINGS`;
 export const CREATE_NEW_BOOKING = `${ROOT_MODULE}/CREATE_NEW_BOOKING`;
 export const UPDATE_STATUS_BOOKING = `${ROOT_MODULE}/UPDATE_STATUS_BOOKING`;
+export const GET_LIST_BOOKED = `${ROOT_MODULE}/GET_LIST_BOOKED`;
 export interface Booking {
   id: number;
   customer: User;
   staff: Staff;
   datetimeCreate: string;
-  datetimeBooking: string;
+  dateBooking: string;
+  timeBooking:string;
   status: 'upcoming' | 'ongoing' | 'completed' | 'canceled';
   isPaid: boolean;
   total: number;
@@ -54,8 +56,14 @@ export interface IActionCreateNewBookingPayLoad extends IActionCallback {
 export interface BookingParams {
   customer: User;
   staff: Staff;
-  datetimeBooking: string;
+  dateBooking: string;
+  timeBooking:string;
   isPaid: boolean;
   branch: Branch;
   services: Array<Service>;
+}
+
+export interface IActionGetListBookedPayload extends IActionCallback {
+  staffId:number;
+  dateBooking:string;
 }
