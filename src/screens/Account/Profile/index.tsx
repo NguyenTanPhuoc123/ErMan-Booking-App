@@ -70,7 +70,6 @@ const ProfileScreen = () => {
         'Họ và tên:',
         currentUser.firstname + ' ' + currentUser.lastname,
       )}
-      {renderButtonFeature('Giới tính:', currentUser.gender ? 'Nam' : 'Nữ')}
       {renderButtonFeature('Ngày sinh:', currentUser.birthday)}
       {renderButtonFeature('Địa chỉ:', currentUser.address)}
       {renderButtonFeature('Email:', currentUser.email)}

@@ -10,7 +10,6 @@ export const validationSchema = object<FormInfoUserValues>().shape({
   password: string().trim().required('Mật khẩu không được để trống'),
   address: string(),
   workPlace: number().required('Nơi làm việc không được để trống'),
-  gender:boolean().required(),
   timeStartWork: string().trim().required('Ngày bắt đầu làm việc không được để trống'),
   typeAccount: string().trim().required()
 })

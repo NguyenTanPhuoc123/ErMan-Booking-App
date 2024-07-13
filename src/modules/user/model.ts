@@ -20,7 +20,6 @@ export interface User {
   firstname: string;
   lastname: string;
   email: string;
-  gender: boolean;
   birthday: string;
   address: string;
   isVerified: boolean;

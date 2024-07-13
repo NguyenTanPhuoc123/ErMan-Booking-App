@@ -33,7 +33,6 @@ const useAddUser = () => {
     email: '',
     password: '',
     typeAccount: 'Staff',
-    gender: true,
     birthday: '01-01-2000',
     address: '',
     workPlace: 1,

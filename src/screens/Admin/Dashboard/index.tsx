@@ -9,12 +9,14 @@ import styles from './style';
 import {ScrollView} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import FastImage from 'react-native-fast-image';
+import {AVARTAR_DEFAULT_CUSTOMER} from '../../../constants/icons';
+import Item from './components/Item';
 const DashboardScreen = () => {
-  const {users, lineCharData} = useDasboard();
+  const {listStaff, lineCharData} = useDasboard();
 
   const renderLineChar = () => {
     return (
-      <>
+      <View>
         <Text
           style={[globalStyle.fontText, globalStyle.textSize20, styles.text]}>
           Thống kê theo tuần
@@ -52,7 +54,7 @@ const DashboardScreen = () => {
             // }}
           />
         </View>
-      </>
+      </View>
     );
   };
 
@@ -73,16 +75,16 @@ const DashboardScreen = () => {
 
   const renderButton = () => {
     return (
-      <>
-      <View style={styles.containerView}>
-        {renderItemButton('Tổng thu nhập', '')}
-        {renderItemButton('Tổng nhân viên', '')}
+      <View>
+        <View style={styles.containerView}>
+          {renderItemButton('Tổng thu nhập', '')}
+          {renderItemButton('Tổng nhân viên', '')}
+        </View>
+        <View style={styles.containerView}>
+          {renderItemButton('Tổng lịch đặt', '')}
+          {renderItemButton('Tổng khách hàng', '')}
+        </View>
       </View>
-      <View style={styles.containerView}>
-        {renderItemButton('Tổng lịch đặt', '')}
-        {renderItemButton('Tổng khách hàng', '')}
-      </View>
-      </>
     );
   };
 
@@ -93,13 +95,38 @@ const DashboardScreen = () => {
           <Icon
             name="star-half-alt"
             size={25}
-            style={globalStyle.fontText}
+            style={[globalStyle.fontText, styles.icon]}
             solid
           />
           <Text
-            style={[globalStyle.textSize20, globalStyle.fontText, styles.info]}>
+            style={[globalStyle.textSize20, globalStyle.fontText,styles.info]}>
             Top 5 nhân viên xuất sắc nhất:{' '}
           </Text>
+        </View>
+        <View>
+          {listStaff.map(item => (
+            <View key={item.id} style={styles.container1}>
+              <>
+                <FastImage
+                  style={styles.avatar}
+                  source={
+                    !item.avatar ? AVARTAR_DEFAULT_CUSTOMER : {uri: item.avatar}
+                  }
+                  resizeMode="cover"
+                />
+                <View >
+                  <Text style={styles.name}>{item.firstname + ' ' + item.lastname}</Text>
+                  <Text style={styles.name}>Email: {item.email}</Text>
+                </View>
+              </>
+            </View>
+          ))}
+
+          {/* <FlatList
+            data={listStaff}
+            keyExtractor={item => item.id.toString()}
+            renderItem={({item}) => <Item key={item.id} {...item} />}
+          /> */}
         </View>
       </View>
     );

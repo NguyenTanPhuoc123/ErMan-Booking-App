@@ -279,39 +279,6 @@ const AddUsersScreen = () => {
       {!user
         ? null
         : renderEditInfo(
-            'Giới tính',
-            <Controller
-              control={control}
-              name="gender"
-              render={({field: {onChange, value}}) => (
-                <View style={styles.gender}>
-                  <Text style={[globalStyle.fontText, styles.labelGender]}>
-                    Nam
-                  </Text>
-                  <RadioButton
-                    color="#D4D3D6"
-                    disabled={noedit}
-                    value={value.toString()}
-                    status={value === true ? 'checked' : 'unchecked'}
-                    onPress={() => onChange(true)}
-                  />
-                  <Text style={[globalStyle.fontText, styles.labelGender]}>
-                    Nữ
-                  </Text>
-                  <RadioButton
-                    color="#D4D3D6"
-                    disabled={noedit}
-                    value={value.toString()}
-                    status={value === false ? 'checked' : 'unchecked'}
-                    onPress={() => onChange(false)}
-                  />
-                </View>
-              )}
-            />,
-          )}
-      {!user
-        ? null
-        : renderEditInfo(
             'Ngày sinh',
             <Controller
               control={control}

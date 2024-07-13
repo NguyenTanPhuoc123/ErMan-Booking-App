@@ -43,15 +43,6 @@ const styles = StyleSheet.create({
     width: WITDH / 2 + 50,
     textAlign: 'center',
   },
-  gender: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    width: WITDH / 2 + 50,
-  },
-  labelGender: {
-    fontSize: 20,
-  },
   btnEdit: {
     backgroundColor: '#EEB156',
     width: WITDH - 100,

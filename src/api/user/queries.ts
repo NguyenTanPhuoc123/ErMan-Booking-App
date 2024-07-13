@@ -7,8 +7,7 @@ export const onAuthStateChanged = gql`
       avatar
       birthday
       email
-      firstname
-      gender
+      firstname    
       id
       isVerified
       lastname
@@ -38,15 +37,13 @@ export const Register = gql`
         isVerified: true
         email: $email
         typeAccount: "Customer"
-        gender: true
       }
       on_conflict: {constraint: User_email_key}
     ) {
       id
       avatar
       firstname
-      lastname
-      gender
+      lastname  
       birthday
       email
       isVerified
@@ -64,8 +61,7 @@ export const GetCurrentUser = gql`
           id
           firstname
           lastname
-          avatar
-          gender
+          avatar 
           birthday
           address
           email
@@ -115,7 +111,6 @@ export const AddNewUser = gql`
         firstname: $firstname
         lastname: $lastname
         isVerified: true
-        gender: true
         email: $email
         typeAccount: $typeAccount
         address: $address
@@ -127,7 +122,6 @@ export const AddNewUser = gql`
       avatar
       birthday
       email
-      gender
       firstname
       isVerified
       id
@@ -149,7 +143,6 @@ export const UpdateAvatar = gql`
       avatar
       firstname
       lastname
-      gender
       birthday
       address
       email
@@ -173,8 +166,7 @@ export const GetListStaff = gql`
           id
           firstname
           lastname
-          avatar
-          gender
+          avatar 
           birthday
           address
           email
@@ -217,7 +209,6 @@ export const getListCustomer = gql`
           lastname
           email
           typeAccount
-          gender
           birthday
           avatar
           address
@@ -251,8 +242,7 @@ export const SearchStaff = gql`
           id
           firstname
           lastname
-          avatar
-          gender
+          avatar   
           birthday
           address
           email
@@ -295,7 +285,6 @@ export const SearchCustomer = gql`
           firstname
           lastname
           avatar
-          gender
           birthday
           address
           email
@@ -317,7 +306,6 @@ export const CheckEmailExist = gql`
           birthday
           email
           firstname
-          gender
           id
           isVerified
           lastname
@@ -336,7 +324,6 @@ export const deleteUser = gql`
       birthday
       email
       firstname
-      gender
       id
       isVerified
       lastname

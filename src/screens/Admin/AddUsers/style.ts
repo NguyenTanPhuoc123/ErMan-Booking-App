@@ -70,15 +70,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontFamily: InriaSerifBold,
   },
-  gender: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    width: WITDH / 2 + 50,
-  },
-  labelGender: {
-    fontSize: 20,
-  },
   txtError: {
     color: '#F67067',
     marginVertical: 5,
