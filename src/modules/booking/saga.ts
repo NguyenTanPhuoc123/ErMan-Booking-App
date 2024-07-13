@@ -1,6 +1,7 @@
 import {PayloadAction} from '@reduxjs/toolkit';
 import {
   IActionCreateNewBookingPayLoad,
+  IActionEditBookingPayload,
   IActionGetListBookedPayload,
   IActionGetListBookingPayLoad,
   IActionUpdateStatusBookingPayload,
@@ -24,6 +25,27 @@ export function* createNewBookingFn(
     return;
   }
   const {result, error} = yield call(BookingService.createNewBooking, body);
+  if (!error) {
+    onSuccess && onSuccess(result);
+  } else if (onFail) {
+    onFail && onFail(error);
+  }
+}
+
+export function* editBookingFn(
+  action: PayloadAction<IActionEditBookingPayload>,
+) {
+  const {onSuccess, onFail, body, bookingId} = action.payload;
+  const {isConnected} = yield isNetworkAvailable();
+  if (!isConnected) {
+    onFail && onFail();
+    return;
+  }
+  const {result, error} = yield call(
+    BookingService.editBooking,
+    bookingId,
+    body,
+  );
   if (!error) {
     onSuccess && onSuccess(result);
   } else if (onFail) {
