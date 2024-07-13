@@ -34,7 +34,7 @@ const useCreateBooking = () => {
     }
   });
   const [stylist, setStylist] = useState<Staff>(
-    screen === BOOKING_DETAIL_SCREEN && booking ? booking.staff : stylists[0],
+    screen === BOOKING_DETAIL_SCREEN && booking ? booking.staff :null,
   );
 
   const [dateBooking, timeBooking] =
@@ -42,7 +42,7 @@ const useCreateBooking = () => {
       ? booking.datetimeBooking.split(' ')
       : [null, null];
   const dateNow = moment(new Date()).format('DD-MM-YYYY');
-  const timeNow = moment(new Date()).format('HH:MM');
+  const timeNow = moment(new Date()).format('HH:mm');
   const [date, setDate] = useState(dateBooking ? dateBooking : dateNow);
   const [time, setTime] = useState(timeBooking ? timeBooking : timeNow);
   const payments = [
@@ -97,7 +97,7 @@ const useCreateBooking = () => {
           branch: branch,
           services: services,
           customer: userData,
-          staff: stylist || (stylists[0] as Staff),
+          staff: stylist,
           isPaid: false,
           dateBooking:date,
           timeBooking:time
