@@ -30,7 +30,7 @@ const useCreateBooking = () => {
     state => state.user,
   ).users.filter(user => {
     if (user.typeAccount === 'Staff' && branch) {
-      if ((user as Staff).workPlace === branch.branchName) return user;
+      if ((user as Staff).workPlace.id === branch.id) return user;
     }
   });
   const [stylist, setStylist] = useState<Staff>(

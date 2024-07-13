@@ -1,14 +1,21 @@
 import {PayloadAction} from '@reduxjs/toolkit';
 import * as UserService from './service';
 import {
-  IActionAddNewUserPayload,
+  IActionAddNewStaffPayload,
+  IActionDeleteUserPayload,
+  IActionEditProfileStaffPayload,
   IActionGetListStaffPayload,
   IActionGetListUserPayload,
   IActionSearchUserPayload,
 } from './model';
 import {isNetworkAvailable} from '../network/saga';
 import {call, put} from 'redux-saga/effects';
-import {saveListUser, saveListUserLoadmore} from './reducer';
+import {
+  addToList,
+  saveListStaffLoadmore,
+  saveListUser,
+  saveListUserLoadmore,
+} from './reducer';
 
 export function* getListCustomerFn(
   action: PayloadAction<IActionGetListUserPayload>,
@@ -56,7 +63,7 @@ export function* getListStaffFn(
     if (page === 1) {
       yield put(saveListUser(result));
     } else {
-      yield put(saveListUserLoadmore(result));
+      yield put(saveListStaffLoadmore(result));
     }
     onSuccess && onSuccess(result);
   } else if (onFail) {
@@ -64,22 +71,24 @@ export function* getListStaffFn(
   }
 }
 
-// export function* addNewUserFn(action: PayloadAction<IActionAddNewUserPayload>) {
-//   const {body, typeAccount,workPlace,timeStartWork,onSuccess, onFail} = action.payload;
-//   const {isConnected} = yield isNetworkAvailable();
-//   if (!isConnected) {
-//     onFail && onFail();
-//     return;
-//   }
+export function* addNewStaffFn(
+  action: PayloadAction<IActionAddNewStaffPayload>,
+) {
+  const {body, onSuccess, onFail} = action.payload;
+  const {isConnected} = yield isNetworkAvailable();
+  if (!isConnected) {
+    onFail && onFail();
+    return;
+  }
 
-//   const {result, error} = yield call(UserService.addNewUser, body, typeAccount,workPlace,timeStartWork);
-//   if (!error) {
-//     onSuccess && onSuccess(result);
-//     // yield put(addToList({user:result}));
-//   } else if (onFail) {
-//     onFail && onFail(error);
-//   }
-// }
+  const {result, error} = yield call(UserService.addNewStaff, body);
+  if (!error) {
+    // yield put(addToList({user: result}));
+    onSuccess && onSuccess(result);
+  } else if (onFail) {
+    onFail && onFail(error);
+  }
+}
 
 export function* searchStaffFn(
   action: PayloadAction<IActionSearchUserPayload>,
@@ -108,6 +117,38 @@ export function* searchCustomerFn(
     return;
   }
   const {result, error} = yield call(UserService.searchCustomer, search);
+  if (!error) {
+    onSuccess && onSuccess(result);
+  } else if (onFail) {
+    onFail && onFail(error);
+  }
+}
+
+export function* editProfileFn(
+  action: PayloadAction<IActionEditProfileStaffPayload>,
+) {
+  const {id, workPlace, onSuccess, onFail} = action.payload;
+  const {isConnected} = yield isNetworkAvailable();
+  if (!isConnected) {
+    onFail && onFail();
+    return;
+  }
+  const {result, error} = yield call(UserService.editProfile, id, workPlace);
+  if (!error) {
+    onSuccess && onSuccess(result);
+  } else if (onFail) {
+    onFail && onFail(error);
+  }
+}
+
+export function* deleteUser(action: PayloadAction<IActionDeleteUserPayload>) {
+  const {id, onSuccess, onFail} = action.payload;
+  const {isConnected} = yield isNetworkAvailable();
+  if (!isConnected) {
+    onFail && onFail();
+    return;
+  }
+  const {result, error} = yield call(UserService.deleteUser, id);
   if (!error) {
     onSuccess && onSuccess(result);
   } else if (onFail) {

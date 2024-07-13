@@ -34,7 +34,6 @@ export const GetListBookings = gql`
             birthday
             email
             firstname
-            gender
             id
             isVerified
             lastname
@@ -57,7 +56,6 @@ export const GetListBookings = gql`
                 birthday
                 email
                 firstname
-                gender
                 id
                 isVerified
                 lastname
@@ -107,7 +105,6 @@ export const UpdateDataFromServer = gql`
         birthday
         email
         firstname
-        gender
         id
         isVerified
         lastname
@@ -130,7 +127,6 @@ export const UpdateDataFromServer = gql`
             birthday
             email
             firstname
-            gender
             id
             isVerified
             lastname
@@ -198,7 +194,6 @@ export const updateStatusBooking = gql`
         birthday
         email
         firstname
-        gender
         id
         isVerified
         lastname

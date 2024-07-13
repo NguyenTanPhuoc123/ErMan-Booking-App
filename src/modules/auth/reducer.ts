@@ -11,11 +11,17 @@ const initialState: IAuthState = {
     lastname: '',
     email: '',
     birthday: '01-01-2000',
-    gender: true,
     address: '',
     isVerified: false,
     typeAccount: 'Customer',
-    workPlace: '',
+    workPlace: {
+      id:0,
+      branchName:'',
+      address:'',
+      image:'',
+      openTime:'',
+      closeTime:''
+    },
     timeStartWork: '01-01-2024',
   },
 };

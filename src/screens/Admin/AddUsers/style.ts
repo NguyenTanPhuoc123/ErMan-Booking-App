@@ -10,15 +10,6 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     alignSelf: 'center',
   },
-  uploadImg: {
-    position: 'absolute',
-    right: WITDH / 3 + 10,
-    top: HEIGHT / 8 + 10,
-    backgroundColor: '#716868',
-    padding: 5,
-    borderRadius: 15,
-    zIndex: 9999,
-  },
   containerHeader: {
     borderColor: '#433F3F',
     height: 100,
@@ -47,7 +38,7 @@ const styles = StyleSheet.create({
   inputworktime: {
     marginLeft: 20,
     fontSize: 20,
-    width: WITDH / 2 ,
+    width: WITDH / 2,
     textAlign: 'center',
   },
   container: {
@@ -79,14 +70,11 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontFamily: InriaSerifBold,
   },
-  gender: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    width: WITDH / 2 + 50,
-  },
-  labelGender: {
-    fontSize: 20,
+  txtError: {
+    color: '#F67067',
+    marginVertical: 5,
+    marginHorizontal: 9,
+    textAlign: 'center',
   },
 });
 

@@ -7,7 +7,7 @@ import {
   TextInput,
   Keyboard,
 } from 'react-native';
-import React, {useState} from 'react';
+import React from 'react';
 import {Header} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import styles from './style';
@@ -24,6 +24,7 @@ import {
 import {RadioButton} from 'react-native-paper';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
+import {formatStringDate} from '../../../utils/date';
 
 const AddUsersScreen = () => {
   const {
@@ -41,21 +42,17 @@ const AddUsersScreen = () => {
     onFocusEmail,
     user,
     createNewUser,
-    formatStringDate,
     openPicker,
     closePicker,
     goBack,
     open,
-    onUploadAvatar,
     branchs,
-    type,
-    setType,
     noedit,
+    confirmDelete,
   } = useAddUser();
 
   const renderAvatar = () =>
     !user ? null : (
-      <>
         <FastImage
           style={styles.avatar}
           resizeMode="cover"
@@ -67,10 +64,7 @@ const AddUsersScreen = () => {
               : AVARTAR_DEFAULT_STAFF
           }
         />
-        <TouchableOpacity style={styles.uploadImg} onPress={onUploadAvatar}>
-          <Icon name="camera" solid size={20} color="#D4D3D6" />
-        </TouchableOpacity>
-      </>
+      
     );
 
   const renderHeader = () => {
@@ -82,8 +76,8 @@ const AddUsersScreen = () => {
           <Text style={styles.titleHeader}>
             {user
               ? user.typeAccount === 'Customer'
-                ? 'Xem thông tin'
-                : 'Chỉnh sửa thông'
+                ? 'Thông tin khách'
+                : 'Chỉnh sửa thông tin'
               : 'Thêm tài khoản'}
           </Text>
         }
@@ -97,6 +91,20 @@ const AddUsersScreen = () => {
             />
           </TouchableOpacity>
         }
+        rightComponent={
+          !user ? (
+            <></>
+          ) : (
+            <TouchableOpacity onPress={confirmDelete}>
+              <Icon
+                name="trash-alt"
+                size={25}
+                style={globalStyle.fontText}
+                solid
+              />
+            </TouchableOpacity>
+          )
+        }
       />
     );
   };
@@ -105,14 +113,15 @@ const AddUsersScreen = () => {
     <Controller
       control={control}
       name="typeAccount"
-      render={({field: {value}}) => (
+      render={({field: {value, onChange}}) => (
         <CustomDropDown
           placeholder="Loại tài khoản"
           data={data}
+          disable={user ? true : false}
           label="label"
           valueField="value"
           value={value}
-          onChange={setType}
+          onChange={onChange}
         />
       )}
     />
@@ -137,7 +146,7 @@ const AddUsersScreen = () => {
   const renderWorkStartTime = () => (
     <Controller
       control={control}
-      name="workStartTime"
+      name="timeStartWork"
       render={({field: {value, onChange}}) => (
         <>
           <TextInput
@@ -149,14 +158,14 @@ const AddUsersScreen = () => {
             autoCapitalize="none"
             autoCorrect={false}
           />
-          <TouchableOpacity onPress={() => openPicker()}>
+          <TouchableOpacity disabled={!noedit} onPress={openPicker}>
             <Icon name="calendar-alt" style={globalStyle.fontText} size={25} />
           </TouchableOpacity>
           <DatePicker
             date={new Date(formatStringDate(value))}
             mode="date"
             modal
-            title="Chọn ngày bắt đầu làm việc..."
+            title="Chọn ngày bắt đầu làm việc"
             buttonColor="black"
             confirmText="Xác nhận"
             cancelText="Hủy"
@@ -214,6 +223,9 @@ const AddUsersScreen = () => {
           )}
         />,
       )}
+      <Text style={[globalStyle.fontText, styles.txtError]}>
+        {errors.firstname?.message}
+      </Text>
       {renderEditInfo(
         'Tên',
         <Controller
@@ -236,6 +248,9 @@ const AddUsersScreen = () => {
           )}
         />,
       )}
+      <Text style={[globalStyle.fontText, styles.txtError]}>
+        {errors.lastname?.message}
+      </Text>
       {renderEditInfo(
         'Email',
         <Controller
@@ -258,37 +273,9 @@ const AddUsersScreen = () => {
           )}
         />,
       )}
-      {!user
-        ? null
-        : renderEditInfo(
-            'Giới tính',
-            <Controller
-              control={control}
-              name="gender"
-              render={({field: {onChange, value}}) => (
-                <View style={styles.gender}>
-                  <Text style={[globalStyle.fontText, styles.labelGender]}>
-                    Nam
-                  </Text>
-                  <RadioButton
-                    color="#D4D3D6"
-                    value={value.toString()}
-                    status={value === true ? 'checked' : 'unchecked'}
-                    onPress={() => onChange(true)}
-                  />
-                  <Text style={[globalStyle.fontText, styles.labelGender]}>
-                    Nữ
-                  </Text>
-                  <RadioButton
-                    color="#D4D3D6"
-                    value="value.toString()"
-                    status={value === false ? 'checked' : 'unchecked'}
-                    onPress={() => onChange(false)}
-                  />
-                </View>
-              )}
-            />,
-          )}
+      <Text style={[globalStyle.fontText, styles.txtError]}>
+        {errors.email?.message}
+      </Text>
       {!user
         ? null
         : renderEditInfo(
@@ -307,7 +294,9 @@ const AddUsersScreen = () => {
                     autoCapitalize="none"
                     autoCorrect={false}
                   />
-                  <TouchableOpacity onPress={() => openPicker()}>
+                  <TouchableOpacity
+                    disabled={!noedit}
+                    onPress={() => openPicker()}>
                     <Icon
                       name="calendar-alt"
                       style={globalStyle.fontText}
@@ -356,6 +345,9 @@ const AddUsersScreen = () => {
               )}
             />,
           )}
+      <Text style={[globalStyle.fontText, styles.txtError]}>
+        {errors.email?.message}
+      </Text>
       {renderEditInfo(
         'Địa chỉ',
         <Controller
@@ -385,19 +377,25 @@ const AddUsersScreen = () => {
   return (
     <View style={globalStyle.container}>
       {renderHeader()}
-      <ScrollView>
+      <ScrollView onScrollBeginDrag={() => Keyboard.dismiss()}>
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <>
             {renderAvatar()}
             {renderInputInfo()}
-            {user
+            {!user
+              ? [
+                  renderEditInfo('Loại tài khoản', renderDropdown()),
+                  renderEditInfo('Nơi làm việc', renderDropdownWorkPlace()),
+                  renderEditInfo('Ngày vào làm ', renderWorkStartTime()),
+                ]
+              : user && user.typeAccount != 'Customer'
               ? [
                   renderEditInfo('Loại tài khoản', renderDropdown()),
                   renderEditInfo('Nơi làm việc', renderDropdownWorkPlace()),
                   renderEditInfo('Ngày vào làm ', renderWorkStartTime()),
                 ]
               : null}
-            {user.typeAccount === 'Customer' ? null : renderButtonAdd()}
+            {user && user.typeAccount === 'Customer' ? null : renderButtonAdd()}
           </>
         </TouchableWithoutFeedback>
       </ScrollView>

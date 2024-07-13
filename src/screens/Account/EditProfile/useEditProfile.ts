@@ -17,7 +17,6 @@ export interface FormEditUser {
   avatar: string;
   firstname: string;
   lastname: string;
-  gender: boolean;
   birthday: string;
   address: string;
 }
@@ -101,7 +100,6 @@ const useEditProfile = () => {
       avatar: avatar,
       firstname: values.firstname,
       lastname: values.lastname,
-      gender: values.gender,
       birthday: values.birthday,
       address: values.address,
       isVerified: currentUser.isVerified,

@@ -21,7 +21,7 @@ const useDasboard = () => {
     dispatch(
       getListStaff({
         page: 1,
-        limit: 5,
+        limit: 6,
         onSuccess: () => {},
         onFail: () => {},
       }),

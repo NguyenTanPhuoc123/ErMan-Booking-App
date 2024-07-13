@@ -70,7 +70,6 @@ const ProfileScreen = () => {
         'Họ và tên:',
         currentUser.firstname + ' ' + currentUser.lastname,
       )}
-      {renderButtonFeature('Giới tính:', currentUser.gender ? 'Nam' : 'Nữ')}
       {renderButtonFeature('Ngày sinh:', currentUser.birthday)}
       {renderButtonFeature('Địa chỉ:', currentUser.address)}
       {renderButtonFeature('Email:', currentUser.email)}
@@ -81,7 +80,10 @@ const ProfileScreen = () => {
           )
         : null}
       {currentUser.typeAccount != 'Customer'
-        ? renderButtonFeature('Nơi làm việc:', (currentUser as Staff).workPlace)
+        ? renderButtonFeature(
+            'Nơi làm việc:',
+            (currentUser as Staff).workPlace.branchName,
+          )
         : null}
     </View>
   );
