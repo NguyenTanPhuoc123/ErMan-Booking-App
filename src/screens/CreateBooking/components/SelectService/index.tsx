@@ -13,10 +13,11 @@ import {FormatCurrency} from '../../../../utils/currentcy';
 
 type SelectServiceProps = {
   services: Service[];
+  disabled?:boolean;
 };
 
 const SelectService = (props: SelectServiceProps) => {
-  const {services} = props;
+  const {services, disabled=false} = props;
   let totalPrice = 0;
   const listServiceRef = createRef<FlatList>();
 
@@ -59,7 +60,7 @@ const SelectService = (props: SelectServiceProps) => {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>1. Chọn dịch vụ</Text>
-      <TouchableOpacity style={styles.containerSelect} onPress={goToService}>
+      <TouchableOpacity style={styles.containerSelect} disabled={disabled} onPress={goToService}>
         <Icon name="cut" size={16} color="#d4d3d6" />
         <Text style={styles.text}>{getLenghtService()}</Text>
       </TouchableOpacity>

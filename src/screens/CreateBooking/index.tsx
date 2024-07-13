@@ -38,10 +38,11 @@ const CreateBookingScreen = () => {
     payments,
     payment,
     setPayment,
+    booking
   } = useCreateBooking();
 
   const data = [
-    {id: 1, title: 'Chọn dịch vụ', data: <SelectService services={services} />},
+    {id: 1, title: 'Chọn dịch vụ', data: <SelectService disabled={booking?true:false} services={services} />},
     {
       id: 2,
       title: 'Chọn chi nhánh',
