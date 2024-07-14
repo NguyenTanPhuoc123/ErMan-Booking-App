@@ -11,8 +11,7 @@ import {getListBookings} from '../../modules/booking';
 import {MessageType, PopupType} from '../../component/CustomPopup/type';
 import {ApiError} from '../../constants/api';
 import {IAuthState} from '../../modules/auth/model';
-import {useSubscription} from '@apollo/client';
-import {UpdateDataFromServer} from '../../api/booking/queries';
+import {updateBookingRealtime} from '../../modules/booking/service';
 
 const useBooking = () => {
   const [index, setIndex] = useState(0);
@@ -20,8 +19,8 @@ const useBooking = () => {
   const {bookings} = useSelector<RootState, IBookingState>(
     state => state.booking,
   );
+
   const {userData} = useSelector<RootState, IAuthState>(state => state.auth);
-  const {data} = useSubscription(UpdateDataFromServer);
   const [refresh, setRefresh] = useState(false);
   const routes = useRef([
     {
@@ -43,6 +42,7 @@ const useBooking = () => {
   ]);
 
   useEffect(() => {
+    // updateBookingRealtime();
     dispatch(
       getListBookings({
         limit: 100,

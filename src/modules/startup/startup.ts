@@ -10,6 +10,9 @@ import {useEffect} from 'react';
 import {saveUser} from '../auth/reducer';
 import {User} from '../user/model';
 import {updateBookingRealtime} from '../booking/service';
+import {getCurrentUser} from '../auth';
+import {UpdateDataFromServer} from '../../api/booking/queries';
+import {getListBookings} from '../booking';
 
 const useStartup = () => {
   const dispatch = useDispatch();
@@ -17,24 +20,22 @@ const useStartup = () => {
   const {data, error} = useSubscription(onAuthStateChanged, {
     variables: {id: userData ? userData.id : 0},
   });
+  const {data: dataBooking, error: errorBooking} =
+    useSubscription(UpdateDataFromServer);
   useEffect(() => {
-    // updateBookingRealtime();
-    if (data && data.User[0] && !error) {
-      if (data.User[0].typeAccount != 'Customer')
-        dispatch(
-          saveUser({
-            user: {
-              workPlace: data.User[0].Staff.Branch.branchName,
-              timeStartWork: data.User[0].Staff.timeStartWork,
-              ...data.User[0],
-            },
-          }),
-        );
-      else {
-        dispatch(saveUser({user: data.User[0] as User}));
-      }
+    if (data && data.User_connection.edges[0] && !error) {
+      dispatch(getCurrentUser({}));
     }
-  }, [data]);
+    if (dataBooking && dataBooking.Booking_connection.edges && !errorBooking) {
+      dispatch(
+        getListBookings({
+          id: userData.id,
+          endCursor: '',
+          limit: 100,
+        }),
+      );
+    }
+  }, [data, dataBooking]);
 
   const onConnectionChanged = (state: NetInfoState) => {
     NetInfo.addEventListener(onConnectionChanged);

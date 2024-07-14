@@ -6,21 +6,10 @@ import {SLIDE_SALES} from '../../../../constants/icons';
 import globalStyle from '../../../../constants/styles';
 
 type DiscountProps = {
-  code: string;
   content: string;
-  discountPercent: number;
 };
 const SaleComponent = (props: DiscountProps) => {
-  const {code, content, discountPercent} = props;
-  const renderCodeDiscount = () => {
-    return (
-      <View style={styles.containerDiscount}>
-        <Text style={[globalStyle.fontText, styles.textCodeDiscount]}>
-          {code}
-        </Text>
-      </View>
-    );
-  };
+  const {content} = props;
   return (
     <ImageBackground
       style={styles.container}
@@ -28,13 +17,9 @@ const SaleComponent = (props: DiscountProps) => {
       source={SLIDE_SALES}
       resizeMode="cover">
       <Text style={[globalStyle.colorYellowBold, styles.title]}>
-        Khuyến mãi đặt biệt
+        Erman Salon
       </Text>
-      {renderCodeDiscount()}
       <Text style={[globalStyle.fontText, styles.contentSale]}>{content}</Text>
-      <Text style={[globalStyle.colorYellowRegular, styles.discount]}>
-        Giảm {discountPercent}%
-      </Text>
     </ImageBackground>
   );
 };

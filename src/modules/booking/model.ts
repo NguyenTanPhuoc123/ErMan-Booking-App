@@ -65,8 +65,8 @@ export interface BookingParams {
 }
 
 export interface IActionEditBookingPayload extends IActionCallback {
-  bookingId:number;
-  body:BookingParams;
+  bookingId: number;
+  body: BookingParams;
 }
 
 export interface IActionGetListBookedPayload extends IActionCallback {

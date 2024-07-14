@@ -16,11 +16,13 @@ export const getListBookings = async (
       res = await client.query({
         query: BookingApi.GetListBookings,
         variables: {limit: limit, after: after, id: id},
+        fetchPolicy: 'network-only',
       });
     } else {
       res = await client.query({
         query: BookingApi.GetListBookings,
         variables: {limit: limit, id: id},
+        fetchPolicy: 'network-only',
       });
     }
 
@@ -163,8 +165,8 @@ export const updateBookingRealtime = () => {
         }) as Booking[];
         saveListBookings({
           bookings: listBooking,
-          hasNextPage: false,
           endCursor: '',
+          hasNextPage: false,
         });
       });
   } catch (error) {
@@ -217,6 +219,8 @@ export const getListBooked = async (staffId: number, dateBooking: string) => {
         ...newBooking,
       };
     }) as Booking[];
+    console.log('List booking: ', listBooking);
+
     return {result: listBooking};
   } catch (error) {
     console.log('Error get list booked: ', error);

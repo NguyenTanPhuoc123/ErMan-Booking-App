@@ -1,10 +1,11 @@
-
-
 export const API_TOKEN_EXPIRATION = 60 * 60; // 60*60 seconds ~ 1 hour
 
 export const API = 'https://ermanbooking.hasura.app/v1beta1/relay';
-export const HEADER = {'x-hasura-admin-secret':'A9ngXBcmC0YwgKMm1T8MN7ev61kk2dV86XMBbtwBTwonJISQcGdeEBydbHqQYJrX'}
-export const WEB_SOCKET = 'https://ermanbooking.hasura.app/v1/graphql';
+export const HEADER = {
+  'x-hasura-admin-secret':
+    'A9ngXBcmC0YwgKMm1T8MN7ev61kk2dV86XMBbtwBTwonJISQcGdeEBydbHqQYJrX',
+};
+export const WEB_SOCKET = 'wss://ermanbooking.hasura.app/v1beta1/relay';
 
 export const ApiErrorStatusCode = {
   OK: 200,
@@ -17,12 +18,12 @@ export const ApiErrorStatusCode = {
   REQUEST_TIMEOUT: 408,
   INTERNAL_SERVER_ERROR: 500,
   BAD_GATEWAY: 502,
-  SERVICE_UNAVAILABLE: 503
-}
+  SERVICE_UNAVAILABLE: 503,
+};
 
 export const ApiErrorCode = {
-  TOKEN_INVALID: 8000
-}
+  TOKEN_INVALID: 8000,
+};
 
 export interface ApiError {
   code: number;
