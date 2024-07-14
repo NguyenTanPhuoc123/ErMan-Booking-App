@@ -20,7 +20,6 @@ const useSelectStylistAndTime = () => {
         ? value.map(booking => booking.timeBooking)
         : [],
     );
-    console.log(listTimeBooked);
   };
 
   const onFail = (error?: ApiError) => {

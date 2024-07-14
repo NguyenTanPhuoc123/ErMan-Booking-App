@@ -273,3 +273,36 @@ export const getListBooked = async (staffId: number, dateBooking: string) => {
     console.log('Error get list booked: ', error);
   }
 };
+
+export const editBooking = async (bookingId: number, body: BookingParams) => {
+  try {
+    let total = 0;
+    body.services.map(service => {
+      total += service.price;
+    });
+    const listService = Array(
+      ...body.services.map(service => {
+        return {service: service.id};
+      }),
+    );
+    const res = await client.mutate({
+      mutation: BookingApi.editBooking,
+      variables: {
+        id: bookingId,
+        branchId: body.branch.id,
+        customerId: body.customer.id,
+        staffId: body.staff.id,
+        isPaid: body.isPaid,
+        dateBooking: body.dateBooking,
+        timeBooking: body.timeBooking,
+        total: total,
+        payment: 1,
+        bookingDetails: listService,
+      },
+    });
+    return {result: res};
+  } catch (error) {
+    console.log('Error edit booking: ', error);
+    return {error};
+  }
+};

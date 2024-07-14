@@ -301,81 +301,156 @@ export const updateStatusBooking = gql`
 `;
 
 export const getListBooked = gql`
-query GetListBooked($staffId: Int!, $dateBooking: String) {
-  Booking_connection(
-    order_by: { datetimeCreate: desc }, 
-    where: {
-      _or: [
-        { staff: { _eq: $staffId } },
-        { dateBooking: { _eq: $dateBooking } }
-      ],
-      status: { _in: ["upcoming", "ongoing"] }
-    }
-  ) {
-    edges {
-      cursor
-      node {
-        id
-        isPaid
-        status
-        total
-        dateBooking
-        timeBooking
-        datetimeCreate
-        BookingDetails {
-          Service {
+  query GetListBooked($staffId: Int!, $dateBooking: String) {
+    Booking_connection(
+      order_by: {datetimeCreate: desc}
+      where: {
+        _and: [
+          {staff: {_eq: $staffId}}
+          {dateBooking: {_eq: $dateBooking}}
+          {status: {_in: ["upcoming", "ongoing"]}}
+        ]
+      }
+    ) {
+      edges {
+        cursor
+        node {
+          id
+          isPaid
+          status
+          total
+          dateBooking
+          timeBooking
+          datetimeCreate
+          BookingDetails {
+            Service {
+              description
+              id
+              image
+              price
+              serviceName
+              time
+            }
+            id
+          }
+          User {
+            address
+            avatar
+            birthday
+            email
+            firstname
+            id
+            isVerified
+            lastname
+            typeAccount
+          }
+          Branch {
+            address
+            branchName
+            closeTime
             description
             id
             image
-            price
-            serviceName
-            time
+            openTime
           }
-          id
-        }
-        User {
-          address
-          avatar
-          birthday
-          email
-          firstname
-          id
-          isVerified
-          lastname
-          typeAccount
-        }
-        Branch {
-          address
-          branchName
-          closeTime
-          description
-          id
-          image
-          openTime
-        }
-        userByStaff {
-          Staff {
-            User {
-              address
-              avatar
-              birthday
-              email
-              firstname
-              id
-              isVerified
-              lastname
-              typeAccount
+          userByStaff {
+            Staff {
+              User {
+                address
+                avatar
+                birthday
+                email
+                firstname
+                id
+                isVerified
+                lastname
+                typeAccount
+              }
+              timeStartWork
+              workPlace
             }
-            timeStartWork
-            workPlace
           }
-        }
-        Payment {
-          id
-          name
+          Payment {
+            id
+            name
+          }
         }
       }
     }
   }
-}
+`;
+
+export const editBooking = gql`
+  mutation EditBooking(
+    $id: Int!
+    $branchId: Int!
+    $customerId: Int!
+    $staffId: Int!
+    $dateBooking: String
+    $timeBooking: String
+    $isPaid: Boolean
+    $payment: Int
+    $total: Int
+  ) {
+    update_Booking_by_pk(
+      pk_columns: {id: $id}
+      _set: {
+        branch: $branchId
+        customer: $customerId
+        dateBooking: $dateBooking
+        timeBooking: $timeBooking
+        isPaid: $isPaid
+        staff: $staffId
+        status: "upcoming"
+        total: $total
+        payment: $payment
+      }
+    ) {
+      Payment {
+        id
+        name
+      }
+      User {
+        address
+        avatar
+        birthday
+        email
+        firstname
+        id
+        isVerified
+        lastname
+        typeAccount
+      }
+      dateBooking
+      datetimeCreate
+      id
+      isPaid
+      status
+      timeBooking
+      total
+      userByStaff {
+        address
+        avatar
+        birthday
+        email
+        firstname
+        id
+        isVerified
+        lastname
+        typeAccount
+        Staff {
+          Branch {
+            address
+            branchName
+            closeTime
+            description
+            id
+            image
+            openTime
+          }
+          timeStartWork
+        }
+      }
+    }
+  }
 `;
