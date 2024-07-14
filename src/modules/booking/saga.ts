@@ -1,6 +1,7 @@
 import {PayloadAction} from '@reduxjs/toolkit';
 import {
   IActionCreateNewBookingPayLoad,
+  IActionGetListAllBooking,
   IActionEditBookingPayload,
   IActionGetListBookedPayload,
   IActionGetListBookingPayLoad,
@@ -68,6 +69,27 @@ export function* getListBookingsFn(
     limit,
     id,
     endCursor,
+  );
+  if (!error) {
+    yield put(saveListBookings(result));
+    onSuccess && onSuccess(result);
+  } else if (onFail) {
+    onFail && onFail(error);
+  }
+}
+
+export function* getListAllBookingFn(
+  action: PayloadAction<IActionGetListAllBooking>,
+) {
+  const {onSuccess, onFail} = action.payload;
+  const {isConnected} = yield isNetworkAvailable();
+  if (!isConnected) {
+    onFail && onFail();
+    return;
+  }
+
+  const {result, error} = yield call(
+    BookingService.getListAllBooking,
   );
   if (!error) {
     yield put(saveListBookings(result));
