@@ -1,11 +1,14 @@
-import {createRef, useEffect, useState} from 'react';
+import {createRef, useCallback, useEffect, useState} from 'react';
 import NavigationActionService from '../../navigation/navigation';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../redux/reducers';
 import {IWorkScheduleState} from '../../modules/workschedule/model';
 import {IAuthState} from '../../modules/auth/model';
 import {getListWorkSchedule} from '../../modules/workschedule';
-import { FlatList } from 'react-native';
+import {FlatList} from 'react-native';
+import {ApiError} from '../../constants/api';
+import {MessageType, PopupType} from '../../component/CustomPopup/type';
+import {EventTypes} from 'react-native-month-year-picker';
 
 const useCalendar = () => {
   const [open, setOpen] = useState(false);
@@ -17,6 +20,7 @@ const useCalendar = () => {
   const {userData} = useSelector<RootState, IAuthState>(state => state.auth);
   const [refresh, setRefresh] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [date, setDate] = useState(new Date());
   const dispatch = useDispatch();
   const listWorkScheduleRef = createRef<FlatList>();
   useEffect(() => {
@@ -32,14 +36,31 @@ const useCalendar = () => {
     NavigationActionService.pop();
   };
 
+  const onValueChange = useCallback(
+    (event: EventTypes, newDate: Date) => {
+      const selectedDate = newDate || date;
+
+      closePicker();
+      setDate(selectedDate);
+    },
+    [date, open],
+  );
+
   const onLoadSuccess = () => {
     setRefresh(false);
     setLoading(false);
   };
 
-  const onLoadFail = () => {
+  const onLoadFail = (error?: ApiError) => {
     setRefresh(false);
     setLoading(false);
+    NavigationActionService.showPopup({
+      type: PopupType.ONE_BUTTON,
+      typeMessage: MessageType.ERROR,
+      title: 'Lỗi lấy lịch làm việc',
+      message:
+        error?.message || 'Có lỗi gì đó đã xảy ra trong lúc lấy lịch làm việc',
+    });
   };
 
   const pullRefresh = () => {
@@ -56,7 +77,9 @@ const useCalendar = () => {
     loading,
     workSchedules,
     userData,
-    listWorkScheduleRef
+    listWorkScheduleRef,
+    date,
+    onValueChange,
   };
 };
 

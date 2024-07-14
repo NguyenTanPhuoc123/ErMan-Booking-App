@@ -24,7 +24,7 @@ const useDasboard = () => {
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);
 
-  const [currenYear, setCurrenYear] = useState (new Date().getFullYear());
+  const [currenYear, setCurrenYear] = useState(new Date().getFullYear());
   const {users} = useSelector<RootState, IUserState>(state => state.user);
   const listCustomer = users.filter(staff => staff.typeAccount === 'Customer');
   const {staffs} = useSelector<RootState, IUserState>(state => state.user);
@@ -35,10 +35,9 @@ const useDasboard = () => {
   const listBooking = bookings.filter(
     bookings => bookings.status === 'completed',
   );
-  const handlenChangeText = (text:any)=>{
+  const handlenChangeText = (text: any) => {
     setCurrenYear(text);
-  }
-console.log(setCurrenYear);
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -60,7 +59,7 @@ console.log(setCurrenYear);
     );
     setTimeout(() => {
       setLoading(false);
-    },2000 );
+    }, 2000);
   }, [refresh]);
 
   const loadSuccess = () => {
@@ -74,12 +73,7 @@ console.log(setCurrenYear);
   };
 
   const lineCharData: ChartData = {
-    labels: [
-      'Quý 1',
-      'Quý 2',
-      'Quý 3',
-      'Quý 4',
-    ],
+    labels: ['Quý 1 \n (T1-T3)', 'Quý 2', 'Quý 3', 'Quý 4'],
     datasets: [
       {
         data: [15, 19, 10, 22],

@@ -1,19 +1,27 @@
-import {View, Text, TouchableOpacity, ActivityIndicator, RefreshControl, FlatList, Keyboard} from 'react-native';
-import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ActivityIndicator,
+  RefreshControl,
+  FlatList,
+  Keyboard,
+} from 'react-native';
+import React from 'react';
 import styles from './style';
 import globalStyle from '../../constants/styles';
 import {Header} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import useCalendar from './useCalendar';
 
-import DatePicker from 'react-native-date-picker';
+import DatePicker, { EventTypes } from 'react-native-month-year-picker';
 import moment from 'moment';
 import {getMonthYearLong} from '../../utils/date';
 import WorkScheduleItem from './components/WorkScheduleItem';
-import { WorkSchedule } from '../../modules/workschedule/model';
+import {WorkSchedule} from '../../modules/workschedule/model';
 import ListItemEmpty from '../../component/ListItemEmpty';
-import { Staff } from '../../modules/user/model';
-import { LIST_CALENDAR_EMPTY } from '../../constants/icons';
+import {Staff} from '../../modules/user/model';
+import {LIST_CALENDAR_EMPTY} from '../../constants/icons';
 
 const CalendarScreen = () => {
   const {
@@ -26,10 +34,10 @@ const CalendarScreen = () => {
     userData,
     workSchedules,
     listWorkScheduleRef,
-    loading
+    loading,
+    date,
+    onValueChange
   } = useCalendar();
-
-  const [date, setDate] = useState(new Date());
 
   const renderHeader = () => {
     return (
@@ -59,23 +67,18 @@ const CalendarScreen = () => {
                 solid
               />
             </TouchableOpacity>
-
-            <DatePicker
-              date={date}
-              mode="date"
-              modal
-              title="Chọn tháng, năm..."
-              buttonColor="black"
-              confirmText="Xác nhận"
-              cancelText="Hủy"
-              dividerColor="#000000"
-              onConfirm={date => {
-                setDate(date);
-                closePicker();
-              }}
-              onCancel={closePicker}
-              open={open}
-            />
+            {open && (
+              <DatePicker
+                value={date}
+                minimumDate={new Date()}
+                maximumDate={new Date(2050,12)}
+                mode="full"
+                okButton="Xác nhận"
+                cancelButton="Hủy"
+                locale='vi'
+                onChange={onValueChange}
+              />
+            )}
           </>
         }
       />
@@ -94,33 +97,39 @@ const CalendarScreen = () => {
 
   const renderBody = () => (
     <View style={globalStyle.flex1}>
-    <FlatList<WorkSchedule>
-      ref={listWorkScheduleRef}
-      refreshControl={
-        <RefreshControl refreshing={refresh} onRefresh={pullRefresh} />
-      }
-      data={workSchedules}
-      keyExtractor={item => item.id.toString()}
-      onScrollBeginDrag={() => Keyboard.dismiss()}
-      scrollEventThrottle={16}
-      ListEmptyComponent={
-        <ListItemEmpty
-          image={LIST_CALENDAR_EMPTY}
-          content="Không có lịch làm việc"
-        />
-      }
-      renderItem={({item}) => <WorkScheduleItem key={item.id} workSchedule={item} staff={userData as Staff} />}
-      // ListFooterComponent={renderFooterFlatList}
-      // onEndReached={loadMore}
-      // onEndReachedThreshold={1}
-    />
-  </View>
+      <FlatList<WorkSchedule>
+        ref={listWorkScheduleRef}
+        refreshControl={
+          <RefreshControl refreshing={refresh} onRefresh={pullRefresh} />
+        }
+        data={workSchedules}
+        keyExtractor={item => item.id.toString()}
+        onScrollBeginDrag={() => Keyboard.dismiss()}
+        scrollEventThrottle={16}
+        ListEmptyComponent={
+          <ListItemEmpty
+            image={LIST_CALENDAR_EMPTY}
+            content="Không có lịch làm việc"
+          />
+        }
+        renderItem={({item}) => (
+          <WorkScheduleItem
+            key={item.id}
+            workSchedule={item}
+            staff={userData as Staff}
+          />
+        )}
+        // ListFooterComponent={renderFooterFlatList}
+        // onEndReached={loadMore}
+        // onEndReachedThreshold={1}
+      />
+    </View>
   );
 
   return (
     <View style={globalStyle.container}>
       {renderHeader()}
-      {loading? renderLoading() : renderBody()}
+      {loading ? renderLoading() : renderBody()}
     </View>
   );
 };

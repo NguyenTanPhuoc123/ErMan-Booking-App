@@ -43,7 +43,7 @@ const DashboardScreen = () => {
         <View style={styles.view}>
           <Text
             style={[globalStyle.fontText, globalStyle.textSize20, styles.text]}>
-            Thống kê các quý trong năm
+            Doanh thu theo quý trong năm
           </Text>
 
           <TextInput

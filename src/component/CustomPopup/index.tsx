@@ -18,16 +18,12 @@ const CustomPopup = () => {
   } = params as PopupProps;
 
   const closePopup = () => {
-    if (onClosePopup) {
-      closePopup();
-    }
+    onClosePopup && onClosePopup();
     NavigationActionService.hidePopup();
   };
   const onPressPrimary = () => {
     closePopup();
-    if (otherProps.onPressPrimaryBtn) {
-      otherProps.onPressPrimaryBtn();
-    }
+    otherProps.onPressPrimaryBtn && otherProps.onPressPrimaryBtn();
   };
   const renderPrimaryButton = () => {
     return (
