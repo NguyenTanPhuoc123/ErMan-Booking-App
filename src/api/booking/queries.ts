@@ -154,47 +154,27 @@ export const GetListAllBookings = gql`
 
 export const UpdateDataFromServer = gql`
   subscription GetListBookings {
-    Booking(order_by: {datetimeCreate: desc}) {
-      id
-      isPaid
-      status
-      total
-      dateBooking
-      timeBooking
-      datetimeCreate
-      BookingDetails {
-        Service {
-          description
+    Booking_connection(order_by: {datetimeCreate: desc}) {
+      edges {
+        node {
           id
-          image
-          price
-          serviceName
-          time
-        }
-        id
-      }
-      User {
-        address
-        avatar
-        birthday
-        email
-        firstname
-        id
-        isVerified
-        lastname
-        typeAccount
-      }
-      Branch {
-        address
-        branchName
-        closeTime
-        description
-        id
-        image
-        openTime
-      }
-      userByStaff {
-        Staff {
+          isPaid
+          status
+          total
+          dateBooking
+          timeBooking
+          datetimeCreate
+          BookingDetails {
+            Service {
+              description
+              id
+              image
+              price
+              serviceName
+              time
+            }
+            id
+          }
           User {
             address
             avatar
@@ -206,8 +186,32 @@ export const UpdateDataFromServer = gql`
             lastname
             typeAccount
           }
-          timeStartWork
-          workPlace
+          Branch {
+            address
+            branchName
+            closeTime
+            description
+            id
+            image
+            openTime
+          }
+          userByStaff {
+            Staff {
+              User {
+                address
+                avatar
+                birthday
+                email
+                firstname
+                id
+                isVerified
+                lastname
+                typeAccount
+              }
+              timeStartWork
+              workPlace
+            }
+          }
         }
       }
     }

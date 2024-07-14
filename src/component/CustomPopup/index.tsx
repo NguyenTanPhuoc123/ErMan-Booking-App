@@ -18,10 +18,17 @@ const CustomPopup = () => {
   } = params as PopupProps;
 
   const closePopup = () => {
-    onClosePopup && onClosePopup();
+    if (onClosePopup) {
+      closePopup();
+    }
     NavigationActionService.hidePopup();
   };
-
+  const onPressPrimary = () => {
+    closePopup();
+    if (otherProps.onPressPrimaryBtn) {
+      otherProps.onPressPrimaryBtn();
+    }
+  };
   const renderPrimaryButton = () => {
     return (
       <TouchableOpacity
@@ -32,10 +39,7 @@ const CustomPopup = () => {
           styles.primaryBtn,
           styles.horizontalButton,
         ]}
-        onPress={() => {
-          closePopup();
-          otherProps.onPressPrimaryBtn && otherProps.onPressPrimaryBtn();     
-        }}>
+        onPress={onPressPrimary}>
         <Text style={[globalStyle.fontText, styles.primaryText]}>OK</Text>
       </TouchableOpacity>
     );

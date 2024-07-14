@@ -42,7 +42,7 @@ const useCreateBooking = () => {
   const [time, setTime] = useState(booking ? booking.timeBooking : '');
   const payments = [
     {id: '1', name: 'Tiền mặt'},
-    {id: '2', name: 'VnPay'},
+    {id: '2', name: 'ZaloPay'},
   ];
   const [payment, setPayment] = useState(payments[0].id);
   useEffect(() => {
@@ -65,7 +65,6 @@ const useCreateBooking = () => {
       message: booking
         ? 'Chỉnh sửa lịch đặt thành công'
         : 'Đặt lịch thành công',
-      onPressPrimaryBtn: () => NavigationActionService.popToRoot(),
     });
   };
 

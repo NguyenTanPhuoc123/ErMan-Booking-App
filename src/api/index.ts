@@ -3,8 +3,6 @@ import {WebSocketLink} from '@apollo/client/link/ws';
 import {getMainDefinition} from '@apollo/client/utilities';
 import {API, HEADER, WEB_SOCKET} from '../constants/api';
 
-
-
 const httpLink = new HttpLink({
   uri: API,
   headers: HEADER,
@@ -35,7 +33,7 @@ const splitLink = split(
 const client = new ApolloClient({
   link: splitLink,
   cache: new InMemoryCache(),
-  queryDeduplication: true,
+  queryDeduplication: false,
 });
 
 export default client;

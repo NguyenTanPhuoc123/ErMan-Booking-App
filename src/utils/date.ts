@@ -66,3 +66,17 @@ export function compareTimesByHoursMinute(time1: string, time2: string) {
   }
   return false;
 }
+
+export function isTimeAvailable(
+  existingStartTime: Date,
+  timeDuration: number,
+  newStartTime: Date,
+  newDuration: number,
+) {
+  const existingEndTime = new Date(
+    existingStartTime.getTime() + timeDuration * 60000,
+  );
+  const newEndTime = new Date(newStartTime.getTime() + newDuration * 60000);
+
+  return newEndTime <= existingStartTime || newStartTime >= existingEndTime;
+}

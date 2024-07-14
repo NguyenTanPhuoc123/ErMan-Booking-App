@@ -38,11 +38,17 @@ const CreateBookingScreen = () => {
     payments,
     payment,
     setPayment,
-    booking
+    booking,
   } = useCreateBooking();
 
   const data = [
-    {id: 1, title: 'Chọn dịch vụ', data: <SelectService disabled={booking?true:false} services={services} />},
+    {
+      id: 1,
+      title: 'Chọn dịch vụ',
+      data: (
+        <SelectService disabled={booking ? true : false} services={services} />
+      ),
+    },
     {
       id: 2,
       title: 'Chọn chi nhánh',
@@ -59,6 +65,7 @@ const CreateBookingScreen = () => {
           bookingTime={time}
           onSelectBookingTime={setTime}
           stylist={stylist}
+          services={services}
           stylists={stylists as Staff[]}
         />
       ),
@@ -90,9 +97,7 @@ const CreateBookingScreen = () => {
   };
 
   const renderButtonBooking = () => (
-    <TouchableOpacity
-      style={styles.btnBooking}
-      onPress={createBooking}>
+    <TouchableOpacity style={styles.btnBooking} onPress={createBooking}>
       <Text style={styles.contentBtnBooking}>
         {screen === BOOKING_DETAIL_SCREEN ? 'Thay đổi' : 'Lên lịch ngay'}
       </Text>

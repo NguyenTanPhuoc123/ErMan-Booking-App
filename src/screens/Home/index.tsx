@@ -36,19 +36,14 @@ import {Branch} from '../../modules/branch/model';
 import ItemStylistRow from './components/ItemStylistRow';
 const Sale = [
   {
-    code: 'ERMAN16',
-    content: 'Tất cả các dịch vụ tại Erman Salon từ 1/7 - 2/7',
-    discountPercent: 50,
+    content: 'Nơi phong cách tỏa sáng, mang đến cho bạn những trải nghiệm tốt',
   },
   {
-    code: 'ERMAN17',
-    content: 'Tất cả các dịch vụ tại Erman Salon từ 3/7 - 4/7',
-    discountPercent: 60,
+    content:
+      'Đội ngũ stylist thân thiện, chuyên nghiệp, tinh tế từng đường kéo',
   },
   {
-    code: 'ERMAN18',
-    content: 'Tất cả các dịch vụ tại Erman Salon từ 5/7 - 6/7',
-    discountPercent: 70,
+    content: 'Đặt lịch dễ dàng, nhanh chóng với vài lần chọn',
   },
 ];
 
@@ -70,7 +65,7 @@ const HomeScreen = () => {
     branchs,
     stylists,
     bookingNear,
-    goToBooking
+    goToBooking,
   } = useDasboard();
   const renderHeader = () => {
     return (
@@ -142,12 +137,8 @@ const HomeScreen = () => {
           scrollAnimationDuration={2000}
           pagingEnabled={true}
           style={styles.slideDiscount}
-          renderItem={({item}) => (
-            <SaleComponent
-              code={item.code}
-              content={item.content}
-              discountPercent={item.discountPercent}
-            />
+          renderItem={({item, index}) => (
+            <SaleComponent key={index} content={item.content} />
           )}
         />
         <View style={styles.dotContainer}>

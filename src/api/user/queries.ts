@@ -2,26 +2,30 @@ import {gql} from '@apollo/client';
 
 export const onAuthStateChanged = gql`
   subscription onAuthStateChanged($id: Int) {
-    User(where: {id: {_eq: $id}}) {
-      address
-      avatar
-      birthday
-      email
-      firstname    
-      id
-      isVerified
-      lastname
-      typeAccount
-      Staff {
-        timeStartWork
-        Branch {
+    User_connection(where: {id: {_eq: $id}}) {
+      edges {
+        node {
+          Staff {
+            Branch {
+              address
+              branchName
+              closeTime
+              description
+              id
+              image
+              openTime
+            }
+            timeStartWork
+          }
           address
-          branchName
-          closeTime
-          description
+          avatar
+          birthday
+          email
+          firstname
           id
-          image
-          openTime
+          isVerified
+          lastname
+          typeAccount
         }
       }
     }
@@ -43,7 +47,7 @@ export const Register = gql`
       id
       avatar
       firstname
-      lastname  
+      lastname
       birthday
       email
       isVerified
@@ -61,7 +65,7 @@ export const GetCurrentUser = gql`
           id
           firstname
           lastname
-          avatar 
+          avatar
           birthday
           address
           email
@@ -166,7 +170,7 @@ export const GetListStaff = gql`
           id
           firstname
           lastname
-          avatar 
+          avatar
           birthday
           address
           email
@@ -242,7 +246,7 @@ export const SearchStaff = gql`
           id
           firstname
           lastname
-          avatar   
+          avatar
           birthday
           address
           email
