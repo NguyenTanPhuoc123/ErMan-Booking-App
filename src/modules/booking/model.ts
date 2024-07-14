@@ -8,6 +8,7 @@ export const GET_LIST_BOOKINGS = `${ROOT_MODULE}/GET_LIST_BOOKINGS`;
 export const CREATE_NEW_BOOKING = `${ROOT_MODULE}/CREATE_NEW_BOOKING`;
 export const UPDATE_STATUS_BOOKING = `${ROOT_MODULE}/UPDATE_STATUS_BOOKING`;
 export const GET_LIST_BOOKED = `${ROOT_MODULE}/GET_LIST_BOOKED`;
+export const GET_LIST_ALL_BOOKING = `${ROOT_MODULE}/GET_LIST_ALL_BOOKING`;
 export const EDIT_BOOKING = `${ROOT_MODULE}/EDIT_BOOKING`;
 export interface Booking {
   id: number;
@@ -43,6 +44,8 @@ export interface IAcionSaveListBookingPayLoad {
   endCursor: string;
   hasNextPage: boolean;
 }
+
+export type IActionGetListAllBooking = IActionCallback;
 
 export interface IActionUpdateStatusBookingPayload extends IActionCallback {
   id: number;

@@ -1,34 +1,71 @@
-import {View, Text, FlatList, ActivityIndicator} from 'react-native';
+import {
+  View,
+  Text,
+  ActivityIndicator,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import React from 'react';
 import globalStyle, {WITDH} from '../../../constants/styles';
-import HomeScreen from '../../Home';
 import useDasboard from './useDashboard';
-import {User} from '../../../modules/user/model';
-import {BarChart, LineChart, PieChart} from 'react-native-chart-kit';
+import {LineChart} from 'react-native-chart-kit';
 import styles from './style';
-import {ScrollView} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import FastImage from 'react-native-fast-image';
 import {AVARTAR_DEFAULT_CUSTOMER} from '../../../constants/icons';
-import Item from './components/Item';
+import {TextInput} from 'react-native-gesture-handler';
+
 const DashboardScreen = () => {
-  const {listStaff, lineCharData} = useDasboard();
+  const {
+    numberInput,
+    currenYear,
+    handlenChangeText,
+    loading,
+    listBooking,
+    listCustomer,
+    listStaff,
+    lineCharData,
+  } = useDasboard();
+
+  const renderLoading = () => {
+    return (
+      <ActivityIndicator
+        style={styles.loading}
+        size={'large'}
+        color={'#d4d3d6'}
+      />
+    );
+  };
 
   const renderLineChar = () => {
     return (
       <View>
-        <Text
-          style={[globalStyle.fontText, globalStyle.textSize20, styles.text]}>
-          Thống kê theo tuần
-        </Text>
+        <View style={styles.view}>
+          <Text
+            style={[globalStyle.fontText, globalStyle.textSize20, styles.text]}>
+            Thống kê các quý trong năm
+          </Text>
+
+          <TextInput
+            style={[styles.textinfo1,globalStyle.textSize20,globalStyle.fontText]}
+            placeholder="...."
+            keyboardType="numeric"
+            value={currenYear.toString()}
+            maxLength={4}
+            onChangeText={handlenChangeText}
+          />
+          <Icon
+            name="calendar-alt"
+            size={24}
+            style={styles.iconcalendar}
+          />
+        </View>
+
         <View style={styles.container}>
           <LineChart
             data={lineCharData}
             width={WITDH}
             height={300}
-            yAxisSuffix=""
-            yAxisInterval={1}
-            verticalLabelRotation={30}
             chartConfig={{
               backgroundGradientFrom: '#1E2923',
               backgroundGradientFromOpacity: 0,
@@ -47,18 +84,13 @@ const DashboardScreen = () => {
               },
             }}
             bezier
-            // style={{
-            //   borderColor: 'black',
-            //  borderWidth: 1,
-            //   borderRadius: 16,
-            // }}
           />
         </View>
       </View>
     );
   };
 
-  const renderItemButton = (label: string, value: string) => (
+  const renderItemButton = (label: string, value: number) => (
     <View style={styles.containerButton}>
       <View style={styles.inner}>
         <Text
@@ -67,7 +99,14 @@ const DashboardScreen = () => {
             globalStyle.textSize20,
             styles.textinfo,
           ]}>
-          {label + ' ' + value}
+          {label}
+        </Text>
+        <Text
+          style={[
+            globalStyle.textSize20,
+            styles.textvalue,
+          ]}>
+          {value}
         </Text>
       </View>
     </View>
@@ -77,12 +116,12 @@ const DashboardScreen = () => {
     return (
       <View>
         <View style={styles.containerView}>
-          {renderItemButton('Tổng thu nhập', '')}
-          {renderItemButton('Tổng nhân viên', '')}
+          {renderItemButton('Tổng thu nhập các chi nhánh', 100)}
+          {renderItemButton('Tổng nhân viên', listStaff.length)}
         </View>
         <View style={styles.containerView}>
-          {renderItemButton('Tổng lịch đặt', '')}
-          {renderItemButton('Tổng khách hàng', '')}
+          {renderItemButton('Tổng lịch đặt hoàn thành', listBooking.length)}
+          {renderItemButton('Tổng khách hàng', listCustomer.length)}
         </View>
       </View>
     );
@@ -99,13 +138,13 @@ const DashboardScreen = () => {
             solid
           />
           <Text
-            style={[globalStyle.textSize20, globalStyle.fontText,styles.info]}>
-            Top 5 nhân viên xuất sắc nhất:{' '}
+            style={[globalStyle.textSize20, globalStyle.fontText, styles.info]}>
+            Top 5 nhân viên có lịch đặt nhiều nhất:{' '}
           </Text>
         </View>
         <View>
-          {listStaff.map(item => (
-            <View key={item.id} style={styles.container1}>
+          {listStaff.slice(0, 5).map(item => (
+            <View key={item.id} style={styles.containerliststaff}>
               <>
                 <FastImage
                   style={styles.avatar}
@@ -114,30 +153,30 @@ const DashboardScreen = () => {
                   }
                   resizeMode="cover"
                 />
-                <View >
-                  <Text style={styles.name}>{item.firstname + ' ' + item.lastname}</Text>
+                <View>
+                  <Text style={styles.name}>
+                    {item.firstname + ' ' + item.lastname}
+                  </Text>
                   <Text style={styles.name}>Email: {item.email}</Text>
                 </View>
               </>
             </View>
           ))}
-
-          {/* <FlatList
-            data={listStaff}
-            keyExtractor={item => item.id.toString()}
-            renderItem={({item}) => <Item key={item.id} {...item} />}
-          /> */}
         </View>
       </View>
     );
   };
   return (
     <View style={globalStyle.container}>
-      <ScrollView>
-        {renderLineChar()}
-        {renderButton()}
-        {renderTopStaff()}
-      </ScrollView>
+      {loading ? (
+        renderLoading()
+      ) : (
+        <ScrollView>
+          {renderLineChar()}
+          {renderButton()}
+          {renderTopStaff()}
+        </ScrollView>
+      )}
     </View>
   );
 };
