@@ -18,11 +18,14 @@ export const getListBooked = createAction<Models.IActionGetListBookedPayload>(
   Models.GET_LIST_BOOKED,
 );
 
+export const getListAllBooking = createAction<Models.IActionGetListAllBooking>(Models.GET_LIST_ALL_BOOKING);
+
 function* bookingSaga() {
   yield takeLatest(createNewBooking, FuncSaga.createNewBookingFn);
   yield takeLatest(getListBookings, FuncSaga.getListBookingsFn);
   yield takeLatest(updateStatusBooking, FuncSaga.updateStatusBookingFn);
   yield takeLatest(getListBooked, FuncSaga.getListBookedFn);
+  yield takeLatest(getListAllBooking,FuncSaga.getListAllBookingFn);
 }
 
 export {bookingReducer, bookingSaga};

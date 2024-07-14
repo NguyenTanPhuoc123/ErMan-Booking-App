@@ -1,60 +1,104 @@
-import { Staff } from './../../../modules/user/model';
+import {Staff} from './../../../modules/user/model';
 
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../redux/reducers';
 import {IUserState} from '../../../modules/user/model';
-import { useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {getListCustomer, getListStaff} from '../../../modules/user';
 import {ChartData} from 'react-native-chart-kit/dist/HelperTypes';
-import { Booking, IActionGetListBookingPayLoad, IBookingState } from '../../../modules/booking/model';
-
+import {
+  Booking,
+  IActionGetListBookingPayLoad,
+  IBookingState,
+} from '../../../modules/booking/model';
+import {
+  getListAllBooking,
+  getListBooked,
+  getListBookings,
+} from '../../../modules/booking';
+import {ApiError} from '../../../constants/api';
 
 const useDasboard = () => {
   const dispatch = useDispatch();
+  const [numberInput, setNumberInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
-
-
-  // const users = useSelector<RootState, IUserState>(
-  //   state => state.user,
-  // ).users.filter(user=> user.typeAccount === 'Staff');
+  const [currenYear, setCurrenYear] = useState (new Date().getFullYear());
   const {users} = useSelector<RootState, IUserState>(state => state.user);
-  const listCustomer = users.filter(staff=>staff.typeAccount==="Customer");
-
+  const listCustomer = users.filter(staff => staff.typeAccount === 'Customer');
   const {staffs} = useSelector<RootState, IUserState>(state => state.user);
-  const listStaff = staffs.filter(staff=>staff.typeAccount==="Staff");
+  const listStaff = staffs.filter(staff => staff.typeAccount === 'Staff');
+  const {bookings} = useSelector<RootState, IBookingState>(
+    state => state.booking,
+  );
+  const listBooking = bookings.filter(
+    bookings => bookings.status === 'completed',
+  );
+  const handlenChangeText = (text:any)=>{
+    setCurrenYear(text);
+  }
+console.log(setCurrenYear);
 
-  const {bookings} = useSelector<RootState, IBookingState>(state => state.booking)
-  const listBooking = bookings.filter(staffs=>staffs.status==='upcoming')
-  console.log(listBooking.length);
-  
-
- 
-  
   useEffect(() => {
+    setLoading(true);
+    dispatch(
+      getListAllBooking({
+        onSuccess: loadSuccess,
+        onFail: (error?: ApiError) => {
+          console.log(error);
+        },
+      }),
+    );
     dispatch(
       getListStaff({
         page: 1,
         limit: 100,
-        onSuccess: () => {},
-        onFail: () => {},
+        onSuccess: loadSuccess,
+        onFail: loadFail,
       }),
     );
-  }, []);
+    setTimeout(() => {
+      setLoading(false);
+    },2000 );
+  }, [refresh]);
 
+  const loadSuccess = () => {
+    setRefresh(false);
+    setLoading(false);
+  };
+
+  const loadFail = () => {
+    setRefresh(false);
+    setLoading(false);
+  };
 
   const lineCharData: ChartData = {
-    labels: ['01-07-2024', '02-07-2024', '03-07-2024', '04-07-2024', '05-07-2024', '06-07-2024', '07-07-2024'],
+    labels: [
+      'Quý 1',
+      'Quý 2',
+      'Quý 3',
+      'Quý 4',
+    ],
     datasets: [
       {
-        data: [15, 19, 10, 20,12,18,15],
+        data: [15, 19, 10, 22],
         color: (opacity = 1) => `rgba(255, 255, 0, ${opacity})`,
-        strokeWidth:2,
+        strokeWidth: 2,
       },
     ],
   };
-  
-  return {listCustomer,listStaff,lineCharData};
+
+  return {
+    numberInput,
+    handlenChangeText,
+    loading,
+    listBooking,
+    listCustomer,
+    listStaff,
+    lineCharData,
+    currenYear,
+  };
 };
 
 export default useDasboard;

@@ -1,33 +1,71 @@
-import {View, Text, FlatList, ActivityIndicator} from 'react-native';
+import {
+  View,
+  Text,
+  ActivityIndicator,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import React from 'react';
 import globalStyle, {WITDH} from '../../../constants/styles';
-import HomeScreen from '../../Home';
 import useDasboard from './useDashboard';
-import {User} from '../../../modules/user/model';
-import {BarChart, LineChart, PieChart} from 'react-native-chart-kit';
+import {LineChart} from 'react-native-chart-kit';
 import styles from './style';
-import {ScrollView} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import FastImage from 'react-native-fast-image';
 import {AVARTAR_DEFAULT_CUSTOMER} from '../../../constants/icons';
+import {TextInput} from 'react-native-gesture-handler';
+
 const DashboardScreen = () => {
-  const {listCustomer,listStaff,lineCharData} = useDasboard();
+  const {
+    numberInput,
+    currenYear,
+    handlenChangeText,
+    loading,
+    listBooking,
+    listCustomer,
+    listStaff,
+    lineCharData,
+  } = useDasboard();
+
+  const renderLoading = () => {
+    return (
+      <ActivityIndicator
+        style={styles.loading}
+        size={'large'}
+        color={'#d4d3d6'}
+      />
+    );
+  };
 
   const renderLineChar = () => {
     return (
       <View>
-        <Text
-          style={[globalStyle.fontText, globalStyle.textSize20, styles.text]}>
-          Thống kê theo tuần
-        </Text>
+        <View style={styles.view}>
+          <Text
+            style={[globalStyle.fontText, globalStyle.textSize20, styles.text]}>
+            Thống kê các quý trong năm
+          </Text>
+
+          <TextInput
+            style={[styles.textinfo1,globalStyle.textSize20,globalStyle.fontText]}
+            placeholder="...."
+            keyboardType="numeric"
+            value={currenYear.toString()}
+            maxLength={4}
+            onChangeText={handlenChangeText}
+          />
+          <Icon
+            name="calendar-alt"
+            size={24}
+            style={styles.iconcalendar}
+          />
+        </View>
+
         <View style={styles.container}>
           <LineChart
             data={lineCharData}
             width={WITDH}
             height={300}
-            yAxisSuffix=""
-            yAxisInterval={1}
-            verticalLabelRotation={30}
             chartConfig={{
               backgroundGradientFrom: '#1E2923',
               backgroundGradientFromOpacity: 0,
@@ -65,9 +103,8 @@ const DashboardScreen = () => {
         </Text>
         <Text
           style={[
-            globalStyle.fontText,
             globalStyle.textSize20,
-            styles.textinfo,
+            styles.textvalue,
           ]}>
           {value}
         </Text>
@@ -79,12 +116,12 @@ const DashboardScreen = () => {
     return (
       <View>
         <View style={styles.containerView}>
-          {renderItemButton('Tổng thu nhập',100)}
+          {renderItemButton('Tổng thu nhập các chi nhánh', 100)}
           {renderItemButton('Tổng nhân viên', listStaff.length)}
         </View>
         <View style={styles.containerView}>
-          {renderItemButton('Tổng lịch đặt', 100)}
-          {renderItemButton('Tổng khách hàng',listCustomer.length )}
+          {renderItemButton('Tổng lịch đặt hoàn thành', listBooking.length)}
+          {renderItemButton('Tổng khách hàng', listCustomer.length)}
         </View>
       </View>
     );
@@ -102,12 +139,12 @@ const DashboardScreen = () => {
           />
           <Text
             style={[globalStyle.textSize20, globalStyle.fontText, styles.info]}>
-            Top 5 nhân viên xuất sắc nhất:{' '}
+            Top 5 nhân viên có lịch đặt nhiều nhất:{' '}
           </Text>
         </View>
         <View>
-          {listStaff.slice(0,5).map(item => (
-            <View key={item.id} style={styles.container1}>
+          {listStaff.slice(0, 5).map(item => (
+            <View key={item.id} style={styles.containerliststaff}>
               <>
                 <FastImage
                   style={styles.avatar}
@@ -131,11 +168,15 @@ const DashboardScreen = () => {
   };
   return (
     <View style={globalStyle.container}>
-      <ScrollView>
-        {renderLineChar()}
-        {renderButton()}
-        {renderTopStaff()}
-      </ScrollView>
+      {loading ? (
+        renderLoading()
+      ) : (
+        <ScrollView>
+          {renderLineChar()}
+          {renderButton()}
+          {renderTopStaff()}
+        </ScrollView>
+      )}
     </View>
   );
 };
