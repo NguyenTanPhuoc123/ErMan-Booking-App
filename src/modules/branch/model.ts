@@ -15,15 +15,9 @@ export interface Branch {
   openTime: string;
   closeTime: string;
   address: string;
-  description?:string;
+  description?: string;
 }
 
-export interface Comment {
-  id: number;
-  user: User;
-  content: string;
-  rate: 1 | 2 | 3 | 4 | 5;
-}
 export interface IBranchState {
   branchs: Array<Branch>;
   hasNextPage: boolean;
@@ -53,19 +47,19 @@ export interface IActionCheckBranchExist extends IActionCallback {
 
 export interface IActionCreateNewBranchPayload extends IActionCallback {
   branchName: string;
-  openTime:string;
-  closeTime:string;
-  image?:string;
-  description?:string;
-  address:string;
+  openTime: string;
+  closeTime: string;
+  image?: string;
+  description?: string;
+  address: string;
 }
 
 export interface IActionUpdateBranchPayload extends IActionCallback {
-  branch:Branch;
+  branch: Branch;
 }
 
 export interface IActionDeleteBranchPayload extends IActionCallback {
-  branchId:number;
+  branchId: number;
 }
 
 export interface IActionRemoveBranchPayload extends IActionCallback {
