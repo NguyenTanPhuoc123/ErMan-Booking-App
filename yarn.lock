@@ -2254,6 +2254,11 @@
   dependencies:
     "@sinonjs/commons" "^3.0.0"
 
+"@stripe/stripe-react-native@^0.38.1":
+  version "0.38.1"
+  resolved "https://registry.npmjs.org/@stripe/stripe-react-native/-/stripe-react-native-0.38.1.tgz"
+  integrity sha512-FpwoazLMooJMoMTJiICdoW8SZY5PeJsqbRKCO+yjbMkYfbCOQfXHPzsaPSA3AAPo9cVa1Z7dzoUDILndE6Y7Kg==
+
 "@types/babel__core@^7.1.14":
   version "7.20.5"
   resolved "https://registry.npmjs.org/@types/babel__core/-/babel__core-7.20.5.tgz"
@@ -6850,6 +6855,11 @@ react-native-gesture-handler@^2.16.1, "react-native-gesture-handler@>= 1.0.0", r
     invariant "^2.2.4"
     lodash "^4.17.21"
     prop-types "^15.7.2"
+
+react-native-google-pay@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/react-native-google-pay/-/react-native-google-pay-2.1.0.tgz"
+  integrity sha512-MAz0pKx3tZLkdhEteG/p1eZMO9I6MREth3TZnxw/puAg90vFQVP6e26dIph5IJlIhaXEOdchFZDHnioHf48gUA==
 
 react-native-keyboard-spacer@^0.4.1:
   version "0.4.1"

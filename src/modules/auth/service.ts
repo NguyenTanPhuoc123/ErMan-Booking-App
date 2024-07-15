@@ -94,12 +94,13 @@ export const editProfile = async (user: User) => {
         avatar: user.avatar,
         firstname: user.firstname,
         lastname: user.lastname,
-
         birthday: user.birthday,
         address: user.address,
       },
     });
+
     const userData = res.data.update_User_by_pk;
+
     const userUpdated: User = {
       id: user.id,
       avatar: user.avatar,
@@ -149,18 +150,18 @@ export const logout = async () => {
   }
 };
 
-export const changePassword = async (newPassword:string) => {
+export const changePassword = async (newPassword: string) => {
   try {
     console.log(auth().currentUser?.uid);
     const res = await auth().currentUser?.updatePassword(newPassword);
-    return {result:res};
+    return {result: res};
   } catch (error) {
     console.log('Error change password: ', error);
     return {error};
   }
 };
 
-export const checkEmailExist = async (email:String) => {
+export const checkEmailExist = async (email: String) => {
   try {
     const res = await client.query({
       query: UserApi.CheckEmailExist,
@@ -174,12 +175,12 @@ export const checkEmailExist = async (email:String) => {
   }
 };
 
-export const resetPassword = async(email:string)=>{
-  try{
-  const res = await auth().sendPasswordResetEmail(email);
-  return {result:res};
-  }catch(error){
-    console.log("Error reset password: ",error);
+export const resetPassword = async (email: string) => {
+  try {
+    const res = await auth().sendPasswordResetEmail(email);
+    return {result: res};
+  } catch (error) {
+    console.log('Error reset password: ', error);
     return {error};
   }
-}
+};

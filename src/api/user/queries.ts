@@ -89,12 +89,44 @@ export const GetCurrentUser = gql`
   }
 `;
 
-export const EditProfile = gql`
+export const EditProfileStaff = gql`
   mutation EditProfile($id: Int!, $workPlace: Int) {
     update_Staff_by_pk(pk_columns: {id: $id}, _set: {workPlace: $workPlace}) {
       id
       timeStartWork
       workPlace
+    }
+  }
+`;
+
+export const EditProfile = gql`
+  mutation EditProfile(
+    $id: Int!
+    $firstname: String
+    $lastname: String
+    $avatar: String
+    $birthday: String
+    $address: String
+  ) {
+    update_User_by_pk(
+      pk_columns: {id: $id}
+      _set: {
+        address: $address
+        avatar: $avatar
+        birthday: $birthday
+        firstname: $firstname
+        lastname: $lastname
+      }
+    ) {
+      id
+      avatar
+      firstname
+      lastname
+      birthday
+      address
+      email
+      typeAccount
+      isVerified
     }
   }
 `;

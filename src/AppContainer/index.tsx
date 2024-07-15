@@ -19,6 +19,7 @@ import {SkeletonLoadingRef} from '../component/CustomSketelonService/type';
 import CustomSketelonService from '../component/CustomSketelonService';
 import {ApolloProvider} from '@apollo/client';
 import client from '../api';
+import {StripeProvider} from '@stripe/stripe-react-native';
 
 export const BaseService = BaseServiceClass.instance(store);
 const Stack = createStackNavigator();
@@ -35,19 +36,25 @@ const App = () => {
     <ApolloProvider client={client}>
       <Provider store={store}>
         <PersistGate persistor={persistor}>
-          <NavigationContainer
-            ref={navigationRef}
-            onReady={() => BootSplashScreen.hide({fade: true})}>
-            <Stack.Navigator
-              screenOptions={{headerShown: false, gestureEnabled: false}}>
-              <Stack.Screen name={MAIN_SCREEN} component={AppComponent} />
-              <Stack.Screen
-                options={getStackScreenOptions as StackNavigationOptions}
-                name={CUSTOM_POPUP}
-                component={CustomPopup}
-              />
-            </Stack.Navigator>
-          </NavigationContainer>
+          <StripeProvider
+            publishableKey="pk_test_51PcZ0kI0Cih9djgJmq54Nzodbhs5X5wtViO7NvrhshnpKFpCM1V0E594SmeWUb1HYhiZSodlNpsOVOIVBE89n8Ka00vvNvnzt3"
+            urlScheme="your-url-scheme" // required for 3D Secure and bank redirects
+            merchantIdentifier="merchant.com.{{YOUR_APP_NAME}}" // required for Apple Pay
+          >
+            <NavigationContainer
+              ref={navigationRef}
+              onReady={() => BootSplashScreen.hide({fade: true})}>
+              <Stack.Navigator
+                screenOptions={{headerShown: false, gestureEnabled: false}}>
+                <Stack.Screen name={MAIN_SCREEN} component={AppComponent} />
+                <Stack.Screen
+                  options={getStackScreenOptions as StackNavigationOptions}
+                  name={CUSTOM_POPUP}
+                  component={CustomPopup}
+                />
+              </Stack.Navigator>
+            </NavigationContainer>
+          </StripeProvider>
           <LoadingPage ref={loadingRef} />
         </PersistGate>
       </Provider>

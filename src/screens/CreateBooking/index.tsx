@@ -1,4 +1,11 @@
-import {View, Text, TouchableOpacity, FlatList, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  ScrollView,
+  Button,
+} from 'react-native';
 import React from 'react';
 import {Header} from 'react-native-elements';
 import styles from './style';
@@ -39,6 +46,8 @@ const CreateBookingScreen = () => {
     payment,
     setPayment,
     booking,
+    goToSelectPayment,
+    onPay,
   } = useCreateBooking();
 
   const data = [
@@ -134,12 +143,21 @@ const CreateBookingScreen = () => {
     );
   };
 
+  const PayByGooglePay = () => {
+    return (
+      <TouchableOpacity style={styles.btnBooking} onPress={onPay}>
+        <Text style={styles.contentBtnBooking}>Thanh toán</Text>
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <View style={globalStyle.container}>
       {renderHeader()}
       <ScrollView>
         {renderBody()}
         {renderPayment()}
+        {payment === '2' ? PayByGooglePay() : null}
         {renderButtonBooking()}
       </ScrollView>
     </View>

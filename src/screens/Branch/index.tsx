@@ -55,12 +55,6 @@ const BranchScreen = () => {
     );
   };
 
-  const renderBranchNear = () => (
-    <TouchableOpacity style={styles.btnBranchNear}>
-      <Icon name="map-marker-alt" size={20} solid color="red" />
-      <Text style={styles.contentBtn}>Chi nhánh gần tôi</Text>
-    </TouchableOpacity>
-  );
   const renderLoading = () => {
     return (
       <ActivityIndicator
@@ -121,7 +115,7 @@ const BranchScreen = () => {
         searchValue={search}
         onSearch={setSearch}
       />
-      {renderBranchNear()}
+
       {loading ? renderLoading() : renderBranch()}
     </View>
   );

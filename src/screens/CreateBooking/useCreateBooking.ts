@@ -10,7 +10,24 @@ import {MessageType, PopupType} from '../../component/CustomPopup/type';
 import {ApiError} from '../../constants/api';
 import {createNewBooking, editBooking} from '../../modules/booking';
 import {IAuthState} from '../../modules/auth/model';
-import {BOOKING_DETAIL_SCREEN} from '../../constants/screen_key';
+import {
+  BOOKING_DETAIL_SCREEN,
+  SELECT_PAYMENT_SCREEN,
+} from '../../constants/screen_key';
+import {
+  AllowedCardAuthMethodsType,
+  AllowedCardNetworkType,
+  GooglePay,
+  RequestDataType,
+} from 'react-native-google-pay';
+import {Service} from '../../modules/service/model';
+import {Platform} from 'react-native';
+
+const allowedCardNetworks: AllowedCardNetworkType[] = ['VISA', 'MASTERCARD','JCB'];
+const allowedCardAuthMethods: AllowedCardAuthMethodsType[] = [
+  'PAN_ONLY',
+  'CRYPTOGRAM_3DS',
+];
 
 const useCreateBooking = () => {
   const dispatch = useDispatch();
@@ -42,10 +59,13 @@ const useCreateBooking = () => {
   const [time, setTime] = useState(booking ? booking.timeBooking : '');
   const payments = [
     {id: '1', name: 'Tiền mặt'},
-    {id: '2', name: 'ZaloPay'},
+    {id: '2', name: 'GooglePay'},
   ];
   const [payment, setPayment] = useState(payments[0].id);
   useEffect(() => {
+    if (Platform.OS === 'android') {
+      GooglePay.setEnvironment(GooglePay.ENVIRONMENT_TEST);
+    }
     dispatch(
       getListStaff({
         limit: 100,
@@ -75,6 +95,51 @@ const useCreateBooking = () => {
       typeMessage: MessageType.ERROR,
       title: booking ? 'Chỉnh sửa lịch đặt thất bại' : 'Đặt lịch thất bại',
       message: error?.message || 'Có lỗi gì đó đã xảy ra',
+    });
+  };
+
+  const onPay = () => {
+    let total = 0;
+    services.map((service: Service) => {
+      total += service.price;
+    });
+    const gatewayRequestData: RequestDataType = {
+      cardPaymentMethod: {
+        tokenizationSpecification: {
+          type: 'PAYMENT_GATEWAY',
+          gateway: 'example',
+          gatewayMerchantId: 'exampleGatewayMerchantId',
+        },
+        allowedCardNetworks,
+        allowedCardAuthMethods,
+      },
+      transaction: {
+        totalPrice: total.toString(),
+        totalPriceStatus: 'FINAL',
+        currencyCode: 'VND',
+      },
+      merchantName: 'Erman Salon',
+    };
+
+    GooglePay.isReadyToPay(allowedCardNetworks, allowedCardAuthMethods).then(
+      ready => {
+        if (ready) {
+          // Request payment token
+          GooglePay.requestPayment(gatewayRequestData)
+            .then(handleSuccess)
+            .catch(onCreateFail);
+        }
+      },
+    );
+  };
+
+  const handleSuccess = (token: string) => {
+    // Send a token to your payment gateway
+    NavigationActionService.showPopup({
+      type: PopupType.ONE_BUTTON,
+      typeMessage: MessageType.COMMON,
+      title: 'Thanh toán',
+      message: `Thanh toán thành công ${token}`,
     });
   };
 
@@ -133,6 +198,11 @@ const useCreateBooking = () => {
   const goBack = () => {
     NavigationActionService.popToRoot();
   };
+
+  const goToSelectPayment = () => {
+    NavigationActionService.navigate(SELECT_PAYMENT_SCREEN);
+  };
+
   return {
     goBack,
     services,
@@ -150,6 +220,8 @@ const useCreateBooking = () => {
     payments,
     payment,
     setPayment,
+    goToSelectPayment,
+    onPay,
   };
 };
 

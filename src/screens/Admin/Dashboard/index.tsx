@@ -22,9 +22,9 @@ const DashboardScreen = () => {
     handlenChangeText,
     loading,
     listBooking,
-    listCustomer,
     listStaff,
     lineCharData,
+    users,
   } = useDasboard();
 
   const renderLoading = () => {
@@ -47,18 +47,18 @@ const DashboardScreen = () => {
           </Text>
 
           <TextInput
-            style={[styles.textinfo1,globalStyle.textSize20,globalStyle.fontText]}
+            style={[
+              styles.textinfo1,
+              globalStyle.textSize20,
+              globalStyle.fontText,
+            ]}
             placeholder="...."
             keyboardType="numeric"
             value={currenYear.toString()}
             maxLength={4}
             onChangeText={handlenChangeText}
           />
-          <Icon
-            name="calendar-alt"
-            size={24}
-            style={styles.iconcalendar}
-          />
+          <Icon name="calendar-alt" size={24} style={styles.iconcalendar} />
         </View>
 
         <View style={styles.container}>
@@ -101,13 +101,7 @@ const DashboardScreen = () => {
           ]}>
           {label}
         </Text>
-        <Text
-          style={[
-            globalStyle.textSize20,
-            styles.textvalue,
-          ]}>
-          {value}
-        </Text>
+        <Text style={[globalStyle.textSize20, styles.textvalue]}>{value}</Text>
       </View>
     </View>
   );
@@ -116,12 +110,12 @@ const DashboardScreen = () => {
     return (
       <View>
         <View style={styles.containerView}>
-          {renderItemButton('Tổng thu nhập các chi nhánh', 100)}
+          {renderItemButton('Tổng thu nhập', 100)}
           {renderItemButton('Tổng nhân viên', listStaff.length)}
         </View>
         <View style={styles.containerView}>
-          {renderItemButton('Tổng lịch đặt hoàn thành', listBooking.length)}
-          {renderItemButton('Tổng khách hàng', listCustomer.length)}
+          {renderItemButton('Tổng lịch đặt', listBooking.length)}
+          {renderItemButton('Tổng khách hàng', users.length)}
         </View>
       </View>
     );
@@ -139,7 +133,7 @@ const DashboardScreen = () => {
           />
           <Text
             style={[globalStyle.textSize20, globalStyle.fontText, styles.info]}>
-            Top 5 nhân viên có lịch đặt nhiều nhất:{' '}
+            Top 5 nhân viên được đặt nhiều nhất
           </Text>
         </View>
         <View>
