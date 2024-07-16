@@ -26,22 +26,6 @@ const styles = StyleSheet.create({
     right: 0,
     zIndex: 9999,
   },
-  btnBranchNear: {
-    flexDirection: 'row',
-    backgroundColor: '#F3CC67',
-    width: WITDH / 2,
-    height: 50,
-    borderRadius: 20,
-    justifyContent: 'space-around',
-    paddingHorizontal: 4,
-    alignItems: 'center',
-    margin: 10,
-  },
-  contentBtn: {
-    color: '#000',
-    fontSize: 18,
-    fontFamily: InriaSerifBold,
-  },
   loading: {
     flex: 1,
     justifyContent: 'center',

@@ -1,5 +1,8 @@
-export const API_TOKEN_EXPIRATION = 60 * 60; // 60*60 seconds ~ 1 hour
 
+import { NativeModules } from 'react-native';
+export const {PayZaloBridge} = NativeModules;
+
+export const API_TOKEN_EXPIRATION = 60 * 60; // 60*60 seconds ~ 1 hour
 export const API = 'https://ermanbooking.hasura.app/v1beta1/relay';
 export const HEADER = {
   'x-hasura-admin-secret':

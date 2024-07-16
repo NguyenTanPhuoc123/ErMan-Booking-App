@@ -170,7 +170,7 @@ export const searchCustomer = async (search: string) => {
 export const editProfile = async (id: number, workPlace: number) => {
   try {
     const res = await client.mutate({
-      mutation: UserApi.EditProfile,
+      mutation: UserApi.EditProfileStaff,
       variables: {
         id: id,
         workPlace: workPlace,

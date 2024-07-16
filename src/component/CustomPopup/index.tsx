@@ -7,7 +7,7 @@ import globalStyle from '../../constants/styles';
 import styles from './styles';
 
 const CustomPopup = () => {
-  const {params} = useRoute();
+  const route = useRoute();
   const {
     title,
     message,
@@ -15,16 +15,13 @@ const CustomPopup = () => {
     horizontalBtn = false,
     onClosePopup,
     ...otherProps
-  } = params as PopupProps;
+  } = route.params as PopupProps;
 
   const closePopup = () => {
     onClosePopup && onClosePopup();
     NavigationActionService.hidePopup();
   };
-  const onPressPrimary = () => {
-    closePopup();
-    otherProps.onPressPrimaryBtn && otherProps.onPressPrimaryBtn();
-  };
+
   const renderPrimaryButton = () => {
     return (
       <TouchableOpacity
@@ -35,7 +32,10 @@ const CustomPopup = () => {
           styles.primaryBtn,
           styles.horizontalButton,
         ]}
-        onPress={onPressPrimary}>
+        onPress={() => {
+          otherProps.onPressPrimaryBtn && otherProps.onPressPrimaryBtn();
+          closePopup();
+        }}>
         <Text style={[globalStyle.fontText, styles.primaryText]}>OK</Text>
       </TouchableOpacity>
     );

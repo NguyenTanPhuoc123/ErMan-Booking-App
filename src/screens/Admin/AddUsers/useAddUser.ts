@@ -8,7 +8,6 @@ import NavigationActionService from '../../../navigation/navigation';
 import {MessageType, PopupType} from '../../../component/CustomPopup/type';
 import {Keyboard} from 'react-native';
 import {useRoute} from '@react-navigation/native';
-import DocumentPicker from 'react-native-document-picker';
 import {RootState} from '../../../redux/reducers';
 import {IBranchState} from '../../../modules/branch/model';
 import {getListBranchs} from '../../../modules/branch';
@@ -24,7 +23,6 @@ export const data = [
 
 const useAddUser = () => {
   const {user} = useRoute().params as any;
-
   const [noedit, setNoedit] = useState(true);
 
   const initValue: FormInfoUserValues = {
@@ -38,13 +36,29 @@ const useAddUser = () => {
     workPlace: 1,
     timeStartWork: moment().format('DD-MM-YYYY'),
   };
+
+  const userValue = {
+    id: user?.id,
+    firstname: user?.firstname,
+    lastname: user?.lastname,
+    avatar: user?.avatar,
+    address: user?.address,
+    email: user?.email,
+    isVerified: user?.isVerified,
+    password: '123456@aA',
+    birthday: user?.birthday,
+    typeAccount: user?.typeAccount,
+    workPlace: user?.workPlace.id,
+    timeStartWork: user?.timeStartWork,
+  };
+
   const {
     control,
     handleSubmit,
     getValues,
     formState: {errors},
   } = useForm<FormInfoUserValues>({
-    defaultValues: user ? user : initValue,
+    defaultValues: user ? userValue : initValue,
     resolver: yupResolver(validationSchema),
   });
 
@@ -52,14 +66,12 @@ const useAddUser = () => {
   const closePicker = () => setOpen(false);
 
   const dispatch = useDispatch();
-  const [avatar, setAvatar] = useState(user ? user.avatar : '');
   const firstNameRef = useRef<TextInput>(null);
   const lastNameRef = useRef<TextInput>(null);
   const passwordRef = useRef<TextInput>(null);
   const emailRef = useRef<TextInput>(null);
   const addressRef = useRef<TextInput>(null);
   const {branchs} = useSelector<RootState, IBranchState>(state => state.branch);
-
   useEffect(() => {
     if (user) setNoedit(false);
     dispatch(

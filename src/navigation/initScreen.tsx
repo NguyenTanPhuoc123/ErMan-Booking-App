@@ -6,7 +6,6 @@ import {
 } from './StackParamList';
 import LandingPage from '../screens/Authentication/LandingPage';
 import LoginScreen from '../screens/Authentication/Login';
-import VerifyPhoneScreen from '../screens/Authentication/VerifyPhone';
 import {createStackNavigator} from '@react-navigation/stack';
 import RegisterScreen from '../screens/Authentication/Register';
 import InformationScreen from '../screens/Authentication/Information';
@@ -103,7 +102,6 @@ export const mainStackScreens: MainStackObject = {
   [SCREEN_KEYS.STYLIST_SCREEN]: StylistScreen,
   [SCREEN_KEYS.CREATE_BOOKING_SCREEN]: CreateBookingScreen,
   [SCREEN_KEYS.BOOKING_DETAIL_SCREEN]: BookingDetailScreen,
-  [SCREEN_KEYS.SELECT_PAYMENT_SCREEN]: SelectPaymentScreen,
   [SCREEN_KEYS.PREVIEW_RATING_SCREEN]: PreviewRatingScreen,
 };
 

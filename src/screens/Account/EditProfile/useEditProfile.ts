@@ -29,6 +29,7 @@ const useEditProfile = () => {
   const {
     control,
     handleSubmit,
+    getValues,
     formState: {errors},
   } = useForm<FormEditUser>({
     defaultValues: {...currentUser},
@@ -50,7 +51,6 @@ const useEditProfile = () => {
   const onFocusAddress = () => {
     addressRef.current?.focus();
   };
-
 
   const goBack = () => {
     NavigationActionService.pop();
@@ -91,22 +91,21 @@ const useEditProfile = () => {
     });
   };
 
-  const onEditSubmit = handleSubmit((values: FormEditUser) => {
+  const onEditSubmit = handleSubmit(() => {
     Keyboard.dismiss();
     NavigationActionService.showLoading();
     console.log(currentUser);
     const dataEdit: User = {
       id: currentUser.id,
       avatar: avatar,
-      firstname: values.firstname,
-      lastname: values.lastname,
-      birthday: values.birthday,
-      address: values.address,
+      firstname: getValues('firstname'),
+      lastname: getValues('lastname'),
+      birthday: getValues('birthday'),
+      address: getValues('address'),
       isVerified: currentUser.isVerified,
       email: currentUser.email,
       typeAccount: currentUser.typeAccount,
     };
-
     dispatch(
       editProfile({
         user: dataEdit,

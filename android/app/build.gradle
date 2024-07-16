@@ -121,6 +121,9 @@ dependencies {
     implementation project(':react-native-otp-verify')
     implementation project(':react-native-document-picker')
     implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
+    implementation fileTree(dir: "libs", include: ["*.jar", "*.aar"])
+    implementation 'com.google.android.gms:play-services-wallet:19.4.0'
+    implementation files('libs/zpdk-release-28052021.aar')
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")

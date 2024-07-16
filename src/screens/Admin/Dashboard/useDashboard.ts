@@ -3,40 +3,36 @@ import {Staff} from './../../../modules/user/model';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../redux/reducers';
 import {IUserState} from '../../../modules/user/model';
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {getListCustomer, getListStaff} from '../../../modules/user';
 import {ChartData} from 'react-native-chart-kit/dist/HelperTypes';
-import {
-  Booking,
-  IActionGetListBookingPayLoad,
-  IBookingState,
-} from '../../../modules/booking/model';
-import {
-  getListAllBooking,
-  getListBooked,
-  getListBookings,
-} from '../../../modules/booking';
+import {IBookingState} from '../../../modules/booking/model';
+import {getListAllBooking} from '../../../modules/booking';
 import {ApiError} from '../../../constants/api';
+import moment from 'moment';
+import { EventTypes } from 'react-native-month-year-picker';
 
 const useDasboard = () => {
   const dispatch = useDispatch();
-  const [numberInput, setNumberInput] = useState('');
+  const [monthStatiscal, setMonthStatiscal] = useState(moment().format('MM-YYYY'));
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);
-
-  const [currenYear, setCurrenYear] = useState(new Date().getFullYear());
+  const [income,setIncome] = useState(0);
+  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const {users} = useSelector<RootState, IUserState>(state => state.user);
-  const listCustomer = users.filter(staff => staff.typeAccount === 'Customer');
   const {staffs} = useSelector<RootState, IUserState>(state => state.user);
   const listStaff = staffs.filter(staff => staff.typeAccount === 'Staff');
+  const [open,setOpen] = useState(false);
+  const openPicker = () => setOpen(true);
+  const closePicker = () => setOpen(false);
   const {bookings} = useSelector<RootState, IBookingState>(
     state => state.booking,
   );
-  const listBooking = bookings.filter(
-    bookings => bookings.status === 'completed',
+  const [listBooking, setListBooking] = useState(
+    bookings.filter(bookings => bookings.status == 'completed'),
   );
   const handlenChangeText = (text: any) => {
-    setCurrenYear(text);
+    setCurrentYear(text);
   };
 
   useEffect(() => {
@@ -57,6 +53,14 @@ const useDasboard = () => {
         onFail: loadFail,
       }),
     );
+    dispatch(
+      getListCustomer({
+        page: 1,
+        limit: 100,
+        onSuccess: loadSuccess,
+        onFail: loadFail,
+      }),
+    );
     setTimeout(() => {
       setLoading(false);
     }, 2000);
@@ -65,33 +69,59 @@ const useDasboard = () => {
   const loadSuccess = () => {
     setRefresh(false);
     setLoading(false);
+    let total = 0 ;
+    setListBooking(bookings.filter(bookings => bookings.status == 'completed'));
+    listBooking.map(booking=>{
+      total+=booking.total;
+    })
+    setIncome(total);
   };
-
+  const pullRefresh = () => {
+    setRefresh(true);
+  };
   const loadFail = () => {
     setRefresh(false);
     setLoading(false);
   };
 
   const lineCharData: ChartData = {
-    labels: ['Quý 1 \n (T1-T3)', 'Quý 2', 'Quý 3', 'Quý 4'],
+    labels: ['Quý 1', 'Quý 2', 'Quý 3', 'Quý 4'],
     datasets: [
       {
-        data: [15, 19, 10, 22],
+        data: [11, 22, 47, 30],
         color: (opacity = 1) => `rgba(255, 255, 0, ${opacity})`,
         strokeWidth: 2,
       },
     ],
   };
 
+  const onValueChange = useCallback(
+    (event: EventTypes, newDate: Date) => {
+      const selectedDate = newDate || monthStatiscal;
+
+      closePicker();
+      setMonthStatiscal(moment(selectedDate).format('MM-YYYY'));
+    },
+    [monthStatiscal, open],
+  );
+
   return {
-    numberInput,
+    monthStatiscal,
+    setMonthStatiscal,
     handlenChangeText,
     loading,
     listBooking,
-    listCustomer,
     listStaff,
     lineCharData,
-    currenYear,
+    currentYear,
+    users,
+    refresh,
+    pullRefresh,
+    income,
+    open,
+    openPicker,
+    closePicker,
+    onValueChange
   };
 };
 

@@ -7,10 +7,14 @@ import {useEffect, useState} from 'react';
 import {getListStaff} from '../../modules/user';
 import moment from 'moment';
 import {MessageType, PopupType} from '../../component/CustomPopup/type';
-import {ApiError} from '../../constants/api';
-import {createNewBooking, editBooking} from '../../modules/booking';
+import {ApiError, PayZaloBridge} from '../../constants/api';
+import {createNewBooking, editBooking, payBooking} from '../../modules/booking';
 import {IAuthState} from '../../modules/auth/model';
-import {BOOKING_DETAIL_SCREEN} from '../../constants/screen_key';
+import {
+  BOOKING_DETAIL_SCREEN,
+  SELECT_PAYMENT_SCREEN,
+} from '../../constants/screen_key';
+import {Service} from '../../modules/service/model';
 
 const useCreateBooking = () => {
   const dispatch = useDispatch();
@@ -40,11 +44,15 @@ const useCreateBooking = () => {
   const dateNow = moment(new Date()).format('DD-MM-YYYY');
   const [date, setDate] = useState(booking ? booking.dateBooking : dateNow);
   const [time, setTime] = useState(booking ? booking.timeBooking : '');
+  const [isPaid, setIsPaid] = useState(false);
   const payments = [
     {id: '1', name: 'Tiền mặt'},
     {id: '2', name: 'ZaloPay'},
   ];
   const [payment, setPayment] = useState(payments[0].id);
+  const [token, setToken] = useState('');
+  const [returncode, setReturnCode] = useState('');
+
   useEffect(() => {
     dispatch(
       getListStaff({
@@ -78,6 +86,34 @@ const useCreateBooking = () => {
     });
   };
 
+  const onPay = () => {
+    let total = 0;
+    services.map((service: Service) => {
+      total += service.price;
+    });
+    dispatch(
+      payBooking({
+        total: total,
+        onSuccess: value => {
+          const pay = PayZaloBridge.payOrder(value.zp_trans_token);
+          console.log(pay);
+          setIsPaid(true);
+        },
+        onFail: onCreateFail,
+      }),
+    );
+  };
+
+  const handleSuccess = (token: string) => {
+    // Send a token to your payment gateway
+    NavigationActionService.showPopup({
+      type: PopupType.ONE_BUTTON,
+      typeMessage: MessageType.COMMON,
+      title: 'Thanh toán',
+      message: `Thanh toán thành công ${token}`,
+    });
+  };
+
   const createBooking = () => {
     NavigationActionService.showLoading();
     if (services.lenght <= 0 || !branch || !stylist || !date || !time) {
@@ -100,6 +136,7 @@ const useCreateBooking = () => {
             isPaid: false,
             dateBooking: date,
             timeBooking: time,
+            payment: 1,
           },
         }),
       );
@@ -113,9 +150,10 @@ const useCreateBooking = () => {
             services: services,
             customer: userData,
             staff: stylist,
-            isPaid: false,
+            isPaid: isPaid,
             dateBooking: date,
             timeBooking: time,
+            payment: parseInt(payment),
           },
         }),
       );
@@ -133,6 +171,11 @@ const useCreateBooking = () => {
   const goBack = () => {
     NavigationActionService.popToRoot();
   };
+
+  const goToSelectPayment = () => {
+    NavigationActionService.navigate(SELECT_PAYMENT_SCREEN);
+  };
+
   return {
     goBack,
     services,
@@ -150,6 +193,9 @@ const useCreateBooking = () => {
     payments,
     payment,
     setPayment,
+    goToSelectPayment,
+    onPay,
+    isPaid,
   };
 };
 

@@ -53,18 +53,17 @@ const AddUsersScreen = () => {
 
   const renderAvatar = () =>
     !user ? null : (
-        <FastImage
-          style={styles.avatar}
-          resizeMode="cover"
-          source={
-            user.avatar
-              ? {uri: user.avatar}
-              : APP_TYPE === 'Customer'
-              ? AVARTAR_DEFAULT_CUSTOMER
-              : AVARTAR_DEFAULT_STAFF
-          }
-        />
-      
+      <FastImage
+        style={styles.avatar}
+        resizeMode="cover"
+        source={
+          user.avatar
+            ? {uri: user.avatar}
+            : APP_TYPE === 'Customer'
+            ? AVARTAR_DEFAULT_CUSTOMER
+            : AVARTAR_DEFAULT_STAFF
+        }
+      />
     );
 
   const renderHeader = () => {
@@ -198,7 +197,7 @@ const AddUsersScreen = () => {
       {info}
     </View>
   );
-
+  
   const renderInputInfo = () => (
     <>
       {renderEditInfo(

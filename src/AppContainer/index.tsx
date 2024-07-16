@@ -15,11 +15,19 @@ import CustomPopup from '../component/CustomPopup';
 import {LoadingPageRef} from '../component/LoadingPage/type';
 import LoadingPage from '../component/LoadingPage';
 import BootSplashScreen from 'react-native-bootsplash';
-import {SkeletonLoadingRef} from '../component/CustomSketelonService/type';
-import CustomSketelonService from '../component/CustomSketelonService';
 import {ApolloProvider} from '@apollo/client';
 import client from '../api';
+import {NativeEventEmitter} from 'react-native';
+import {PayZaloBridge} from '../constants/api';
 
+const payZaloBridgeEmitter = new NativeEventEmitter(PayZaloBridge);
+const subscription = payZaloBridgeEmitter.addListener('EventPayZalo', data => {
+  if (data.returnCode == 1) {
+    console.log('Pay success!');
+  } else {
+    console.log('Pay errror! ' + data.returnCode);
+  }
+});
 export const BaseService = BaseServiceClass.instance(store);
 const Stack = createStackNavigator();
 export const loadingRef = createRef<LoadingPageRef>();

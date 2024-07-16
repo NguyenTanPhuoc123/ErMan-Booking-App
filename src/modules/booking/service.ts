@@ -3,6 +3,7 @@ import {Booking, BookingParams} from './model';
 import * as BookingApi from '../../api/booking/queries';
 import {Service} from '../service/model';
 import {saveListBookings} from './reducer';
+import CryptoJS from 'crypto-js';
 
 export const getListBookings = async (
   limit: number,
@@ -77,12 +78,11 @@ export const getListBookings = async (
   }
 };
 
-export const getListAllBooking = async (
-) => {
+export const getListAllBooking = async () => {
   try {
-      const res = await client.query({
-        query: BookingApi.GetListAllBookings,
-      });
+    const res = await client.query({
+      query: BookingApi.GetListAllBookings,
+    });
     const listData = res.data.Booking_connection.edges;
 
     const listBooking: Booking[] = listData.map((data: any) => {
@@ -149,7 +149,7 @@ export const createNewBooking = async (body: BookingParams) => {
         dateBooking: body.dateBooking,
         timeBooking: body.timeBooking,
         total: total,
-        payment: 1,
+        payment: body.payment,
         bookingDetails: listService,
       },
     });
@@ -310,3 +310,76 @@ export const editBooking = async (bookingId: number, body: BookingParams) => {
     return {error};
   }
 };
+
+export const payBooking = async (total: number) => {
+  try {
+    let apptransid = getCurrentDateYYMMDD() + '_' + new Date().getTime();
+    let appid = 2553;
+    let amount = parseInt(`${total}`);
+    let appuser = 'Erman Salon';
+    let apptime = new Date().getTime();
+    let embeddata = '{}';
+    let item = '[]';
+    let description = 'Merchant description for order #' + apptransid;
+    let hmacInput =
+      appid +
+      '|' +
+      apptransid +
+      '|' +
+      appuser +
+      '|' +
+      amount +
+      '|' +
+      apptime +
+      '|' +
+      embeddata +
+      '|' +
+      item;
+    let mac = CryptoJS.HmacSHA256(
+      hmacInput,
+      'PcY4iZIKFCIdgZvA6ueMcMHHUbRLYjPL',
+    );
+    console.log('====================================');
+    console.log('hmacInput: ' + hmacInput);
+    console.log('mac: ' + mac);
+    console.log('====================================');
+    var order: any = {
+      app_id: appid,
+      app_user: appuser,
+      app_time: apptime,
+      amount: amount,
+      app_trans_id: apptransid,
+      embed_data: embeddata,
+      item: item,
+      description: description,
+      mac: mac,
+    };
+
+    console.log(order);
+
+    let formBody = [] as any;
+    for (let i in order) {
+      var encodedKey = encodeURIComponent(i);
+      var encodedValue = encodeURIComponent(order[i]);
+      formBody.push(encodedKey + '=' + encodedValue);
+    }
+    formBody = formBody.join('&');
+    const res = await fetch('https://sb-openapi.zalopay.vn/v2/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+      },
+      body: formBody,
+    }).then(response => response.json());
+    console.log('Res: ', res);
+    return {result: res};
+  } catch (error) {
+    console.log('Error when pay: ', error);
+    return {error};
+  }
+};
+
+function getCurrentDateYYMMDD() {
+  var todayDate = new Date().toISOString().slice(2, 10);
+  return todayDate.split('-').join('');
+}
