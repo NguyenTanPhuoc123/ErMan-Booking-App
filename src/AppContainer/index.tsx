@@ -15,12 +15,19 @@ import CustomPopup from '../component/CustomPopup';
 import {LoadingPageRef} from '../component/LoadingPage/type';
 import LoadingPage from '../component/LoadingPage';
 import BootSplashScreen from 'react-native-bootsplash';
-import {SkeletonLoadingRef} from '../component/CustomSketelonService/type';
-import CustomSketelonService from '../component/CustomSketelonService';
 import {ApolloProvider} from '@apollo/client';
 import client from '../api';
-import {StripeProvider} from '@stripe/stripe-react-native';
+import {NativeEventEmitter} from 'react-native';
+import {PayZaloBridge} from '../constants/api';
 
+const payZaloBridgeEmitter = new NativeEventEmitter(PayZaloBridge);
+const subscription = payZaloBridgeEmitter.addListener('EventPayZalo', data => {
+  if (data.returnCode == 1) {
+    console.log('Pay success!');
+  } else {
+    console.log('Pay errror! ' + data.returnCode);
+  }
+});
 export const BaseService = BaseServiceClass.instance(store);
 const Stack = createStackNavigator();
 export const loadingRef = createRef<LoadingPageRef>();
@@ -36,25 +43,19 @@ const App = () => {
     <ApolloProvider client={client}>
       <Provider store={store}>
         <PersistGate persistor={persistor}>
-          <StripeProvider
-            publishableKey="pk_test_51PcZ0kI0Cih9djgJmq54Nzodbhs5X5wtViO7NvrhshnpKFpCM1V0E594SmeWUb1HYhiZSodlNpsOVOIVBE89n8Ka00vvNvnzt3"
-            urlScheme="your-url-scheme" // required for 3D Secure and bank redirects
-            merchantIdentifier="merchant.com.{{YOUR_APP_NAME}}" // required for Apple Pay
-          >
-            <NavigationContainer
-              ref={navigationRef}
-              onReady={() => BootSplashScreen.hide({fade: true})}>
-              <Stack.Navigator
-                screenOptions={{headerShown: false, gestureEnabled: false}}>
-                <Stack.Screen name={MAIN_SCREEN} component={AppComponent} />
-                <Stack.Screen
-                  options={getStackScreenOptions as StackNavigationOptions}
-                  name={CUSTOM_POPUP}
-                  component={CustomPopup}
-                />
-              </Stack.Navigator>
-            </NavigationContainer>
-          </StripeProvider>
+          <NavigationContainer
+            ref={navigationRef}
+            onReady={() => BootSplashScreen.hide({fade: true})}>
+            <Stack.Navigator
+              screenOptions={{headerShown: false, gestureEnabled: false}}>
+              <Stack.Screen name={MAIN_SCREEN} component={AppComponent} />
+              <Stack.Screen
+                options={getStackScreenOptions as StackNavigationOptions}
+                name={CUSTOM_POPUP}
+                component={CustomPopup}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
           <LoadingPage ref={loadingRef} />
         </PersistGate>
       </Provider>

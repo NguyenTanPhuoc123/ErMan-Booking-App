@@ -42,6 +42,29 @@ const styles = StyleSheet.create({
   payment: {
     marginVertical: 20,
   },
+  billContainer: {
+    width: '90%',
+    margin:10,
+  },
+  titlePayment: {
+    color: '#d4d3d6',
+    fontSize: 22,
+    fontFamily: InriaSerifBold,
+    margin: 15,
+    width: WITDH / 1.3,
+    textAlign: 'center',
+  },
+  btnPay:{
+    backgroundColor: '#FFF',
+    width: WITDH - 100,
+    height: 50,
+    margin: 20,
+    justifyContent: 'space-around',
+    flexDirection:'row',
+    alignItems: 'center',
+    alignSelf: 'center',
+    borderRadius: 10,
+  }
 });
 
 export default styles;

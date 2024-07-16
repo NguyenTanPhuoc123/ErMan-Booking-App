@@ -5,6 +5,7 @@ import {
   FlatList,
   ScrollView,
   Button,
+  Image,
 } from 'react-native';
 import React from 'react';
 import {Header} from 'react-native-elements';
@@ -22,6 +23,7 @@ import {
 } from '../../constants/screen_key';
 import CustomDropDown from '../../component/CustomDropdown';
 import NavigationActionService from '../../navigation/navigation';
+import { ZALO_PAY } from '../../constants/icons';
 type SectionListItem = {
   id: number;
   title: string;
@@ -46,8 +48,8 @@ const CreateBookingScreen = () => {
     payment,
     setPayment,
     booking,
-    goToSelectPayment,
     onPay,
+    isPaid
   } = useCreateBooking();
 
   const data = [
@@ -106,7 +108,7 @@ const CreateBookingScreen = () => {
   };
 
   const renderButtonBooking = () => (
-    <TouchableOpacity style={styles.btnBooking} onPress={createBooking}>
+    <TouchableOpacity style={styles.btnBooking} disabled={payment=='2' && !isPaid } onPress={createBooking}>
       <Text style={styles.contentBtnBooking}>
         {screen === BOOKING_DETAIL_SCREEN ? 'Thay đổi' : 'Lên lịch ngay'}
       </Text>
@@ -143,11 +145,15 @@ const CreateBookingScreen = () => {
     );
   };
 
-  const PayByGooglePay = () => {
+  const renderPay = () => {
     return (
-      <TouchableOpacity style={styles.btnBooking} onPress={onPay}>
-        <Text style={styles.contentBtnBooking}>Thanh toán</Text>
-      </TouchableOpacity>
+      <View style={styles.billContainer}>
+        <Text style={[globalStyle.fontText,{color:'red'}]}>*Lưu ý: Bạn phải thực hiện thanh toán thì mới có thể đặt lịch được.</Text>
+        <TouchableOpacity style={styles.btnPay} onPress={onPay}>
+          <Image source={ZALO_PAY} style={{width:30,height:30}} resizeMode='center'/>
+          <Text style={styles.contentBtnBooking}>Thực hiện thanh toán</Text>
+        </TouchableOpacity>
+      </View>
     );
   };
 
@@ -157,7 +163,7 @@ const CreateBookingScreen = () => {
       <ScrollView>
         {renderBody()}
         {renderPayment()}
-        {payment === '2' ? PayByGooglePay() : null}
+        {payment === '2' ? renderPay() : null}
         {renderButtonBooking()}
       </ScrollView>
     </View>

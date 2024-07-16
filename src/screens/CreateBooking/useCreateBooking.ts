@@ -7,27 +7,14 @@ import {useEffect, useState} from 'react';
 import {getListStaff} from '../../modules/user';
 import moment from 'moment';
 import {MessageType, PopupType} from '../../component/CustomPopup/type';
-import {ApiError} from '../../constants/api';
-import {createNewBooking, editBooking} from '../../modules/booking';
+import {ApiError, PayZaloBridge} from '../../constants/api';
+import {createNewBooking, editBooking, payBooking} from '../../modules/booking';
 import {IAuthState} from '../../modules/auth/model';
 import {
   BOOKING_DETAIL_SCREEN,
   SELECT_PAYMENT_SCREEN,
 } from '../../constants/screen_key';
-import {
-  AllowedCardAuthMethodsType,
-  AllowedCardNetworkType,
-  GooglePay,
-  RequestDataType,
-} from 'react-native-google-pay';
 import {Service} from '../../modules/service/model';
-import {Platform} from 'react-native';
-
-const allowedCardNetworks: AllowedCardNetworkType[] = ['VISA', 'MASTERCARD','JCB'];
-const allowedCardAuthMethods: AllowedCardAuthMethodsType[] = [
-  'PAN_ONLY',
-  'CRYPTOGRAM_3DS',
-];
 
 const useCreateBooking = () => {
   const dispatch = useDispatch();
@@ -57,15 +44,16 @@ const useCreateBooking = () => {
   const dateNow = moment(new Date()).format('DD-MM-YYYY');
   const [date, setDate] = useState(booking ? booking.dateBooking : dateNow);
   const [time, setTime] = useState(booking ? booking.timeBooking : '');
+  const [isPaid, setIsPaid] = useState(false);
   const payments = [
     {id: '1', name: 'Tiền mặt'},
-    {id: '2', name: 'GooglePay'},
+    {id: '2', name: 'ZaloPay'},
   ];
   const [payment, setPayment] = useState(payments[0].id);
+  const [token, setToken] = useState('');
+  const [returncode, setReturnCode] = useState('');
+
   useEffect(() => {
-    if (Platform.OS === 'android') {
-      GooglePay.setEnvironment(GooglePay.ENVIRONMENT_TEST);
-    }
     dispatch(
       getListStaff({
         limit: 100,
@@ -103,33 +91,16 @@ const useCreateBooking = () => {
     services.map((service: Service) => {
       total += service.price;
     });
-    const gatewayRequestData: RequestDataType = {
-      cardPaymentMethod: {
-        tokenizationSpecification: {
-          type: 'PAYMENT_GATEWAY',
-          gateway: 'example',
-          gatewayMerchantId: 'exampleGatewayMerchantId',
+    dispatch(
+      payBooking({
+        total: total,
+        onSuccess: value => {
+          const pay = PayZaloBridge.payOrder(value.zp_trans_token);
+          console.log(pay);
+          setIsPaid(true);
         },
-        allowedCardNetworks,
-        allowedCardAuthMethods,
-      },
-      transaction: {
-        totalPrice: total.toString(),
-        totalPriceStatus: 'FINAL',
-        currencyCode: 'VND',
-      },
-      merchantName: 'Erman Salon',
-    };
-
-    GooglePay.isReadyToPay(allowedCardNetworks, allowedCardAuthMethods).then(
-      ready => {
-        if (ready) {
-          // Request payment token
-          GooglePay.requestPayment(gatewayRequestData)
-            .then(handleSuccess)
-            .catch(onCreateFail);
-        }
-      },
+        onFail: onCreateFail,
+      }),
     );
   };
 
@@ -165,6 +136,7 @@ const useCreateBooking = () => {
             isPaid: false,
             dateBooking: date,
             timeBooking: time,
+            payment: 1,
           },
         }),
       );
@@ -178,9 +150,10 @@ const useCreateBooking = () => {
             services: services,
             customer: userData,
             staff: stylist,
-            isPaid: false,
+            isPaid: isPaid,
             dateBooking: date,
             timeBooking: time,
+            payment: parseInt(payment),
           },
         }),
       );
@@ -222,6 +195,7 @@ const useCreateBooking = () => {
     setPayment,
     goToSelectPayment,
     onPay,
+    isPaid,
   };
 };
 

@@ -7,6 +7,7 @@ const useSelectPayment = () => {
   const goBack = () => {
     NavigationActionService.pop();
   };
+
   return {goBack};
 };
 

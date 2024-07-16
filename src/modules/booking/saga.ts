@@ -6,6 +6,7 @@ import {
   IActionGetListBookedPayload,
   IActionGetListBookingPayLoad,
   IActionUpdateStatusBookingPayload,
+  IActionPayBookingPayload,
 } from './model';
 import {isNetworkAvailable} from '../network/saga';
 import {call, put} from 'redux-saga/effects';
@@ -88,9 +89,7 @@ export function* getListAllBookingFn(
     return;
   }
 
-  const {result, error} = yield call(
-    BookingService.getListAllBooking,
-  );
+  const {result, error} = yield call(BookingService.getListAllBooking);
   if (!error) {
     yield put(saveListBookings(result));
     onSuccess && onSuccess(result);
@@ -140,6 +139,21 @@ export function* getListBookedFn(
   if (!error) {
     onSuccess && onSuccess(result);
   } else if (onFail) {
+    onFail && onFail(error);
+  }
+}
+
+export function* payBookingFn(action: PayloadAction<IActionPayBookingPayload>) {
+  const {onSuccess, onFail, total} = action.payload;
+  const {isConnected} = yield isNetworkAvailable();
+  if (!isConnected) {
+    onFail && onFail();
+    return;
+  }
+  const {error, result} = yield call(BookingService.payBooking, total);
+  if (!error) {
+    onSuccess && onSuccess(result);
+  } else {
     onFail && onFail(error);
   }
 }

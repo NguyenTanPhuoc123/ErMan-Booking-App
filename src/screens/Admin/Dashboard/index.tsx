@@ -3,7 +3,9 @@ import {
   Text,
   ActivityIndicator,
   ScrollView,
+  RefreshControl,
   TouchableOpacity,
+  Modal,
 } from 'react-native';
 import React from 'react';
 import globalStyle, {WITDH} from '../../../constants/styles';
@@ -14,18 +16,28 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import FastImage from 'react-native-fast-image';
 import {AVARTAR_DEFAULT_CUSTOMER} from '../../../constants/icons';
 import {TextInput} from 'react-native-gesture-handler';
-
+import {FormatCurrency} from '../../../utils/currentcy';
+import MonthPicker from 'react-native-month-year-picker';
 const DashboardScreen = () => {
   const {
-    numberInput,
-    currenYear,
+    monthStatiscal,
+    setMonthStatiscal,
+    currentYear,
     handlenChangeText,
     loading,
     listBooking,
     listStaff,
     lineCharData,
     users,
+    refresh,
+    pullRefresh,
+    income,
+    open,
+    openPicker,
+    onValueChange,
   } = useDasboard();
+
+  const [month, year] = monthStatiscal.split('-');
 
   const renderLoading = () => {
     return (
@@ -42,23 +54,42 @@ const DashboardScreen = () => {
       <View>
         <View style={styles.view}>
           <Text
-            style={[globalStyle.fontText, globalStyle.textSize20, styles.text]}>
-            Doanh thu theo quý trong năm
+            style={[
+              globalStyle.fontText,
+              globalStyle.textSize20,
+              styles.titleChart,
+            ]}>
+            Tổng lượt đặt lịch trong tháng
           </Text>
 
-          <TextInput
-            style={[
-              styles.textinfo1,
-              globalStyle.textSize20,
-              globalStyle.fontText,
-            ]}
-            placeholder="...."
-            keyboardType="numeric"
-            value={currenYear.toString()}
-            maxLength={4}
-            onChangeText={handlenChangeText}
-          />
-          <Icon name="calendar-alt" size={24} style={styles.iconcalendar} />
+          <View style={styles.containerMonth}>
+            <Text
+              style={[
+                globalStyle.fontText,
+                globalStyle.textSize20,
+                styles.textMonth,
+              ]}>
+              {monthStatiscal}
+            </Text>
+            <Icon
+              name="calendar-alt"
+              size={24}
+              style={styles.iconcalendar}
+              onPress={openPicker}
+            />
+            {open && (
+                <MonthPicker
+                  value={new Date(parseInt(year), parseInt(month))}
+                  minimumDate={new Date(2024, 1)}
+                  maximumDate={new Date(2050, 12)}
+                  mode="full"
+                  okButton="Xác nhận"
+                  cancelButton="Hủy"
+                  locale="vi"
+                  onChange={onValueChange}
+                />
+            )}
+          </View>
         </View>
 
         <View style={styles.container}>
@@ -90,7 +121,7 @@ const DashboardScreen = () => {
     );
   };
 
-  const renderItemButton = (label: string, value: number) => (
+  const renderItemButton = (label: string, value: string) => (
     <View style={styles.containerButton}>
       <View style={styles.inner}>
         <Text
@@ -110,12 +141,12 @@ const DashboardScreen = () => {
     return (
       <View>
         <View style={styles.containerView}>
-          {renderItemButton('Tổng thu nhập', 100)}
-          {renderItemButton('Tổng nhân viên', listStaff.length)}
+          {renderItemButton('Tổng thu nhập', FormatCurrency(income))}
+          {renderItemButton('Số nhân viên', listStaff.length.toString())}
         </View>
         <View style={styles.containerView}>
-          {renderItemButton('Tổng lịch đặt', listBooking.length)}
-          {renderItemButton('Tổng khách hàng', users.length)}
+          {renderItemButton('Tổng lịch đặt', listBooking.length.toString())}
+          {renderItemButton('Số khách hàng', users.length.toString())}
         </View>
       </View>
     );
@@ -165,7 +196,10 @@ const DashboardScreen = () => {
       {loading ? (
         renderLoading()
       ) : (
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refresh} onRefresh={pullRefresh} />
+          }>
           {renderLineChar()}
           {renderButton()}
           {renderTopStaff()}

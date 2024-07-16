@@ -70,7 +70,7 @@ const CalendarScreen = () => {
             {open && (
               <DatePicker
                 value={date}
-                minimumDate={new Date()}
+                minimumDate={new Date(2024,1)}
                 maximumDate={new Date(2050,12)}
                 mode="full"
                 okButton="Xác nhận"

@@ -10,6 +10,7 @@ export const UPDATE_STATUS_BOOKING = `${ROOT_MODULE}/UPDATE_STATUS_BOOKING`;
 export const GET_LIST_BOOKED = `${ROOT_MODULE}/GET_LIST_BOOKED`;
 export const GET_LIST_ALL_BOOKING = `${ROOT_MODULE}/GET_LIST_ALL_BOOKING`;
 export const EDIT_BOOKING = `${ROOT_MODULE}/EDIT_BOOKING`;
+export const PAY_BOOKING = `{ROOT_MODULE/PAY_BOOKING}`;
 export interface Booking {
   id: number;
   customer: User;
@@ -46,7 +47,9 @@ export interface IAcionSaveListBookingPayLoad {
 }
 
 export type IActionGetListAllBooking = IActionCallback;
-
+export interface IActionPayBookingPayload extends IActionCallback{
+  total:number;
+}
 export interface IActionUpdateStatusBookingPayload extends IActionCallback {
   id: number;
   status: 'upcoming' | 'ongoing' | 'completed' | 'canceled';
@@ -64,6 +67,7 @@ export interface BookingParams {
   timeBooking: string;
   isPaid: boolean;
   branch: Branch;
+  payment:number;
   services: Array<Service>;
 }
 

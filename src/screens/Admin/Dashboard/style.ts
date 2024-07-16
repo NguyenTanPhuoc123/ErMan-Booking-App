@@ -22,25 +22,38 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: 'center',
   },
+  titleChart: {
+    paddingLeft:20,
+    paddingTop: 10,
+    width: '60%',
+  },
+  textMonth: {
+    paddingTop: 10,
+    marginRight: 10,
+  },
+  containerMonth: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    width: '40%',
+  },
   text: {
     justifyContent: 'flex-start',
-    alignItems: 'flex-start',
     paddingHorizontal: 20,
     paddingTop: 10,
   },
   view: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    width: '100%',
   },
-  textinfo1:{
-    marginTop:10,
+  textinfo1: {
+    marginTop: 10,
   },
-  iconcalendar:{
+  iconcalendar: {
     alignItems: 'center',
-     marginTop: 5,
-     color:'white',
-     marginRight:10
+    marginTop: 5,
+    color: 'white',
+    marginRight: 10,
   },
   containerView: {
     flexDirection: 'row',
@@ -66,7 +79,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#F3B20A',
     fontWeight: 'bold',
-    fontFamily:InriaSerifBold
+    fontFamily: InriaSerifBold,
   },
   icon: {
     color: '#F3B20A',

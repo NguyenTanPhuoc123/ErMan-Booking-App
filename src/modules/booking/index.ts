@@ -23,6 +23,8 @@ export const editBooking = createAction<Models.IActionEditBookingPayload>(
   Models.EDIT_BOOKING,
 );
 
+export const payBooking = createAction<Models.IActionPayBookingPayload>(Models.PAY_BOOKING);
+
 function* bookingSaga() {
   yield takeLatest(createNewBooking, FuncSaga.createNewBookingFn);
   yield takeLatest(editBooking, FuncSaga.editBookingFn);
@@ -30,6 +32,7 @@ function* bookingSaga() {
   yield takeLatest(updateStatusBooking, FuncSaga.updateStatusBookingFn);
   yield takeLatest(getListBooked, FuncSaga.getListBookedFn);
   yield takeLatest(getListAllBooking,FuncSaga.getListAllBookingFn);
+  yield takeLatest(payBooking,FuncSaga.payBookingFn);
 }
 
 export {bookingReducer, bookingSaga};
