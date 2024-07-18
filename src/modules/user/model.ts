@@ -8,6 +8,7 @@ export const DELETE_USER = `${ROOT_MODULE}/DELETE_USER`;
 export const EDIT_USER = `${ROOT_MODULE}/EDIT_USER`;
 export const SEARCH_STAFF = `${ROOT_MODULE}/SEARCH_STAFF`;
 export const SEARCH_CUSTOMER = `${ROOT_MODULE}/SEARCH_CUSTOMER`;
+export const GET_LIST_STAFF_BY_BRANCH = `${ROOT_MODULE}/GET_LIST_STAFF_BY_BRANCH`;
 export interface IUserState {
   users: User[];
   staffs: (Staff | Admin)[];
@@ -89,4 +90,8 @@ export interface BodyAddStaffParams {
 export interface IActionEditProfileStaffPayload extends IActionCallback {
   id:number;
   workPlace: number;
+}
+
+export interface IActionGetListStaffByBranchPayload extends IActionCallback {
+  branchId: number;
 }

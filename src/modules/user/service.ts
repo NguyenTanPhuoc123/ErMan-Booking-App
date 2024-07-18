@@ -198,3 +198,33 @@ export const deleteUser = async (id: number) => {
     return {error};
   }
 };
+
+export const getListStaffByBranch = async (branchId: number) => {
+  try {
+    const res = await client.query({
+      query: UserApi.GetListStaffByBranch,
+      variables: {
+        branchId: branchId,
+      },
+    });
+    const listData = res.data.User_connection.edges;
+    const listStaff: Staff[] = listData.map((data: any) => {
+      const userId = JSON.parse(atob(data.node.id))[3];
+      const {id: branchId, ...newBranch} = data.node.Staff.Branch;
+      const idBranch = JSON.parse(atob(branchId))[3];
+      const workPlace = {id: idBranch, ...newBranch};
+      const timeStartWork = data.node.Staff.timeStartWork;
+      const {id, Staff, ...newUser} = data.node;
+      return {
+        id: userId,
+        workPlace: workPlace,
+        timeStartWork: timeStartWork,
+        ...newUser,
+      };
+    }) as Staff[];
+    return {result: listStaff};
+  } catch (error) {
+    console.log('Error get list staffs by branch: ', error);
+    return {error};
+  }
+};

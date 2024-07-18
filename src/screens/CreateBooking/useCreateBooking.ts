@@ -8,7 +8,12 @@ import {getListStaff} from '../../modules/user';
 import moment from 'moment';
 import {MessageType, PopupType} from '../../component/CustomPopup/type';
 import {ApiError, PayZaloBridge} from '../../constants/api';
-import {createNewBooking, editBooking, payBooking} from '../../modules/booking';
+import {
+  createNewBooking,
+  editBooking,
+  getBookingCustomerNearest,
+  payBooking,
+} from '../../modules/booking';
 import {IAuthState} from '../../modules/auth/model';
 import {
   BOOKING_DETAIL_SCREEN,
@@ -16,6 +21,7 @@ import {
 } from '../../constants/screen_key';
 import {Service} from '../../modules/service/model';
 import {createNotification} from '../../modules/notification';
+import {Booking} from '../../modules/booking/model';
 
 const useCreateBooking = () => {
   const dispatch = useDispatch();
@@ -23,6 +29,7 @@ const useCreateBooking = () => {
   const {userData} = useSelector<RootState, IAuthState>(state => state.auth);
   const screen = (params as any).screen || '';
   const booking = (params as any).booking || null;
+  const [bookingNear, setBookingNear] = useState<Booking>();
   const services =
     screen === BOOKING_DETAIL_SCREEN && booking
       ? booking.services
@@ -30,7 +37,9 @@ const useCreateBooking = () => {
   const branch =
     screen === BOOKING_DETAIL_SCREEN && booking
       ? booking.branch
-      : (params as any).branch || null;
+      : (params as any).branch
+      ? (params as any).branch
+      : bookingNear?.branch || null;
   const stylists = useSelector<RootState, IUserState>(
     state => state.user,
   ).staffs.filter(user => {
@@ -39,7 +48,11 @@ const useCreateBooking = () => {
     }
   });
   const [stylist, setStylist] = useState<Staff>(
-    screen === BOOKING_DETAIL_SCREEN && booking ? booking.staff : null,
+    screen === BOOKING_DETAIL_SCREEN && booking
+      ? booking.staff
+      : bookingNear
+      ? bookingNear.staff
+      : null,
   );
   const dateNow = moment(new Date()).format('DD-MM-YYYY');
   const [date, setDate] = useState(booking ? booking.dateBooking : dateNow);
@@ -52,6 +65,15 @@ const useCreateBooking = () => {
   const [payment, setPayment] = useState(payments[0].id);
 
   useEffect(() => {
+    if (!booking) {
+      dispatch(
+        getBookingCustomerNearest({
+          customerId: userData.id,
+          onSuccess: onGetNearSuccess,
+          onFail: onGetNearFail,
+        }),
+      );
+    }
     dispatch(
       getListStaff({
         limit: 100,
@@ -61,6 +83,14 @@ const useCreateBooking = () => {
       }),
     );
   }, []);
+
+  const onGetNearSuccess = (result: Booking) => {
+    setBookingNear(result);
+  };
+
+  const onGetNearFail = () => {
+    setBookingNear(undefined);
+  };
 
   const onCreateSuccess = () => {
     NavigationActionService.hideLoading();
@@ -223,6 +253,7 @@ const useCreateBooking = () => {
     goToSelectPayment,
     onPay,
     isPaid,
+    bookingNear,
   };
 };
 

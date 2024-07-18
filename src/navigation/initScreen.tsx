@@ -113,7 +113,7 @@ export const drawerStackScreens: AdminStackObject = {
   [SCREEN_KEYS.PROFILE_SCREEN]: ProfileScreen,
   [SCREEN_KEYS.BRANCH_MANAGER_SCREEN]: BranchManagerScreen,
   [SCREEN_KEYS.STAFF_MANAGER_SCREEN]: StaffManagerScreen,
-  // [SCREEN_KEYS.WORK_SCHEDULE_MANAGER_SCREEN]: WorkScheduleManagerScreen,
+  [SCREEN_KEYS.WORK_SCHEDULE_MANAGER_SCREEN]: WorkScheduleManagerScreen,
 };
 
 export const adminStackScreens: AdminStackObject = {
@@ -258,11 +258,11 @@ export const drawerStackNavigator: DrawerItem[] = [
     label: 'Thống kê',
     component: DashboardDrawerNavigator,
   },
-  // {
-  //   name: SCREEN_KEYS.WORK_SCHEDULE_MANAGER_STACK,
-  //   label: 'Quản lý lịch làm việc',
-  //   component: WorkScheduleDrawerNavigator,
-  // },
+  {
+    name: SCREEN_KEYS.WORK_SCHEDULE_MANAGER_STACK,
+    label: 'Quản lý lịch làm việc',
+    component: WorkScheduleDrawerNavigator,
+  },
   {
     name: SCREEN_KEYS.USER_MANAGER_STACK,
     label: 'Quản lý khách hàng',

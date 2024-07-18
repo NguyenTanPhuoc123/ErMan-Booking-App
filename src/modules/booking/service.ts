@@ -428,3 +428,53 @@ export const getListBookingsByBranch = async (branchId: number) => {
     return {error};
   }
 };
+
+export const getBookingCustomerNearest = async (customerId: number) => {
+  try {
+    const res = await client.query({
+      query: BookingApi.GetBookingCustomerNearest,
+      variables: {
+        customerId: customerId,
+      },
+    });
+    const data = res.data.Booking_connection.edges[0].node;
+
+    const {
+      id,
+      userByStaff,
+      User,
+      Payment,
+      Branch,
+      BookingDetails,
+      ...newBooking
+    } = data;
+    const bookingId = JSON.parse(atob(id))[3];
+    const {id: staffId, ...newStaff} = userByStaff;
+    const idStaff = JSON.parse(atob(staffId))[3];
+    const {id: branchId, ...newBranch} = Branch;
+    const idBranch = JSON.parse(atob(branchId))[3];
+    const {id: cusId, ...newUser} = User;
+    const idCustomer = JSON.parse(atob(cusId))[3];
+    const services: Service[] = BookingDetails.map((service: any) => {
+      const serviceId = JSON.parse(atob(service.Service.id))[3];
+      const {id, ...newService} = service.Service;
+      return {id: serviceId, ...newService};
+    }) as Service[];
+    const {id: paymentId, ...newPayment} = Payment;
+
+    const idPayment = JSON.parse(atob(paymentId))[3];
+    const booking: Booking = {
+      id: bookingId,
+      customer: {id: idCustomer, ...newUser},
+      staff: {id: idStaff, ...newStaff},
+      branch: {id: idBranch, ...newBranch},
+      services: services,
+      payment: {id: idPayment, ...newPayment},
+      ...newBooking,
+    };
+    return {result: booking};
+  } catch (error) {
+    console.log('Error get booking nearest: ', error);
+    return {error};
+  }
+};

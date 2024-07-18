@@ -10,6 +10,7 @@ import {
   IActionGeListImageBookingPayload,
   IActionAddListImageBookingPayload,
   IActionGetListBookingsByBranchPayload,
+  IActionGetBookingCustomerNearestPayload,
 } from './model';
 import {isNetworkAvailable} from '../network/saga';
 import {call, put} from 'redux-saga/effects';
@@ -215,6 +216,27 @@ export function* addListImageBookingFn(
     BookingService.addListImageBooking,
     bookingId,
     images,
+  );
+  if (!error) {
+    onSuccess && onSuccess(result);
+  } else if (onFail) {
+    onFail && onFail(error);
+  }
+}
+
+export function* getBookingCustomerNearestFn(
+  action: PayloadAction<IActionGetBookingCustomerNearestPayload>,
+) {
+  const {onSuccess, onFail, customerId} = action.payload;
+  const {isConnected} = yield isNetworkAvailable();
+  if (!isConnected) {
+    onFail && onFail();
+    return;
+  }
+
+  const {result, error} = yield call(
+    BookingService.getBookingCustomerNearest,
+    customerId,
   );
   if (!error) {
     onSuccess && onSuccess(result);
