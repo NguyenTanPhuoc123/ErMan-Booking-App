@@ -1,8 +1,7 @@
 import {boolean, object, string} from 'yup';
-import { User } from '../../../modules/user/model';
+import {FormEditUser} from './useEditProfile';
 
-export const validationSchema = object<User>().shape({
-  avatar: string().required(`Lỗi ảnh đại diện`),
+export const validationSchema = object<FormEditUser>().shape({
   firstname: string().trim().required(`Họ không được để trống`),
   lastname: string().trim().required(`Tên không được để trống`),
   birthday: string().required(`Lỗi ngày sinh`),

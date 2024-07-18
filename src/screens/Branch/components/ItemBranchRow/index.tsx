@@ -27,7 +27,7 @@ const ItemBranchRow = (props: ItemBranchRowProps) => {
   const goToDetail = () => {
     NavigationActionService.navigate(BRANCH_DETAIL_SCREEN, {
       status: status,
-      branch: props,
+      branch: item,
     });
   };
 

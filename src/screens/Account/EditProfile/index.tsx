@@ -20,7 +20,6 @@ import {
 import useEditProfile from './useEditProfile';
 import globalStyle from '../../../constants/styles';
 import {Controller} from 'react-hook-form';
-import {RadioButton} from 'react-native-paper';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import { formatStringDate } from '../../../utils/date';

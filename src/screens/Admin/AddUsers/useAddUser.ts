@@ -48,8 +48,8 @@ const useAddUser = () => {
     password: '123456@aA',
     birthday: user?.birthday,
     typeAccount: user?.typeAccount,
-    workPlace: user?.workPlace.id,
-    timeStartWork: user?.timeStartWork,
+    workPlace: user?.typeAccount!='Customer' ? user?.workPlace.id :'',
+    timeStartWork: user?.typeAccount!='Customer'? user?.timeStartWork : '',
   };
 
   const {

@@ -34,6 +34,16 @@ const client = new ApolloClient({
   link: splitLink,
   cache: new InMemoryCache(),
   queryDeduplication: false,
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'ignore',
+    },
+    query: {
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'all',
+    },
+  },
 });
 
 export default client;

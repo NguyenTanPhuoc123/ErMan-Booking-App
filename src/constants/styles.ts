@@ -70,6 +70,15 @@ const globalStyle = StyleSheet.create({
   },
   textSize24:{
     fontSize:24
+  },
+  textCenter:{
+    textAlign:'center',
+  },
+  textLeft:{
+    textAlign:'left',
+  },
+  textRight:{
+    textAlign:'right',
   }
 });
 

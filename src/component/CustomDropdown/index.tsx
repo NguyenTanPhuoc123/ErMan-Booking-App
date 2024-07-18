@@ -10,6 +10,7 @@ type DropDownProps = {
   placeholder?: string;
   valueField: string;
   disable?: boolean;
+  mode?:"default" | "modal" | "auto"
 };
 const CustomDropDown = (props: DropDownProps) => {
   const {
@@ -20,13 +21,14 @@ const CustomDropDown = (props: DropDownProps) => {
     label,
     valueField,
     placeholder = 'Chọn...',
+    mode = "modal"
   } = props;
 
   return (
     <Dropdown
       data={data}
       value={value}
-      mode="modal"
+      mode={mode}
       style={styles.container}
       selectedTextStyle={styles.selectedItem}
       itemTextStyle={styles.textItem}

@@ -21,7 +21,7 @@ const ProfileScreen = () => {
   const currentUser = useSelector<RootState, IAuthState>(
     state => state.auth,
   ).userData;
-
+  
   const renderHeader = () => {
     return (
       <Header

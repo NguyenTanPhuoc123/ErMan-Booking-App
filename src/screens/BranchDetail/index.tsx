@@ -10,6 +10,7 @@ import FastImage from 'react-native-fast-image';
 import {BRANCH} from '../../constants/icons';
 const BranchDetailScreen = () => {
   const {branch, status} = useRoute().params as any;
+
   const renderHeader = () => {
     return (
       <Header

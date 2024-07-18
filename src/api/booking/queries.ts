@@ -81,10 +81,8 @@ export const GetListBookings = gql`
 `;
 
 export const GetListAllBookings = gql`
-  query GetListAllBookings{
-    Booking_connection(
-      order_by: {datetimeCreate: desc}
-    ) {
+  query GetListAllBookings {
+    Booking_connection(order_by: {datetimeCreate: desc}) {
       edges {
         node {
           id
@@ -453,6 +451,79 @@ export const editBooking = gql`
             openTime
           }
           timeStartWork
+        }
+      }
+    }
+  }
+`;
+
+export const GetListBookingsByBranch = gql`
+  query GetListBookingsByBranch($branchId: Int) {
+    Booking_connection(
+      order_by: {datetimeCreate: desc}
+      where: {branch: {_eq: $branchId}, status: {_neq: "canceled"}}
+    ) {
+      edges {
+        node {
+          id
+          isPaid
+          status
+          total
+          dateBooking
+          timeBooking
+          datetimeCreate
+          BookingDetails {
+            Service {
+              description
+              id
+              image
+              price
+              serviceName
+              time
+            }
+            id
+          }
+          User {
+            address
+            avatar
+            birthday
+            email
+            firstname
+            id
+            isVerified
+            lastname
+            typeAccount
+          }
+          Branch {
+            address
+            branchName
+            closeTime
+            description
+            id
+            image
+            openTime
+          }
+          userByStaff {
+            Staff {
+              User {
+                address
+                avatar
+                birthday
+                email
+                firstname
+                id
+                isVerified
+                lastname
+                typeAccount
+              }
+              timeStartWork
+              workPlace
+            }
+          }
+          Payment {
+            id
+            name
+          }
         }
       }
     }

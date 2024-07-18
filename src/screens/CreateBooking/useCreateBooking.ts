@@ -71,6 +71,7 @@ const useCreateBooking = () => {
       message: booking
         ? 'Chỉnh sửa lịch đặt thành công'
         : 'Đặt lịch thành công',
+      onPressPrimaryBtn: NavigationActionService.pop(),
     });
     pushNotification();
   };
@@ -120,7 +121,7 @@ const useCreateBooking = () => {
     dispatch(
       payBooking({
         total: total,
-        user:userData,
+        user: userData,
         onSuccess: value => {
           const pay = PayZaloBridge.payOrder(value.zp_trans_token);
           console.log(pay);
@@ -132,7 +133,6 @@ const useCreateBooking = () => {
   };
 
   const handleSuccess = (token: string) => {
-    // Send a token to your payment gateway
     NavigationActionService.showPopup({
       type: PopupType.ONE_BUTTON,
       typeMessage: MessageType.COMMON,
