@@ -26,19 +26,37 @@ export const getCurrentUser = async () => {
     const userData = res.data.User_connection.edges[0].node;
     const id = JSON.parse(atob(userData.id));
     const staff = userData.Staff;
-    const result: User | Staff | Admin = {
-      id: id[3],
-      avatar: userData.avatar,
-      firstname: userData.firstname,
-      lastname: userData.lastname,
-      birthday: userData.birthday,
-      address: userData.address,
-      email: userData.email,
-      isVerified: userData.isVerified,
-      typeAccount: userData.typeAccount,
-      workPlace: staff ? staff.Branch.branchName : null,
-      timeStartWork: staff ? staff.timeStartWork : null,
-    };
+    let result;
+    if (staff) {
+      const {id: idBranch, ...workPlace} = staff.Branch;
+      const branchId = JSON.parse(atob(idBranch))[3];
+      result = {
+        id: id[3],
+        avatar: userData.avatar,
+        firstname: userData.firstname,
+        lastname: userData.lastname,
+        birthday: userData.birthday,
+        address: userData.address,
+        email: userData.email,
+        isVerified: userData.isVerified,
+        typeAccount: userData.typeAccount,
+        workPlace: staff ? {id: branchId, ...workPlace} : null,
+        timeStartWork: staff ? staff.timeStartWork : null,
+      };
+    } else {
+      result = {
+        id: id[3],
+        avatar: userData.avatar,
+        firstname: userData.firstname,
+        lastname: userData.lastname,
+        birthday: userData.birthday,
+        address: userData.address,
+        email: userData.email,
+        isVerified: userData.isVerified,
+        typeAccount: userData.typeAccount,
+      };
+    }
+
     return {result: result};
   } catch (error) {
     console.log('Error get current user: ', error);

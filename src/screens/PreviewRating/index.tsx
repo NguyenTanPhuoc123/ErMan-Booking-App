@@ -50,7 +50,7 @@ const PreviewRatingScreen = () => {
         <AirbnbRating
           count={5}
           size={30}
-          defaultRating={rate ? rate.rate : rating}
+          defaultRating={rate ? rate.rate:rating}
           isDisabled={rated}
           onFinishRating={setRating}
           showRating

@@ -34,8 +34,9 @@ const usePreviewRating = () => {
       typeMessage: MessageType.COMMON,
       title: 'Đánh giá',
       message: 'Đánh giá thành công',
+      onPressPrimaryBtn:()=>{NavigationActionService.popToRoot()}
     });
-    NavigationActionService.popToRoot();
+    
   };
 
   const onFail = (error?: ApiError) => {
@@ -79,7 +80,7 @@ const usePreviewRating = () => {
     booking,
     confirmRating,
     rated,
-    rate
+    rate,
   };
 };
 

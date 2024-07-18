@@ -34,21 +34,24 @@ export const getRatingBooking = async (
     const res = await client.query({
       query: RateApi.GetRatingBooking,
       variables: {
-        bookingId,
-        reviewerId,
+        bookingId: bookingId,
+        reviewerId: reviewerId,
       },
     });
     const data = res.data.Rate_connection.edges[0];
+    console.log(data);
+
     if (data) {
       const {id, ...rate} = data.node;
       const ratingId = JSON.parse(atob(id))[3];
       const rating: Rating = {
-        id:ratingId,
-        ...rate
+        id: ratingId,
+        ...rate,
       };
-      return {result:rating};
+
+      return {result: rating};
     }
-    return {result:null};
+    return {result: undefined};
   } catch (error) {
     console.log('Error get rating booking: ', error);
     return {error};

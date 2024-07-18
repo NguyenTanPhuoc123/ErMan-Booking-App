@@ -9,6 +9,7 @@ import {
   IActionPayBookingPayload,
   IActionGeListImageBookingPayload,
   IActionAddListImageBookingPayload,
+  IActionGetListBookingsByBranchPayload,
 } from './model';
 import {isNetworkAvailable} from '../network/saga';
 import {call, put} from 'redux-saga/effects';
@@ -94,6 +95,27 @@ export function* getListAllBookingFn(
   const {result, error} = yield call(BookingService.getListAllBooking);
   if (!error) {
     yield put(saveListBookings(result));
+    onSuccess && onSuccess(result);
+  } else if (onFail) {
+    onFail && onFail(error);
+  }
+}
+
+export function* getListBookingByBranchFn(
+  action: PayloadAction<IActionGetListBookingsByBranchPayload>,
+) {
+  const {onSuccess, onFail, branchId} = action.payload;
+  const {isConnected} = yield isNetworkAvailable();
+  if (!isConnected) {
+    onFail && onFail();
+    return;
+  }
+
+  const {result, error} = yield call(
+    BookingService.getListBookingsByBranch,
+    branchId,
+  );
+  if (!error) {
     onSuccess && onSuccess(result);
   } else if (onFail) {
     onFail && onFail(error);

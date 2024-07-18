@@ -14,6 +14,7 @@ export const PAY_BOOKING = `{ROOT_MODULE/PAY_BOOKING}`;
 export const REFUND_MONEY = `${ROOT_MODULE}/REFUND_MONEY`;
 export const GET_LIST_IMAGE_BOOKING = `${ROOT_MODULE}/GET_LIST_IMAGE_BOOKING`;
 export const ADD_LIST_IMAGE_BOOKING = `${ROOT_MODULE}/ADD_LIST_IMAGE`;
+export const GET_LIST_BOOKINGS_BY_BRANCH = `${ROOT_MODULE}/GET_LIST_BOOKINGS_BY_BRANCH`;
 export interface Booking {
   id: number;
   customer: User;
@@ -94,4 +95,8 @@ export interface IActionGeListImageBookingPayload extends IActionCallback {
 export interface IActionAddListImageBookingPayload extends IActionCallback {
   bookingId: number;
   images:Array<string>;
+}
+
+export interface IActionGetListBookingsByBranchPayload extends IActionCallback {
+  branchId: number;
 }

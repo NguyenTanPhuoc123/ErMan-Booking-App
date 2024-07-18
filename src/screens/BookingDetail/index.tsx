@@ -96,7 +96,7 @@ const BookingDetailScreen = () => {
                     setVisible(true);
                   }}>
                   <FastImage
-                    key={nanoid()}
+                    key={nanoid(3)}
                     source={img as Source}
                     resizeMode="cover"
                     style={styles.img}
@@ -249,7 +249,7 @@ const BookingDetailScreen = () => {
       {renderFooter()}
       <ImageView
         visible={visible}
-        keyExtractor={() => nanoid()}
+        keyExtractor={() => nanoid(4)}
         animationType="slide"
         backgroundColor="#282828"
         images={listImg}

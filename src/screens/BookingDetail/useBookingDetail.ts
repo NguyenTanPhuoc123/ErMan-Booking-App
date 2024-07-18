@@ -194,6 +194,8 @@ const useBookingDetail = () => {
   };
 
   const onGetRatingSuccess = (value?: Rating) => {
+    console.log(value);
+    
     if (value) {
       setRating(value);
     }

@@ -14,7 +14,6 @@ import {MessageType, PopupType} from '../../../component/CustomPopup/type';
 import {editProfile} from '../../../modules/auth';
 
 export interface FormEditUser {
-  avatar: string;
   firstname: string;
   lastname: string;
   birthday: string;

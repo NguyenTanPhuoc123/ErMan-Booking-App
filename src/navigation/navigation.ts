@@ -33,9 +33,8 @@ function reset(index: number, routes: any) {
 }
 
 function showPopup(props: PopupProps) {
-    if (navigationRef.isReady()) {
-      const {onPressPrimaryBtn, ...newProps} = props;
-    navigationRef.navigate(CUSTOM_POPUP,props);
+  if (navigationRef.isReady()) {
+    navigationRef.navigate(CUSTOM_POPUP, {...props});
   }
 }
 

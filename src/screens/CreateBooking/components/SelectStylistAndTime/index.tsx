@@ -16,8 +16,6 @@ import useSelectStylistAndTime from './useSelectStylistAndTime';
 import {getListBooked} from '../../../../modules/booking';
 import {useDispatch} from 'react-redux';
 import {Service} from '../../../../modules/service/model';
-import NavigationActionService from '../../../../navigation/navigation';
-import {MessageType, PopupType} from '../../../../component/CustomPopup/type';
 
 type SelectStylistAndTimeProps = {
   stylists: Staff[];
@@ -136,7 +134,7 @@ const SelectStylistAndTime = (props: SelectStylistAndTimeProps) => {
     } else {
       if (
         !listTimeBooked.includes(time) &&
-        compareTimesByHoursMinute(moment(Date.now()).format('HH:MM'), time) &&
+        compareTimesByHoursMinute(moment(Date.now()).format('HH:mm'), time) &&
         isAvailable(time)
       ) {
         return bookingTime === time
@@ -159,7 +157,7 @@ const SelectStylistAndTime = (props: SelectStylistAndTimeProps) => {
     } else {
       if (
         !listTimeBooked.includes(time) &&
-        compareTimesByHoursMinute(moment(Date.now()).format('HH:MM'), time) &&
+        compareTimesByHoursMinute(moment(Date.now()).format('HH:mm'), time) &&
         isAvailable(time)
       ) {
         onSelectBookingTime(time);
