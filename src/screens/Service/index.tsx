@@ -21,6 +21,7 @@ import {Tab, TabView} from 'react-native-elements';
 import SearchComponent from '../../component/Search';
 import {CREATE_BOOKING_SCREEN} from '../../constants/screen_key';
 import SelectListService from './components/SelectListService';
+import Notification from '../../component/Notification';
 
 const ServiceScreen = () => {
   const {
@@ -65,17 +66,7 @@ const ServiceScreen = () => {
           route.params ? (
             <></>
           ) : (
-            <TouchableOpacity onPress={goToNotifcation}>
-              <View>
-                <View style={styles.pointNotification}></View>
-                <Icon
-                  name="bell"
-                  size={25}
-                  style={globalStyle.fontText}
-                  solid
-                />
-              </View>
-            </TouchableOpacity>
+            <Notification/>
           )
         }
       />

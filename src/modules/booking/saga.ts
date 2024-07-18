@@ -7,6 +7,8 @@ import {
   IActionGetListBookingPayLoad,
   IActionUpdateStatusBookingPayload,
   IActionPayBookingPayload,
+  IActionGeListImageBookingPayload,
+  IActionAddListImageBookingPayload,
 } from './model';
 import {isNetworkAvailable} from '../network/saga';
 import {call, put} from 'redux-saga/effects';
@@ -144,16 +146,57 @@ export function* getListBookedFn(
 }
 
 export function* payBookingFn(action: PayloadAction<IActionPayBookingPayload>) {
-  const {onSuccess, onFail, total} = action.payload;
+  const {onSuccess, onFail, total, user} = action.payload;
   const {isConnected} = yield isNetworkAvailable();
   if (!isConnected) {
     onFail && onFail();
     return;
   }
-  const {error, result} = yield call(BookingService.payBooking, total);
+  const {error, result} = yield call(BookingService.payBooking, total, user);
   if (!error) {
     onSuccess && onSuccess(result);
   } else {
+    onFail && onFail(error);
+  }
+}
+
+export function* getListImageBookingFn(
+  action: PayloadAction<IActionGeListImageBookingPayload>,
+) {
+  const {onSuccess, onFail, bookingId} = action.payload;
+  const {isConnected} = yield isNetworkAvailable();
+  if (!isConnected) {
+    onFail && onFail();
+    return;
+  }
+  const {result, error} = yield call(
+    BookingService.getListImageBooking,
+    bookingId,
+  );
+  if (!error) {
+    onSuccess && onSuccess(result);
+  } else if (onFail) {
+    onFail && onFail(error);
+  }
+}
+
+export function* addListImageBookingFn(
+  action: PayloadAction<IActionAddListImageBookingPayload>,
+) {
+  const {onSuccess, onFail, bookingId, images} = action.payload;
+  const {isConnected} = yield isNetworkAvailable();
+  if (!isConnected) {
+    onFail && onFail();
+    return;
+  }
+  const {result, error} = yield call(
+    BookingService.addListImageBooking,
+    bookingId,
+    images,
+  );
+  if (!error) {
+    onSuccess && onSuccess(result);
+  } else if (onFail) {
     onFail && onFail(error);
   }
 }

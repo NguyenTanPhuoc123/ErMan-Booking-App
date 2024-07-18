@@ -27,15 +27,6 @@ const styles = StyleSheet.create({
     width: WITDH / 2,
     justifyContent: 'center',
   },
-  pointNotification: {
-    backgroundColor: '#E24747',
-    width: 8,
-    height: 8,
-    borderRadius: 8,
-    position: 'absolute',
-    right: 0,
-    zIndex: 9999,
-  },
   buttonComponent: {
     flexDirection: 'row',
     justifyContent: 'space-around',

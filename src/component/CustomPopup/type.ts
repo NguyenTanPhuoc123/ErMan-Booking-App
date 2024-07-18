@@ -20,13 +20,13 @@ export interface PopupDataProps {
 export interface OneButtonProps {
   type: PopupType.ONE_BUTTON;
   primaryBtnText?: string;
-  onPressPrimaryBtn?: () => void;
+  onPressPrimaryBtn?: any;
 }
 
 export interface TwoButtonProps {
   type: PopupType.TWO_BUTTONS;
   primaryBtnText?: string;
-  onPressPrimaryBtn?: () => void;
+  onPressPrimaryBtn?: any;
   secondaryBtnText?: string;
 }
 

@@ -29,6 +29,7 @@ import {
   ADD_SERVICE_SCREEN,
   ADD_BRANCH_SCREEN,
   STAFF_MANAGER_SCREEN,
+  WORK_SCHEDULE_MANAGER_SCREEN,
 } from '../constants/screen_key';
 
 export type AuthStackParamList = {
@@ -70,4 +71,5 @@ export type AdminStackParamList = {
   [ADD_SERVICE_SCREEN]:undefined;
   [STAFF_MANAGER_SCREEN]:undefined;
   [ADD_BRANCH_SCREEN]:undefined;
+  [WORK_SCHEDULE_MANAGER_SCREEN]:undefined;
 }

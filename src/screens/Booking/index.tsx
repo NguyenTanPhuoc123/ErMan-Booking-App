@@ -8,13 +8,13 @@ import styles from './style';
 import Tabs from './components/Tabs';
 import useBooking from './useBooking';
 import {APP_TYPE} from '../../constants/app_info';
+import Notification from '../../component/Notification';
 
 const MyBookingScreen = () => {
   const {
     index,
     setIndex,
     routes,
-    goToNotifcation,
     goToCreateBooking,
     bookings,
     refresh,
@@ -70,14 +70,7 @@ const MyBookingScreen = () => {
           <Text style={styles.textBooking}>Lịch đặt của tôi</Text>
         }
         rightContainerStyle={styles.rightComponentHeader}
-        rightComponent={
-          <TouchableOpacity onPress={goToNotifcation}>
-            <View>
-              <View style={styles.pointNotification}></View>
-              <Icon name="bell" size={25} style={globalStyle.fontText} solid />
-            </View>
-          </TouchableOpacity>
-        }
+        rightComponent={<Notification />}
       />
     );
   };

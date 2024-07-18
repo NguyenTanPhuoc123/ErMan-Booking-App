@@ -46,7 +46,9 @@ const useSelectStylistAndTime = () => {
       typeMessage: MessageType.ERROR,
       title: 'Lỗi load lịch trống',
       message: error?.message || 'Có một lỗi gì đó đã xảy ra',
-      onPressPrimaryBtn: () => NavigationActionService.pop(),
+      onPressPrimaryBtn: () => {
+        NavigationActionService.pop();
+      },
     });
   };
 

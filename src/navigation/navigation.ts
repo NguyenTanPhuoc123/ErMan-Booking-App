@@ -8,7 +8,6 @@ import {loadingRef} from '../AppContainer';
 
 const popAction = StackActions.pop(1);
 export const navigationRef = createNavigationContainerRef<any>();
-
 function navigate(screenName: string, passProps = {}) {
   if (navigationRef.isReady()) {
     navigationRef.navigate(screenName, passProps);
@@ -34,8 +33,9 @@ function reset(index: number, routes: any) {
 }
 
 function showPopup(props: PopupProps) {
-  if (navigationRef.isReady()) {
-    navigationRef.navigate(CUSTOM_POPUP, {...props});
+    if (navigationRef.isReady()) {
+      const {onPressPrimaryBtn, ...newProps} = props;
+    navigationRef.navigate(CUSTOM_POPUP,props);
   }
 }
 

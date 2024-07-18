@@ -11,6 +11,9 @@ export const GET_LIST_BOOKED = `${ROOT_MODULE}/GET_LIST_BOOKED`;
 export const GET_LIST_ALL_BOOKING = `${ROOT_MODULE}/GET_LIST_ALL_BOOKING`;
 export const EDIT_BOOKING = `${ROOT_MODULE}/EDIT_BOOKING`;
 export const PAY_BOOKING = `{ROOT_MODULE/PAY_BOOKING}`;
+export const REFUND_MONEY = `${ROOT_MODULE}/REFUND_MONEY`;
+export const GET_LIST_IMAGE_BOOKING = `${ROOT_MODULE}/GET_LIST_IMAGE_BOOKING`;
+export const ADD_LIST_IMAGE_BOOKING = `${ROOT_MODULE}/ADD_LIST_IMAGE`;
 export interface Booking {
   id: number;
   customer: User;
@@ -22,11 +25,11 @@ export interface Booking {
   isPaid: boolean;
   total: number;
   branch: Branch;
-  payment: Payment;
+  payment: PaymentMethod;
   services: Array<Service>;
 }
 
-export interface Payment {
+export interface PaymentMethod {
   id: number;
   name: string;
 }
@@ -47,8 +50,9 @@ export interface IAcionSaveListBookingPayLoad {
 }
 
 export type IActionGetListAllBooking = IActionCallback;
-export interface IActionPayBookingPayload extends IActionCallback{
-  total:number;
+export interface IActionPayBookingPayload extends IActionCallback {
+  total: number;
+  user: User;
 }
 export interface IActionUpdateStatusBookingPayload extends IActionCallback {
   id: number;
@@ -67,7 +71,7 @@ export interface BookingParams {
   timeBooking: string;
   isPaid: boolean;
   branch: Branch;
-  payment:number;
+  payment: number;
   services: Array<Service>;
 }
 
@@ -79,4 +83,15 @@ export interface IActionEditBookingPayload extends IActionCallback {
 export interface IActionGetListBookedPayload extends IActionCallback {
   staffId: number;
   dateBooking: string;
+}
+
+export interface IActionRefundMoneyPayload extends IActionCallback {}
+
+export interface IActionGeListImageBookingPayload extends IActionCallback {
+  bookingId: number;
+}
+
+export interface IActionAddListImageBookingPayload extends IActionCallback {
+  bookingId: number;
+  images:Array<string>;
 }

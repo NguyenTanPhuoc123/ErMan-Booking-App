@@ -13,6 +13,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import NavigationActionService from '../../navigation/navigation';
 import {PROFILE_SCREEN} from '../../constants/screen_key';
 import usePersonal from './usePersonal';
+import Notification from '../../component/Notification';
 
 const PersonalScreen = () => {
   const {currentUser, showLogout, goToNotifcation, showAppInfo} = usePersonal();
@@ -32,14 +33,7 @@ const PersonalScreen = () => {
         backgroundColor="#433F3F"
         centerComponent={<Text style={styles.textAccount}>Tài khoản</Text>}
         rightContainerStyle={styles.rightComponentHeader}
-        rightComponent={
-          <TouchableOpacity onPress={goToNotifcation}>
-            <View>
-              <View style={styles.pointNotification}></View>
-              <Icon name="bell" size={25} style={globalStyle.fontText} solid />
-            </View>
-          </TouchableOpacity>
-        }
+        rightComponent={<Notification/>}
       />
     );
   };

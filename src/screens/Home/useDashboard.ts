@@ -8,7 +8,6 @@ import NavigationActionService from '../../navigation/navigation';
 import {
   BRANCH_SCREEN,
   MY_BOOKING_STACK,
-  NOTIFICATION_SCREEN,
   STYLIST_SCREEN,
 } from '../../constants/screen_key';
 import {ICarouselInstance} from 'react-native-reanimated-carousel';
@@ -51,7 +50,10 @@ const useDasboard = () => {
           const timeNow = moment(new Date()).format('HH:mm');
           if (
             booking.dateBooking === dateNow &&
-            moment(booking.timeBooking, 'HH:mm').isAfter(moment(timeNow, 'HH:mm'))
+            booking.status === 'upcoming' &&
+            moment(booking.timeBooking, 'HH:mm').isAfter(
+              moment(timeNow, 'HH:mm'),
+            )
           )
             return booking;
         })[0]
@@ -83,10 +85,6 @@ const useDasboard = () => {
     setRefresh(false);
   }, [refresh]);
 
-  const goToNotifcation = () => {
-    NavigationActionService.navigate(NOTIFICATION_SCREEN);
-  };
-
   const goToBranch = () => {
     NavigationActionService.navigate(BRANCH_SCREEN);
   };
@@ -103,7 +101,6 @@ const useDasboard = () => {
     currentUser,
     services,
     goToBranch,
-    goToNotifcation,
     goToStylists,
     discountRef,
     currentIndex,

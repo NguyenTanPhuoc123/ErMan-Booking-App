@@ -15,6 +15,7 @@ import {
   SELECT_PAYMENT_SCREEN,
 } from '../../constants/screen_key';
 import {Service} from '../../modules/service/model';
+import {createNotification} from '../../modules/notification';
 
 const useCreateBooking = () => {
   const dispatch = useDispatch();
@@ -40,7 +41,6 @@ const useCreateBooking = () => {
   const [stylist, setStylist] = useState<Staff>(
     screen === BOOKING_DETAIL_SCREEN && booking ? booking.staff : null,
   );
-
   const dateNow = moment(new Date()).format('DD-MM-YYYY');
   const [date, setDate] = useState(booking ? booking.dateBooking : dateNow);
   const [time, setTime] = useState(booking ? booking.timeBooking : '');
@@ -50,8 +50,6 @@ const useCreateBooking = () => {
     {id: '2', name: 'ZaloPay'},
   ];
   const [payment, setPayment] = useState(payments[0].id);
-  const [token, setToken] = useState('');
-  const [returncode, setReturnCode] = useState('');
 
   useEffect(() => {
     dispatch(
@@ -74,6 +72,34 @@ const useCreateBooking = () => {
         ? 'Chỉnh sửa lịch đặt thành công'
         : 'Đặt lịch thành công',
     });
+    pushNotification();
+  };
+
+  const pushNotification = () => {
+    dispatch(
+      createNotification({
+        title: 'Đặt lịch',
+        message: `Bạn vừa mới đặt lịch tại ${branch.branchName} lúc ${date} ${time} `,
+        receiverId: userData.id,
+        onSuccess: () => {
+          console.log('Push notification success');
+        },
+        onFail: (error?: ApiError) => console.log('Error: ', error),
+      }),
+    );
+    dispatch(
+      createNotification({
+        title: 'Lịch đặt mới',
+        message: `Bạn vừa nhận được lịch đặt mới từ ${
+          userData.firstname + ' ' + userData.lastname
+        } tại ${branch.branchName} lúc ${date} ${time} `,
+        receiverId: stylist.id,
+        onSuccess: () => {
+          console.log('Push notification staff  success');
+        },
+        onFail: (error?: ApiError) => console.log('Error staff: ', error),
+      }),
+    );
   };
 
   const onCreateFail = (error?: ApiError) => {
@@ -94,6 +120,7 @@ const useCreateBooking = () => {
     dispatch(
       payBooking({
         total: total,
+        user:userData,
         onSuccess: value => {
           const pay = PayZaloBridge.payOrder(value.zp_trans_token);
           console.log(pay);

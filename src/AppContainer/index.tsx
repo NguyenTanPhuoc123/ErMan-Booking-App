@@ -19,6 +19,7 @@ import {ApolloProvider} from '@apollo/client';
 import client from '../api';
 import {NativeEventEmitter} from 'react-native';
 import {PayZaloBridge} from '../constants/api';
+import {LogBox} from 'react-native';
 
 const payZaloBridgeEmitter = new NativeEventEmitter(PayZaloBridge);
 const subscription = payZaloBridgeEmitter.addListener('EventPayZalo', data => {
@@ -32,7 +33,10 @@ export const BaseService = BaseServiceClass.instance(store);
 const Stack = createStackNavigator();
 export const loadingRef = createRef<LoadingPageRef>();
 const App = () => {
-  const getStackScreenOptions = useMemo(() => {
+  LogBox.ignoreLogs([
+    'Non-serializable values were found in the navigation state',
+  ]);
+  const getStackScreenOptions: StackNavigationOptions = useMemo(() => {
     return {
       cardStyle: {backgroundColor: 'transparent'},
       presentation: 'transparentModal',
@@ -50,7 +54,7 @@ const App = () => {
               screenOptions={{headerShown: false, gestureEnabled: false}}>
               <Stack.Screen name={MAIN_SCREEN} component={AppComponent} />
               <Stack.Screen
-                options={getStackScreenOptions as StackNavigationOptions}
+                options={getStackScreenOptions}
                 name={CUSTOM_POPUP}
                 component={CustomPopup}
               />

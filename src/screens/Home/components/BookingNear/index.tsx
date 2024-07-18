@@ -3,7 +3,7 @@ import React from 'react';
 import styles from './style';
 import globalStyle from '../../../../constants/styles';
 import FastImage from 'react-native-fast-image';
-import {AVARTAR_DEFAULT_CUSTOMER, CUSTOMER} from '../../../../constants/icons';
+import {AVARTAR_DEFAULT_CUSTOMER} from '../../../../constants/icons';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {FormatCurrency} from '../../../../utils/currentcy';
 import {Booking} from '../../../../modules/booking/model';
@@ -49,7 +49,7 @@ const BookingNear = (props: BookingNearProps) => {
           Tổng tiền: {FormatCurrency(booking?.total || 0)}
         </Text>
         <Text style={[globalStyle.fontText, styles.otherInfo]}>
-          Giờ đặt: {booking?.datetimeBooking}
+          Giờ đặt: {booking?.dateBooking + ' '+booking?.timeBooking}
         </Text>
         <TouchableOpacity style={styles.viewDetail} onPress={goToDetail}>
           <Text style={[globalStyle.fontText, styles.txtViewDetail]}>
