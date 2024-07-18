@@ -37,6 +37,11 @@ export const getListBookingsByBranch =
   createAction<Models.IActionGetListBookingsByBranchPayload>(
     Models.GET_LIST_BOOKINGS_BY_BRANCH,
   );
+
+export const getBookingCustomerNearest =
+  createAction<Models.IActionGetBookingCustomerNearestPayload>(
+    Models.GET_BOOKING_CUSTOMER_NEAREST,
+  );
 function* bookingSaga() {
   yield takeLatest(createNewBooking, FuncSaga.createNewBookingFn);
   yield takeLatest(editBooking, FuncSaga.editBookingFn);
@@ -48,6 +53,10 @@ function* bookingSaga() {
   yield takeLatest(getListImageBooking, FuncSaga.getListImageBookingFn);
   yield takeLatest(addListImageBooking, FuncSaga.addListImageBookingFn);
   yield takeLatest(getListBookingsByBranch, FuncSaga.getListBookingByBranchFn);
+  yield takeLatest(
+    getBookingCustomerNearest,
+    FuncSaga.getBookingCustomerNearestFn,
+  );
 }
 
 export {bookingReducer, bookingSaga};

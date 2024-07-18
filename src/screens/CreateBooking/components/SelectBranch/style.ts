@@ -28,6 +28,23 @@ const styles = StyleSheet.create({
     margin: 15,
     width: WITDH / 1.3,
   },
+  branchBookingNear:{
+    borderColor:'#fff',
+    borderWidth:2,
+    width: WITDH/2,
+    height: 'auto',
+    paddingVertical:17,
+    justifyContent:'center',
+    alignItems:'center',
+    borderRadius:15,
+    marginHorizontal:10,
+    marginBottom:10
+  },
+  textBranchBookingNear: {
+    color: '#D4D3D6',
+    fontSize: 16,
+    fontFamily: InriaSerifRegular,
+  },
 });
 
 export default styles;

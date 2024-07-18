@@ -529,3 +529,83 @@ export const GetListBookingsByBranch = gql`
     }
   }
 `;
+
+export const GetBookingCustomerNearest = gql`
+  query GetBookingCustomerNearest($customerId: Int) {
+    Booking_connection(
+      first: 1
+      order_by: {dateBooking: desc, timeBooking: desc}
+      where: {customer: {_eq: $customerId}, status: {_eq: "completed"}}
+    ) {
+      edges {
+        node {
+          Branch {
+            address
+            branchName
+            closeTime
+            description
+            id
+            image
+            openTime
+          }
+          Payment {
+            id
+            name
+          }
+          User {
+            address
+            avatar
+            birthday
+            email
+            firstname
+            id
+            isVerified
+            lastname
+            typeAccount
+          }
+          dateBooking
+          datetimeCreate
+          id
+          isPaid
+          status
+          timeBooking
+          total
+          userByStaff {
+            address
+            avatar
+            birthday
+            email
+            firstname
+            id
+            isVerified
+            typeAccount
+            lastname
+            Staff {
+              id
+              timeStartWork
+              Branch {
+                address
+                branchName
+                closeTime
+                description
+                id
+                image
+                openTime
+              }
+            }
+          }
+          BookingDetails {
+            Service {
+              id
+              description
+              image
+              price
+              serviceName
+              time
+            }
+          }
+        }
+      }
+    }
+  }
+`;

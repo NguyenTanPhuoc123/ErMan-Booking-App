@@ -4,6 +4,7 @@ import {
   IActionAddNewStaffPayload,
   IActionDeleteUserPayload,
   IActionEditProfileStaffPayload,
+  IActionGetListStaffByBranchPayload,
   IActionGetListStaffPayload,
   IActionGetListUserPayload,
   IActionSearchUserPayload,
@@ -11,7 +12,6 @@ import {
 import {isNetworkAvailable} from '../network/saga';
 import {call, put} from 'redux-saga/effects';
 import {
-  addToList,
   saveListStaffLoadmore,
   saveListUser,
   saveListUserLoadmore,
@@ -149,6 +149,27 @@ export function* deleteUser(action: PayloadAction<IActionDeleteUserPayload>) {
     return;
   }
   const {result, error} = yield call(UserService.deleteUser, id);
+  if (!error) {
+    onSuccess && onSuccess(result);
+  } else if (onFail) {
+    onFail && onFail(error);
+  }
+}
+
+export function* getListStaffByBranchFn(
+  action: PayloadAction<IActionGetListStaffByBranchPayload>,
+) {
+  const {onSuccess, onFail, branchId} = action.payload;
+  const {isConnected} = yield isNetworkAvailable();
+  if (!isConnected) {
+    onFail && onFail();
+    return;
+  }
+
+  const {result, error} = yield call(
+    UserService.getListStaffByBranch,
+    branchId,
+  );
   if (!error) {
     onSuccess && onSuccess(result);
   } else if (onFail) {

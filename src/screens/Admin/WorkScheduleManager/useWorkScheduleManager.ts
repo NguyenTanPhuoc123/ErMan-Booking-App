@@ -8,13 +8,14 @@ import moment from 'moment';
 import {IBranchState} from '../../../modules/branch/model';
 import {getListBranchs} from '../../../modules/branch';
 import {IAuthState} from '../../../modules/auth/model';
-import {Admin} from '../../../modules/user/model';
+import {Admin, Staff} from '../../../modules/user/model';
 import {getListBookingsByBranch} from '../../../modules/booking/';
+import {getListStaffByBranch} from '../../../modules/user';
 
 const useWorkScheduleManager = () => {
   const dispatch = useDispatch();
   const {branchs} = useSelector<RootState, IBranchState>(state => state.branch);
-  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [staffs, setStaffs] = useState<Staff[]>([]);
   const {userData} = useSelector<RootState, IAuthState>(state => state.auth);
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);
@@ -23,7 +24,7 @@ const useWorkScheduleManager = () => {
   useEffect(() => {
     setLoading(true);
     dispatch(
-      getListBookingsByBranch({
+      getListStaffByBranch({
         branchId: branchId,
         onSuccess: onSuccess,
         onFail: onFail,
@@ -42,15 +43,11 @@ const useWorkScheduleManager = () => {
   const pullRefresh = () => {
     setRefresh(true);
   };
-  const onSuccess = (result: Booking[]) => {
+  const onSuccess = (result: Staff[]) => {
     setLoading(false);
     setRefresh(false);
 
-    setBookings(
-      result.filter(
-        data => data.dateBooking === moment().format('DD-MM-YYYY'),
-      ) || [],
-    );
+    setStaffs(result);
   };
 
   const onFail = () => {
@@ -58,7 +55,7 @@ const useWorkScheduleManager = () => {
     setRefresh(false);
   };
   return {
-    bookings,
+    staffs,
     loading,
     refresh,
     pullRefresh,

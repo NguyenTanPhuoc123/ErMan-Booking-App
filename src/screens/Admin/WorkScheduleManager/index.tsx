@@ -8,13 +8,14 @@ import BookingItem from './BookingItem';
 import CustomDropDown from '../../../component/CustomDropdown';
 import ListItemEmpty from '../../../component/ListItemEmpty';
 import {LIST_CALENDAR_EMPTY} from '../../../constants/icons';
+import { Staff } from '../../../modules/user/model';
 
 const WorkScheduleManagerScreen = () => {
   const {
     pullRefresh,
     refresh,
     loading,
-    bookings,
+    staffs,
     listBookingRef,
     branchs,
     branchId,
@@ -42,12 +43,12 @@ const WorkScheduleManagerScreen = () => {
   };
   const renderListBooking = () => {
     return (
-      <FlatList<Booking>
+      <FlatList<Staff>
         refreshing={refresh}
         numColumns={2}
         onRefresh={pullRefresh}
         ref={listBookingRef}
-        data={bookings}
+        data={staffs}
         keyExtractor={item => item.id.toString()}
         renderItem={({item}) => <BookingItem key={item.id} {...item} />}
         ListEmptyComponent={

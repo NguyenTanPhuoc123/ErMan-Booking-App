@@ -1,5 +1,5 @@
 import {Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import styles from './style';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import NavigationActionService from '../../../../navigation/navigation';
@@ -31,7 +31,7 @@ const SelectBranch = (props: SelectBranchProps) => {
   };
 
   return (
-    <View style={{height: 180, marginVertical: 20}}>
+    <View style={{height: 240, marginVertical: 20}}>
       <Text style={styles.label}>2. Chọn chi nhánh</Text>
       <TouchableOpacity style={styles.container} onPress={goToBranch}>
         <Icon name="home" size={16} color="#d4d3d6" />

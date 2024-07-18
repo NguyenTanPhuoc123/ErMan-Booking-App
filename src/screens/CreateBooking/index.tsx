@@ -19,10 +19,8 @@ import SelectStylistAndTime from './components/SelectStylistAndTime';
 import {Staff} from '../../modules/user/model';
 import {
   BOOKING_DETAIL_SCREEN,
-  SELECT_PAYMENT_SCREEN,
 } from '../../constants/screen_key';
 import CustomDropDown from '../../component/CustomDropdown';
-import NavigationActionService from '../../navigation/navigation';
 import { ZALO_PAY } from '../../constants/icons';
 type SectionListItem = {
   id: number;
@@ -49,9 +47,8 @@ const CreateBookingScreen = () => {
     setPayment,
     booking,
     onPay,
-    isPaid
+    isPaid,
   } = useCreateBooking();
-
   const data = [
     {
       id: 1,

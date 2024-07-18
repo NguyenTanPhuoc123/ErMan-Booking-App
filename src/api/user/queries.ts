@@ -372,3 +372,37 @@ export const deleteUser = gql`
     }
   }
 `;
+
+export const GetListStaffByBranch = gql`
+  query GetListStaffByBranch($branchId: Int) {
+    User_connection(
+      where: {Staff: {workPlace: {_eq: $branchId}}, typeAccount: {_eq: "Staff"}}
+    ) {
+      edges {
+        node {
+          address
+          avatar
+          birthday
+          email
+          firstname
+          id
+          isVerified
+          lastname
+          typeAccount
+          Staff {
+            timeStartWork
+            Branch {
+              address
+              branchName
+              closeTime
+              description
+              id
+              image
+              openTime
+            }
+          }
+        }
+      }
+    }
+  }
+`;
