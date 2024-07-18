@@ -58,7 +58,7 @@ const useInputInfo = () => {
       typeMessage: MessageType.COMMON,
       title: 'Đăng ký tài khoản',
       message: 'Đăng ký thành công',
-      onPressPrimaryBtn: () => NavigationActionService.navigate(LOGIN_SCREEN),
+      onPressPrimaryBtn: () => {NavigationActionService.navigate(LOGIN_SCREEN)},
     });
   };
 

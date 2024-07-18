@@ -4,7 +4,7 @@ import NavigationActionService from '../../navigation/navigation';
 import {logout} from '../../modules/auth';
 import {RootState} from '../../redux/reducers';
 import {IAuthState} from '../../modules/auth/model';
-import {CHANGE_PASSWORD_SCREEN, NOTIFICATION_SCREEN} from '../../constants/screen_key';
+import {NOTIFICATION_SCREEN} from '../../constants/screen_key';
 
 const usePersonal = () => {
   const dispatch = useDispatch();

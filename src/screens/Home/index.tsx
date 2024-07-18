@@ -34,6 +34,7 @@ import useDasboard from './useDashboard';
 import {Service} from '../../modules/service/model';
 import {Branch} from '../../modules/branch/model';
 import ItemStylistRow from './components/ItemStylistRow';
+import Notification from '../../component/Notification';
 const Sale = [
   {
     content: 'Nơi phong cách tỏa sáng, mang đến cho bạn những trải nghiệm tốt',
@@ -52,7 +53,6 @@ const HomeScreen = () => {
     services,
     currentUser,
     goToBranch,
-    goToNotifcation,
     goToStylists,
     discountRef,
     currentIndex,
@@ -92,14 +92,7 @@ const HomeScreen = () => {
           </View>
         }
         rightContainerStyle={styles.rightComponentHeader}
-        rightComponent={
-          <TouchableOpacity onPress={goToNotifcation}>
-            <View>
-              <View style={styles.pointNotification}></View>
-              <Icon name="bell" style={globalStyle.fontText} size={25} solid />
-            </View>
-          </TouchableOpacity>
-        }
+        rightComponent={<Notification />}
       />
     );
   };

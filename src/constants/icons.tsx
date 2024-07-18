@@ -14,6 +14,7 @@ import ICON_STYLIST from '../assets/icons/cut_hair.png';
 import LIST_CALENDAR_EMPTY from '../assets/icons/calendar.png';
 import IMAGE_SERVICE_DEFAULT from '../assets/images/image_default_service.jpg';
 import ZALO_PAY from '../assets/icons/LogoZalo.png';
+import LIST_NOTIFICATION_EMPTY from '../assets/icons/notificationempty.png';
 
 export {
   LANDING_PAGE,
@@ -32,4 +33,5 @@ export {
   LIST_CALENDAR_EMPTY,
   IMAGE_SERVICE_DEFAULT,
   ZALO_PAY,
+  LIST_NOTIFICATION_EMPTY
 };

@@ -7,12 +7,11 @@ import {IAuthState} from '../auth/model';
 import {useSubscription} from '@apollo/client';
 import {onAuthStateChanged} from '../../api/user/queries';
 import {useEffect} from 'react';
-import {saveUser} from '../auth/reducer';
-import {User} from '../user/model';
-import {updateBookingRealtime} from '../booking/service';
 import {getCurrentUser} from '../auth';
 import {UpdateDataFromServer} from '../../api/booking/queries';
 import {getListBookings} from '../booking';
+import {GetRealTimeNotification} from '../../api/notification/queries';
+import {getListNotifications} from '../notification';
 
 const useStartup = () => {
   const dispatch = useDispatch();
@@ -20,6 +19,15 @@ const useStartup = () => {
   const {data, error} = useSubscription(onAuthStateChanged, {
     variables: {id: userData ? userData.id : 0},
   });
+  const {data: dataNotification, error: errorNotification} = useSubscription(
+    GetRealTimeNotification,
+    {
+      variables: {
+        receiverId: userData.id,
+      },
+    },
+  );
+
   const {data: dataBooking, error: errorBooking} =
     useSubscription(UpdateDataFromServer);
   useEffect(() => {
@@ -35,7 +43,22 @@ const useStartup = () => {
         }),
       );
     }
-  }, [data, dataBooking]);
+    if (
+      dataNotification &&
+      dataNotification.Notification_connection.edges &&
+      !errorNotification
+    ) {
+      
+      dispatch(
+        getListNotifications({
+          page: 1,
+          endCursor: '',
+          limit: 100,
+          receiverId: userData.id,
+        }),
+      );
+    }
+  }, [data, dataBooking, dataNotification]);
 
   const onConnectionChanged = (state: NetInfoState) => {
     NetInfo.addEventListener(onConnectionChanged);

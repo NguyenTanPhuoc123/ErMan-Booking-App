@@ -4,6 +4,8 @@ import * as BookingApi from '../../api/booking/queries';
 import {Service} from '../service/model';
 import {saveListBookings} from './reducer';
 import CryptoJS from 'crypto-js';
+import {User} from '../user/model';
+import storage from '@react-native-firebase/storage';
 
 export const getListBookings = async (
   limit: number,
@@ -311,12 +313,12 @@ export const editBooking = async (bookingId: number, body: BookingParams) => {
   }
 };
 
-export const payBooking = async (total: number) => {
+export const payBooking = async (total: number, user: User) => {
   try {
     let apptransid = getCurrentDateYYMMDD() + '_' + new Date().getTime();
     let appid = 2553;
     let amount = parseInt(`${total}`);
-    let appuser = 'Erman Salon';
+    let appuser = user.firstname + ' ' + user.lastname;
     let apptime = new Date().getTime();
     let embeddata = '{}';
     let item = '[]';
@@ -383,3 +385,34 @@ function getCurrentDateYYMMDD() {
   var todayDate = new Date().toISOString().slice(2, 10);
   return todayDate.split('-').join('');
 }
+
+export const getListImageBooking = async (bookingId: number) => {
+  try {
+    const res = await storage().ref(`bookings/${bookingId}`).listAll();
+    const listImg: Array<string> = await Promise.all(
+      res.items.map(item => {
+        return item.getDownloadURL();
+      }),
+    );
+    return {result: listImg};
+  } catch (error) {
+    console.log('Error get list image booking: ', error);
+    return {error};
+  }
+};
+
+export const addListImageBooking = (
+  bookingId: number,
+  images: Array<string>,
+) => {
+  try {
+    const res = images.map(async (image,index) => {
+      return await storage().ref(`bookings/${bookingId}/${bookingId}_imageBooking_${index}`).putFile(image);
+    });
+
+    return {result: res};
+  } catch (error) {
+    console.log('Error add list image booking: ', error);
+    return error;
+  }
+};

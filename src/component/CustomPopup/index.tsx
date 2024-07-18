@@ -8,6 +8,7 @@ import styles from './styles';
 
 const CustomPopup = () => {
   const route = useRoute();
+
   const {
     title,
     message,
@@ -33,7 +34,7 @@ const CustomPopup = () => {
           styles.horizontalButton,
         ]}
         onPress={() => {
-          otherProps.onPressPrimaryBtn && otherProps.onPressPrimaryBtn();
+         otherProps.onPressPrimaryBtn && otherProps.onPressPrimaryBtn();
           closePopup();
         }}>
         <Text style={[globalStyle.fontText, styles.primaryText]}>OK</Text>

@@ -1,9 +1,8 @@
 import {useRoute} from '@react-navigation/native';
 import NavigationActionService from '../../navigation/navigation';
-import {Service} from '../../modules/service/model';
 import {formatStringDate} from '../../utils/date';
 import CountDown from 'react-native-countdown-component';
-import {createRef, useEffect, useState} from 'react';
+import {createRef, useEffect, useRef, useState} from 'react';
 import {
   BOOKING_DETAIL_SCREEN,
   CREATE_BOOKING_SCREEN,
@@ -12,20 +11,30 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../redux/reducers';
 import {IAuthState} from '../../modules/auth/model';
-import {updateStatusBooking} from '../../modules/booking';
+import {
+  addListImageBooking,
+  getListImageBooking,
+  updateStatusBooking,
+} from '../../modules/booking';
 import {MessageType, PopupType} from '../../component/CustomPopup/type';
 import {ApiError} from '../../constants/api';
 import {getRatingBooking} from '../../modules/rate';
 import {Rating} from '../../modules/rate/model';
+import {ImageSource} from 'react-native-image-viewing/dist/@types';
+import DocumentPicker from 'react-native-document-picker';
 
 const useBookingDetail = () => {
   const dispatch = useDispatch();
   const {userData} = useSelector<RootState, IAuthState>(state => state.auth);
   const {booking} = useRoute().params as any;
   const [rating, setRating] = useState<Rating>();
+  const [visible, setVisible] = useState(false);
+  const [imagesUpload, setImagesUpload] = useState<string[]>([]);
   const datetimeNow = new Date().getTime() / 1000;
   const countdown =
-    new Date(formatStringDate(booking.dateBooking) + ' ' + booking.timeBooking).getTime() / 1000;
+    new Date(
+      formatStringDate(booking.dateBooking) + ' ' + booking.timeBooking,
+    ).getTime() / 1000;
   const countdownRef = createRef<CountDown>();
   const getStatusText = () => {
     switch (booking.status) {
@@ -40,6 +49,8 @@ const useBookingDetail = () => {
     }
   };
 
+  const [listImg, setListImg] = useState<Array<ImageSource>>([]);
+  const idx = useRef(0);
   useEffect(() => {
     dispatch(
       getRatingBooking({
@@ -49,7 +60,32 @@ const useBookingDetail = () => {
         onFail: onGetRatingFail,
       }),
     );
+    if (booking.status === 'completed')
+      dispatch(
+        getListImageBooking({
+          bookingId: booking.id,
+          onSuccess: onGetSuccess,
+          onFail: onGetFail,
+        }),
+      );
   }, []);
+
+  const onGetSuccess = (value: Array<string>) => {
+    const listdata: ImageSource[] = value.map(value => {
+      return {uri: value};
+    });
+    setListImg(listdata);
+  };
+
+  const onGetFail = (error?: ApiError) => {
+    NavigationActionService.showPopup({
+      type: PopupType.ONE_BUTTON,
+      typeMessage: MessageType.ERROR,
+      title: 'Lấy ảnh lỗi',
+      message: error?.message || 'Có một lỗi gì đó đã xảy ra trong lúc lấy ảnh',
+      onPressPrimaryBtn: startBooking,
+    });
+  };
 
   const getTotalTime = () => {
     let totalTime = 0;
@@ -66,18 +102,25 @@ const useBookingDetail = () => {
       title: 'Xác nhận bắt đầu làm',
       message: 'Bạn có chắc chắn muốn bắt đầu làm công việc này?',
       onPressPrimaryBtn: startBooking,
-      onClosePopup: () => {},
     });
   };
 
   const showPopupConfirmComplete = () => {
+    if (!imagesUpload || imagesUpload.length <= 0) {
+      NavigationActionService.showPopup({
+        type: PopupType.ONE_BUTTON,
+        typeMessage: MessageType.ERROR,
+        title: 'Lỗi khi hoàn thành',
+        message: 'Bạn chưa chọn ảnh nào cả',
+      });
+      return;
+    }
     NavigationActionService.showPopup({
       type: PopupType.TWO_BUTTONS,
       typeMessage: MessageType.COMMON,
       title: 'Xác nhận đã hoàn thành',
       message: 'Bạn chắc chắn là đã hoàn thành rồi chứ?',
       onPressPrimaryBtn: completedBooking,
-      onClosePopup: () => {},
     });
   };
 
@@ -88,7 +131,6 @@ const useBookingDetail = () => {
       title: 'Xác nhận hủy',
       message: 'Bạn chắc chắn muốn hủy lịch đặt này?',
       onPressPrimaryBtn: cancelBooking,
-      onClosePopup: () => {},
     });
   };
 
@@ -117,6 +159,14 @@ const useBookingDetail = () => {
   };
 
   const completedBooking = () => {
+    dispatch(
+      addListImageBooking({
+        bookingId: booking.id,
+        images: imagesUpload,
+        onSuccess: () => {},
+        onFail: onChangeFail,
+      }),
+    );
     dispatch(
       updateStatusBooking({
         id: booking.id,
@@ -177,6 +227,20 @@ const useBookingDetail = () => {
       booking: booking,
     });
   };
+
+  const uploadImages = async () => {
+    const images = await DocumentPicker.pick({
+      mode: 'open',
+      allowMultiSelection: true,
+      type: DocumentPicker.types.images,
+    });
+    const listUri = images.map(img => {
+      return img.uri;
+    });
+    setImagesUpload(listUri);
+    setListImg(images);
+  };
+
   return {
     booking,
     goBack,
@@ -192,6 +256,11 @@ const useBookingDetail = () => {
     showPopupConfirmCancel,
     goToRatingPreview,
     rating,
+    listImg,
+    visible,
+    setVisible,
+    idx,
+    uploadImages,
   };
 };
 

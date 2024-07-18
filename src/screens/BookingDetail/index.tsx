@@ -9,6 +9,9 @@ import {formatBlogDuration} from '../../utils/date';
 import {FormatCurrency} from '../../utils/currentcy';
 import CountDown from 'react-native-countdown-component';
 import {APP_TYPE} from '../../constants/app_info';
+import FastImage, {Source} from 'react-native-fast-image';
+import ImageView from 'react-native-image-viewing';
+import {nanoid} from '@reduxjs/toolkit';
 
 const BookingDetailScreen = () => {
   const {
@@ -25,6 +28,11 @@ const BookingDetailScreen = () => {
     showPopupConfirmCancel,
     goToRatingPreview,
     rating,
+    listImg,
+    visible,
+    setVisible,
+    idx,
+    uploadImages,
   } = useBookingDetail();
 
   const renderHeader = () => {
@@ -74,6 +82,46 @@ const BookingDetailScreen = () => {
     );
   };
 
+  const renderImage = () => {
+    return (
+      <View style={styles.containerImg}>
+        {!listImg
+          ? null
+          : listImg.map((img, index) => {
+              return (
+                <TouchableOpacity
+                  activeOpacity={0.9}
+                  onPress={() => {
+                    idx.current = index;
+                    setVisible(true);
+                  }}>
+                  <FastImage
+                    key={nanoid()}
+                    source={img as Source}
+                    resizeMode="cover"
+                    style={styles.img}
+                  />
+                </TouchableOpacity>
+              );
+            })}
+        {booking.status === 'ongoing' && APP_TYPE === 'Staff'
+          ? renderUploadImg()
+          : null}
+      </View>
+    );
+  };
+
+  const renderUploadImg = () => {
+    return (
+      <TouchableOpacity
+        style={[styles.img, styles.addImages]}
+        onPress={uploadImages}
+        activeOpacity={0.7}>
+        <Icon name="plus" color="#344334" size={24} />
+      </TouchableOpacity>
+    );
+  };
+
   const renderBookingInfo = () => (
     <View style={styles.bookingInfo}>
       <Text style={styles.titleBody}>1. Thông tin lịch đặt</Text>
@@ -83,7 +131,9 @@ const BookingDetailScreen = () => {
       )}
       {rowInfo(
         'Thời gian đặt:',
-        <Text style={styles.textInfo}>Ngày {booking.dateBooking + ' '+booking.timeBooking}</Text>,
+        <Text style={styles.textInfo}>
+          Ngày {booking.dateBooking + ' ' + booking.timeBooking}
+        </Text>,
       )}
       {rowInfo(
         'Tổng thời gian:',
@@ -95,6 +145,12 @@ const BookingDetailScreen = () => {
         'Nhân viên thực hiện:',
         <Text style={styles.textInfo}>
           {booking.staff.firstname + ' ' + booking.staff.lastname}
+        </Text>,
+      )}
+      {rowInfo(
+        'Khách hàng:',
+        <Text style={styles.textInfo}>
+          {booking.customer.firstname + ' ' + booking.customer.lastname}
         </Text>,
       )}
       {tableService()}
@@ -186,8 +242,21 @@ const BookingDetailScreen = () => {
             digitTxtStyle={styles.digitText}
           />
         )}
+        {booking.status === 'completed' || booking.status === 'ongoing'
+          ? renderImage()
+          : null}
       </ScrollView>
       {renderFooter()}
+      <ImageView
+        visible={visible}
+        keyExtractor={() => nanoid()}
+        animationType="slide"
+        backgroundColor="#282828"
+        images={listImg}
+        imageIndex={idx.current}
+        onImageIndexChange={index => (idx.current = index)}
+        onRequestClose={() => setVisible(false)}
+      />
     </View>
   );
 };

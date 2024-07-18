@@ -44,3 +44,6 @@ export const SELECT_PAYMENT_SCREEN = 'SelectPaymentScreen';
 export const PREVIEW_RATING_SCREEN = 'PreviewRatingScreen';
 export const ADD_SERVICE_SCREEN = 'AddServiceScreen';
 export const ADD_BRANCH_SCREEN = 'AddBranchScreen';
+export const WORK_SCHEDULE_MANAGER_SCREEN = 'WorkScheduleManagerScreen';
+
+export const WORK_SCHEDULE_MANAGER_STACK = 'WorkScheduleManagerStack';

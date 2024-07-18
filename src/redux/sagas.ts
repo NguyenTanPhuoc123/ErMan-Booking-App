@@ -7,6 +7,7 @@ import {branchSaga} from "../modules/branch";
 import {workScheduleSaga} from "../modules/workschedule";
 import {bookingSaga} from "../modules/booking";
 import { ratingSaga } from "../modules/rate";
+import { notificationSaga } from "../modules/notification";
 
 export default function* rootSaga(){
     yield all([
@@ -17,6 +18,7 @@ export default function* rootSaga(){
         fork(branchSaga),
         fork(workScheduleSaga),
         fork(bookingSaga),
-        fork(ratingSaga)
+        fork(ratingSaga),
+        fork(notificationSaga)
     ]);
 }

@@ -92,6 +92,21 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 20,
   },
+  img: {
+    width: 70,
+    height: 100,
+    margin: 5,
+    borderRadius: 10,
+  },
+  containerImg: {
+    margin: 20,
+    flexDirection: 'row',
+  },
+  addImages:{
+    backgroundColor:'#d4d3d6',
+    justifyContent:'center',
+    alignItems:'center',
+  }
 });
 
 export default styles;

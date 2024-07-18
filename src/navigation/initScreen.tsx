@@ -37,6 +37,7 @@ import PreviewRatingScreen from '../screens/PreviewRating';
 import AddServiceScreen from '../screens/Admin/AddService';
 import AddBranchScreen from '../screens/Admin/AddBranch';
 import StaffManagerScreen from '../screens/Admin/StaffManager';
+import WorkScheduleManagerScreen from '../screens/Admin/WorkScheduleManager';
 
 export type AuthStackObject = {
   [key in keyof Partial<AuthStackParamList>]:
@@ -112,6 +113,7 @@ export const drawerStackScreens: AdminStackObject = {
   [SCREEN_KEYS.PROFILE_SCREEN]: ProfileScreen,
   [SCREEN_KEYS.BRANCH_MANAGER_SCREEN]: BranchManagerScreen,
   [SCREEN_KEYS.STAFF_MANAGER_SCREEN]: StaffManagerScreen,
+  [SCREEN_KEYS.WORK_SCHEDULE_MANAGER_SCREEN]: WorkScheduleManagerScreen,
 };
 
 export const adminStackScreens: AdminStackObject = {
@@ -247,11 +249,19 @@ export const BranchDrawerNavigator = () =>
 export const StaffDrawerNavigator = () =>
   DrawerStackNavigator(SCREEN_KEYS.STAFF_MANAGER_SCREEN);
 
+export const WorkScheduleDrawerNavigator = () =>
+  DrawerStackNavigator(SCREEN_KEYS.WORK_SCHEDULE_MANAGER_SCREEN);
+
 export const drawerStackNavigator: DrawerItem[] = [
   {
     name: SCREEN_KEYS.DASHBOARD_STACK,
     label: 'Thống kê',
     component: DashboardDrawerNavigator,
+  },
+  {
+    name: SCREEN_KEYS.WORK_SCHEDULE_MANAGER_STACK,
+    label: 'Quản lý lịch làm việc',
+    component: WorkScheduleDrawerNavigator,
   },
   {
     name: SCREEN_KEYS.USER_MANAGER_STACK,
