@@ -2,7 +2,6 @@ import client from '../../api';
 import {Booking, BookingParams} from './model';
 import * as BookingApi from '../../api/booking/queries';
 import {Service} from '../service/model';
-import {saveListBookings} from './reducer';
 import CryptoJS from 'crypto-js';
 import {User} from '../user/model';
 import storage from '@react-native-firebase/storage';
@@ -330,7 +329,6 @@ export const payBooking = async (total: number, user: User) => {
       },
       body: formBody,
     }).then(response => response.json());
-    console.log('Res: ', res);
     return {result: res};
   } catch (error) {
     console.log('Error when pay: ', error);
@@ -461,7 +459,6 @@ export const getBookingCustomerNearest = async (customerId: number) => {
       return {id: serviceId, ...newService};
     }) as Service[];
     const {id: paymentId, ...newPayment} = Payment;
-
     const idPayment = JSON.parse(atob(paymentId))[3];
     const booking: Booking = {
       id: bookingId,

@@ -595,9 +595,9 @@ export const GetBookingCustomerNearest = gql`
             }
           }
           BookingDetails {
+            id
             Service {
               id
-              description
               image
               price
               serviceName

@@ -48,7 +48,9 @@ const CreateBookingScreen = () => {
     booking,
     onPay,
     isPaid,
+    bookingNear
   } = useCreateBooking();
+  
   const data = [
     {
       id: 1,
@@ -68,6 +70,7 @@ const CreateBookingScreen = () => {
       data: (
         <SelectStylistAndTime
           onSelectStylist={setStylist}
+          stylistBookingNearest={bookingNear?.staff}
           bookingDate={date}
           onSelectBookingDate={setDate}
           bookingTime={time}
