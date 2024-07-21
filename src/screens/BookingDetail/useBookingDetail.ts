@@ -193,9 +193,7 @@ const useBookingDetail = () => {
     NavigationActionService.pop();
   };
 
-  const onGetRatingSuccess = (value?: Rating) => {
-    console.log(value);
-    
+  const onGetRatingSuccess = (value?: Rating) => { 
     if (value) {
       setRating(value);
     }

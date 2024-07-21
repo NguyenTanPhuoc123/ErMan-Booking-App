@@ -20,6 +20,7 @@ import {Service} from '../../../../modules/service/model';
 type SelectStylistAndTimeProps = {
   stylists: Staff[];
   stylist?: Staff;
+  stylistBookingNearest?: Staff;
   services?: Service[];
   onSelectStylist: (stylist: Staff) => void;
   bookingDate: string;
@@ -64,6 +65,7 @@ const SelectStylistAndTime = (props: SelectStylistAndTimeProps) => {
     bookingTime,
     onSelectBookingTime,
     services,
+    stylistBookingNearest,
   } = props;
   const {
     stylistRef,
@@ -240,7 +242,13 @@ const SelectStylistAndTime = (props: SelectStylistAndTimeProps) => {
             <Icon name="check" color="#fff" size={10} />
           </View>
         )}
-        <Text style={[globalStyle.fontText, styles.name]}>{item.lastname}</Text>
+        <Text style={[globalStyle.fontText, styles.name]}>
+          
+            {item.lastname}
+        </Text>
+        <Text style={[globalStyle.fontText, styles.name]}>{stylistBookingNearest?.id === item.id
+            ? '(Lần trước)'
+            : ''}</Text>
       </TouchableOpacity>
     );
   };

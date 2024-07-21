@@ -39,7 +39,7 @@ const useCreateBooking = () => {
       ? booking.branch
       : (params as any).branch
       ? (params as any).branch
-      : bookingNear?.branch || null;
+      : bookingNear?.branch;
   const stylists = useSelector<RootState, IUserState>(
     state => state.user,
   ).staffs.filter(user => {
@@ -47,12 +47,9 @@ const useCreateBooking = () => {
       if ((user as Staff).workPlace.id === branch.id) return user;
     }
   });
+
   const [stylist, setStylist] = useState<Staff>(
-    screen === BOOKING_DETAIL_SCREEN && booking
-      ? booking.staff
-      : bookingNear
-      ? bookingNear.staff
-      : null,
+    screen === BOOKING_DETAIL_SCREEN && booking ? booking.staff : null,
   );
   const dateNow = moment(new Date()).format('DD-MM-YYYY');
   const [date, setDate] = useState(booking ? booking.dateBooking : dateNow);
@@ -101,9 +98,11 @@ const useCreateBooking = () => {
       message: booking
         ? 'Chỉnh sửa lịch đặt thành công'
         : 'Đặt lịch thành công',
-      onPressPrimaryBtn: NavigationActionService.pop(),
+      onPressPrimaryBtn: booking
+        ? NavigationActionService.popToRoot()
+        : NavigationActionService.pop(),
     });
-    pushNotification();
+    if (!booking) pushNotification();
   };
 
   const pushNotification = () => {
@@ -226,7 +225,7 @@ const useCreateBooking = () => {
   };
 
   const goBack = () => {
-    NavigationActionService.popToRoot();
+    NavigationActionService.pop();
   };
 
   const goToSelectPayment = () => {

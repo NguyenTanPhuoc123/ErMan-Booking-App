@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    bottom: 27,
+    top:40
   },
   label: {
     color: '#d4d3d6',

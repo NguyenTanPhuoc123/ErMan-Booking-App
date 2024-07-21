@@ -20,7 +20,10 @@ const useWorkScheduleManager = () => {
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [branchId, setBranchId] = useState((userData as Admin).workPlace.id);
+  const [staffId, setStaffId] = useState(0);
   const listBookingRef = createRef<FlatList>();
+  const [date, setDate] = useState(moment().format('DD-MM-YYYY'));
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     setLoading(true);
     dispatch(
@@ -63,6 +66,12 @@ const useWorkScheduleManager = () => {
     branchs,
     branchId,
     setBranchId,
+    date,
+    setDate,
+    open,
+    setOpen,
+    staffId,
+    setStaffId,
   };
 };
 

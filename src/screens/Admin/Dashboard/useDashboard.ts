@@ -6,37 +6,40 @@ import {IUserState} from '../../../modules/user/model';
 import {useCallback, useEffect, useState} from 'react';
 import {getListCustomer, getListStaff} from '../../../modules/user';
 import {ChartData} from 'react-native-chart-kit/dist/HelperTypes';
-import {IBookingState} from '../../../modules/booking/model';
+import {Booking, IBookingState} from '../../../modules/booking/model';
 import {getListAllBooking} from '../../../modules/booking';
 import {ApiError} from '../../../constants/api';
 import moment from 'moment';
-import { EventTypes } from 'react-native-month-year-picker';
+import {EventTypes} from 'react-native-month-year-picker';
 
 const useDasboard = () => {
   const dispatch = useDispatch();
-  const [monthStatiscal, setMonthStatiscal] = useState(moment().format('MM-YYYY'));
+  const [monthStatiscal, setMonthStatiscal] = useState(
+    moment().format('MM-YYYY'),
+  );
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);
-  const [income,setIncome] = useState(0);
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const {users} = useSelector<RootState, IUserState>(state => state.user);
   const {staffs} = useSelector<RootState, IUserState>(state => state.user);
   const listStaff = staffs.filter(staff => staff.typeAccount === 'Staff');
-  const [open,setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const openPicker = () => setOpen(true);
   const closePicker = () => setOpen(false);
   const {bookings} = useSelector<RootState, IBookingState>(
     state => state.booking,
   );
-  const [listBooking, setListBooking] = useState(
-    bookings.filter(bookings => bookings.status == 'completed'),
+  const listBooking = bookings.filter(
+    bookings => bookings.status == 'completed',
   );
+
+  const [income, setIncome] = useState(0);
   const handlenChangeText = (text: any) => {
     setCurrentYear(text);
   };
 
   useEffect(() => {
-    setLoading(true);
+    if (!refresh) setLoading(true);
     dispatch(
       getListAllBooking({
         onSuccess: loadSuccess,
@@ -49,7 +52,7 @@ const useDasboard = () => {
       getListStaff({
         page: 1,
         limit: 100,
-        onSuccess: loadSuccess,
+        onSuccess: () => {},
         onFail: loadFail,
       }),
     );
@@ -57,7 +60,7 @@ const useDasboard = () => {
       getListCustomer({
         page: 1,
         limit: 100,
-        onSuccess: loadSuccess,
+        onSuccess: () => {},
         onFail: loadFail,
       }),
     );
@@ -67,14 +70,14 @@ const useDasboard = () => {
   }, [refresh]);
 
   const loadSuccess = () => {
+    let total = 0;
+    listBooking.forEach(booking => {
+      total += booking.total;
+    });
+    setIncome(total);
+
     setRefresh(false);
     setLoading(false);
-    let total = 0 ;
-    setListBooking(bookings.filter(bookings => bookings.status == 'completed'));
-    listBooking.map(booking=>{
-      total+=booking.total;
-    })
-    setIncome(total);
   };
   const pullRefresh = () => {
     setRefresh(true);
@@ -121,7 +124,7 @@ const useDasboard = () => {
     open,
     openPicker,
     closePicker,
-    onValueChange
+    onValueChange,
   };
 };
 
